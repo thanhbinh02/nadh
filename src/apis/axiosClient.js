@@ -1,0 +1,38 @@
+import axios from 'axios';
+const axiosClient = axios.create({
+  baseURL: 'https://lubrytics.com:8443/nadh-api-crm',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+axiosClient.interceptors.request.use(
+  function (config) {
+    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  },
+);
+
+axiosClient.interceptors.response.use(
+  function (response) {
+    if (response.data) {
+      return response.data;
+    }
+    return response;
+  },
+  function (error) {
+    if (
+      error.response.data.message === 'Invalid tokenForbiddenError: Forbidden'
+    ) {
+      window.localStorage.removeItem('token');
+      window.localStorage.removeItem('user_sent');
+      window.location.reload();
+    }
+    return Promise.reject(error);
+  },
+);
+
+export default axiosClient;

@@ -1,0 +1,22 @@
+.button_agree {
+  border: 0;
+  border-radius: 0.25em;
+  background: initial;
+  background-color: #3085d6;
+  color: #fff;
+  font-size: 1.0625em;
+  padding: 12px 34px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.button_reject {
+  border-radius: 0.25em;
+  background: initial;
+  background-color: rgb(212, 215, 221);
+  color: #fff;
+  font-size: 1.0625em;
+  padding: 12px 34px;
+  margin-left: 16px;
+  cursor: pointer;
+}
