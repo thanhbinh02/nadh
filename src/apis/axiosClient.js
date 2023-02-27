@@ -27,9 +27,9 @@ axiosClient.interceptors.response.use(
     if (
       error.response.data.message === 'Invalid tokenForbiddenError: Forbidden'
     ) {
+      window.location.reload();
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('user_sent');
-      window.location.reload();
     }
     return Promise.reject(error);
   },

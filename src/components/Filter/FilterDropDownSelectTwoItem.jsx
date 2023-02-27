@@ -36,9 +36,7 @@ export const FilterDropDownSelectTwoItem = () => {
       default:
     }
   };
-  const onFinish = (values) => {
-    console.log(values);
-  };
+  const onFinish = (values) => {};
   const onReset = () => {
     form.resetFields();
   };

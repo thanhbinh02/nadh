@@ -43,7 +43,6 @@ export const locationsSlice = createSlice({
       state.loading = true;
     },
     [fetchCities.fulfilled]: (state, { payload }) => {
-      console.log('payload', payload);
       state.cities = payload.data;
       state.loading = false;
       state.isSuccess = false;

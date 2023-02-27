@@ -1,6 +1,6 @@
 import axiosClient from './axiosClient';
 
-export const getListCandidates = async () => {
-  const url = '/api/users?page=1&perPage=10';
-  return await axiosClient.get(url);
+export const getCandidates = async (params) => {
+  const url = '/api/candidates';
+  return await axiosClient.get(url, params);
 };
