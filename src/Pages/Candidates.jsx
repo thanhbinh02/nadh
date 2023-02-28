@@ -3,16 +3,13 @@ import React from 'react';
 import { fetchCountries } from '../store/locationsSlice';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import FilterDropDownCountryCity from '../components/Filter/FilterDropDownCountryCity';
-import FilterDropDownIndustry from '../components/Filter/FilterDropDownIndustry';
-
 import { fetchIndustries } from '../store/categoriesSlice';
-import { fetchSectors } from '../store/categoriesSlice';
-import { fetchCategories } from '../store/categoriesSlice';
-
 import { fetchCandidates } from '../store/candidatesSlice';
+import TableCandidates from '../components/Table/TableCandidates';
+import { fetchLanguages } from '../store/languagesSlice';
+import { fetchHighestDegree } from '../store/highestDegreeSlice';
 
-import MainTable from '../components/Table';
+import { CustomColumns } from '../components/CustomColumns';
 
 export const Candidates = () => {
   const dispatch = useDispatch();
@@ -22,28 +19,28 @@ export const Candidates = () => {
   const categories = useSelector((state) => state.categories.categories);
 
   const candidates = useSelector((state) => state.candidates.data);
+  const languages = useSelector((state) => state.languages.languages);
 
   useEffect(() => {
     dispatch(fetchCountries({ type: 4 }));
     dispatch(fetchIndustries({ type: 1 }));
     dispatch(fetchCandidates());
+    dispatch(fetchLanguages({ type: 4 }));
+    dispatch(fetchHighestDegree({ type: 1 }));
   }, []);
 
   return (
     <div>
       <h1>Candidates</h1>
-
-      <FilterDropDownCountryCity data={countries ? countries : null} />
-      <FilterDropDownIndustry
-        data={industries ? industries : null}
-        optionTwo={sectors}
-        optionThree={categories}
-        typeTwo={2}
-        fetchDataItemTwo={fetchSectors}
-        fetchDataItemThree={fetchCategories}
-        typeThree={3}
+      <CustomColumns />
+      <TableCandidates
+        data={candidates ? candidates : null}
+        languages={languages}
+        city={countries ? countries : null}
+        sectors={sectors}
+        categories={categories}
+        industries={industries ? industries : null}
       />
-      <MainTable data={candidates ? candidates : null} />
     </div>
   );
 };

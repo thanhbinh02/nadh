@@ -2,35 +2,8 @@ import React from 'react';
 import { FilterSearch } from './FilterSearch';
 import { Select } from 'antd';
 
-const options = [
-  {
-    value: '1',
-    label: 'Not Identified',
-  },
-  {
-    value: '2',
-    label: 'Closed',
-  },
-  {
-    value: '3',
-    label: 'Communicated',
-  },
-  {
-    value: '4',
-    label: 'Identified',
-  },
-  {
-    value: '5',
-    label: 'Resolved',
-  },
-  {
-    value: '6',
-    label: 'Cancelled',
-  },
-];
-
 // mode = tags
-export const FilterDropDownSelectOneItem = ({ placeholder, mode }) => {
+export const FilterDropDownSelectOneItem = ({ placeholder, mode, options }) => {
   const onChange = (value) => {};
 
   return (
@@ -43,9 +16,13 @@ export const FilterDropDownSelectOneItem = ({ placeholder, mode }) => {
         optionFilterProp="children"
         onChange={onChange}
       >
-        {options.map((option, key) => {
+        {options.map((option) => {
           return (
-            <Select.Option key={key} value={option.value} label={option.label}>
+            <Select.Option
+              key={option.key}
+              value={option.id}
+              label={option.label}
+            >
               {option.label}
             </Select.Option>
           );

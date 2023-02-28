@@ -59,3 +59,42 @@ ol,
 ul {
   list-style: none;
 }
+
+:where(.css-dev-only-do-not-override-1km3mtt).ant-table-wrapper
+  .ant-table-thead
+  > tr
+  > th:not(:last-child):not(.ant-table-selection-column):not(
+    .ant-table-row-expand-icon-cell
+  ):not([colspan])::before {
+  position: static;
+}
+
+span.ant-dropdown-trigger.ant-table-filter-trigger {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 28px;
+  height: 100%;
+  color: #bfbfbf;
+  font-size: 12px;
+  text-align: center;
+  cursor: pointer;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+:where(.css-dev-only-do-not-override-1km3mtt).ant-table-wrapper
+  .ant-table-filter-trigger {
+  margin-block: 0;
+  margin-inline: 0;
+  justify-content: center;
+}
+
+span.ant-table-column-title {
+  margin-right: 40px;
+}
+
+:where(.css-dev-only-do-not-override-1km3mtt).ant-form-item {
+  margin-bottom: 0px;
+}
