@@ -19,6 +19,8 @@ const TableCandidates = ({
   industries,
   sectors,
   categories,
+  listCustomCandidates,
+  totalItem,
 }) => {
   const columns = [
     {
@@ -56,7 +58,7 @@ const TableCandidates = ({
     },
     {
       title: 'Languages',
-      dataIndex: 'languages',
+      dataIndex: 'language',
       filterIcon: <AiOutlineSearch />,
       filterDropdown: (
         <FilterDropDownSelectOneItem
@@ -86,7 +88,7 @@ const TableCandidates = ({
     },
     {
       title: 'City',
-      dataIndex: 'city',
+      dataIndex: 'location',
       filterIcon: <AiOutlineSearch />,
       filterDropdown: <FilterDropDownCountryCity data={city} />,
       render: (text) => {
@@ -154,7 +156,7 @@ const TableCandidates = ({
     },
     {
       title: 'Recent companies',
-      dataIndex: 'current_employments_companies',
+      dataIndex: 'current_company',
       filterIcon: <AiOutlineSearch />,
       filterDropdown: (
         <FilterDropDownText placeholder="Search current_company" />
@@ -167,7 +169,7 @@ const TableCandidates = ({
     },
     {
       title: 'Recent positions',
-      dataIndex: 'current_employments_positions',
+      dataIndex: 'current_position',
       filterIcon: <AiOutlineSearch />,
       filterDropdown: (
         <FilterDropDownText placeholder="Search current_company_text" />
@@ -199,6 +201,14 @@ const TableCandidates = ({
     },
   ];
 
+  const newColumns = [];
+
+  for (let i = 0; i < columns.length; i++) {
+    if (listCustomCandidates.includes(columns[i].dataIndex)) {
+      newColumns.push(columns[i]);
+    }
+  }
+
   const newData = data?.map((item) => ({
     key: item.id,
     candidate_id: item.candidate_id,
@@ -206,12 +216,12 @@ const TableCandidates = ({
     priority_status: item.priority_status,
     languages: item.languages,
     highest_education: item.highest_education.label,
-    city: item.addresses,
+    location: item.addresses,
     industry: item.business_line,
     yob: item.dob,
     flow_status: item.flow_status,
-    current_employments_companies: item.current_employments,
-    current_employments_positions: item.current_employments,
+    current_company: item.current_employments,
+    current_position: item.current_employments,
     industry_years: item.industry_years,
     management_years: item.management_years,
   }));
@@ -224,12 +234,20 @@ const TableCandidates = ({
         padding: '10px 24px',
       }}
     >
-      <Table
-        columns={columns}
-        dataSource={newData}
-        title={() => 'Header'}
-        scroll={{ x: '140vw' }}
-      />
+      {listCustomCandidates && (
+        <Table
+          columns={newColumns}
+          dataSource={newData}
+          title={() => 'Header'}
+          scroll={{ x: '140vw' }}
+          pagination={{
+            pageSize: 10,
+            total: totalItem,
+            showSizeChanger: false,
+            showQuickJumper: true,
+          }}
+        />
+      )}
     </div>
   );
 };

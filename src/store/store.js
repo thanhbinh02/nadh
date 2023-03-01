@@ -5,6 +5,7 @@ import categoriesReducer from './categoriesSlice';
 import candidatesReducer from './candidatesSlice';
 import languagesReducer from './languagesSlice';
 import highestDegreeReducer from './highestDegreeSlice';
+import customColumnReducer from './customColumnSlice';
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     candidates: candidatesReducer,
     languages: languagesReducer,
     highestDegree: highestDegreeReducer,
+    customColumn: customColumnReducer,
   },
 });

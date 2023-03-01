@@ -1,30 +1,29 @@
-import React from 'react';
-import { Button, Menu, Form, Checkbox, Dropdown } from 'antd';
+import React, { useState } from 'react';
+import { Button, Menu, Checkbox, Dropdown } from 'antd';
 
 import { AiOutlineDown } from 'react-icons/ai';
 import { CUSTOM_COLUMNS_CANDIDATES } from '../utils/const';
-import { Fragment } from 'react';
+import { MyCheckBox } from './MyCheckBox';
+import { useDispatch } from 'react-redux';
+import { putListCustomColumns } from '../store/customColumnSlice';
 
-export const CustomColumns = () => {
+export const CustomColumns = ({ namePage, listCustom }) => {
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+
+  let newListCustomColumn = CUSTOM_COLUMNS_CANDIDATES;
+
+  for (let i = 0; i < newListCustomColumn.length; i++) {
+    if (listCustom.includes(newListCustomColumn[i].title)) {
+      newListCustomColumn[i].check = true;
+    } else {
+      newListCustomColumn[i].check = false;
+    }
+  }
+
   const myMenu = (
-    // <Menu
-    //   //   onClick={(e) => e.preventDefault()}
-    //   items={CUSTOM_COLUMNS_CANDIDATES.map((item) => ({
-    //     key: item.title,
-    //     label: (
-    //       <label htmlFor={item.label}>
-    //         <Checkbox
-    //           disabled={item.disabled || false}
-    //           onClick={(e) => e.stopPropagation()}
-    //         >
-    //           {item.label}
-    //         </Checkbox>
-    //       </label>
-    //     ),
-    //   }))}
-    // />
     <Menu
-      items={CUSTOM_COLUMNS_CANDIDATES.map((item) => ({
+      items={newListCustomColumn.map((item) => ({
         key: item.title,
         label: (
           <p>
@@ -35,12 +34,10 @@ export const CustomColumns = () => {
                 onClick={(e) => e.stopPropagation()}
                 checked={true}
               >
-                <p onClick={(e) => e.stopPropagation()}>{item.label}</p>
+                <span onClick={(e) => e.stopPropagation()}>{item.label}</span>
               </Checkbox>
             ) : (
-              <Checkbox id={item.title} onClick={(e) => e.stopPropagation()}>
-                <p onClick={(e) => e.stopPropagation()}>{item.label}</p>
-              </Checkbox>
+              <MyCheckBox item={item} check={item.check} />
             )}
           </p>
         ),
@@ -49,7 +46,21 @@ export const CustomColumns = () => {
   );
 
   return (
-    <Dropdown overlay={myMenu}>
+    <Dropdown
+      overlay={myMenu}
+      onOpenChange={() => {
+        setOpen(!open);
+        if (open === true) {
+          dispatch(
+            putListCustomColumns({
+              key_page: namePage,
+              data: listCustom,
+            }),
+          );
+        }
+      }}
+      open={open}
+    >
       <Button
         type="primary"
         ghost
