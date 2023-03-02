@@ -2,13 +2,13 @@ import React from 'react';
 import { Card, Button, Row, Col, Select, Form } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
-import { fetchCandidates } from '../../store/candidatesSlice';
 
 export const FilterDropDownSelectOneItem = ({
   placeholder,
   mode,
   options,
   param,
+  fetchData,
 }) => {
   const { Option } = Select;
   const dispatch = useDispatch();
@@ -20,12 +20,12 @@ export const FilterDropDownSelectOneItem = ({
       const result = { [data.name]: data.data };
       const dataSaveLocal = JSON.parse(localStorage.getItem('filterCDD'));
       const newData = { ...dataSaveLocal, ...result, page: 1 };
-      dispatch(fetchCandidates(newData));
+      dispatch(fetchData(newData));
     } else {
       const result = { [data.name]: data.data.join(',') };
       const dataSaveLocal = JSON.parse(localStorage.getItem('filterCDD'));
       const newData = { ...dataSaveLocal, ...result, page: 1 };
-      dispatch(fetchCandidates(newData));
+      dispatch(fetchData(newData));
     }
   };
 

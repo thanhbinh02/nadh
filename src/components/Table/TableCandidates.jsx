@@ -35,6 +35,7 @@ const TableCandidates = ({
         <FilterDropDownText
           placeholder="Search candidate_id"
           param="candidate_id"
+          fetchData={fetchCandidates}
         />
       ),
       render: (text) => <Link>{text}</Link>,
@@ -44,7 +45,11 @@ const TableCandidates = ({
       dataIndex: 'full_name',
       filterIcon: <AiOutlineSearch />,
       filterDropdown: (
-        <FilterDropDownText placeholder="Search full_name" param="full_name" />
+        <FilterDropDownText
+          placeholder="Search full_name"
+          param="full_name"
+          fetchData={fetchCandidates}
+        />
       ),
       render: (text) => <Link>{text}</Link>,
     },
@@ -57,6 +62,7 @@ const TableCandidates = ({
           placeholder="Search Priority_status"
           options={priority_status}
           param="priority_status"
+          fetchData={fetchCandidates}
         />
       ),
       render: (text) => {
@@ -92,6 +98,7 @@ const TableCandidates = ({
           options={languages}
           mode="multiple"
           param="language"
+          fetchData={fetchCandidates}
         />
       ),
       render: (_, record) => {
@@ -105,11 +112,13 @@ const TableCandidates = ({
       dataIndex: 'highest_education',
       filterIcon: <AiOutlineSearch />,
       filterDropdown: (
-        <FilterDropDownSelectOneItem
-          placeholder="Search Highest_education"
-          options={languages}
-          mode="multiple"
-        />
+        // <FilterDropDownSelectOneItem
+        //   placeholder="Search Highest_education"
+        //   options={languages}
+        //   mode="multiple"
+        //   fetchData={fetchCandidates}
+        // />
+        <div>Filter</div>
       ),
       render: (text) => <div>{text}</div>,
     },
@@ -169,6 +178,8 @@ const TableCandidates = ({
           placeholder="Search Languages"
           options={candidate_flow_status}
           mode="multiple"
+          param="flow_status"
+          fetchData={fetchCandidates}
         />
       ),
       render: (text) => {
@@ -189,11 +200,15 @@ const TableCandidates = ({
       dataIndex: 'current_company',
       filterIcon: <AiOutlineSearch />,
       filterDropdown: (
-        <FilterDropDownText placeholder="Search current_company" />
+        <FilterDropDownText
+          placeholder="Search current_company"
+          param="current_company_text"
+          fetchData={fetchCandidates}
+        />
       ),
       render: (text) => {
         return text?.map((item, index) => (
-          <p key={index}>* {item?.organization?.label}</p>
+          <p key={index}>- {item?.organization?.label}</p>
         ));
       },
     },
@@ -202,11 +217,15 @@ const TableCandidates = ({
       dataIndex: 'current_position',
       filterIcon: <AiOutlineSearch />,
       filterDropdown: (
-        <FilterDropDownText placeholder="Search current_company_text" />
+        <FilterDropDownText
+          placeholder="Search current_company_text"
+          param="current_position_text"
+          fetchData={fetchCandidates}
+        />
       ),
       render: (text) => {
         return text?.map((item, index) => (
-          <p key={index}>* {item?.title?.label}</p>
+          <p key={index}>- {item?.title?.label}</p>
         ));
       },
     },

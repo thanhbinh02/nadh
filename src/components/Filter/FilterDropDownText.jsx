@@ -1,23 +1,18 @@
 import React from 'react';
 import { Card, Button, Row, Col, Input, Form } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { addParam } from '../../store/paramsCandidatesSlice';
 import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { fetchParamsCandidates } from '../../store/paramsCandidatesSlice';
-import { fetchCandidates } from '../../store/candidatesSlice';
 
-export const FilterDropDownText = ({ placeholder, param }) => {
+export const FilterDropDownText = ({ placeholder, param, fetchData }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
   const handleSearch = () => {
     const data = { name: param, data: form.getFieldValue(`${param}`) };
-
     const result = { [data.name]: data.data };
     const dataSaveLocal = JSON.parse(localStorage.getItem('filterCDD'));
     const newData = { ...dataSaveLocal, ...result, page: 1 };
-    dispatch(fetchCandidates(newData));
+    dispatch(fetchData(newData));
   };
 
   return (
