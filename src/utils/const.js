@@ -20,8 +20,8 @@ const BLACK_LIST = {
 };
 
 const INACTIVE = {
-  id: -5,
-  key: -5,
+  id: 5,
+  key: 5,
   value: 'Inactive',
   label: 'Inactive',
 };

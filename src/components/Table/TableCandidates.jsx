@@ -11,6 +11,8 @@ import { fetchCategories } from '../../store/categoriesSlice';
 import { FilterTimeRange } from '../Filter/FilterTimeRange';
 import { candidate_flow_status } from '../../utils/const';
 import { AiOutlineEye } from 'react-icons/ai';
+import { useDispatch } from 'react-redux';
+import { fetchCandidates } from '../../store/candidatesSlice';
 
 const TableCandidates = ({
   data,
@@ -22,19 +24,28 @@ const TableCandidates = ({
   listCustomCandidates,
   totalItem,
 }) => {
+  const dispatch = useDispatch();
+
   const columns = [
     {
       title: 'ID',
       dataIndex: 'candidate_id',
       filterIcon: <AiOutlineSearch name={'Search candidate_id'} />,
-      filterDropdown: <FilterDropDownText placeholder="Search candidate_id" />,
+      filterDropdown: (
+        <FilterDropDownText
+          placeholder="Search candidate_id"
+          param="candidate_id"
+        />
+      ),
       render: (text) => <Link>{text}</Link>,
     },
     {
       title: 'Name',
       dataIndex: 'full_name',
       filterIcon: <AiOutlineSearch />,
-      filterDropdown: <FilterDropDownText placeholder="Search full_name" />,
+      filterDropdown: (
+        <FilterDropDownText placeholder="Search full_name" param="full_name" />
+      ),
       render: (text) => <Link>{text}</Link>,
     },
     {
@@ -45,6 +56,7 @@ const TableCandidates = ({
         <FilterDropDownSelectOneItem
           placeholder="Search Priority_status"
           options={priority_status}
+          param="priority_status"
         />
       ),
       render: (text) => {
@@ -53,6 +65,20 @@ const TableCandidates = ({
         }
         if (text === -1) {
           return <Tag color="processing">Off-limit</Tag>;
+        }
+        if (text === -2) {
+          return (
+            <Tag type="primary" color="pink">
+              Blacklist
+            </Tag>
+          );
+        }
+        if (text === 5) {
+          return (
+            <Tag type="primary" color="red">
+              Inactive
+            </Tag>
+          );
         }
       },
     },
@@ -65,6 +91,7 @@ const TableCandidates = ({
           placeholder="Search Languages"
           options={languages}
           mode="multiple"
+          param="language"
         />
       ),
       render: (_, record) => {
@@ -239,12 +266,19 @@ const TableCandidates = ({
           columns={newColumns}
           dataSource={newData}
           title={() => 'Header'}
-          scroll={{ x: '140vw' }}
+          scroll={{ x: '100vw' }}
           pagination={{
             pageSize: 10,
             total: totalItem,
             showSizeChanger: false,
             showQuickJumper: true,
+            onChange: (page, pageSize) => {
+              const filerCandidates = JSON.parse(
+                window.localStorage.getItem('filterCDD'),
+              );
+
+              dispatch(fetchCandidates({ page: page }));
+            },
           }}
         />
       )}

@@ -19,17 +19,16 @@ export const Candidates = () => {
   const sectors = useSelector((state) => state.categories.sectors);
   const categories = useSelector((state) => state.categories.categories);
   const totalItem = useSelector((state) => state.candidates.count);
-
-  console.log('totalItem', totalItem);
-
   const candidates = useSelector((state) => state.candidates.data);
   const languages = useSelector((state) => state.languages.languages);
   const listCustomCandidates = useSelector((state) => state.customColumn.data);
 
+  const filerCandidates = JSON.parse(window.localStorage.getItem('filterCDD'));
+
   useEffect(() => {
     dispatch(fetchCountries({ type: 4 }));
     dispatch(fetchIndustries({ type: 1 }));
-    dispatch(fetchCandidates());
+    dispatch(fetchCandidates(filerCandidates));
     dispatch(fetchLanguages({ type: 4 }));
     dispatch(fetchHighestDegree({ type: 1 }));
     dispatch(fetchListCustoms('candidates'));

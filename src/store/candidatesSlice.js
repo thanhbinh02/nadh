@@ -8,6 +8,7 @@ export const fetchCandidates = createAsyncThunk(
       params: {
         page: 1,
         perPage: 10,
+        // language: `830, 832`,
         ...params,
       },
     }),
