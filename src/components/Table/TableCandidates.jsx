@@ -120,7 +120,10 @@ const TableCandidates = ({
       filterDropdown: <FilterDropDownCountryCity data={city} />,
       render: (text) => {
         return text?.map((item, index) => (
-          <p key={index}>{item.country.label}</p>
+          <div key={index}>
+            {item.country.label}
+            {item.city?.label && <p> - {item.city.label}</p>}
+          </div>
         ));
       },
     },

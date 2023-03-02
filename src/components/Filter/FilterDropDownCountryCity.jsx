@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Card, Button, Row, Col } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { fetchCities } from '../../store/locationsSlice';
+import { fetchCandidates } from '../../store/candidatesSlice';
 
 const { Option } = Select;
 const FilterDropDownCountryCity = ({ data }) => {
@@ -30,6 +31,49 @@ const FilterDropDownCountryCity = ({ data }) => {
     handleClearCountry();
   };
 
+  const newData = (last_data) =>
+    last_data.map((item) => {
+      const { extra, ...rest } = item;
+      return rest;
+    });
+
+  const onFinish = () => {
+    const countryLabel = form.getFieldValue('country');
+    const countryResult = newData(data).find(
+      (item) => item.label === countryLabel,
+    );
+
+    if (cities.length !== 0) {
+      const cityLabel = form.getFieldValue('city');
+      const cityResult = newData(cities).find(
+        (item) => item.label === cityLabel,
+      );
+      const result = {
+        country: countryResult,
+        city: cityResult,
+      };
+      console.log('result', result);
+      dispatch(
+        fetchCandidates({
+          // location: JSON.stringify(result),
+          country: result.country.key,
+          city: result.city.key,
+        }),
+      );
+    } else {
+      const result = {
+        country: countryResult,
+      };
+
+      dispatch(
+        fetchCandidates({
+          // location: JSON.stringify(result),
+          country: result.country.key,
+        }),
+      );
+    }
+  };
+
   return (
     <Card
       size="small"
@@ -37,35 +81,37 @@ const FilterDropDownCountryCity = ({ data }) => {
         width: 200,
       }}
     >
-      <Row gutter={[8, 8]}>
-        <Col span={12}>
-          <Button
-            size="small"
-            style={{ width: '100%', borderRadius: '0px' }}
-            onClick={handleReset}
-          >
-            Reset
-          </Button>
-        </Col>
-        <Col span={12}>
-          <Button
-            type="primary"
-            size="small"
-            style={{ width: '100%', borderRadius: '0px' }}
-            icon={<SearchOutlined />}
-            disabled={!form.getFieldValue('country')}
-          >
-            Search
-          </Button>
-        </Col>
-        <Col span={24}>
-          <Form
-            wrapperCol={{
-              span: 24,
-            }}
-            layout="horizontal"
-            form={form}
-          >
+      <Form
+        wrapperCol={{
+          span: 24,
+        }}
+        layout="horizontal"
+        form={form}
+        onFinish={onFinish}
+      >
+        <Row gutter={[8, 8]}>
+          <Col span={12}>
+            <Button
+              size="small"
+              style={{ width: '100%', borderRadius: '0px' }}
+              onClick={handleReset}
+            >
+              Reset
+            </Button>
+          </Col>
+          <Col span={12}>
+            <Button
+              type="primary"
+              size="small"
+              style={{ width: '100%', borderRadius: '0px' }}
+              icon={<SearchOutlined />}
+              disabled={!form.getFieldValue('country')}
+              htmlType="submit"
+            >
+              Search
+            </Button>
+          </Col>
+          <Col span={24}>
             <Form.Item name="country" style={{ marginBottom: '8px' }}>
               <Select
                 onClear={handleClearCountry}
@@ -96,15 +142,19 @@ const FilterDropDownCountryCity = ({ data }) => {
               >
                 {cities &&
                   cities?.map((item) => (
-                    <Option value={item.name} key={item.key} compare={item.key}>
+                    <Option
+                      value={item.label}
+                      key={item.key}
+                      compare={item.key}
+                    >
                       {item.label}
                     </Option>
                   ))}
               </Select>
             </Form.Item>
-          </Form>
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+      </Form>
     </Card>
   );
 };

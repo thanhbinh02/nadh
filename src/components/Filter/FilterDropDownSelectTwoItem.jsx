@@ -30,6 +30,10 @@ const FilterDropDownCountryCity = ({ data }) => {
     handleClearCountry();
   };
 
+  const onFinish = (values) => {
+    console.log('values', values);
+  };
+
   return (
     <Card
       size="small"
@@ -54,6 +58,7 @@ const FilterDropDownCountryCity = ({ data }) => {
             style={{ width: '100%', borderRadius: '0px' }}
             icon={<SearchOutlined />}
             disabled={!form.getFieldValue('country')}
+            htmlType="submit"
           >
             Search
           </Button>
@@ -65,6 +70,7 @@ const FilterDropDownCountryCity = ({ data }) => {
             }}
             layout="horizontal"
             form={form}
+            onFinish={onFinish}
           >
             <Form.Item name="country" style={{ marginBottom: '8px' }}>
               <Select
