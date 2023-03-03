@@ -50,15 +50,15 @@ export const filterTagCandidates = (filterPage, dataLanguages) => {
     }
   }
 
-  if (filterPage?.location?.industry) {
-    if (filterPage?.location?.industry?.category) {
-      const result = `Industry:  ${filterPage?.location?.industry.industry} / ${filterPage.location.industry.sector} / ${filterPage.location.industry.category}`;
+  if (filterPage?.location?.industries) {
+    if (filterPage?.location?.industries?.category) {
+      const result = `Industry:  ${filterPage?.location?.industries.industry} / ${filterPage.location.industries.sector} / ${filterPage.location.industries.category}`;
       listTag.push(result);
-    } else if (filterPage?.location?.industry?.sector) {
-      const result = `Industry:  ${filterPage.location.industry.industry} / ${filterPage.location.industry.sector} `;
+    } else if (filterPage?.location?.industries?.sector) {
+      const result = `Industry:  ${filterPage.location.industries.industry} / ${filterPage.location.industries.sector} `;
       listTag.push(result);
     } else {
-      const result = `Industry:  ${filterPage.location.industry.industry} `;
+      const result = `Industry:  ${filterPage.location.industries.industry} `;
       listTag.push(result);
     }
   }

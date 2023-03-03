@@ -62,7 +62,7 @@ export const DropDownInfo = () => {
                   textTransform: 'uppercase',
                 }}
               >
-                {auth.full_name}
+                {auth?.full_name}
               </p>
               <p
                 style={{
@@ -103,3 +103,34 @@ export const DropDownInfo = () => {
     </>
   );
 };
+
+// const array = [
+//   {
+//     full_name: '33',
+//   },
+//   {
+//     priority_status: '44',
+//   },
+//   {
+//     location: {
+//       countryCity: {
+//         city: 'An Giang',
+//         country: 'Viet Nam',
+//       },
+//     },
+//   },
+// ];
+
+const array = [
+  {
+    priority_status: '44',
+  },
+  {
+    location: {
+      countryCity: {
+        city: 'An Giang',
+        country: 'Viet Nam',
+      },
+    },
+  },
+];

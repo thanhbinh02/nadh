@@ -304,11 +304,7 @@ const TableCandidates = ({
 
   return (
     <>
-      <TagFilter
-        listTagFilter={listTagFilter}
-        dataLanguages={languages}
-        test2={filterTagCandidates(listTagFilter, languages)}
-      />
+      <TagFilter tags={filterTagCandidates(listTagFilter, languages)} />
       <div
         style={{
           marginLeft: '30px',

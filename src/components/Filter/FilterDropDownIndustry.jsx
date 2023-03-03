@@ -80,7 +80,7 @@ const FilterDropDownIndustry = ({
         ...industryType,
         location: {
           ...locationSaveLocal,
-          industry: {
+          industries: {
             industry: form.getFieldValue('country'),
           },
         },
@@ -108,7 +108,7 @@ const FilterDropDownIndustry = ({
         ...industryType,
         location: {
           ...locationSaveLocal,
-          industry: {
+          industries: {
             industry: form.getFieldValue('country'),
             sector: form.getFieldValue('city'),
           },
@@ -137,7 +137,7 @@ const FilterDropDownIndustry = ({
         ...industryType,
         location: {
           ...locationSaveLocal,
-          industry: {
+          industries: {
             industry: form.getFieldValue('country'),
             sector: form.getFieldValue('city'),
             category: form.getFieldValue('category'),

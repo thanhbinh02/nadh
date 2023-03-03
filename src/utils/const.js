@@ -100,3 +100,54 @@ export const CUSTOM_COLUMNS_CANDIDATES = [
   { title: 'management_years', label: 'Year of management', check: true },
   { title: 'action', label: 'Action', disabled: true, check: true },
 ];
+
+export const TAG_CANDIDATES = [
+  {
+    title: 'candidate_id',
+    tag: 'ID',
+  },
+  {
+    title: 'full_name',
+    tag: 'Name',
+  },
+  {
+    title: 'priority_status',
+    tag: 'Primary Status',
+  },
+  {
+    title: 'language',
+    tag: 'Language',
+  },
+  {
+    title: 'countryCity',
+    tag: 'City',
+  },
+  {
+    title: 'industries',
+    tag: 'Industry',
+  },
+  {
+    title: 'yob',
+    tag: 'YOB',
+  },
+  {
+    title: 'flow_status',
+    tag: 'Activity',
+  },
+  {
+    title: 'current_company_text',
+    tag: 'Recent company',
+  },
+  {
+    title: 'current_position_text',
+    tag: 'Recent position',
+  },
+  {
+    title: 'industry_years',
+    tag: 'Year of services',
+  },
+  {
+    title: 'management_years',
+    tag: 'Year of management',
+  },
+];
