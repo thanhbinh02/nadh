@@ -52,10 +52,9 @@ const FilterDropDownCountryCity = ({ data }) => {
         country: countryResult,
         city: cityResult,
       };
-      console.log('result', result);
+
       dispatch(
         fetchCandidates({
-          // location: JSON.stringify(result),
           country: result.country.key,
           city: result.city.key,
         }),
@@ -67,7 +66,6 @@ const FilterDropDownCountryCity = ({ data }) => {
 
       dispatch(
         fetchCandidates({
-          // location: JSON.stringify(result),
           country: result.country.key,
         }),
       );

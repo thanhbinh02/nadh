@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { Card, Button, Row, Col, InputNumber, Form } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import axios from 'axios';
-import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-// https://lubrytics.com:8443/nadh-api-crm/api/users?page=1&perPage=10
-
-export const FilterTimeRange = ({ paramOne, paramTwo }) => {
+export const FilterTimeRange = ({ paramFrom, paramTo, fetchData, keyPage }) => {
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
   const [checkSearch, setCheckSearch] = useState(false);
   const [checkParseValueFrom, setCheckParseValueFrom] = useState(false);
   const [valueFrom, setValueFrom] = useState();
@@ -17,8 +15,45 @@ export const FilterTimeRange = ({ paramOne, paramTwo }) => {
   const [checkValidateTo, setCheckValidateTo] = useState(false);
 
   const handleSearch = () => {
-    console.log('from', form.getFieldValue('value_from'));
-    console.log('to', form.getFieldValue('value_to'));
+    if (
+      valueFrom !== undefined &&
+      valueFrom !== '' &&
+      (valueTo === undefined || valueTo === '')
+    ) {
+      const data = { name: paramFrom, data: valueFrom };
+      const result = { [data.name]: data.data };
+      const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
+      const newData = { ...dataSaveLocal, ...result, page: 1 };
+      dispatch(fetchData(newData));
+    }
+
+    if (
+      valueTo !== undefined &&
+      valueTo !== '' &&
+      (valueFrom === undefined || valueFrom === '')
+    ) {
+      const data = { name: paramTo, data: valueTo };
+      const result = { [data.name]: data.data };
+      const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
+      const newData = { ...dataSaveLocal, ...result, page: 1 };
+      dispatch(fetchData(newData));
+    }
+
+    if (
+      valueTo !== undefined &&
+      valueTo !== '' &&
+      valueFrom !== undefined &&
+      valueFrom !== ''
+    ) {
+      const dataFrom = { name: paramFrom, data: valueFrom };
+      const resultFrom = { [dataFrom.name]: dataFrom.data };
+      const dataTo = { name: paramTo, data: valueTo };
+      const resultTo = { [dataTo.name]: dataTo.data };
+      const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
+      const newData = { ...dataSaveLocal, ...resultTo, ...resultFrom, page: 1 };
+
+      dispatch(fetchData(newData));
+    }
   };
 
   const handleParserValueFrom = (value) => {

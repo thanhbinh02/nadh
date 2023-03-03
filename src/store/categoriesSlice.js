@@ -65,6 +65,8 @@ export const categoriesSlice = createSlice({
       state.loading = true;
     },
     [fetchCategories.fulfilled]: (state, { payload }) => {
+      console.log('payload', payload);
+
       state.categories = payload.data;
       state.loading = false;
       state.isSuccess = false;

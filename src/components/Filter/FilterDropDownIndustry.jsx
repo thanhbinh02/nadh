@@ -1,9 +1,8 @@
 import { Form, Select } from 'antd';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Card, Button, Row, Col } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { fetchSectors } from '../../store/categoriesSlice';
 
 const { Option } = Select;
 const FilterDropDownIndustry = ({
@@ -14,12 +13,21 @@ const FilterDropDownIndustry = ({
   fetchDataItemTwo,
   fetchDataItemThree,
   typeThree,
+  fetchData,
+  keyPage,
 }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
   const [listItemTwo, setListItemTwo] = useState(false);
   const [listItemThree, setListItemThree] = useState(false);
+
+  const filterItemInListData = (label, listData) => {
+    const result = listData.filter((item) => {
+      return item.label === label;
+    });
+    return result;
+  };
 
   const handleItemOneChange = (value, option) => {
     if (option) {
@@ -41,6 +49,7 @@ const FilterDropDownIndustry = ({
   };
 
   const handleItemTwoChange = (value, option) => {
+    form.setFieldValue('category', undefined);
     if (option) {
       dispatch(
         fetchDataItemThree({ type: typeThree, parent_id: Number(option.key) }),
@@ -51,6 +60,72 @@ const FilterDropDownIndustry = ({
 
   const handleReset = () => {
     handleClearItemOne();
+  };
+
+  const handleSearch = () => {
+    if (form.getFieldValue('city') === undefined) {
+      const industryId = {
+        industry_id: filterItemInListData(
+          form.getFieldValue('country'),
+          data,
+        )[0].key,
+      };
+      const industryType = { industry_type: 1 };
+      const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
+      const newData = {
+        ...dataSaveLocal,
+        ...industryId,
+        ...industryType,
+        page: 1,
+      };
+
+      dispatch(fetchData(newData));
+      return;
+    }
+
+    if (form.getFieldValue('category') === undefined) {
+      const industryId = {
+        industry_id: filterItemInListData(
+          form.getFieldValue('city'),
+          optionTwo,
+        )[0].key,
+      };
+      const industryType = { industry_type: 2 };
+
+      const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
+      const newData = {
+        ...dataSaveLocal,
+        ...industryId,
+        ...industryType,
+        page: 1,
+      };
+
+      dispatch(fetchData(newData));
+      return;
+    }
+
+    if (form.getFieldValue('category') !== undefined) {
+      console.log('optionThree', optionThree);
+
+      const industryId = {
+        industry_id: filterItemInListData(
+          form.getFieldValue('category'),
+          optionThree,
+        )[0].key,
+      };
+      const industryType = { industry_type: 3 };
+
+      const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
+      const newData = {
+        ...dataSaveLocal,
+        ...industryId,
+        ...industryType,
+        page: 1,
+      };
+
+      dispatch(fetchData(newData));
+      return;
+    }
   };
 
   return (
@@ -77,6 +152,7 @@ const FilterDropDownIndustry = ({
             style={{ width: '100%', borderRadius: '0px' }}
             icon={<SearchOutlined />}
             disabled={!form.getFieldValue('country')}
+            onClick={handleSearch}
           >
             Search
           </Button>
@@ -119,7 +195,11 @@ const FilterDropDownIndustry = ({
               >
                 {optionTwo &&
                   optionTwo?.map((item) => (
-                    <Option value={item.name} key={item.key} compare={item.key}>
+                    <Option
+                      value={item.label}
+                      key={item.key}
+                      compare={item.key}
+                    >
                       {item.label}
                     </Option>
                   ))}
@@ -131,13 +211,17 @@ const FilterDropDownIndustry = ({
                 showSearch
                 placeholder="Select category"
                 allowClear
-                onChange={(value, option) => {
-                  handleItemTwoChange(value, option);
-                }}
+                // onChange={(value, option) => {
+                //   handleItemTwoChange(value, option);
+                // }}
               >
                 {optionThree &&
                   optionThree?.map((item) => (
-                    <Option value={item.name} key={item.key} compare={item.key}>
+                    <Option
+                      value={item.label}
+                      key={item.key}
+                      compare={item.key}
+                    >
                       {item.label}
                     </Option>
                   ))}

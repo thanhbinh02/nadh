@@ -9,6 +9,7 @@ export const FilterDropDownSelectOneItem = ({
   options,
   param,
   fetchData,
+  keyPage,
 }) => {
   const { Option } = Select;
   const dispatch = useDispatch();
@@ -18,12 +19,12 @@ export const FilterDropDownSelectOneItem = ({
     const data = { name: param, data: form.getFieldValue(`${param}`) };
     if (mode !== 'multiple' || data.data === undefined) {
       const result = { [data.name]: data.data };
-      const dataSaveLocal = JSON.parse(localStorage.getItem('filterCDD'));
+      const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
       const newData = { ...dataSaveLocal, ...result, page: 1 };
       dispatch(fetchData(newData));
     } else {
       const result = { [data.name]: data.data.join(',') };
-      const dataSaveLocal = JSON.parse(localStorage.getItem('filterCDD'));
+      const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
       const newData = { ...dataSaveLocal, ...result, page: 1 };
       dispatch(fetchData(newData));
     }

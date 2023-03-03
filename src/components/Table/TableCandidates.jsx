@@ -36,6 +36,7 @@ const TableCandidates = ({
           placeholder="Search candidate_id"
           param="candidate_id"
           fetchData={fetchCandidates}
+          keyPage="filterCDD"
         />
       ),
       render: (text) => <Link>{text}</Link>,
@@ -49,6 +50,7 @@ const TableCandidates = ({
           placeholder="Search full_name"
           param="full_name"
           fetchData={fetchCandidates}
+          keyPage="filterCDD"
         />
       ),
       render: (text) => <Link>{text}</Link>,
@@ -63,6 +65,7 @@ const TableCandidates = ({
           options={priority_status}
           param="priority_status"
           fetchData={fetchCandidates}
+          keyPage="filterCDD"
         />
       ),
       render: (text) => {
@@ -99,6 +102,7 @@ const TableCandidates = ({
           mode="multiple"
           param="language"
           fetchData={fetchCandidates}
+          keyPage="filterCDD"
         />
       ),
       render: (_, record) => {
@@ -111,22 +115,16 @@ const TableCandidates = ({
       title: 'Highest degree',
       dataIndex: 'highest_education',
       filterIcon: <AiOutlineSearch />,
-      filterDropdown: (
-        // <FilterDropDownSelectOneItem
-        //   placeholder="Search Highest_education"
-        //   options={languages}
-        //   mode="multiple"
-        //   fetchData={fetchCandidates}
-        // />
-        <div>Filter</div>
-      ),
+      filterDropdown: <div>Filter</div>,
       render: (text) => <div>{text}</div>,
     },
     {
       title: 'City',
       dataIndex: 'location',
       filterIcon: <AiOutlineSearch />,
-      filterDropdown: <FilterDropDownCountryCity data={city} />,
+      filterDropdown: (
+        <FilterDropDownCountryCity data={city} keyPage="filterCDD" />
+      ),
       render: (text) => {
         return text?.map((item, index) => (
           <div key={index}>
@@ -149,6 +147,8 @@ const TableCandidates = ({
           fetchDataItemTwo={fetchSectors}
           fetchDataItemThree={fetchCategories}
           typeThree={3}
+          keyPage="filterCDD"
+          fetchData={fetchCandidates}
         />
       ),
       render: (text) => {
@@ -161,7 +161,14 @@ const TableCandidates = ({
       title: 'YOB',
       dataIndex: 'yob',
       filterIcon: <AiOutlineSearch />,
-      filterDropdown: <FilterTimeRange />,
+      filterDropdown: (
+        <FilterTimeRange
+          fetchData={fetchCandidates}
+          paramFrom="yob_from"
+          paramTo="yob_to"
+          keyPage="filterCDD"
+        />
+      ),
       render: (text) => {
         if (text) {
           const newText = text.split('-');
@@ -180,6 +187,7 @@ const TableCandidates = ({
           mode="multiple"
           param="flow_status"
           fetchData={fetchCandidates}
+          keyPage="filterCDD"
         />
       ),
       render: (text) => {
@@ -204,6 +212,7 @@ const TableCandidates = ({
           placeholder="Search current_company"
           param="current_company_text"
           fetchData={fetchCandidates}
+          keyPage="filterCDD"
         />
       ),
       render: (text) => {
@@ -221,6 +230,7 @@ const TableCandidates = ({
           placeholder="Search current_company_text"
           param="current_position_text"
           fetchData={fetchCandidates}
+          keyPage="filterCDD"
         />
       ),
       render: (text) => {
@@ -233,13 +243,27 @@ const TableCandidates = ({
       title: 'Year of services',
       dataIndex: 'industry_years',
       filterIcon: <AiOutlineSearch />,
-      filterDropdown: <FilterTimeRange />,
+      filterDropdown: (
+        <FilterTimeRange
+          fetchData={fetchCandidates}
+          paramFrom="industry_years_from"
+          paramTo="industry_years_to"
+          keyPage="filterCDD"
+        />
+      ),
     },
     {
       title: 'Year of management',
       dataIndex: 'management_years',
       filterIcon: <AiOutlineSearch />,
-      filterDropdown: <FilterTimeRange />,
+      filterDropdown: (
+        <FilterTimeRange
+          fetchData={fetchCandidates}
+          paramFrom="management_years_from"
+          paramTo="management_years_to"
+          keyPage="filterCDD"
+        />
+      ),
     },
     {
       title: 'Action',

@@ -39,9 +39,7 @@ export const paramsCandidatesSlice = createSlice({
     [fetchParamsCandidates.pending]: (state) => {
       state.loading = true;
     },
-    [fetchParamsCandidates.fulfilled]: (state, { payload }) => {
-      console.log('payload', payload);
-    },
+    [fetchParamsCandidates.fulfilled]: (state, { payload }) => {},
     [fetchParamsCandidates.rejected]: (state) => {
       state.loading = false;
       state.isSuccess = false;
