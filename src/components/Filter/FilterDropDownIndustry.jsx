@@ -105,8 +105,6 @@ const FilterDropDownIndustry = ({
     }
 
     if (form.getFieldValue('category') !== undefined) {
-      console.log('optionThree', optionThree);
-
       const industryId = {
         industry_id: filterItemInListData(
           form.getFieldValue('category'),

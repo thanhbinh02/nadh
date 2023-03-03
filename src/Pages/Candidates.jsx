@@ -11,10 +11,12 @@ import { fetchHighestDegree } from '../store/highestDegreeSlice';
 
 import { CustomColumns } from '../components/CustomColumns';
 import { fetchListCustoms } from '../store/customColumnSlice';
+import TagFilter from '../components/TagFilter';
 
 export const Candidates = () => {
   const dispatch = useDispatch();
   const countries = useSelector((state) => state.locations.countries);
+  const cities = useSelector((state) => state.locations.cities);
   const industries = useSelector((state) => state.categories.industries);
   const sectors = useSelector((state) => state.categories.sectors);
   const categories = useSelector((state) => state.categories.categories);
@@ -37,6 +39,12 @@ export const Candidates = () => {
   return (
     <div>
       <h1>Candidates</h1>
+      <TagFilter
+        filterPage={filerCandidates}
+        dataLanguages={languages}
+        dataCities={cities}
+        dataCountries={countries}
+      />
       <CustomColumns namePage="candidates" listCustom={listCustomCandidates} />
       <TableCandidates
         totalItem={totalItem ? totalItem : null}

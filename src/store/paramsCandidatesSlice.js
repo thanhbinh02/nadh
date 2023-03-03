@@ -29,10 +29,6 @@ export const paramsCandidatesSlice = createSlice({
           return { ...item, ...payload };
         });
       }
-
-      // state.data = state.data.map((item) => {
-      //   return { ...item, ...payload };
-      // });
     },
   },
   extraReducers: {

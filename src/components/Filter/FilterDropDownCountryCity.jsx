@@ -48,17 +48,32 @@ const FilterDropDownCountryCity = ({ data }) => {
       const cityResult = newData(cities).find(
         (item) => item.label === cityLabel,
       );
-      const result = {
-        country: countryResult,
-        city: cityResult,
-      };
 
-      dispatch(
-        fetchCandidates({
-          country: result.country.key,
-          city: result.city.key,
-        }),
-      );
+      if (cityResult !== undefined) {
+        const result = {
+          country: countryResult,
+          city: cityResult,
+        };
+
+        dispatch(
+          fetchCandidates({
+            country: result.country.key,
+            city: result.city.key,
+            location: result,
+          }),
+        );
+      } else {
+        const result = {
+          country: countryResult,
+        };
+
+        dispatch(
+          fetchCandidates({
+            country: result.country.key,
+            location: result,
+          }),
+        );
+      }
     } else {
       const result = {
         country: countryResult,
@@ -67,6 +82,7 @@ const FilterDropDownCountryCity = ({ data }) => {
       dispatch(
         fetchCandidates({
           country: result.country.key,
+          location: result,
         }),
       );
     }
