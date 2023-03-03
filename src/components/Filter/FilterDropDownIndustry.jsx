@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Card, Button, Row, Col } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 
 const { Option } = Select;
 const FilterDropDownIndustry = ({
@@ -72,13 +73,20 @@ const FilterDropDownIndustry = ({
       };
       const industryType = { industry_type: 1 };
       const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
+      const locationSaveLocal = dataSaveLocal.location;
       const newData = {
         ...dataSaveLocal,
         ...industryId,
         ...industryType,
+        location: {
+          ...locationSaveLocal,
+          industry: {
+            industry: form.getFieldValue('country'),
+          },
+        },
         page: 1,
       };
-
+      dispatch(getTagsCandidates(newData));
       dispatch(fetchData(newData));
       return;
     }
@@ -93,13 +101,21 @@ const FilterDropDownIndustry = ({
       const industryType = { industry_type: 2 };
 
       const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
+      const locationSaveLocal = dataSaveLocal.location;
       const newData = {
         ...dataSaveLocal,
         ...industryId,
         ...industryType,
+        location: {
+          ...locationSaveLocal,
+          industry: {
+            industry: form.getFieldValue('country'),
+            sector: form.getFieldValue('city'),
+          },
+        },
         page: 1,
       };
-
+      dispatch(getTagsCandidates(newData));
       dispatch(fetchData(newData));
       return;
     }
@@ -114,13 +130,22 @@ const FilterDropDownIndustry = ({
       const industryType = { industry_type: 3 };
 
       const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
+      const locationSaveLocal = dataSaveLocal.location;
       const newData = {
         ...dataSaveLocal,
         ...industryId,
         ...industryType,
+        location: {
+          ...locationSaveLocal,
+          industry: {
+            industry: form.getFieldValue('country'),
+            sector: form.getFieldValue('city'),
+            category: form.getFieldValue('category'),
+          },
+        },
         page: 1,
       };
-
+      dispatch(getTagsCandidates(newData));
       dispatch(fetchData(newData));
       return;
     }

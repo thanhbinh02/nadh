@@ -13,6 +13,8 @@ import { candidate_flow_status } from '../../utils/const';
 import { AiOutlineEye } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { fetchCandidates } from '../../store/candidatesSlice';
+import TagFilter from '../TagFilter';
+import { filterTagCandidates } from '../../utils/filterTagCandidates';
 
 const TableCandidates = ({
   data,
@@ -23,6 +25,7 @@ const TableCandidates = ({
   categories,
   listCustomCandidates,
   totalItem,
+  listTagFilter,
 }) => {
   const dispatch = useDispatch();
 
@@ -300,35 +303,42 @@ const TableCandidates = ({
   }));
 
   return (
-    <div
-      style={{
-        marginLeft: '30px',
-        marginRight: '30px',
-        padding: '10px 24px',
-      }}
-    >
-      {listCustomCandidates && (
-        <Table
-          columns={newColumns}
-          dataSource={newData}
-          title={() => 'Header'}
-          scroll={{ x: '100vw' }}
-          pagination={{
-            pageSize: 10,
-            total: totalItem,
-            showSizeChanger: false,
-            showQuickJumper: true,
-            onChange: (page, pageSize) => {
-              const filerCandidates = JSON.parse(
-                window.localStorage.getItem('filterCDD'),
-              );
+    <>
+      <TagFilter
+        listTagFilter={listTagFilter}
+        dataLanguages={languages}
+        test2={filterTagCandidates(listTagFilter, languages)}
+      />
+      <div
+        style={{
+          marginLeft: '30px',
+          marginRight: '30px',
+          padding: '10px 24px',
+        }}
+      >
+        {listCustomCandidates && (
+          <Table
+            columns={newColumns}
+            dataSource={newData}
+            title={() => 'Header'}
+            scroll={{ x: '100vw' }}
+            pagination={{
+              pageSize: 10,
+              total: totalItem,
+              showSizeChanger: false,
+              showQuickJumper: true,
+              onChange: (page, pageSize) => {
+                const filerCandidates = JSON.parse(
+                  window.localStorage.getItem('filterCDD'),
+                );
 
-              dispatch(fetchCandidates({ page: page }));
-            },
-          }}
-        />
-      )}
-    </div>
+                dispatch(fetchCandidates({ page: page }));
+              },
+            }}
+          />
+        )}
+      </div>
+    </>
   );
 };
 export default TableCandidates;

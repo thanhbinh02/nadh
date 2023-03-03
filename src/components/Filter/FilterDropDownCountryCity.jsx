@@ -5,6 +5,7 @@ import { Card, Button, Row, Col } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { fetchCities } from '../../store/locationsSlice';
 import { fetchCandidates } from '../../store/candidatesSlice';
+import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 
 const { Option } = Select;
 const FilterDropDownCountryCity = ({ data }) => {
@@ -55,36 +56,66 @@ const FilterDropDownCountryCity = ({ data }) => {
           city: cityResult,
         };
 
-        dispatch(
-          fetchCandidates({
-            country: result.country.key,
-            city: result.city.key,
-            location: result,
-          }),
-        );
+        const dataSaveLocal = JSON.parse(localStorage.getItem('filterCDD'));
+        const locationSaveLocal = dataSaveLocal.location;
+        const newData = {
+          ...dataSaveLocal,
+          country: result.country.key,
+          city: result.city.key,
+          location: {
+            ...locationSaveLocal,
+            countryCity: {
+              country: result.country.label,
+              city: result.city.label,
+            },
+          },
+          page: 1,
+        };
+
+        dispatch(fetchCandidates(newData));
+        dispatch(getTagsCandidates(newData));
       } else {
         const result = {
           country: countryResult,
         };
 
-        dispatch(
-          fetchCandidates({
-            country: result.country.key,
-            location: result,
-          }),
-        );
+        const dataSaveLocal = JSON.parse(localStorage.getItem('filterCDD'));
+        const locationSaveLocal = dataSaveLocal.location;
+        const newData = {
+          ...dataSaveLocal,
+          country: result.country.key,
+          location: {
+            ...locationSaveLocal,
+            countryCity: {
+              country: result.country.label,
+            },
+          },
+          page: 1,
+        };
+        dispatch(fetchCandidates(newData));
+        dispatch(getTagsCandidates(newData));
       }
     } else {
       const result = {
         country: countryResult,
       };
 
-      dispatch(
-        fetchCandidates({
-          country: result.country.key,
-          location: result,
-        }),
-      );
+      const dataSaveLocal = JSON.parse(localStorage.getItem('filterCDD'));
+      const locationSaveLocal = dataSaveLocal.location;
+      const newData = {
+        ...dataSaveLocal,
+        country: result.country.key,
+        location: {
+          ...locationSaveLocal,
+          countryCity: {
+            country: result.country.label,
+          },
+        },
+        page: 1,
+      };
+
+      dispatch(fetchCandidates(newData));
+      dispatch(getTagsCandidates(newData));
     }
   };
 

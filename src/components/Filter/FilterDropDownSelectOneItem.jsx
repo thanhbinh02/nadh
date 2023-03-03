@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Button, Row, Col, Select, Form } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
+import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 
 export const FilterDropDownSelectOneItem = ({
   placeholder,
@@ -10,6 +11,7 @@ export const FilterDropDownSelectOneItem = ({
   param,
   fetchData,
   keyPage,
+  languages,
 }) => {
   const { Option } = Select;
   const dispatch = useDispatch();
@@ -22,11 +24,13 @@ export const FilterDropDownSelectOneItem = ({
       const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
       const newData = { ...dataSaveLocal, ...result, page: 1 };
       dispatch(fetchData(newData));
+      dispatch(getTagsCandidates(newData));
     } else {
       const result = { [data.name]: data.data.join(',') };
       const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
       const newData = { ...dataSaveLocal, ...result, page: 1 };
       dispatch(fetchData(newData));
+      dispatch(getTagsCandidates(newData));
     }
   };
 

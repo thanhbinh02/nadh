@@ -12,6 +12,8 @@ import { fetchHighestDegree } from '../store/highestDegreeSlice';
 import { CustomColumns } from '../components/CustomColumns';
 import { fetchListCustoms } from '../store/customColumnSlice';
 import TagFilter from '../components/TagFilter';
+import { filterTagCandidates } from '../utils/filterTagCandidates';
+import { getTagsCandidates } from '../store/tagsCandidatesSlice';
 
 export const Candidates = () => {
   const dispatch = useDispatch();
@@ -26,6 +28,7 @@ export const Candidates = () => {
   const listCustomCandidates = useSelector((state) => state.customColumn.data);
 
   const filerCandidates = JSON.parse(window.localStorage.getItem('filterCDD'));
+  const listTagFilter = useSelector((state) => state.tagsCandidates.data);
 
   useEffect(() => {
     dispatch(fetchCountries({ type: 4 }));
@@ -34,22 +37,18 @@ export const Candidates = () => {
     dispatch(fetchLanguages({ type: 4 }));
     dispatch(fetchHighestDegree({ type: 1 }));
     dispatch(fetchListCustoms('candidates'));
+    dispatch(getTagsCandidates(filerCandidates));
   }, []);
 
   return (
     <div>
       <h1>Candidates</h1>
-      <TagFilter
-        filterPage={filerCandidates}
-        dataLanguages={languages}
-        dataCities={cities}
-        dataCountries={countries}
-      />
+
       <CustomColumns namePage="candidates" listCustom={listCustomCandidates} />
       <TableCandidates
         totalItem={totalItem ? totalItem : null}
         data={candidates ? candidates : null}
-        languages={languages}
+        languages={languages ? languages : null}
         city={countries ? countries : null}
         sectors={sectors}
         categories={categories}
@@ -57,6 +56,7 @@ export const Candidates = () => {
         listCustomCandidates={
           listCustomCandidates ? listCustomCandidates : null
         }
+        listTagFilter={listTagFilter}
       />
     </div>
   );
