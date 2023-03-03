@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Button, Row, Col, Input, Form } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
+import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 
 export const FilterDropDownText = ({
   placeholder,
@@ -18,6 +19,7 @@ export const FilterDropDownText = ({
     const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
     const newData = { ...dataSaveLocal, ...result, page: 1 };
     dispatch(fetchData(newData));
+    dispatch(getTagsCandidates(newData));
   };
 
   return (

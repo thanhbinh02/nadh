@@ -18,6 +18,16 @@ const findItem = (resultLocal, listData) => {
 
 export const filterTagCandidates = (filterPage, dataLanguages) => {
   let listTag = [];
+  if (filterPage?.candidate_id) {
+    const result = `ID: ${filterPage.candidate_id}`;
+    listTag.push(result);
+  }
+
+  if (filterPage?.full_name) {
+    const result = `Name: ${filterPage.full_name}`;
+    listTag.push(result);
+  }
+
   if (filterPage?.priority_status) {
     const filterPriorityStatus = `Primary Status: ${findPriorityStatus(
       filterPage.priority_status,
@@ -53,12 +63,67 @@ export const filterTagCandidates = (filterPage, dataLanguages) => {
     }
   }
 
+  if (filterPage?.yob_from || filterPage?.yob_to) {
+    if (filterPage?.yob_to && filterPage?.yob_from) {
+      const result = `YOB: from ${filterPage.yob_from} to ${filterPage.yob_to}`;
+      listTag.push(result);
+    } else {
+      if (filterPage?.yob_to) {
+        const result = `YOB: from ${filterPage.yob_to}`;
+        listTag.push(result);
+      } else {
+        const result = `YOB: to ${filterPage.yob_from}`;
+        listTag.push(result);
+      }
+    }
+  }
+
   if (filterPage?.flow_status) {
-    const result = `Activity: : ${findItem(
+    const result = `Activity: ${findItem(
       filterPage.flow_status,
       candidate_flow_status,
     )}`;
     listTag.push(result);
+  }
+
+  if (filterPage?.current_company_text) {
+    const result = `Recent company: ${filterPage.current_company_text}`;
+    listTag.push(result);
+  }
+
+  if (filterPage?.current_position_text) {
+    const result = `Recent position: ${filterPage.current_position_text}`;
+    listTag.push(result);
+  }
+
+  if (filterPage?.industry_years_from || filterPage?.industry_years_to) {
+    if (filterPage?.industry_years_to && filterPage?.industry_years_from) {
+      const result = `Year of services: from ${filterPage.industry_years_from} to ${filterPage.industry_years_to}`;
+      listTag.push(result);
+    } else {
+      if (filterPage?.industry_years_to) {
+        const result = `Year of services: from ${filterPage.industry_years_to}`;
+        listTag.push(result);
+      } else {
+        const result = `Year of services: to ${filterPage.industry_years_from}`;
+        listTag.push(result);
+      }
+    }
+  }
+
+  if (filterPage?.management_years_from || filterPage?.management_years_to) {
+    if (filterPage?.management_years_to && filterPage?.management_years_from) {
+      const result = `Year of management: from ${filterPage.management_years_from} to ${filterPage.management_years_to}`;
+      listTag.push(result);
+    } else {
+      if (filterPage?.management_years_to) {
+        const result = `Year of management: from ${filterPage.management_years_to}`;
+        listTag.push(result);
+      } else {
+        const result = `Year of management: to ${filterPage.management_years_from}`;
+        listTag.push(result);
+      }
+    }
   }
 
   return listTag;

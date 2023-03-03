@@ -2,6 +2,17 @@ import React, { useState } from 'react';
 import { Card, Button, Row, Col, InputNumber, Form } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
+import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
+
+function filterArray(abc, title) {
+  const filteredObj = {};
+  for (const key in abc) {
+    if (key !== title) {
+      filteredObj[key] = abc[key];
+    }
+  }
+  return filteredObj;
+}
 
 export const FilterTimeRange = ({ paramFrom, paramTo, fetchData, keyPage }) => {
   const [form] = Form.useForm();
@@ -22,8 +33,12 @@ export const FilterTimeRange = ({ paramFrom, paramTo, fetchData, keyPage }) => {
     ) {
       const data = { name: paramFrom, data: valueFrom };
       const result = { [data.name]: data.data };
-      const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
+      const dataSaveLocal = filterArray(
+        JSON.parse(localStorage.getItem(keyPage)),
+        paramTo,
+      );
       const newData = { ...dataSaveLocal, ...result, page: 1 };
+      dispatch(getTagsCandidates(newData));
       dispatch(fetchData(newData));
     }
 
@@ -34,8 +49,12 @@ export const FilterTimeRange = ({ paramFrom, paramTo, fetchData, keyPage }) => {
     ) {
       const data = { name: paramTo, data: valueTo };
       const result = { [data.name]: data.data };
-      const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
+      const dataSaveLocal = filterArray(
+        JSON.parse(localStorage.getItem(keyPage)),
+        paramFrom,
+      );
       const newData = { ...dataSaveLocal, ...result, page: 1 };
+      dispatch(getTagsCandidates(newData));
       dispatch(fetchData(newData));
     }
 
@@ -51,8 +70,19 @@ export const FilterTimeRange = ({ paramFrom, paramTo, fetchData, keyPage }) => {
       const resultTo = { [dataTo.name]: dataTo.data };
       const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
       const newData = { ...dataSaveLocal, ...resultTo, ...resultFrom, page: 1 };
-
+      dispatch(getTagsCandidates(newData));
       dispatch(fetchData(newData));
+    }
+
+    if (
+      (valueTo === undefined || valueTo === '') &&
+      (valueFrom === undefined || valueFrom === '')
+    ) {
+      const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
+      const removeDataFrom = filterArray(dataSaveLocal, paramFrom);
+      const removeDataTo = filterArray(removeDataFrom, paramTo);
+      dispatch(getTagsCandidates(removeDataTo));
+      dispatch(fetchData(removeDataTo));
     }
   };
 

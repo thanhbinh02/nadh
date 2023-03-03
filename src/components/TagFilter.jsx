@@ -36,7 +36,6 @@ const TagFilter = ({ test2 }) => {
           marginBottom: 16,
         }}
       >
-        Thanh bINH
         {tagChild}
       </div>
     </>
