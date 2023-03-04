@@ -132,7 +132,12 @@ const TableCandidates = ({
       dataIndex: 'location',
       filterIcon: <AiOutlineSearch />,
       filterDropdown: (
-        <FilterDropDownCountryCity data={city} keyPage="filterCDD" />
+        <FilterDropDownCountryCity
+          data={city}
+          keyPage="filterCDD"
+          country={filerCandidates?.country || undefined}
+          city={filerCandidates?.city || undefined}
+        />
       ),
       render: (text) => {
         return text?.map((item, index) => (

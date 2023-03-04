@@ -32,6 +32,11 @@ export const FilterTimeRange = ({
   const [checkValidateFrom, setCheckValidateFrom] = useState(false);
   const [checkValidateTo, setCheckValidateTo] = useState(false);
 
+  useEffect(() => {
+    setValueFrom(filterValueFrom);
+    setValueTo(filterValueTo);
+  }, [filterValueFrom, filterValueTo]);
+
   const handleSearch = () => {
     if (
       valueFrom !== undefined &&

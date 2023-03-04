@@ -29,9 +29,9 @@ export const FilterDropDownSelectOneItem = ({
     if (mode) {
       form.setFieldValue(`${param}`, convertStringToArray(filterValue));
     } else {
-      form.setFieldValue(`${param}`, Number(filterValue));
+      form.setFieldValue(`${param}`, filterValue);
     }
-  }, []);
+  }, [filterValue]);
 
   const onFinish = () => {
     const data = { name: param, data: form.getFieldValue(`${param}`) };

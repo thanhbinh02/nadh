@@ -28,7 +28,6 @@ const TagFilter = ({ tags }) => {
 
   const handleClose = (tag) => {
     const dataSaveLocal = JSON.parse(localStorage.getItem('filterCDD'));
-    console.log('dataSaveLocal', dataSaveLocal);
     const getTag = tag.split(':')[0];
     const getTitleTag = TAG_CANDIDATES.find(
       (item) => item.tag === getTag,

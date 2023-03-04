@@ -1,5 +1,5 @@
 import { Form, Select } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Card, Button, Row, Col } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
@@ -8,13 +8,17 @@ import { fetchCandidates } from '../../store/candidatesSlice';
 import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 
 const { Option } = Select;
-const FilterDropDownCountryCity = ({ data }) => {
+const FilterDropDownCountryCity = ({ data, country, city }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-
   const [listCity, setListCity] = useState(false);
-
   const cities = useSelector((state) => state.locations.cities);
+
+  useEffect(() => {
+    form.setFieldValue('country', country);
+    form.setFieldValue('city', city);
+    dispatch(fetchCities({ type: 1, parent_id: Number(country) }));
+  }, [country, city]);
 
   const handleCountryChange = (value, option) => {
     if (option) {
@@ -39,16 +43,12 @@ const FilterDropDownCountryCity = ({ data }) => {
     });
 
   const onFinish = () => {
-    const countryLabel = form.getFieldValue('country');
-    const countryResult = newData(data).find(
-      (item) => item.label === countryLabel,
-    );
+    const countryKey = form.getFieldValue('country');
+    const countryResult = newData(data).find((item) => item.key === countryKey);
 
     if (cities.length !== 0) {
-      const cityLabel = form.getFieldValue('city');
-      const cityResult = newData(cities).find(
-        (item) => item.label === cityLabel,
-      );
+      const cityKey = form.getFieldValue('city');
+      const cityResult = newData(cities).find((item) => item.key === cityKey);
 
       if (cityResult !== undefined) {
         const result = {
@@ -166,9 +166,10 @@ const FilterDropDownCountryCity = ({ data }) => {
                 onChange={(value, option) => {
                   handleCountryChange(value, option);
                 }}
+                optionFilterProp="children"
               >
                 {data.map((item) => (
-                  <Option value={item.label} key={item.key}>
+                  <Option value={item.key} key={item.key} label={item.label}>
                     {item.label}
                   </Option>
                 ))}
@@ -184,14 +185,11 @@ const FilterDropDownCountryCity = ({ data }) => {
                 showSearch
                 placeholder="Select city"
                 allowClear
+                optionFilterProp="children"
               >
                 {cities &&
                   cities?.map((item) => (
-                    <Option
-                      value={item.label}
-                      key={item.key}
-                      compare={item.key}
-                    >
+                    <Option value={item.key} key={item.key} label={item.label}>
                       {item.label}
                     </Option>
                   ))}

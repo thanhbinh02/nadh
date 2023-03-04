@@ -24,7 +24,7 @@ export const FilterDropDownText = ({
 
   useEffect(() => {
     form.setFieldValue(`${param}`, filterValue);
-  }, []);
+  }, [filterValue]);
 
   return (
     <Card
