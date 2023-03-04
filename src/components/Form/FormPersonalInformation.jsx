@@ -15,6 +15,11 @@ import { fetchPosition } from '../../store/positionSlice';
 import { fetchDegree } from '../../store/degreeSlice';
 import FormListEmail from './FormListEmail';
 import { PlusOutlined } from '@ant-design/icons';
+import { fetchPhoneNumber } from '../../store/phoneNumberSlice';
+
+import FormListPhoneNumber from './FormListPhoneNumber';
+import { FormSelectItem } from './FormSelectItem';
+import { FormInputText } from './FormInputText';
 
 import {
   priority_status,
@@ -37,11 +42,13 @@ const FormPersonalInformation = () => {
   const nationality = useSelector((state) => state.nationality.data);
   const position = useSelector((state) => state.position.data);
   const degree = useSelector((state) => state.degree.data);
+  const phoneNumber = useSelector((state) => state.phoneNumber.data);
 
   useEffect(() => {
     dispatch(fetchNationality());
     dispatch(fetchPosition());
     dispatch(fetchDegree());
+    dispatch(fetchPhoneNumber());
   }, []);
 
   const onFinish = (values) => {
@@ -61,12 +68,32 @@ const FormPersonalInformation = () => {
     >
       <Row gutter={(12, 12)}>
         <Col span={12}>
-          <Form.Item label="First Name" required name="first_name">
-            <Input placeholder="Please Input First Name" />
+          <Form.Item
+            label="First Name"
+            required
+            name="first_name"
+            rules={[
+              {
+                required: true,
+                message: '"Please type first name',
+              },
+            ]}
+          >
+            <Input placeholder="First Name" />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item label="Last Name" required name="last_name">
+          <Form.Item
+            label="Last Name"
+            required
+            name="last_name"
+            rules={[
+              {
+                required: true,
+                message: 'Please type last name',
+              },
+            ]}
+          >
             <Input placeholder="Please Input Last Name" />
           </Form.Item>
         </Col>
@@ -217,26 +244,11 @@ const FormPersonalInformation = () => {
 
       <Row gutter={(12, 12)}>
         <Col span={24}>
-          <Form.Item name="nationality" label="Nationality">
-            <Select
-              mode="multiple"
-              allowClear
-              style={{ width: '100%', borderRadius: '0px' }}
-              optionFilterProp="children"
-            >
-              {nationality.map((option) => {
-                return (
-                  <Option
-                    key={option.key}
-                    value={option.key}
-                    label={option.label}
-                  >
-                    {option.label}
-                  </Option>
-                );
-              })}
-            </Select>
-          </Form.Item>
+          <FormSelectItem
+            options={nationality}
+            name="nationality"
+            label="Nationality"
+          />
         </Col>
       </Row>
 
@@ -301,6 +313,7 @@ const FormPersonalInformation = () => {
           </Form.Item>
         </Col>
       </Row>
+
       <Row gutter={(12, 12)}>
         <Col span={12}>
           <Form.Item label="No. of Direct Reports" name="direct_reports">
@@ -308,6 +321,7 @@ const FormPersonalInformation = () => {
           </Form.Item>
         </Col>
       </Row>
+
       <Row gutter={(12, 12)}>
         <Col span={24}>
           <Form.Item label="Email">
@@ -345,6 +359,46 @@ const FormPersonalInformation = () => {
           </Form.Item>
         </Col>
       </Row>
+
+      <Row gutter={(12, 12)}>
+        <Col span={24}>
+          <Form.Item label="Mobile Phone*">
+            <Form.List name="phones" initialValue={[{}]}>
+              {(fields, { add, remove }) => {
+                return (
+                  <>
+                    {fields.map(({ key, name, isListField }) => {
+                      return (
+                        <FormListPhoneNumber
+                          key={key}
+                          name={name}
+                          fieldKey={key}
+                          form={form}
+                          remove={remove}
+                          fields={fields}
+                          isListField={isListField}
+                          phoneNumber={phoneNumber}
+                        />
+                      );
+                    })}
+                    <Form.Item>
+                      <Button
+                        type="dashed"
+                        onClick={() => add()}
+                        block
+                        icon={<PlusOutlined />}
+                      >
+                        Add field
+                      </Button>
+                    </Form.Item>
+                  </>
+                );
+              }}
+            </Form.List>
+          </Form.Item>
+        </Col>
+      </Row>
+
       <Row gutter={(12, 12)}>
         <Form.Item>
           <Button type="primary" htmlType="submit">

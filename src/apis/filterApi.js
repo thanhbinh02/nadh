@@ -50,3 +50,8 @@ export const getDegree = async (params) => {
   const url = '/api/property_values';
   return await axiosClient.get(url, params);
 };
+
+export const getPhoneNumber = async () => {
+  const url = '/api/locations?type=4';
+  return await axiosClient.get(url);
+};

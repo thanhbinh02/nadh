@@ -11,6 +11,7 @@ import tagsCandidatesReducer from './tagsCandidatesSlice';
 import nationalityReducer from './nationalitySlice';
 import positionReducer from './positionSlice';
 import degreeReducer from './degreeSlice';
+import phoneNumberReducer from './phoneNumberSlice';
 
 export const store = configureStore({
   reducer: {
@@ -26,5 +27,6 @@ export const store = configureStore({
     nationality: nationalityReducer,
     position: positionReducer,
     degree: degreeReducer,
+    phoneNumber: phoneNumberReducer,
   },
 });
