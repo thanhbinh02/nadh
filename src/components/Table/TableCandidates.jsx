@@ -163,6 +163,15 @@ const TableCandidates = ({
           typeThree={3}
           keyPage="filterCDD"
           fetchData={fetchCandidates}
+          filterValueOptionOne={
+            filerCandidates?.location?.industries?.industry?.key || undefined
+          }
+          filterValueOptionTwo={
+            filerCandidates?.location?.industries?.sector?.key || undefined
+          }
+          filterValueOptionThree={
+            filerCandidates?.location?.industries?.category?.key || undefined
+          }
         />
       ),
       render: (text) => {

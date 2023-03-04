@@ -52,13 +52,13 @@ export const filterTagCandidates = (filterPage, dataLanguages) => {
 
   if (filterPage?.location?.industries) {
     if (filterPage?.location?.industries?.category) {
-      const result = `Industry:  ${filterPage?.location?.industries.industry} / ${filterPage.location.industries.sector} / ${filterPage.location.industries.category}`;
+      const result = `Industry:  ${filterPage?.location?.industries.industry.label} / ${filterPage.location.industries.sector.label} / ${filterPage.location.industries.category.label}`;
       listTag.push(result);
     } else if (filterPage?.location?.industries?.sector) {
-      const result = `Industry:  ${filterPage.location.industries.industry} / ${filterPage.location.industries.sector} `;
+      const result = `Industry:  ${filterPage.location.industries.industry.label} / ${filterPage.location.industries.sector.label} `;
       listTag.push(result);
     } else {
-      const result = `Industry:  ${filterPage.location.industries.industry} `;
+      const result = `Industry:  ${filterPage.location.industries.industry.label} `;
       listTag.push(result);
     }
   }

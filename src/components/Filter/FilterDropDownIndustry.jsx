@@ -1,5 +1,5 @@
 import { Form, Select } from 'antd';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Card, Button, Row, Col } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
@@ -16,6 +16,9 @@ const FilterDropDownIndustry = ({
   typeThree,
   fetchData,
   keyPage,
+  filterValueOptionOne,
+  filterValueOptionTwo,
+  filterValueOptionThree,
 }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -23,10 +26,31 @@ const FilterDropDownIndustry = ({
   const [listItemTwo, setListItemTwo] = useState(false);
   const [listItemThree, setListItemThree] = useState(false);
 
-  const filterItemInListData = (label, listData) => {
-    const result = listData.filter((item) => {
-      return item.label === label;
+  useEffect(() => {
+    console.log('123');
+    if (filterValueOptionOne !== undefined) {
+      dispatch(
+        fetchDataItemTwo({ type: typeTwo, parent_id: filterValueOptionOne }),
+      );
+      form.setFieldValue('country', filterValueOptionOne);
+      form.setFieldValue('city', filterValueOptionTwo);
+    }
+    if (filterValueOptionTwo !== undefined) {
+      dispatch(
+        fetchDataItemThree({
+          type: typeThree,
+          parent_id: filterValueOptionTwo,
+        }),
+      );
+      form.setFieldValue('category', filterValueOptionThree);
+    }
+  }, [filterValueOptionOne, filterValueOptionTwo, filterValueOptionThree]);
+
+  const filterItemInListData = (key, listData) => {
+    const result = listData.find((item) => {
+      return item.key === key;
     });
+    console.log('result');
     return result;
   };
 
@@ -40,12 +64,15 @@ const FilterDropDownIndustry = ({
   };
 
   const handleClearItemOne = () => {
-    setListItemTwo(false);
+    form.setFieldValue('country', undefined);
+
+    setListItemTwo(!listItemTwo);
+
     form.resetFields();
   };
 
   const handleClearItemTwo = () => {
-    setListItemThree(false);
+    setListItemThree(!listItemThree);
     form.setFieldValue('category', undefined);
   };
 
@@ -66,11 +93,10 @@ const FilterDropDownIndustry = ({
   const handleSearch = () => {
     if (form.getFieldValue('city') === undefined) {
       const industryId = {
-        industry_id: filterItemInListData(
-          form.getFieldValue('country'),
-          data,
-        )[0].key,
+        industry_id: filterItemInListData(form.getFieldValue('country'), data)
+          .key,
       };
+
       const industryType = { industry_type: 1 };
       const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
       const locationSaveLocal = dataSaveLocal.location;
@@ -81,7 +107,12 @@ const FilterDropDownIndustry = ({
         location: {
           ...locationSaveLocal,
           industries: {
-            industry: form.getFieldValue('country'),
+            industry: {
+              key: filterItemInListData(form.getFieldValue('country'), data)
+                .key,
+              label: filterItemInListData(form.getFieldValue('country'), data)
+                .label,
+            },
           },
         },
         page: 1,
@@ -93,10 +124,8 @@ const FilterDropDownIndustry = ({
 
     if (form.getFieldValue('category') === undefined) {
       const industryId = {
-        industry_id: filterItemInListData(
-          form.getFieldValue('city'),
-          optionTwo,
-        )[0].key,
+        industry_id: filterItemInListData(form.getFieldValue('city'), optionTwo)
+          .key,
       };
       const industryType = { industry_type: 2 };
 
@@ -109,8 +138,18 @@ const FilterDropDownIndustry = ({
         location: {
           ...locationSaveLocal,
           industries: {
-            industry: form.getFieldValue('country'),
-            sector: form.getFieldValue('city'),
+            industry: {
+              key: filterItemInListData(form.getFieldValue('country'), data)
+                .key,
+              label: filterItemInListData(form.getFieldValue('country'), data)
+                .label,
+            },
+            sector: {
+              key: filterItemInListData(form.getFieldValue('city'), optionTwo)
+                .key,
+              label: filterItemInListData(form.getFieldValue('city'), optionTwo)
+                .label,
+            },
           },
         },
         page: 1,
@@ -125,8 +164,9 @@ const FilterDropDownIndustry = ({
         industry_id: filterItemInListData(
           form.getFieldValue('category'),
           optionThree,
-        )[0].key,
+        ).key,
       };
+
       const industryType = { industry_type: 3 };
 
       const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
@@ -138,9 +178,28 @@ const FilterDropDownIndustry = ({
         location: {
           ...locationSaveLocal,
           industries: {
-            industry: form.getFieldValue('country'),
-            sector: form.getFieldValue('city'),
-            category: form.getFieldValue('category'),
+            industry: {
+              key: filterItemInListData(form.getFieldValue('country'), data)
+                .key,
+              label: filterItemInListData(form.getFieldValue('country'), data)
+                .label,
+            },
+            sector: {
+              key: filterItemInListData(form.getFieldValue('city'), optionTwo)
+                .key,
+              label: filterItemInListData(form.getFieldValue('city'), optionTwo)
+                .label,
+            },
+            category: {
+              key: filterItemInListData(
+                form.getFieldValue('category'),
+                optionThree,
+              ).key,
+              label: filterItemInListData(
+                form.getFieldValue('category'),
+                optionThree,
+              ).label,
+            },
           },
         },
         page: 1,
@@ -192,14 +251,15 @@ const FilterDropDownIndustry = ({
               <Select
                 onClear={handleClearItemOne}
                 allowClear
-                placeholder="Select country"
+                placeholder="Select industry"
                 showSearch
                 onChange={(value, option) => {
                   handleItemOneChange(value, option);
                 }}
+                optionFilterProp="children"
               >
                 {data.map((item) => (
-                  <Option value={item.label} key={item.key}>
+                  <Option value={item.key} key={item.key} label={item.label}>
                     {item.label}
                   </Option>
                 ))}
@@ -210,19 +270,16 @@ const FilterDropDownIndustry = ({
                 onClear={handleClearItemTwo}
                 disabled={!form.getFieldValue('country')}
                 showSearch
-                placeholder="Select city"
+                placeholder="Select sector"
                 allowClear
                 onChange={(value, option) => {
                   handleItemTwoChange(value, option);
                 }}
+                optionFilterProp="children"
               >
                 {optionTwo &&
                   optionTwo?.map((item) => (
-                    <Option
-                      value={item.label}
-                      key={item.key}
-                      compare={item.key}
-                    >
+                    <Option value={item.key} key={item.key} label={item.label}>
                       {item.label}
                     </Option>
                   ))}
@@ -234,17 +291,11 @@ const FilterDropDownIndustry = ({
                 showSearch
                 placeholder="Select category"
                 allowClear
-                // onChange={(value, option) => {
-                //   handleItemTwoChange(value, option);
-                // }}
+                optionFilterProp="children"
               >
                 {optionThree &&
                   optionThree?.map((item) => (
-                    <Option
-                      value={item.label}
-                      key={item.key}
-                      compare={item.key}
-                    >
+                    <Option value={item.key} key={item.key} label={item.label}>
                       {item.label}
                     </Option>
                   ))}

@@ -23,12 +23,12 @@ const FilterDropDownCountryCity = ({ data, country, city }) => {
   const handleCountryChange = (value, option) => {
     if (option) {
       dispatch(fetchCities({ type: 1, parent_id: Number(option.key) }));
-      setListCity(true);
+      setListCity(!listCity);
     }
   };
 
   const handleClearCountry = () => {
-    setListCity(false);
+    setListCity(!listCity);
   };
 
   const handleReset = () => {
