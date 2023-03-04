@@ -3,6 +3,7 @@ import { Card, Button, Row, Col, InputNumber, Form } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
+import { FilterResetSearch } from './FilterResetSearch';
 
 function filterArray(abc, title) {
   const filteredObj = {};
@@ -226,27 +227,10 @@ export const FilterTimeRange = ({
           </Col>
           <Col span={10}>
             <Row gutter={[8, 8]}>
-              <Col span={12}>
-                <Button
-                  type="primary"
-                  size="small"
-                  style={{ width: '100%', borderRadius: '0px' }}
-                  icon={<SearchOutlined />}
-                  disabled={checkSearch}
-                  onClick={handleSearch}
-                >
-                  Search
-                </Button>
-              </Col>
-              <Col span={12}>
-                <Button
-                  size="small"
-                  style={{ width: '100%', borderRadius: '0px' }}
-                  onClick={handleSearch}
-                >
-                  Reset
-                </Button>
-              </Col>
+              <FilterResetSearch
+                disabled={checkSearch}
+                onClick={handleSearch}
+              />
             </Row>
           </Col>
         </Row>

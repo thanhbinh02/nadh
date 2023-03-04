@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Card, Button, Row, Col } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
+import { refreshCandidates } from '../../store/candidatesSlice';
 
 const { Option } = Select;
 const FilterDropDownIndustry = ({
@@ -65,9 +66,7 @@ const FilterDropDownIndustry = ({
 
   const handleClearItemOne = () => {
     form.setFieldValue('country', undefined);
-
     setListItemTwo(!listItemTwo);
-
     form.resetFields();
   };
 
@@ -87,6 +86,13 @@ const FilterDropDownIndustry = ({
   };
 
   const handleReset = () => {
+    dispatch(refreshCandidates());
+    dispatch(
+      getTagsCandidates({
+        page: 1,
+        perPage: 10,
+      }),
+    );
     handleClearItemOne();
   };
 
@@ -239,6 +245,7 @@ const FilterDropDownIndustry = ({
             Search
           </Button>
         </Col>
+
         <Col span={24}>
           <Form
             wrapperCol={{

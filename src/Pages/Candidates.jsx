@@ -14,6 +14,7 @@ import { fetchListCustoms } from '../store/customColumnSlice';
 import { getTagsCandidates } from '../store/tagsCandidatesSlice';
 import { Row, Col, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { refreshCandidates } from '../store/candidatesSlice';
 
 export const Candidates = () => {
   const dispatch = useDispatch();
@@ -65,6 +66,15 @@ export const Candidates = () => {
                 type="primary"
                 ghost
                 style={{ display: 'flex', alignItems: 'center' }}
+                onClick={() => {
+                  dispatch(refreshCandidates());
+                  dispatch(
+                    getTagsCandidates({
+                      page: 1,
+                      perPage: 10,
+                    }),
+                  );
+                }}
               >
                 Clear All Filters
               </Button>

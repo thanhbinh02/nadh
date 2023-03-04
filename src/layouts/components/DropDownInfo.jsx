@@ -28,7 +28,9 @@ export const DropDownInfo = () => {
         <span
           aria-hidden="true"
           role="presentation"
-          onClick={() => setOpenModal(true)}
+          onClick={() => {
+            setOpenModal(true);
+          }}
         >
           Log Out
         </span>

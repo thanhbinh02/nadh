@@ -8,8 +8,18 @@ export const fetchCandidates = createAsyncThunk(
       params: {
         page: 1,
         perPage: 10,
-        // language: `830, 832`,
         ...params,
+      },
+    }),
+);
+
+export const refreshCandidates = createAsyncThunk(
+  'category/refreshCandidates',
+  async () =>
+    await getCandidates({
+      params: {
+        page: 1,
+        perPage: 10,
       },
     }),
 );
@@ -34,6 +44,19 @@ export const candidatesSlice = createSlice({
       state.isSuccess = true;
     },
     [fetchCandidates.rejected]: (state) => {
+      state.loading = false;
+      state.isSuccess = false;
+    },
+    [refreshCandidates.pending]: (state) => {
+      state.loading = true;
+    },
+    [refreshCandidates.fulfilled]: (state, { payload }) => {
+      state.data = payload.data;
+      state.count = payload.count;
+      state.loading = false;
+      state.isSuccess = true;
+    },
+    [refreshCandidates.rejected]: (state) => {
       state.loading = false;
       state.isSuccess = false;
     },

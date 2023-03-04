@@ -6,6 +6,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import { fetchCities } from '../../store/locationsSlice';
 import { fetchCandidates } from '../../store/candidatesSlice';
 import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
+import { refreshCandidates } from '../../store/candidatesSlice';
 
 const { Option } = Select;
 const FilterDropDownCountryCity = ({ data, country, city }) => {
@@ -34,6 +35,13 @@ const FilterDropDownCountryCity = ({ data, country, city }) => {
   const handleReset = () => {
     form.resetFields();
     handleClearCountry();
+    dispatch(refreshCandidates());
+    dispatch(
+      getTagsCandidates({
+        page: 1,
+        perPage: 10,
+      }),
+    );
   };
 
   const newData = (last_data) =>

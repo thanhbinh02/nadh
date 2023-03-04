@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Card, Button, Row, Col, Input, Form } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import React, { useEffect } from 'react';
+import { Card, Row, Col, Input, Form } from 'antd';
 import { useDispatch } from 'react-redux';
 import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
+import { FilterResetSearch } from './FilterResetSearch';
 
 export const FilterDropDownText = ({
   placeholder,
@@ -35,22 +35,7 @@ export const FilterDropDownText = ({
     >
       <Form autoComplete="off" form={form}>
         <Row gutter={[8, 8]}>
-          <Col span={12}>
-            <Button size="small" style={{ width: '100%', borderRadius: '0px' }}>
-              Reset
-            </Button>
-          </Col>
-          <Form.Item>
-            <Button
-              type="primary"
-              size="small"
-              style={{ width: '100%', borderRadius: '0px' }}
-              icon={<SearchOutlined />}
-              onClick={handleSearch}
-            >
-              Search
-            </Button>
-          </Form.Item>
+          <FilterResetSearch onClick={handleSearch} />
           <Col span={24}>
             <Form.Item name={param}>
               <Input

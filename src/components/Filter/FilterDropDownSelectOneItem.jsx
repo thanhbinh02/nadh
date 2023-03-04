@@ -1,9 +1,9 @@
 import React from 'react';
-import { Card, Button, Row, Col, Select, Form } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import { Card, Row, Col, Select, Form } from 'antd';
 import { useDispatch } from 'react-redux';
 import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 import { useEffect } from 'react';
+import { FilterResetSearch } from './FilterResetSearch';
 
 const convertStringToArray = (string) => {
   let arr = string?.split(',').map(function (item) {
@@ -33,7 +33,7 @@ export const FilterDropDownSelectOneItem = ({
     }
   }, [filterValue]);
 
-  const onFinish = () => {
+  const handleSearch = () => {
     const data = { name: param, data: form.getFieldValue(`${param}`) };
     if (mode !== 'multiple' || data.data === undefined) {
       const result = { [data.name]: data.data };
@@ -57,26 +57,9 @@ export const FilterDropDownSelectOneItem = ({
         width: 200,
       }}
     >
-      <Form form={form} onFinish={onFinish}>
+      <Form form={form}>
         <Row gutter={[8, 8]}>
-          <Col span={12}>
-            <Button size="small" style={{ width: '100%', borderRadius: '0px' }}>
-              Reset
-            </Button>
-          </Col>
-          <Col span={12}>
-            <Form.Item>
-              <Button
-                type="primary"
-                size="small"
-                style={{ width: '100%', borderRadius: '0px' }}
-                icon={<SearchOutlined />}
-                htmlType="submit"
-              >
-                Search
-              </Button>
-            </Form.Item>
-          </Col>
+          <FilterResetSearch onClick={handleSearch} />
           <Col span={24}>
             <Form.Item name={param}>
               <Select
