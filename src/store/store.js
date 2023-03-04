@@ -8,6 +8,9 @@ import highestDegreeReducer from './highestDegreeSlice';
 import customColumnReducer from './customColumnSlice';
 import paramsCandidatesReducer from './paramsCandidatesSlice';
 import tagsCandidatesReducer from './tagsCandidatesSlice';
+import nationalityReducer from './nationalitySlice';
+import positionReducer from './positionSlice';
+import degreeReducer from './degreeSlice';
 
 export const store = configureStore({
   reducer: {
@@ -20,5 +23,8 @@ export const store = configureStore({
     customColumn: customColumnReducer,
     paramsCandidates: paramsCandidatesReducer,
     tagsCandidates: tagsCandidatesReducer,
+    nationality: nationalityReducer,
+    position: positionReducer,
+    degree: degreeReducer,
   },
 });

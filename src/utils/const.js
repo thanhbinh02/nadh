@@ -237,4 +237,44 @@ export const MONTHS = [
   },
 ];
 
-export const YEARS = Array.from({ length: 31 }, (_, i) => i + 1);
+export const GENDERS = [
+  {
+    key: 1,
+    label: 'Male',
+  },
+  {
+    key: 2,
+    label: 'Female',
+  },
+  {
+    key: 3,
+    label: 'Complicated',
+  },
+];
+
+export const MARITAL_STATUS = [
+  {
+    key: 1,
+    label: 'Yes',
+  },
+  {
+    key: -1,
+    label: 'No',
+  },
+];
+
+// relocating_willingness
+export const READY_TO_MOVE = [
+  {
+    key: 1,
+    label: 'Yes',
+  },
+  {
+    key: -1,
+    label: 'No',
+  },
+  {
+    key: 2,
+    label: 'Available',
+  },
+];

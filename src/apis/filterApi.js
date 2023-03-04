@@ -35,3 +35,18 @@ export const updateListCustomColumns = async (params) => {
   const url = `/api/user_pages`;
   return await axiosClient.put(url, params);
 };
+
+export const getNationality = async (params) => {
+  const url = '/api/property_values';
+  return await axiosClient.get(url, params);
+};
+
+export const getPosition = async (params) => {
+  const url = '/api/property_values';
+  return await axiosClient.get(url, params);
+};
+
+export const getDegree = async (params) => {
+  const url = '/api/property_values';
+  return await axiosClient.get(url, params);
+};
