@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Button, Row, Col, Input, Form } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
@@ -9,10 +9,10 @@ export const FilterDropDownText = ({
   param,
   fetchData,
   keyPage,
+  filterValue,
 }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-
   const handleSearch = () => {
     const data = { name: param, data: form.getFieldValue(`${param}`) };
     const result = { [data.name]: data.data };
@@ -21,6 +21,10 @@ export const FilterDropDownText = ({
     dispatch(fetchData(newData));
     dispatch(getTagsCandidates(newData));
   };
+
+  useEffect(() => {
+    form.setFieldValue(`${param}`, filterValue);
+  }, []);
 
   return (
     <Card

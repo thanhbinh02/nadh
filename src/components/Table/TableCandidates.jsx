@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { fetchCandidates } from '../../store/candidatesSlice';
 import TagFilter from '../TagFilter';
 import { filterTagCandidates } from '../../utils/filterTagCandidates';
+import { useSelector } from 'react-redux';
 
 const TableCandidates = ({
   data,
@@ -23,11 +24,12 @@ const TableCandidates = ({
   industries,
   sectors,
   categories,
-  listCustomCandidates,
   totalItem,
   listTagFilter,
+  filerCandidates,
 }) => {
   const dispatch = useDispatch();
+  const listCustomCandidates = useSelector((state) => state.customColumn.data);
 
   const columns = [
     {
@@ -40,6 +42,7 @@ const TableCandidates = ({
           param="candidate_id"
           fetchData={fetchCandidates}
           keyPage="filterCDD"
+          filterValue={filerCandidates?.candidate_id || undefined}
         />
       ),
       render: (text) => <Link>{text}</Link>,
@@ -54,6 +57,7 @@ const TableCandidates = ({
           param="full_name"
           fetchData={fetchCandidates}
           keyPage="filterCDD"
+          filterValue={filerCandidates?.full_name || undefined}
         />
       ),
       render: (text) => <Link>{text}</Link>,
@@ -69,6 +73,7 @@ const TableCandidates = ({
           param="priority_status"
           fetchData={fetchCandidates}
           keyPage="filterCDD"
+          filterValue={filerCandidates?.priority_status || undefined}
         />
       ),
       render: (text) => {
@@ -106,6 +111,7 @@ const TableCandidates = ({
           param="language"
           fetchData={fetchCandidates}
           keyPage="filterCDD"
+          filterValue={filerCandidates?.language || undefined}
         />
       ),
       render: (_, record) => {
@@ -170,6 +176,8 @@ const TableCandidates = ({
           paramFrom="yob_from"
           paramTo="yob_to"
           keyPage="filterCDD"
+          filterValueFrom={filerCandidates?.yob_from || undefined}
+          filterValueTo={filerCandidates?.yob_to || undefined}
         />
       ),
       render: (text) => {
@@ -191,6 +199,7 @@ const TableCandidates = ({
           param="flow_status"
           fetchData={fetchCandidates}
           keyPage="filterCDD"
+          filterValue={filerCandidates?.flow_status || undefined}
         />
       ),
       render: (text) => {
@@ -216,6 +225,7 @@ const TableCandidates = ({
           param="current_company_text"
           fetchData={fetchCandidates}
           keyPage="filterCDD"
+          filterValue={filerCandidates?.current_company_text || undefined}
         />
       ),
       render: (text) => {
@@ -234,6 +244,7 @@ const TableCandidates = ({
           param="current_position_text"
           fetchData={fetchCandidates}
           keyPage="filterCDD"
+          filterValue={filerCandidates?.current_position_text || undefined}
         />
       ),
       render: (text) => {
@@ -252,6 +263,8 @@ const TableCandidates = ({
           paramFrom="industry_years_from"
           paramTo="industry_years_to"
           keyPage="filterCDD"
+          filterValueFrom={filerCandidates?.industry_years_from || undefined}
+          filterValueTo={filerCandidates?.industry_years_to || undefined}
         />
       ),
     },
@@ -265,6 +278,8 @@ const TableCandidates = ({
           paramFrom="management_years_from"
           paramTo="management_years_to"
           keyPage="filterCDD"
+          filterValueFrom={filerCandidates?.management_years_from || undefined}
+          filterValueTo={filerCandidates?.management_years_from || undefined}
         />
       ),
     },
@@ -304,34 +319,30 @@ const TableCandidates = ({
 
   return (
     <>
-      <TagFilter tags={filterTagCandidates(listTagFilter, languages)} />
       <div
         style={{
-          marginLeft: '30px',
-          marginRight: '30px',
-          padding: '10px 24px',
+          marginLeft: '54px',
+          marginRight: '54px',
         }}
       >
         {listCustomCandidates && (
-          <Table
-            columns={newColumns}
-            dataSource={newData}
-            title={() => 'Header'}
-            scroll={{ x: '100vw' }}
-            pagination={{
-              pageSize: 10,
-              total: totalItem,
-              showSizeChanger: false,
-              showQuickJumper: true,
-              onChange: (page, pageSize) => {
-                const filerCandidates = JSON.parse(
-                  window.localStorage.getItem('filterCDD'),
-                );
-
-                dispatch(fetchCandidates({ page: page }));
-              },
-            }}
-          />
+          <>
+            <TagFilter tags={filterTagCandidates(listTagFilter, languages)} />
+            <Table
+              columns={newColumns}
+              dataSource={newData}
+              scroll={{ x: '100vw' }}
+              pagination={{
+                pageSize: 10,
+                total: totalItem,
+                showSizeChanger: false,
+                showQuickJumper: true,
+                onChange: (page, pageSize) => {
+                  dispatch(fetchCandidates({ page: page }));
+                },
+              }}
+            />
+          </>
         )}
       </div>
     </>

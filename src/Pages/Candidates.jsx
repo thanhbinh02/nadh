@@ -11,14 +11,13 @@ import { fetchHighestDegree } from '../store/highestDegreeSlice';
 
 import { CustomColumns } from '../components/CustomColumns';
 import { fetchListCustoms } from '../store/customColumnSlice';
-import TagFilter from '../components/TagFilter';
-import { filterTagCandidates } from '../utils/filterTagCandidates';
 import { getTagsCandidates } from '../store/tagsCandidatesSlice';
+import { Row, Col, Button } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 
 export const Candidates = () => {
   const dispatch = useDispatch();
   const countries = useSelector((state) => state.locations.countries);
-  const cities = useSelector((state) => state.locations.cities);
   const industries = useSelector((state) => state.categories.industries);
   const sectors = useSelector((state) => state.categories.sectors);
   const categories = useSelector((state) => state.categories.categories);
@@ -42,9 +41,64 @@ export const Candidates = () => {
 
   return (
     <div>
-      <h1>Candidates</h1>
-
-      <CustomColumns namePage="candidates" listCustom={listCustomCandidates} />
+      <Row
+        style={{
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginTop: '20px',
+        }}
+      >
+        <Col
+          style={{
+            marginLeft: '54px',
+            color: '#465f7b',
+            fontSize: '20px',
+            fontWeight: '600',
+          }}
+        >
+          Candidates List ({totalItem})
+        </Col>
+        <Col style={{ marginRight: '73px' }}>
+          <Row>
+            <Col span={12}>
+              <Button
+                type="primary"
+                ghost
+                style={{ display: 'flex', alignItems: 'center' }}
+              >
+                Clear All Filters
+              </Button>
+            </Col>
+            <Col span={12}>
+              <Button
+                type="primary"
+                color="red"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  backgroundColor: '#1890ff',
+                }}
+              >
+                <PlusOutlined />
+                Create Candidate
+              </Button>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+      <Row
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          marginRight: '54px',
+          marginTop: '10px',
+        }}
+      >
+        <CustomColumns
+          namePage="candidates"
+          listCustom={listCustomCandidates}
+        />
+      </Row>
       <TableCandidates
         totalItem={totalItem ? totalItem : null}
         data={candidates ? candidates : null}
@@ -57,6 +111,7 @@ export const Candidates = () => {
           listCustomCandidates ? listCustomCandidates : null
         }
         listTagFilter={listTagFilter}
+        filerCandidates={filerCandidates}
       />
     </div>
   );

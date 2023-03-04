@@ -3,6 +3,14 @@ import { Card, Button, Row, Col, Select, Form } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
+import { useEffect } from 'react';
+
+const convertStringToArray = (string) => {
+  let arr = string?.split(',').map(function (item) {
+    return parseInt(item, 10);
+  });
+  return arr;
+};
 
 export const FilterDropDownSelectOneItem = ({
   placeholder,
@@ -11,11 +19,19 @@ export const FilterDropDownSelectOneItem = ({
   param,
   fetchData,
   keyPage,
-  languages,
+  filterValue,
 }) => {
   const { Option } = Select;
   const dispatch = useDispatch();
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (mode) {
+      form.setFieldValue(`${param}`, convertStringToArray(filterValue));
+    } else {
+      form.setFieldValue(`${param}`, Number(filterValue));
+    }
+  }, []);
 
   const onFinish = () => {
     const data = { name: param, data: form.getFieldValue(`${param}`) };
@@ -62,27 +78,6 @@ export const FilterDropDownSelectOneItem = ({
             </Form.Item>
           </Col>
           <Col span={24}>
-            {/* <Form.Item name={param}>
-              <Select
-                mode={mode}
-                allowClear
-                style={{ width: '100%', borderRadius: '0px' }}
-                placeholder={placeholder}
-                optionFilterProp="children"
-              >
-                {options.map((option) => {
-                  return (
-                    <Option
-                      key={option.key}
-                      value={option.id}
-                      label={option.label}
-                    >
-                      {option.label}
-                    </Option>
-                  );
-                })}
-              </Select>
-            </Form.Item> */}
             <Form.Item name={param}>
               <Select
                 mode={mode}
@@ -95,7 +90,7 @@ export const FilterDropDownSelectOneItem = ({
                   return (
                     <Option
                       key={option.key}
-                      value={option.id}
+                      value={option.key}
                       label={option.label}
                     >
                       {option.label}

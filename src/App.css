@@ -98,3 +98,13 @@ span.ant-table-column-title {
 :where(.css-dev-only-do-not-override-1km3mtt).ant-form-item {
   margin-bottom: 0px;
 }
+
+/* :where(
+    .css-dev-only-do-not-override-1km3mtt
+  ).ant-btn-primary.ant-btn-background-ghost {
+  border-radius: none;
+} */
+
+:where(.css-dev-only-do-not-override-1km3mtt).ant-btn {
+  border-radius: 0px;
+}

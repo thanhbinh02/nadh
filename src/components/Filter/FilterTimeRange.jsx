@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Button, Row, Col, InputNumber, Form } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
@@ -14,14 +14,21 @@ function filterArray(abc, title) {
   return filteredObj;
 }
 
-export const FilterTimeRange = ({ paramFrom, paramTo, fetchData, keyPage }) => {
+export const FilterTimeRange = ({
+  paramFrom,
+  paramTo,
+  fetchData,
+  keyPage,
+  filterValueFrom,
+  filterValueTo,
+}) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [checkSearch, setCheckSearch] = useState(false);
   const [checkParseValueFrom, setCheckParseValueFrom] = useState(false);
-  const [valueFrom, setValueFrom] = useState();
+  const [valueFrom, setValueFrom] = useState(filterValueFrom);
   const [checkParseValueTo, setCheckParseValueTo] = useState(false);
-  const [valueTo, setValueTo] = useState();
+  const [valueTo, setValueTo] = useState(filterValueTo);
   const [checkValidateFrom, setCheckValidateFrom] = useState(false);
   const [checkValidateTo, setCheckValidateTo] = useState(false);
 
