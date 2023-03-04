@@ -1,8 +1,8 @@
-import React from 'react';
-import { Card, Row, Col, Select, Form } from 'antd';
 import { useDispatch } from 'react-redux';
-import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 import { useEffect } from 'react';
+import { Card, Row, Col, Select, Form } from 'antd';
+
+import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 import { FilterResetSearch } from './FilterResetSearch';
 
 const convertStringToArray = (string) => {

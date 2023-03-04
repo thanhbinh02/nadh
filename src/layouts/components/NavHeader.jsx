@@ -10,7 +10,7 @@ export const NavHeader = () => {
     <div style={{ marginLeft: '15px' }}>
       <Menu mode="horizontal">
         <Menu.Item key={0} icon={<RiFileUserLine />}>
-          <Link to="/">Candidates</Link>
+          <Link to="/candidates">Candidates</Link>
         </Menu.Item>
         <Menu.Item key={1} icon={<FaUsers />}>
           <Link to="/"> Clients</Link>

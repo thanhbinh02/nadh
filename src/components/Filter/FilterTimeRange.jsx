@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Button, Row, Col, InputNumber, Form } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import { useState, useEffect } from 'react';
+import { Card, Row, Col, InputNumber, Form } from 'antd';
 import { useDispatch } from 'react-redux';
 import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 import { FilterResetSearch } from './FilterResetSearch';

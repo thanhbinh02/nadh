@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
-import { Card, Row, Col, Input, Form } from 'antd';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { Card, Row, Col, Input, Form } from 'antd';
+
 import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 import { FilterResetSearch } from './FilterResetSearch';
 

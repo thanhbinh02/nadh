@@ -1,8 +1,8 @@
-import { Form, Select } from 'antd';
+import { Form, Select, Card, Button, Row, Col } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, Button, Row, Col } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+
 import { fetchCities } from '../../store/locationsSlice';
 import { fetchCandidates } from '../../store/candidatesSlice';
 import { getTagsCandidates } from '../../store/tagsCandidatesSlice';

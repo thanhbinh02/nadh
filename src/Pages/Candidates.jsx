@@ -1,19 +1,19 @@
-import React from 'react';
-
-import { fetchCountries } from '../store/locationsSlice';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchIndustries } from '../store/categoriesSlice';
-import { fetchCandidates } from '../store/candidatesSlice';
-import TableCandidates from '../components/Table/TableCandidates';
-import { fetchLanguages } from '../store/languagesSlice';
-import { fetchHighestDegree } from '../store/highestDegreeSlice';
+import { Link } from 'react-router-dom';
 
-import { CustomColumns } from '../components/CustomColumns';
-import { fetchListCustoms } from '../store/customColumnSlice';
-import { getTagsCandidates } from '../store/tagsCandidatesSlice';
 import { Row, Col, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { CustomColumns } from '../components/CustomColumns';
+import TableCandidates from '../components/Table/TableCandidates';
+
+import { fetchCountries } from '../store/locationsSlice';
+import { fetchIndustries } from '../store/categoriesSlice';
+import { fetchCandidates } from '../store/candidatesSlice';
+import { fetchLanguages } from '../store/languagesSlice';
+import { fetchHighestDegree } from '../store/highestDegreeSlice';
+import { fetchListCustoms } from '../store/customColumnSlice';
+import { getTagsCandidates } from '../store/tagsCandidatesSlice';
 import { refreshCandidates } from '../store/candidatesSlice';
 
 export const Candidates = () => {
@@ -80,18 +80,20 @@ export const Candidates = () => {
               </Button>
             </Col>
             <Col span={12}>
-              <Button
-                type="primary"
-                color="red"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  backgroundColor: '#1890ff',
-                }}
-              >
-                <PlusOutlined />
-                Create Candidate
-              </Button>
+              <Link to="/candidate-add">
+                <Button
+                  type="primary"
+                  color="red"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    backgroundColor: '#1890ff',
+                  }}
+                >
+                  <PlusOutlined />
+                  Create Candidate
+                </Button>
+              </Link>
             </Col>
           </Row>
         </Col>

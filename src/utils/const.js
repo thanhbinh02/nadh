@@ -151,3 +151,90 @@ export const TAG_CANDIDATES = [
     tag: 'Year of management',
   },
 ];
+
+export const DATES = [
+  { key: '01' },
+  { key: '02' },
+  { key: '03' },
+  { key: '04' },
+  { key: '05' },
+  { key: '06' },
+  { key: '07' },
+  { key: '08' },
+  { key: '09' },
+  { key: '10' },
+  { key: '11' },
+  { key: '12' },
+  { key: '13' },
+  { key: '14' },
+  { key: '15' },
+  { key: '16' },
+  { key: '17' },
+  { key: '18' },
+  { key: '19' },
+  { key: '20' },
+  { key: '21' },
+  { key: '22' },
+  { key: '23' },
+  { key: '24' },
+  { key: '25' },
+  { key: '26' },
+  { key: '27' },
+  { key: '28' },
+  { key: '29' },
+  { key: '30' },
+  { key: '31' },
+];
+
+export const MONTHS = [
+  {
+    key: 1,
+    label: 'Jan',
+  },
+  {
+    key: 2,
+    label: 'Feb',
+  },
+  {
+    key: 3,
+    label: 'Mar',
+  },
+  {
+    key: 4,
+    label: 'Apr',
+  },
+  {
+    key: 5,
+    label: 'May',
+  },
+  {
+    key: 6,
+    label: 'Jun',
+  },
+  {
+    key: 7,
+    label: 'Jul',
+  },
+  {
+    key: 8,
+    label: 'Aug',
+  },
+  {
+    key: 9,
+    label: 'Sep',
+  },
+  {
+    key: 10,
+    label: 'Oct',
+  },
+  {
+    key: 11,
+    label: 'Nov',
+  },
+  {
+    key: 12,
+    label: 'Dec',
+  },
+];
+
+export const YEARS = Array.from({ length: 31 }, (_, i) => i + 1);
