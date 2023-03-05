@@ -10,17 +10,18 @@ import {
 } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { fetchNationality } from '../../store/nationalitySlice';
-import { fetchPosition } from '../../store/positionSlice';
-import { fetchDegree } from '../../store/degreeSlice';
-import FormListEmail from './FormListEmail';
-import { PlusOutlined } from '@ant-design/icons';
-import { fetchPhoneNumber } from '../../store/phoneNumberSlice';
 
-import FormListPhoneNumber from './FormListPhoneNumber';
-import { FormSelectItem } from './FormSelectItem';
-import { fetchCountries } from '../../store/locationsSlice';
-import FormListAddress from './FormListAddress';
+import { fetchNationality } from '../../../store/nationalitySlice';
+import { fetchPosition } from '../../../store/positionSlice';
+import { fetchDegree } from '../../../store/degreeSlice';
+import FormListEmail from '../../../components/Form/FormListEmail';
+import { PlusOutlined } from '@ant-design/icons';
+import { fetchPhoneNumber } from '../../../store/phoneNumberSlice';
+
+import FormListPhoneNumber from '../../../components/Form/FormListPhoneNumber';
+import { FormSelectItem } from '../../../components/Form/FormSelectItem';
+import { fetchCountries } from '../../../store/locationsSlice';
+import FormListAddress from '../../../components/Form/FormListAddress';
 
 import {
   priority_status,
@@ -29,7 +30,7 @@ import {
   GENDERS,
   MARITAL_STATUS,
   READY_TO_MOVE,
-} from '../../utils/const';
+} from '../../../utils/const';
 
 const FormPersonalInformation = () => {
   const [form] = Form.useForm();
@@ -249,86 +250,6 @@ const FormPersonalInformation = () => {
 
       <Row gutter={(12, 12)}>
         <Col span={24}>
-          <FormSelectItem
-            options={nationality}
-            name="nationality"
-            label="Nationality"
-          />
-        </Col>
-      </Row>
-
-      <Row gutter={(12, 12)}>
-        <Col span={24}>
-          <Form.Item name="positions" label="Position Applied">
-            <Select
-              mode="multiple"
-              allowClear
-              style={{ width: '100%', borderRadius: '0px' }}
-              optionFilterProp="children"
-            >
-              {position.map((option) => {
-                return (
-                  <Option
-                    key={option.key}
-                    value={option.key}
-                    label={option.label}
-                  >
-                    {option.label}
-                  </Option>
-                );
-              })}
-            </Select>
-          </Form.Item>
-        </Col>
-      </Row>
-
-      <Row gutter={(12, 12)}>
-        <Col span={24}>
-          <Form.Item name="highest_education" label="Highest Education">
-            <Select
-              allowClear
-              style={{ width: '100%', borderRadius: '0px' }}
-              optionFilterProp="children"
-            >
-              {degree.map((option) => {
-                return (
-                  <Option
-                    key={option.key}
-                    value={option.key}
-                    label={option.label}
-                  >
-                    {option.label}
-                  </Option>
-                );
-              })}
-            </Select>
-          </Form.Item>
-        </Col>
-      </Row>
-
-      <Row gutter={(12, 12)}>
-        <Col span={12}>
-          <Form.Item label="Industry Year of Services" name="industry_years">
-            <InputNumber min="0" defaultValue="0" />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item label="Year of Management" name="management_years">
-            <InputNumber min="0" defaultValue="0" />
-          </Form.Item>
-        </Col>
-      </Row>
-
-      <Row gutter={(12, 12)}>
-        <Col span={12}>
-          <Form.Item label="No. of Direct Reports" name="direct_reports">
-            <InputNumber min="0" defaultValue="0" />
-          </Form.Item>
-        </Col>
-      </Row>
-
-      <Row gutter={(12, 12)}>
-        <Col span={24}>
           <Form.Item label="Email">
             <Form.List name="emails" initialValue={[{}]}>
               {(fields, { add, remove }) => {
@@ -442,6 +363,87 @@ const FormPersonalInformation = () => {
       </Form.Item>
 
       <Row gutter={(12, 12)}>
+        <Col span={24}>
+          <FormSelectItem
+            options={nationality}
+            name="nationality"
+            label="Nationality"
+            mode="multiple"
+          />
+        </Col>
+      </Row>
+
+      <Row gutter={(12, 12)}>
+        <Col span={24}>
+          <Form.Item name="positions" label="Position Applied">
+            <Select
+              mode="multiple"
+              allowClear
+              style={{ width: '100%', borderRadius: '0px' }}
+              optionFilterProp="children"
+            >
+              {position.map((option) => {
+                return (
+                  <Option
+                    key={option.key}
+                    value={option.key}
+                    label={option.label}
+                  >
+                    {option.label}
+                  </Option>
+                );
+              })}
+            </Select>
+          </Form.Item>
+        </Col>
+      </Row>
+
+      <Row gutter={(12, 12)}>
+        <Col span={24}>
+          <Form.Item name="highest_education" label="Highest Education">
+            <Select
+              allowClear
+              style={{ width: '100%', borderRadius: '0px' }}
+              optionFilterProp="children"
+            >
+              {degree.map((option) => {
+                return (
+                  <Option
+                    key={option.key}
+                    value={option.key}
+                    label={option.label}
+                  >
+                    {option.label}
+                  </Option>
+                );
+              })}
+            </Select>
+          </Form.Item>
+        </Col>
+      </Row>
+
+      <Row gutter={(12, 12)}>
+        <Col span={12}>
+          <Form.Item label="Industry Year of Services" name="industry_years">
+            <InputNumber min="0" defaultValue="0" />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item label="Year of Management" name="management_years">
+            <InputNumber min="0" defaultValue="0" />
+          </Form.Item>
+        </Col>
+      </Row>
+
+      <Row gutter={(12, 12)}>
+        <Col span={12}>
+          <Form.Item label="No. of Direct Reports" name="direct_reports">
+            <InputNumber min="0" defaultValue="0" />
+          </Form.Item>
+        </Col>
+      </Row>
+
+      <Row gutter={(12, 12)}>
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Submit
@@ -452,3 +454,40 @@ const FormPersonalInformation = () => {
   );
 };
 export default FormPersonalInformation;
+
+const array = [
+  {
+    label: 'item1',
+    children: [
+      {
+        key: 1,
+        label: '1',
+      },
+      {
+        key: 2,
+        label: '2',
+      },
+      {
+        key: 3,
+        label: '3',
+      },
+    ],
+  },
+  {
+    label: 'item2',
+    children: [
+      {
+        key: 4,
+        label: '4',
+      },
+      {
+        key: 5,
+        label: '5',
+      },
+      {
+        key: 6,
+        label: '6',
+      },
+    ],
+  },
+];

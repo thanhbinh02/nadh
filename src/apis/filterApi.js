@@ -51,6 +51,17 @@ export const getDegree = async (params) => {
   return await axiosClient.get(url, params);
 };
 
+export const getSoftSkills = async (params) => {
+  const url = '/api/property_values';
+  return await axiosClient.get(url, params);
+};
+
+export const getJobFunctionsSkills = async () => {
+  const url =
+    '/api/property_values?property_name=functions_skills&parent_id=null';
+  return await axiosClient.get(url);
+};
+
 export const getPhoneNumber = async () => {
   const url = '/api/locations?type=4';
   return await axiosClient.get(url);

@@ -12,6 +12,8 @@ import nationalityReducer from './nationalitySlice';
 import positionReducer from './positionSlice';
 import degreeReducer from './degreeSlice';
 import phoneNumberReducer from './phoneNumberSlice';
+import softSkillsReducer from './softSkillsSlice';
+import jobFunctionsSkillsReducer from './jobFunctionsSkillsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -28,5 +30,7 @@ export const store = configureStore({
     position: positionReducer,
     degree: degreeReducer,
     phoneNumber: phoneNumberReducer,
+    softSkills: softSkillsReducer,
+    jobFunctionsSkills: jobFunctionsSkillsReducer,
   },
 });
