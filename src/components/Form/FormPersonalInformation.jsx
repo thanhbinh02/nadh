@@ -19,7 +19,8 @@ import { fetchPhoneNumber } from '../../store/phoneNumberSlice';
 
 import FormListPhoneNumber from './FormListPhoneNumber';
 import { FormSelectItem } from './FormSelectItem';
-import { FormInputText } from './FormInputText';
+import { fetchCountries } from '../../store/locationsSlice';
+import FormListAddress from './FormListAddress';
 
 import {
   priority_status,
@@ -43,12 +44,16 @@ const FormPersonalInformation = () => {
   const position = useSelector((state) => state.position.data);
   const degree = useSelector((state) => state.degree.data);
   const phoneNumber = useSelector((state) => state.phoneNumber.data);
+  const countries = useSelector((state) => state.locations.countries);
+  const cities = useSelector((state) => state.locations.cities);
+  const districts = useSelector((state) => state.locations.districts);
 
   useEffect(() => {
     dispatch(fetchNationality());
     dispatch(fetchPosition());
     dispatch(fetchDegree());
     dispatch(fetchPhoneNumber());
+    dispatch(fetchCountries({ type: 4 }));
   }, []);
 
   const onFinish = (values) => {
@@ -381,7 +386,7 @@ const FormPersonalInformation = () => {
                         />
                       );
                     })}
-                    <Form.Item>
+                    <Form.Item style={{ marginTop: '12px' }}>
                       <Button
                         type="dashed"
                         onClick={() => add()}
@@ -398,6 +403,43 @@ const FormPersonalInformation = () => {
           </Form.Item>
         </Col>
       </Row>
+
+      <Form.Item label="Address">
+        <Form.List name="addresses" initialValue={[{}]}>
+          {(fields, { add, remove }) => {
+            return (
+              <>
+                {fields.map(({ key, name, isListField }) => {
+                  return (
+                    <FormListAddress
+                      key={key}
+                      name={name}
+                      fieldKey={key}
+                      form={form}
+                      remove={remove}
+                      fields={fields}
+                      isListField={isListField}
+                      optionOne={countries}
+                      optionTwo={cities}
+                      optionThree={districts}
+                    />
+                  );
+                })}
+                <Form.Item>
+                  <Button
+                    type="dashed"
+                    onClick={() => add()}
+                    block
+                    icon={<PlusOutlined />}
+                  >
+                    Add field
+                  </Button>
+                </Form.Item>
+              </>
+            );
+          }}
+        </Form.List>
+      </Form.Item>
 
       <Row gutter={(12, 12)}>
         <Form.Item>

@@ -5,8 +5,25 @@ import { Form, Select, Row, Col, Input } from 'antd';
 
 const { Option } = Select;
 
-const FormListPhoneNumber = ({
+const onValuesChangeForm = (form, fields) => {
+  let arrNumber = [];
+  fields.reduce((result, item, index) => {
+    const isTouchedNumber = form.isFieldTouched(['phones', index, 'number']);
+    if (
+      isTouchedNumber &&
+      form.getFieldValue(['phones', index, 'number']) !== undefined
+    ) {
+      arrNumber.push(['phones', index, 'number']);
+    }
+    return result;
+  }, []);
+
+  form.validateFields(arrNumber);
+};
+
+const FormListPhoneNumberValidate = ({
   name,
+  form,
   remove,
   fields,
   isListField,
@@ -44,7 +61,29 @@ const FormListPhoneNumber = ({
     </Form.Item>
   );
 
+  const checkAddressExactly = (name) => {
+    for (let i = 0; i < fields.length; i++) {
+      if (
+        name !== i &&
+        form.getFieldValue(['phones', name, 'number']) !== undefined &&
+        // eslint-disable-next-line no-self-compare
+        form.getFieldValue(['phones', i, 'phone_code']) ===
+          form.getFieldValue(['phones', name, 'phone_code']) &&
+        form.getFieldValue(['phones', i, 'number']) ===
+          form.getFieldValue(['phones', name, 'number'])
+      ) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const handleNumberChange = (value, option, name) => {
+    onValuesChangeForm(form, form.getFieldValue('phones'));
+  };
+
   const handleRemove = () => {
+    onValuesChangeForm(form, form.getFieldValue('phones'));
     remove(name);
   };
 
@@ -62,6 +101,16 @@ const FormListPhoneNumber = ({
                   required: true,
                   message: 'Please type phone number',
                 },
+                () => ({
+                  validator(_, value) {
+                    if (checkAddressExactly(name)) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(
+                      new Error('Phone number is not the same'),
+                    );
+                  },
+                }),
               ]}
             >
               <Input
@@ -69,6 +118,9 @@ const FormListPhoneNumber = ({
                 style={{
                   width: '100%',
                 }}
+                onChange={(value, option) =>
+                  handleNumberChange(value, option, name)
+                }
               />
             </Form.Item>
           </Col>
@@ -84,4 +136,4 @@ const FormListPhoneNumber = ({
   );
 };
 
-export default FormListPhoneNumber;
+export default FormListPhoneNumberValidate;

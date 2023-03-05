@@ -17,6 +17,14 @@ export const fetchCities = createAsyncThunk(
     }),
 );
 
+export const fetchDistricts = createAsyncThunk(
+  'location/fetchDistricts',
+  async (params) =>
+    await getLocations({
+      params,
+    }),
+);
+
 export const locationsSlice = createSlice({
   name: 'locations',
   initialState: {
@@ -24,6 +32,7 @@ export const locationsSlice = createSlice({
     loading: false,
     countries: [],
     cities: undefined,
+    districts: undefined,
   },
   reducers: {},
   extraReducers: {
@@ -51,6 +60,19 @@ export const locationsSlice = createSlice({
       state.loading = false;
       state.isSuccess = false;
       state.cities = undefined;
+    },
+    [fetchDistricts.pending]: (state) => {
+      state.loading = true;
+    },
+    [fetchDistricts.fulfilled]: (state, { payload }) => {
+      state.districts = payload.data;
+      state.loading = false;
+      state.isSuccess = false;
+    },
+    [fetchDistricts.rejected]: (state) => {
+      state.loading = false;
+      state.isSuccess = false;
+      state.districts = undefined;
     },
   },
 });

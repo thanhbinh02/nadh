@@ -29,7 +29,6 @@ const FilterDropDownIndustry = ({
   const [listItemThree, setListItemThree] = useState(false);
 
   useEffect(() => {
-    console.log('123');
     if (filterValueOptionOne !== undefined) {
       dispatch(
         fetchDataItemTwo({ type: typeTwo, parent_id: filterValueOptionOne }),
@@ -52,7 +51,6 @@ const FilterDropDownIndustry = ({
     const result = listData.find((item) => {
       return item.key === key;
     });
-    console.log('result');
     return result;
   };
 
