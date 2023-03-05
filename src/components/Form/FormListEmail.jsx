@@ -18,7 +18,11 @@ const FormListEmail = ({ name, form, remove, fields, isListField }) => {
               rules={[
                 {
                   required: true,
-                  message: 'Please input email',
+                  message: 'Please input your E-mail!',
+                },
+                {
+                  type: 'email',
+                  message: 'The input is not valid E-mail!',
                 },
               ]}
             >

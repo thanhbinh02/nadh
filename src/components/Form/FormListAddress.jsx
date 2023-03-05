@@ -97,7 +97,7 @@ const FormListAddress = ({ name, form, remove, fields, isListField }) => {
                 }
               >
                 {listCountry?.map((item) => (
-                  <Option value={item.key} key={item.key} compare={item.key}>
+                  <Option value={item.key} key={item.key} label={item.key}>
                     {item.label}
                   </Option>
                 ))}
@@ -125,7 +125,7 @@ const FormListAddress = ({ name, form, remove, fields, isListField }) => {
               >
                 {listCity !== undefined &&
                   listCity?.map((item, index) => (
-                    <Option value={item.key} key={item.key} compare={item.key}>
+                    <Option value={item.key} key={item.key} label={item.key}>
                       {item.label}
                     </Option>
                   ))}
@@ -150,7 +150,7 @@ const FormListAddress = ({ name, form, remove, fields, isListField }) => {
               >
                 {listDistrict !== undefined &&
                   listDistrict.map((item) => (
-                    <Option value={item.key} key={item.key}>
+                    <Option value={item.key} key={item.key} label={item.key}>
                       {item.label}
                     </Option>
                   ))}

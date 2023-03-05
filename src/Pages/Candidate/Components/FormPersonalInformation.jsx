@@ -14,14 +14,18 @@ import { useEffect } from 'react';
 import { fetchNationality } from '../../../store/nationalitySlice';
 import { fetchPosition } from '../../../store/positionSlice';
 import { fetchDegree } from '../../../store/degreeSlice';
-import FormListEmail from '../../../components/Form/FormListEmail';
-import { PlusOutlined } from '@ant-design/icons';
 import { fetchPhoneNumber } from '../../../store/phoneNumberSlice';
 
-import FormListPhoneNumber from '../../../components/Form/FormListPhoneNumber';
 import { FormSelectItem } from '../../../components/Form/FormSelectItem';
 import { fetchCountries } from '../../../store/locationsSlice';
-import FormListAddress from '../../../components/Form/FormListAddress';
+
+import { FormItemAddress } from './FormItemAddress';
+import { FormItemPhone } from './FormItemPhone';
+import { FormItemEmail } from './FormItemEmail';
+import { FormItemInputText } from './FormItemInputText';
+import { putDataCandidateType } from '../../../store/createCandidateSlice';
+import { FormItemOption } from './FormItemOption';
+import { FormItemRadio } from './FormItemRadio';
 
 import {
   priority_status,
@@ -48,6 +52,7 @@ const FormPersonalInformation = () => {
   const countries = useSelector((state) => state.locations.countries);
   const cities = useSelector((state) => state.locations.cities);
   const districts = useSelector((state) => state.locations.districts);
+  const createCandidate = useSelector((state) => state.createCandidate.data);
 
   useEffect(() => {
     dispatch(fetchNationality());
@@ -59,9 +64,11 @@ const FormPersonalInformation = () => {
 
   const onFinish = (values) => {
     console.log('Success:', values);
+    console.log('createCandidate', createCandidate);
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
+    console.log('createCandidate', createCandidate);
   };
 
   return (
@@ -74,63 +81,44 @@ const FormPersonalInformation = () => {
     >
       <Row gutter={(12, 12)}>
         <Col span={12}>
-          <Form.Item
+          <FormItemInputText
+            required={require}
             label="First Name"
-            required
             name="first_name"
-            rules={[
-              {
-                required: true,
-                message: '"Please type first name',
-              },
-            ]}
-          >
-            <Input placeholder="First Name" />
-          </Form.Item>
+            placeholder="First Name"
+            message="Please type first name"
+            actionDispatch={putDataCandidateType}
+          />
         </Col>
         <Col span={12}>
-          <Form.Item
+          <FormItemInputText
+            required={require}
             label="Last Name"
-            required
             name="last_name"
-            rules={[
-              {
-                required: true,
-                message: 'Please type last name',
-              },
-            ]}
-          >
-            <Input placeholder="Please Input Last Name" />
-          </Form.Item>
+            placeholder="Last Name"
+            message="Please type last name"
+            actionDispatch={putDataCandidateType}
+          />
         </Col>
       </Row>
 
       <Row gutter={(12, 12)}>
         <Col span={12}>
-          <Form.Item label="Middle Name" name="middle_name">
-            <Input placeholder="Please Input Middle Name" />
-          </Form.Item>
+          <FormItemInputText
+            label="Middle Name"
+            name="middle_name"
+            placeholder="Middle Name"
+            actionDispatch={putDataCandidateType}
+          />
         </Col>
         <Col span={12}>
-          <Form.Item name="priority_status" label="Primary status">
-            <Select
-              style={{ width: '100%', borderRadius: '0px' }}
-              placeholder="Please Select Priority Status"
-              optionFilterProp="children"
-            >
-              {priority_status.map((option) => {
-                return (
-                  <Option
-                    key={option.key}
-                    value={option.key}
-                    label={option.label}
-                  >
-                    {option.label}
-                  </Option>
-                );
-              })}
-            </Select>
-          </Form.Item>
+          <FormItemOption
+            name="priority_status"
+            label="Primary status"
+            options={priority_status}
+            placeholder="Primary status"
+            actionDispatch={putDataCandidateType}
+          />
         </Col>
       </Row>
 
@@ -197,170 +185,65 @@ const FormPersonalInformation = () => {
 
       <Row gutter={(12, 12)}>
         <Col span={12}>
-          <Form.Item label="Gender" name="gender">
-            <Radio.Group>
-              {GENDERS.map((gender) => (
-                <Radio value={gender.key} key={gender.key}>
-                  {gender.label}
-                </Radio>
-              ))}
-            </Radio.Group>
-          </Form.Item>
+          <FormItemRadio
+            label="Gender"
+            name="gender"
+            options={GENDERS}
+            actionDispatch={putDataCandidateType}
+          />
         </Col>
         <Col span={12}>
-          <Form.Item label="Marital Status" name="martial_status">
-            <Radio.Group>
-              {MARITAL_STATUS.map((gender) => (
-                <Radio value={gender.key} key={gender.key}>
-                  {gender.label}
-                </Radio>
-              ))}
-            </Radio.Group>
-          </Form.Item>
+          <FormItemRadio
+            label="Marital Status"
+            name="martial_status"
+            options={MARITAL_STATUS}
+            actionDispatch={putDataCandidateType}
+          />
         </Col>
       </Row>
 
       <Row gutter={(12, 12)}>
         <Col span={12}>
-          <Form.Item name="relocating_willingness" label="Ready to move">
-            <Select
-              style={{ width: '100%', borderRadius: '0px' }}
-              defaultValue={1}
-            >
-              {READY_TO_MOVE.map((option) => {
-                return (
-                  <Option
-                    key={option.key}
-                    value={option.key}
-                    label={option.label}
-                  >
-                    {option.label}
-                  </Option>
-                );
-              })}
-            </Select>
-          </Form.Item>
+          <FormItemOption
+            name="relocating_willingness"
+            label="Ready to move"
+            options={READY_TO_MOVE}
+            actionDispatch={putDataCandidateType}
+            defaultValue={1}
+          />
         </Col>
         <Col span={12}>
-          <Form.Item label="Source" name="source">
-            <Input placeholder="Please input source" />
-          </Form.Item>
+          <FormItemInputText
+            label="Source"
+            name="source"
+            placeholder="Please input source"
+            actionDispatch={putDataCandidateType}
+          />
         </Col>
       </Row>
 
       <Row gutter={(12, 12)}>
         <Col span={24}>
-          <Form.Item label="Email">
-            <Form.List name="emails" initialValue={[{}]}>
-              {(fields, { add, remove }) => {
-                return (
-                  <>
-                    {fields.map(({ key, name, isListField }) => {
-                      return (
-                        <FormListEmail
-                          key={key}
-                          name={name}
-                          fieldKey={key}
-                          form={form}
-                          remove={remove}
-                          fields={fields}
-                          isListField={isListField}
-                        />
-                      );
-                    })}
-                    <Form.Item>
-                      <Button
-                        type="dashed"
-                        onClick={() => add()}
-                        block
-                        icon={<PlusOutlined />}
-                      >
-                        Add field
-                      </Button>
-                    </Form.Item>
-                  </>
-                );
-              }}
-            </Form.List>
-          </Form.Item>
+          <FormItemEmail />
         </Col>
       </Row>
 
       <Row gutter={(12, 12)}>
         <Col span={24}>
-          <Form.Item label="Mobile Phone*">
-            <Form.List name="phones" initialValue={[{}]}>
-              {(fields, { add, remove }) => {
-                return (
-                  <>
-                    {fields.map(({ key, name, isListField }) => {
-                      return (
-                        <FormListPhoneNumber
-                          key={key}
-                          name={name}
-                          fieldKey={key}
-                          form={form}
-                          remove={remove}
-                          fields={fields}
-                          isListField={isListField}
-                          phoneNumber={phoneNumber}
-                        />
-                      );
-                    })}
-                    <Form.Item style={{ marginTop: '12px' }}>
-                      <Button
-                        type="dashed"
-                        onClick={() => add()}
-                        block
-                        icon={<PlusOutlined />}
-                      >
-                        Add field
-                      </Button>
-                    </Form.Item>
-                  </>
-                );
-              }}
-            </Form.List>
-          </Form.Item>
+          <FormItemPhone form={form} phoneNumber={phoneNumber} />
         </Col>
       </Row>
 
-      <Form.Item label="Address">
-        <Form.List name="addresses" initialValue={[{}]}>
-          {(fields, { add, remove }) => {
-            return (
-              <>
-                {fields.map(({ key, name, isListField }) => {
-                  return (
-                    <FormListAddress
-                      key={key}
-                      name={name}
-                      fieldKey={key}
-                      form={form}
-                      remove={remove}
-                      fields={fields}
-                      isListField={isListField}
-                      optionOne={countries}
-                      optionTwo={cities}
-                      optionThree={districts}
-                    />
-                  );
-                })}
-                <Form.Item>
-                  <Button
-                    type="dashed"
-                    onClick={() => add()}
-                    block
-                    icon={<PlusOutlined />}
-                  >
-                    Add field
-                  </Button>
-                </Form.Item>
-              </>
-            );
-          }}
-        </Form.List>
-      </Form.Item>
+      <Row gutter={(12, 12)}>
+        <Col span={24}>
+          <FormItemAddress
+            form={form}
+            countries={countries}
+            cities={cities}
+            districts={districts}
+          />
+        </Col>
+      </Row>
 
       <Row gutter={(12, 12)}>
         <Col span={24}>
@@ -454,40 +337,3 @@ const FormPersonalInformation = () => {
   );
 };
 export default FormPersonalInformation;
-
-const array = [
-  {
-    label: 'item1',
-    children: [
-      {
-        key: 1,
-        label: '1',
-      },
-      {
-        key: 2,
-        label: '2',
-      },
-      {
-        key: 3,
-        label: '3',
-      },
-    ],
-  },
-  {
-    label: 'item2',
-    children: [
-      {
-        key: 4,
-        label: '4',
-      },
-      {
-        key: 5,
-        label: '5',
-      },
-      {
-        key: 6,
-        label: '6',
-      },
-    ],
-  },
-];

@@ -2,7 +2,6 @@ import { Steps, Row, Card, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import FormPersonalInformation from './Components/FormPersonalInformation';
-import FormSkillAndIndustry from './Components/FormSkillAndIndustry';
 
 const CandidateAdd = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -49,8 +48,7 @@ const CandidateAdd = () => {
       </Row>
       <Row style={{ width: '100%' }}>
         <Card style={{ width: '100%' }}>
-          {/* <FormPersonalInformation /> */}
-          <FormSkillAndIndustry />
+          <FormPersonalInformation />
         </Card>
       </Row>
     </div>

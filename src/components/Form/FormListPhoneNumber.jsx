@@ -62,6 +62,10 @@ const FormListPhoneNumber = ({
                   required: true,
                   message: 'Please type phone number',
                 },
+                {
+                  pattern: new RegExp(/^[0-9]+$/),
+                  message: 'Please input number',
+                },
               ]}
             >
               <Input
