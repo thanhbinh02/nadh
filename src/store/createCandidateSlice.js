@@ -13,6 +13,7 @@ export const createCandidateSlice = createSlice({
       priority_status: undefined,
       relocating_willingness: 1,
       gender: undefined,
+      martial_status: undefined,
       addresses: [],
       current_emails: [],
       direct_reports: undefined,
@@ -21,10 +22,9 @@ export const createCandidateSlice = createSlice({
       highest_education: undefined,
       industry_years: undefined,
       management_years: undefined,
-      martial_status: undefined,
       nationality: [],
       phones: [],
-      prefer_position: { positions: [] },
+      positions: [],
       type: 3,
     },
   },
@@ -35,11 +35,15 @@ export const createCandidateSlice = createSlice({
         state.data[label] = value;
       }
     },
+    putDataCandidateEmail: (state, { payload }) => {
+      state.data.emails = payload;
+    },
   },
   extraReducers: {},
 });
 
-export const { putDataCandidateType } = createCandidateSlice.actions;
+export const { putDataCandidateType, putDataCandidateEmail } =
+  createCandidateSlice.actions;
 
 const { reducer } = createCandidateSlice;
 export default reducer;

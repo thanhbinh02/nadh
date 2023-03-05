@@ -26,6 +26,8 @@ import { FormItemInputText } from './FormItemInputText';
 import { putDataCandidateType } from '../../../store/createCandidateSlice';
 import { FormItemOption } from './FormItemOption';
 import { FormItemRadio } from './FormItemRadio';
+import { FormItemInputNumber } from './FormItemInputnumber';
+import { FormItemSelectMultiple } from './FormItemSelectMultiple';
 
 import {
   priority_status,
@@ -224,7 +226,7 @@ const FormPersonalInformation = () => {
 
       <Row gutter={(12, 12)}>
         <Col span={24}>
-          <FormItemEmail />
+          <FormItemEmail form={form} />
         </Col>
       </Row>
 
@@ -247,37 +249,23 @@ const FormPersonalInformation = () => {
 
       <Row gutter={(12, 12)}>
         <Col span={24}>
-          <FormSelectItem
+          <FormItemSelectMultiple
             options={nationality}
             name="nationality"
             label="Nationality"
-            mode="multiple"
+            actionDispatch={putDataCandidateType}
           />
         </Col>
       </Row>
 
       <Row gutter={(12, 12)}>
         <Col span={24}>
-          <Form.Item name="positions" label="Position Applied">
-            <Select
-              mode="multiple"
-              allowClear
-              style={{ width: '100%', borderRadius: '0px' }}
-              optionFilterProp="children"
-            >
-              {position.map((option) => {
-                return (
-                  <Option
-                    key={option.key}
-                    value={option.key}
-                    label={option.label}
-                  >
-                    {option.label}
-                  </Option>
-                );
-              })}
-            </Select>
-          </Form.Item>
+          <FormItemSelectMultiple
+            name="positions"
+            label="Position Applied"
+            options={position}
+            actionDispatch={putDataCandidateType}
+          />
         </Col>
       </Row>
 
@@ -307,22 +295,28 @@ const FormPersonalInformation = () => {
 
       <Row gutter={(12, 12)}>
         <Col span={12}>
-          <Form.Item label="Industry Year of Services" name="industry_years">
-            <InputNumber min="0" defaultValue="0" />
-          </Form.Item>
+          <FormItemInputNumber
+            label="Industry Year of Services"
+            name="industry_years"
+            actionDispatch={putDataCandidateType}
+          />
         </Col>
         <Col span={12}>
-          <Form.Item label="Year of Management" name="management_years">
-            <InputNumber min="0" defaultValue="0" />
-          </Form.Item>
+          <FormItemInputNumber
+            label="Year of Management"
+            name="management_years"
+            actionDispatch={putDataCandidateType}
+          />
         </Col>
       </Row>
 
       <Row gutter={(12, 12)}>
         <Col span={12}>
-          <Form.Item label="No. of Direct Reports" name="direct_reports">
-            <InputNumber min="0" defaultValue="0" />
-          </Form.Item>
+          <FormItemInputNumber
+            label="No. of Direct Reports"
+            name="direct_reports"
+            actionDispatch={putDataCandidateType}
+          />
         </Col>
       </Row>
 

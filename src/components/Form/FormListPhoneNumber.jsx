@@ -11,7 +11,23 @@ const FormListPhoneNumber = ({
   fields,
   isListField,
   phoneNumber,
+  form,
 }) => {
+  const handleBlur = (e) => {
+    const formValue = form.getFieldValue('phones');
+    const filterFormValue = formValue.filter((item) => item !== undefined);
+
+    const result = filterFormValue.map((item) => {
+      return {
+        current: -1,
+        number: item.number,
+        phone_code: { key: item.phone_code ? item.phone_code : 1280 },
+      };
+    });
+
+    console.log('result', result);
+  };
+
   const prefixSelector = (
     <Form.Item name={[name, 'phone_code']} noStyle>
       <Select
@@ -73,6 +89,7 @@ const FormListPhoneNumber = ({
                 style={{
                   width: '100%',
                 }}
+                onBlur={handleBlur}
               />
             </Form.Item>
           </Col>

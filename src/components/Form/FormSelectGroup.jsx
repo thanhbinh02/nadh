@@ -2,9 +2,7 @@ import { Select, Form } from 'antd';
 
 const { Option, OptGroup } = Select;
 
-function handleChange(value) {
-  console.log(`Selected ${value}`);
-}
+function handleChange(value) {}
 
 function FormSelectGroup({ data, name, label, placeholder }) {
   return (

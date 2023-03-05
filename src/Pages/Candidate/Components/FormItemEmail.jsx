@@ -5,7 +5,7 @@ import { PlusOutlined } from '@ant-design/icons';
 
 export const FormItemEmail = ({ form }) => {
   return (
-    <Form.Item label="Email *">
+    <Form.Item label="Email" required>
       <Form.List name="emails" initialValue={[{}]}>
         {(fields, { add, remove }) => {
           return (
@@ -40,3 +40,11 @@ export const FormItemEmail = ({ form }) => {
     </Form.Item>
   );
 };
+
+const a = [
+  { email: '45e@gmail.com' },
+  { email: 'rrr@gmail.com' },
+  { email: '231@gmail.com' },
+];
+
+const b = ['45e@gmail.com', 'rrr@gmail.com', '231@gmail.com'];

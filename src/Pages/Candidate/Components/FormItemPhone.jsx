@@ -5,7 +5,7 @@ import FormListPhoneNumber from '../../../components/Form/FormListPhoneNumber';
 
 export const FormItemPhone = ({ form, phoneNumber }) => {
   return (
-    <Form.Item label="Mobile Phone*">
+    <Form.Item label="Mobile Phone" required>
       <Form.List name="phones" initialValue={[{}]}>
         {(fields, { add, remove }) => {
           return (
