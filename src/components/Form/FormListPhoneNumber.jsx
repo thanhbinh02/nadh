@@ -2,6 +2,8 @@ import React from 'react';
 
 import { MinusCircleOutlined } from '@ant-design/icons';
 import { Form, Select, Row, Col, Input } from 'antd';
+import { useDispatch } from 'react-redux';
+import { putDataCandidateType } from '../../store/createCandidateSlice';
 
 const { Option } = Select;
 
@@ -13,6 +15,8 @@ const FormListPhoneNumber = ({
   phoneNumber,
   form,
 }) => {
+  const dispatch = useDispatch();
+
   const handleBlur = (e) => {
     const formValue = form.getFieldValue('phones');
     const filterFormValue = formValue.filter((item) => item !== undefined);
@@ -25,7 +29,7 @@ const FormListPhoneNumber = ({
       };
     });
 
-    console.log('result', result);
+    dispatch(putDataCandidateType({ value: result, label: 'phones' }));
   };
 
   const prefixSelector = (

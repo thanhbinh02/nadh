@@ -23,11 +23,17 @@ import { FormItemAddress } from './FormItemAddress';
 import { FormItemPhone } from './FormItemPhone';
 import { FormItemEmail } from './FormItemEmail';
 import { FormItemInputText } from './FormItemInputText';
-import { putDataCandidateType } from '../../../store/createCandidateSlice';
+import {
+  putDataCandidateType,
+  putDataCandidatePositions,
+} from '../../../store/createCandidateSlice';
 import { FormItemOption } from './FormItemOption';
 import { FormItemRadio } from './FormItemRadio';
 import { FormItemInputNumber } from './FormItemInputnumber';
 import { FormItemSelectMultiple } from './FormItemSelectMultiple';
+import { FormItemPosition } from './FormItemPosition';
+import { postNewCandidate } from '../../../store/createCandidateSlice';
+import { postCandidate } from '../../../apis/candidatesApi';
 
 import {
   priority_status,
@@ -67,6 +73,8 @@ const FormPersonalInformation = () => {
   const onFinish = (values) => {
     console.log('Success:', values);
     console.log('createCandidate', createCandidate);
+    // dispatch(postNewCandidate(createCandidate));
+    postCandidate(createCandidate);
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -124,7 +132,7 @@ const FormPersonalInformation = () => {
         </Col>
       </Row>
 
-      <Form.Item label="Birthday">
+      {/* <Form.Item label="Birthday">
         <Row gutter={(12, 12)}>
           <Col span={4}>
             <Form.Item name="date_birthday">
@@ -183,7 +191,7 @@ const FormPersonalInformation = () => {
             </Form.Item>
           </Col>
         </Row>
-      </Form.Item>
+      </Form.Item> */}
 
       <Row gutter={(12, 12)}>
         <Col span={12}>
@@ -236,7 +244,7 @@ const FormPersonalInformation = () => {
         </Col>
       </Row>
 
-      <Row gutter={(12, 12)}>
+      {/* <Row gutter={(12, 12)}>
         <Col span={24}>
           <FormItemAddress
             form={form}
@@ -245,7 +253,7 @@ const FormPersonalInformation = () => {
             districts={districts}
           />
         </Col>
-      </Row>
+      </Row> */}
 
       <Row gutter={(12, 12)}>
         <Col span={24}>
@@ -260,38 +268,26 @@ const FormPersonalInformation = () => {
 
       <Row gutter={(12, 12)}>
         <Col span={24}>
-          <FormItemSelectMultiple
+          <FormItemPosition
             name="positions"
             label="Position Applied"
             options={position}
-            actionDispatch={putDataCandidateType}
+            actionDispatch={putDataCandidatePositions}
           />
         </Col>
       </Row>
 
-      <Row gutter={(12, 12)}>
+      {/* <Row gutter={(12, 12)}>
         <Col span={24}>
-          <Form.Item name="highest_education" label="Highest Education">
-            <Select
-              allowClear
-              style={{ width: '100%', borderRadius: '0px' }}
-              optionFilterProp="children"
-            >
-              {degree.map((option) => {
-                return (
-                  <Option
-                    key={option.key}
-                    value={option.key}
-                    label={option.label}
-                  >
-                    {option.label}
-                  </Option>
-                );
-              })}
-            </Select>
-          </Form.Item>
+          <FormItemOption
+            name="highest_education"
+            label="Highest Education"
+            options={degree}
+            placeholder="Highest Education"
+            actionDispatch={putDataCandidateType}
+          />
         </Col>
-      </Row>
+      </Row> */}
 
       <Row gutter={(12, 12)}>
         <Col span={12}>

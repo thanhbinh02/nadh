@@ -1,4 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { postCandidate } from '../apis/candidatesApi';
+
+export const postNewCandidate = createAsyncThunk(
+  'createCandidate/postNewCandidate',
+  async (params) => await postCandidate(params),
+);
 
 export const createCandidateSlice = createSlice({
   name: 'createCandidate',
@@ -17,16 +23,17 @@ export const createCandidateSlice = createSlice({
       addresses: [],
       current_emails: [],
       direct_reports: undefined,
-      dob: undefined,
+      // dob: undefined,
       emails: [],
-      highest_education: undefined,
+      // highest_education: undefined,
       industry_years: undefined,
       management_years: undefined,
       nationality: [],
       phones: [],
-      positions: [],
+      prefer_position: { positions: [] },
       type: 3,
     },
+    user: [],
   },
   reducers: {
     putDataCandidateType: (state, { payload }) => {
@@ -35,15 +42,41 @@ export const createCandidateSlice = createSlice({
         state.data[label] = value;
       }
     },
+    putDataCandidatePositions: (state, { payload }) => {
+      state.data.prefer_position.positions = payload;
+    },
     putDataCandidateEmail: (state, { payload }) => {
       state.data.emails = payload;
     },
+    putDataCandidateAddresses: (state, { payload }) => {
+      state.data.addresses = payload;
+    },
   },
-  extraReducers: {},
+  extraReducers: {
+    extraReducers: {
+      [postNewCandidate.pending]: (state) => {
+        state.loading = true;
+      },
+      [postNewCandidate.fulfilled]: (state, { payload }) => {
+        state.user = payload;
+        state.loading = false;
+        state.isSuccess = false;
+        localStorage.setItem('candidateDetail', payload);
+      },
+      [postNewCandidate.rejected]: (state) => {
+        state.loading = false;
+        state.isSuccess = false;
+      },
+    },
+  },
 });
 
-export const { putDataCandidateType, putDataCandidateEmail } =
-  createCandidateSlice.actions;
+export const {
+  putDataCandidateType,
+  putDataCandidateEmail,
+  putDataCandidateAddresses,
+  putDataCandidatePositions,
+} = createCandidateSlice.actions;
 
 const { reducer } = createCandidateSlice;
 export default reducer;

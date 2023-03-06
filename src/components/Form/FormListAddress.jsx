@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { MinusCircleOutlined } from '@ant-design/icons';
 import { Form, Select, Row, Col, Input } from 'antd';
 import { getLocations } from '../../apis/filterApi';
+import { useDispatch } from 'react-redux';
+import { putDataCandidateAddresses } from '../../store/createCandidateSlice';
+import { useSelector } from 'react-redux';
 
 const { Option } = Select;
 
@@ -37,6 +40,10 @@ const FormListAddress = ({ name, form, remove, fields, isListField }) => {
   const [listCountry, setListCountry] = useState([]);
   const [listCity, seListCity] = useState([]);
   const [listDistrict, setListDistrict] = useState([]);
+  const dispatch = useDispatch();
+  const dataCreateCandidates = useSelector(
+    (state) => state.createCandidate.data,
+  );
 
   const fetchDataCity = async (params) => {
     const result = await getLocations({
@@ -62,15 +69,58 @@ const FormListAddress = ({ name, form, remove, fields, isListField }) => {
     fetchDataCountry({ type: 4 });
   }, []);
 
-  const handleCityChange = (value, option, name) => {
+  const handleCountryChange = (value, option, name) => {
     fetchDataCity({ type: 1, parent_id: value });
     form.setFieldValue(['addresses', name, 'district'], undefined);
     form.setFieldValue(['addresses', name, 'ward'], undefined);
+    let currentAddresses = dataCreateCandidates.addresses;
+
+    console.log('option', option);
+
+    if (currentAddresses.length === 0) {
+      const newData = [
+        {
+          country: {
+            key: option.key,
+            label: option.children,
+          },
+          city: null,
+          district: null,
+          address: null,
+        },
+      ];
+      dispatch(putDataCandidateAddresses(newData));
+    } else if (name + 1 > currentAddresses.length) {
+      const newObject = {
+        country: {
+          key: option.key,
+          label: option.children,
+        },
+        city: null,
+        district: null,
+        address: null,
+      };
+
+      let newData = [...currentAddresses, newObject];
+      dispatch(putDataCandidateAddresses(newData));
+    }
   };
 
-  const handleDistrictChange = (value, option, name) => {
+  const handleCityChange = (value, option, name) => {
     fetchDataListDistrict({ type: 2, parent_id: value });
     form.setFieldValue(['addresses', name, 'ward'], undefined);
+    let currentAddresses = dataCreateCandidates.addresses;
+
+    const updatedObj = { key: option?.key, label: option?.children };
+
+    let newArray = [...currentAddresses];
+
+    newArray[name] = {
+      ...newArray[name],
+      city: updatedObj,
+    };
+    console.log('name', name);
+    console.log('newArray', newArray);
   };
 
   const handleRemove = () => {
@@ -93,7 +143,7 @@ const FormListAddress = ({ name, form, remove, fields, isListField }) => {
                 placeholder="country"
                 optionFilterProp="children"
                 onChange={(value, option) =>
-                  handleCityChange(value, option, name)
+                  handleCountryChange(value, option, name)
                 }
               >
                 {listCountry?.map((item) => (
@@ -119,7 +169,7 @@ const FormListAddress = ({ name, form, remove, fields, isListField }) => {
                 filterOption={filterOption}
                 placeholder="city"
                 onChange={(value, option) =>
-                  handleDistrictChange(value, option, name)
+                  handleCityChange(value, option, name)
                 }
                 disabled={!form.getFieldValue(['addresses', name, 'country'])}
               >
@@ -172,3 +222,67 @@ const FormListAddress = ({ name, form, remove, fields, isListField }) => {
 };
 
 export default FormListAddress;
+
+const a = [
+  {
+    country: { key: 123, label: 'thanhbinh123' },
+    city: null,
+    address: null,
+  },
+  {
+    country: { key: 456, label: 'thanhbinh456' },
+    city: { key: 76, label: 'thanhbinh78' },
+    address: null,
+  },
+  {
+    country: { key: 789, label: 'thanhbinh456' },
+    city: null,
+    address: null,
+  },
+];
+
+const b = {
+  index: 1,
+  country: { key: 789, label: 'thanhbinh456' },
+};
+
+const c = [
+  {
+    country: { key: 123, label: 'thanhbinh123' },
+    city: null,
+    address: null,
+  },
+  {
+    country: { key: 789, label: 'thanhbinh456' },
+    city: { key: 76, label: 'thanhbinh78' },
+    address: null,
+  },
+  {
+    country: { key: 789, label: 'thanhbinh456' },
+    city: null,
+    address: null,
+  },
+];
+
+const d = {
+  index: 2,
+  address: { key: 789, label: 'thanhbinh456' },
+};
+
+const e = [
+  {
+    country: { key: 123, label: 'thanhbinh123' },
+    city: null,
+    address: null,
+  },
+  {
+    country: { key: 456, label: 'thanhbinh456' },
+    city: { key: 76, label: 'thanhbinh78' },
+    address: null,
+  },
+  {
+    country: { key: 789, label: 'thanhbinh456' },
+    city: null,
+    address: { key: 789, label: 'thanhbinh456' },
+  },
+];
