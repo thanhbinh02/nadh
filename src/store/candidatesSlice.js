@@ -31,6 +31,11 @@ export const putNewDetailCandidate = createAsyncThunk(
   async ({ id, params }) => await putDetailCandidate(id, params),
 );
 
+export const putIndustryDetailCandidate = createAsyncThunk(
+  'candidates/putIndustryDetailCandidate',
+  async ({ id, params }) => await putDetailCandidate(id, params),
+);
+
 export const candidatesSlice = createSlice({
   name: 'candidates',
   initialState: {
@@ -38,12 +43,9 @@ export const candidatesSlice = createSlice({
     loading: false,
     data: undefined,
     count: 0,
+    businessLine: undefined,
   },
-  reducers: {
-    // putNewDetailCandidate: (state, { payload }) => {
-    //   console.log('payload', payload);
-    // },
-  },
+  reducers: {},
   extraReducers: {
     [fetchCandidates.pending]: (state) => {
       state.loading = true;
@@ -75,7 +77,6 @@ export const candidatesSlice = createSlice({
       state.loading = true;
     },
     [putNewDetailCandidate.fulfilled]: (state, { payload }) => {
-      console.log('payload ne', payload);
       state.loading = false;
       state.isSuccess = true;
       toast.success('Successfully updated', {
@@ -87,6 +88,20 @@ export const candidatesSlice = createSlice({
       state.loading = false;
       state.isSuccess = false;
       toast.success('Update failed', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+    },
+    [putIndustryDetailCandidate.pending]: (state) => {
+      state.loading = true;
+    },
+    [putIndustryDetailCandidate.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.isSuccess = true;
+      state.businessLine = JSON.parse(
+        localStorage.getItem('candidateDetail'),
+      ).business_line;
+      toast.success('Successfully updated', {
         autoClose: 1000,
         position: 'top-right',
       });

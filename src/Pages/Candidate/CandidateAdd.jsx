@@ -3,13 +3,15 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import FormPersonalInformation from './Components/FormPersonalInformation';
 import FormSkillAndIndustry from './Components/FormSkillAndIndustry';
+import { CardEducationAndCertificate } from '../../components/Card/CardEducationAndCertificate';
+import { useEffect } from 'react';
 
 const stepLocal = window.localStorage.getItem('currentStep');
 
 const CandidateAdd = () => {
   const [currentStep, setCurrentStep] = useState(stepLocal || 0);
 
-  console.log('currentStep', currentStep);
+  useEffect(() => {}, [currentStep]);
 
   return (
     <div style={{ margin: '20px 30px' }}>
@@ -59,9 +61,10 @@ const CandidateAdd = () => {
         )}
         {Number(currentStep) === 1 && (
           <Card style={{ width: '100%' }}>
-            <FormSkillAndIndustry />
+            <FormSkillAndIndustry setCurrentStep={setCurrentStep} />
           </Card>
         )}
+        {Number(currentStep) === 2 && <CardEducationAndCertificate />}
       </Row>
     </div>
   );

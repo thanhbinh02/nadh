@@ -148,7 +148,17 @@ export const FormItemSelectLanguages = ({
         </Select>
       </Form.Item>
       <Row>
-        <Col span={24}>List of Languages</Col>
+        <Col
+          span={24}
+          style={{
+            fontSize: '16px',
+            marginTop: '24px',
+            marginLeft: '12px',
+            marginBottom: '12px',
+          }}
+        >
+          List of Languages
+        </Col>
         {listLanguages.map((item) => {
           return (
             <Col span={12} key={item.key}>

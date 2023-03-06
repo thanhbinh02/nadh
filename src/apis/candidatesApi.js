@@ -31,5 +31,12 @@ export const postCandidate = async (params) => {
 
 export const putDetailCandidate = async (id, params) => {
   const url = `/api/candidates/${id}`;
-  return await axiosClient.put(url, params);
+  return await axiosClient
+    .put(url, params)
+    .then(function (response) {
+      window.localStorage.setItem('candidateDetail', JSON.stringify(response));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 };

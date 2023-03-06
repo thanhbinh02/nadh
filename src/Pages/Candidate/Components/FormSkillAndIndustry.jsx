@@ -10,7 +10,14 @@ import { FormItemSelectMultiple } from './FormItemSelectMultiple';
 import { putNewDetailCandidate } from '../../../store/candidatesSlice';
 import { FormItemSelectLanguages } from './FormItemSelectLanguages';
 
-const FormSkillAndIndustry = () => {
+import FormItemBusinessLine from './FormItemBusinessLine';
+import { fetchIndustries } from '../../../store/categoriesSlice';
+import { fetchSectors } from '../../../store/categoriesSlice';
+import { fetchCategories } from '../../../store/categoriesSlice';
+import { putIndustryDetailCandidate } from '../../../store/candidatesSlice';
+import { putBusinessLineSlice } from '../../../store/businessLineSlice';
+
+const FormSkillAndIndustry = ({ setCurrentStep }) => {
   const [test, setTest] = useState([]);
   const [form] = Form.useForm();
   const { Option } = Select;
@@ -25,11 +32,24 @@ const FormSkillAndIndustry = () => {
   const idCandidate = detailCandidate?.id;
   const softSkillsCandidate = detailCandidate?.soft_skills;
   const languagesCandidate = detailCandidate?.languages;
+  const businessLine = detailCandidate?.business_line;
+
+  const industries = useSelector((state) => state.categories.industries);
+  const sectors = useSelector((state) => state.categories.sectors);
+  const categories = useSelector((state) => state.categories.categories);
+
+  const newBusinessLine = businessLine.map((obj) => ({
+    industry_id: obj?.industry?.key,
+    sector_id: obj?.sector?.key,
+    category_id: obj?.category?.key,
+    primary: obj?.primary,
+  }));
 
   useEffect(() => {
     dispatch(fetchSoftSkills());
     dispatch(fetchJobFunctionsSkills());
     dispatch(fetchLanguages());
+    dispatch(fetchIndustries({ type: 1 }));
   }, []);
 
   const onFinish = (values) => {
@@ -37,6 +57,16 @@ const FormSkillAndIndustry = () => {
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
+  };
+
+  const handleNextStep = () => {
+    setCurrentStep(2);
+    window.localStorage.setItem('currentStep', 2);
+  };
+
+  const handlePreviousStep = () => {
+    setCurrentStep(0);
+    window.localStorage.setItem('currentStep', 0);
   };
 
   return (
@@ -47,7 +77,7 @@ const FormSkillAndIndustry = () => {
       onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
-      <Row gutter={(12, 12)}>
+      <Row gutter={(16, 16)} style={{ marginBottom: '24px' }}>
         <Col span={12}>
           <FormItemSelectMultiple
             name="soft_skills"
@@ -71,7 +101,7 @@ const FormSkillAndIndustry = () => {
         </Col>
       </Row>
 
-      <Row gutter={(12, 12)}>
+      <Row gutter={(12, 12)} style={{ marginBottom: '24px' }}>
         <Col span={12}>
           <FormItemSelectLanguages
             name="languages"
@@ -87,12 +117,38 @@ const FormSkillAndIndustry = () => {
           />
         </Col>
       </Row>
+      <Row gutter={(12, 12)} style={{ marginBottom: '24px' }}>
+        <Col span={24}>
+          <FormItemBusinessLine
+            data={industries}
+            optionTwo={sectors}
+            optionThree={categories}
+            typeTwo={2}
+            fetchDataItemTwo={fetchSectors}
+            fetchDataItemThree={fetchCategories}
+            typeThree={3}
+            businessLine={newBusinessLine}
+            form={form}
+            id={idCandidate}
+            actionDispatch={putBusinessLineSlice}
+          />
+        </Col>
+      </Row>
+
       <Row gutter={(12, 12)}>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
+        <Col span={24} style={{ textAlign: 'right', marginTop: '10px' }}>
+          <Form.Item>
+            <Button
+              style={{ marginRight: '10px' }}
+              onClick={handlePreviousStep}
+            >
+              Previous
+            </Button>
+            <Button type="primary" onClick={handleNextStep}>
+              Next
+            </Button>
+          </Form.Item>
+        </Col>
       </Row>
     </Form>
   );

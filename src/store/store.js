@@ -15,6 +15,7 @@ import phoneNumberReducer from './phoneNumberSlice';
 import softSkillsReducer from './softSkillsSlice';
 import jobFunctionsSkillsReducer from './jobFunctionsSkillsSlice';
 import createCandidateReducer from './createCandidateSlice';
+import businessLineReducer from './businessLineSlice';
 
 export const store = configureStore({
   reducer: {
@@ -34,5 +35,6 @@ export const store = configureStore({
     softSkills: softSkillsReducer,
     jobFunctionsSkills: jobFunctionsSkillsReducer,
     createCandidate: createCandidateReducer,
+    businessLine: businessLineReducer,
   },
 });

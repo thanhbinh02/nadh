@@ -44,7 +44,6 @@ export const FormItemSelectMultiple = ({
       });
     }
 
-    // console.log('result', result);
     if (!id) {
       dispatch(actionDispatch({ value: result, label: name }));
     } else {
