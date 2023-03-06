@@ -75,8 +75,6 @@ const FormListAddress = ({ name, form, remove, fields, isListField }) => {
     form.setFieldValue(['addresses', name, 'ward'], undefined);
     let currentAddresses = dataCreateCandidates.addresses;
 
-    console.log('option', option);
-
     if (currentAddresses.length === 0) {
       const newData = [
         {
@@ -119,8 +117,6 @@ const FormListAddress = ({ name, form, remove, fields, isListField }) => {
       ...newArray[name],
       city: updatedObj,
     };
-    console.log('name', name);
-    console.log('newArray', newArray);
   };
 
   const handleRemove = () => {

@@ -5,18 +5,24 @@ import { DefaultLayout } from './layouts/DefaultLayout';
 import { Candidates } from './Pages/Candidates';
 import { PrivateLayout } from './layouts/PrivateLayout';
 import CandidateAdd from './Pages/Candidate/CandidateAdd';
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
-    <Routes>
-      <Route element={<DefaultLayout />}>
-        <Route path="/" element={<Login />} />
-      </Route>
-      <Route element={<PrivateLayout />}>
-        <Route path="/candidates" element={<Candidates />} />
-        <Route path="/candidate-add" element={<CandidateAdd />} />
-      </Route>
-    </Routes>
+    <div>
+      <Routes>
+        <Route element={<DefaultLayout />}>
+          <Route path="/" element={<Login />} />
+        </Route>
+        <Route element={<PrivateLayout />}>
+          <Route path="/candidates" element={<Candidates />} />
+          <Route path="/candidate-add" element={<CandidateAdd />} />
+        </Route>
+      </Routes>
+      <ToastContainer />
+    </div>
   );
 }
 

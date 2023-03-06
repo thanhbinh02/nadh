@@ -2,9 +2,14 @@ import { Steps, Row, Card, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import FormPersonalInformation from './Components/FormPersonalInformation';
+import FormSkillAndIndustry from './Components/FormSkillAndIndustry';
+
+const stepLocal = window.localStorage.getItem('currentStep');
 
 const CandidateAdd = () => {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(stepLocal || 0);
+
+  console.log('currentStep', currentStep);
 
   return (
     <div style={{ margin: '20px 30px' }}>
@@ -47,9 +52,16 @@ const CandidateAdd = () => {
         />
       </Row>
       <Row style={{ width: '100%' }}>
-        <Card style={{ width: '100%' }}>
-          <FormPersonalInformation />
-        </Card>
+        {currentStep === 0 && (
+          <Card style={{ width: '100%' }}>
+            <FormPersonalInformation />
+          </Card>
+        )}
+        {Number(currentStep) === 1 && (
+          <Card style={{ width: '100%' }}>
+            <FormSkillAndIndustry />
+          </Card>
+        )}
       </Row>
     </div>
   );

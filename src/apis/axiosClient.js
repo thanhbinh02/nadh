@@ -30,8 +30,8 @@ axiosClient.interceptors.response.use(
       window.location.reload();
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('user_sent');
-      window.localStorage.removeItem('candidateDetail');
-      window.localStorage.removeItem('currentStep');
+      // window.localStorage.removeItem('candidateDetail');
+      // window.localStorage.removeItem('currentStep');
     }
     return Promise.reject(error);
   },

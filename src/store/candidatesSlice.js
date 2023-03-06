@@ -1,8 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getCandidates } from '../apis/candidatesApi';
+import { putDetailCandidate } from '../apis/candidatesApi';
+import { toast } from 'react-toastify';
 
 export const fetchCandidates = createAsyncThunk(
-  'category/fetchCandidates',
+  'candidates/fetchCandidates',
   async (params) =>
     await getCandidates({
       params: {
@@ -14,7 +16,7 @@ export const fetchCandidates = createAsyncThunk(
 );
 
 export const refreshCandidates = createAsyncThunk(
-  'category/refreshCandidates',
+  'candidates/refreshCandidates',
   async () =>
     await getCandidates({
       params: {
@@ -22,6 +24,11 @@ export const refreshCandidates = createAsyncThunk(
         perPage: 10,
       },
     }),
+);
+
+export const putNewDetailCandidate = createAsyncThunk(
+  'candidates/putNewDetailCandidate',
+  async ({ id, params }) => await putDetailCandidate(id, params),
 );
 
 export const candidatesSlice = createSlice({
@@ -32,7 +39,11 @@ export const candidatesSlice = createSlice({
     data: undefined,
     count: 0,
   },
-  reducers: {},
+  reducers: {
+    // putNewDetailCandidate: (state, { payload }) => {
+    //   console.log('payload', payload);
+    // },
+  },
   extraReducers: {
     [fetchCandidates.pending]: (state) => {
       state.loading = true;
@@ -60,8 +71,30 @@ export const candidatesSlice = createSlice({
       state.loading = false;
       state.isSuccess = false;
     },
+    [putNewDetailCandidate.pending]: (state) => {
+      state.loading = true;
+    },
+    [putNewDetailCandidate.fulfilled]: (state, { payload }) => {
+      console.log('payload ne', payload);
+      state.loading = false;
+      state.isSuccess = true;
+      toast.success('Successfully updated', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+    },
+    [putNewDetailCandidate.rejected]: (state) => {
+      state.loading = false;
+      state.isSuccess = false;
+      toast.success('Update failed', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+    },
   },
 });
+
+// export const { putNewDetailCandidate } = candidatesSlice.actions;
 
 const { reducer } = candidatesSlice;
 export default reducer;
