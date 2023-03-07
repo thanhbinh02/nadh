@@ -9,6 +9,8 @@ export const FormItemInputText = ({
   required,
   message,
   actionDispatch,
+  defaultValue,
+  check,
 }) => {
   const dispatch = useDispatch();
 
@@ -30,11 +32,21 @@ export const FormItemInputText = ({
             },
           ]}
         >
-          <Input placeholder={placeholder} onBlur={handleBlur} />
+          <Input
+            placeholder={placeholder}
+            onBlur={handleBlur}
+            defaultValue={defaultValue}
+            disabled={check}
+          />
         </Form.Item>
       ) : (
         <Form.Item label={label} name={name}>
-          <Input placeholder={placeholder} onBlur={handleBlur} />
+          <Input
+            placeholder={placeholder}
+            onBlur={handleBlur}
+            defaultValue={defaultValue}
+            disabled={check}
+          />
         </Form.Item>
       )}
     </>

@@ -14,6 +14,7 @@ const FormListPhoneNumber = ({
   isListField,
   phoneNumber,
   form,
+  disabled,
 }) => {
   const dispatch = useDispatch();
 
@@ -42,7 +43,12 @@ const FormListPhoneNumber = ({
       >
         {phoneNumber.map((option) => {
           return (
-            <Option key={option.key} value={option.key} label={option.label}>
+            <Option
+              key={option.key}
+              value={option.key}
+              label={option.label}
+              disabled={disabled}
+            >
               <div>
                 <img
                   src={`https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/${option.extra.code.toLowerCase()}.svg`}
@@ -94,13 +100,14 @@ const FormListPhoneNumber = ({
                   width: '100%',
                 }}
                 onBlur={handleBlur}
+                disabled={disabled}
               />
             </Form.Item>
           </Col>
 
           <Col span={3}>
             {fields.length > 1 && (
-              <MinusCircleOutlined onClick={handleRemove} />
+              <>{!disabled && <MinusCircleOutlined onClick={handleRemove} />}</>
             )}
           </Col>
         </Row>

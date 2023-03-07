@@ -23,7 +23,6 @@ export const FormItemSelectMultiple = ({
 }) => {
   const dispatch = useDispatch();
   let defaultValue;
-
   if (id) {
     defaultValue = dataDefault.map((item) => item.key);
   }
@@ -55,8 +54,10 @@ export const FormItemSelectMultiple = ({
       };
 
       const newName = { [`${name}`]: result };
-      const newDataInLocal = { ...detailCandidate, ...newName };
-      window.localStorage.setItem(nameLocal, JSON.stringify(newDataInLocal));
+      if (detailCandidate) {
+        const newDataInLocal = { ...detailCandidate, ...newName };
+        window.localStorage.setItem(nameLocal, JSON.stringify(newDataInLocal));
+      }
       dispatch(actionDispatch(newData));
     }
   };

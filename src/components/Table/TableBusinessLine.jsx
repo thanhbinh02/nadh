@@ -115,7 +115,7 @@ export const TableBusinessLine = ({
 
   useEffect(() => {
     setChange(
-      JSON.parse(localStorage.getItem('candidateDetail')).business_line,
+      JSON.parse(localStorage.getItem('candidateDetail'))?.business_line,
     );
   }, [check]);
 
@@ -129,7 +129,7 @@ export const TableBusinessLine = ({
 
   return (
     <>
-      {newData.length !== 0 && (
+      {newData?.length !== 0 && (
         <Row>
           <Col span={24}>
             <Table

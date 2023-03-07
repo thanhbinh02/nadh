@@ -11,6 +11,7 @@ export const FormItemOption = ({
   actionDispatch,
   placeholder,
   defaultValue,
+  check,
 }) => {
   const dispatch = useDispatch();
 
@@ -26,6 +27,7 @@ export const FormItemOption = ({
         optionFilterProp="children"
         onChange={handleChange}
         defaultValue={defaultValue}
+        disabled={check}
       >
         {options?.map((option) => {
           return (

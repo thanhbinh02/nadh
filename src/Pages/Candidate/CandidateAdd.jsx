@@ -8,10 +8,13 @@ import { useEffect } from 'react';
 import { CardWorkingHistory } from '../../components/Card/CardWorkingHistory';
 import { CardRemunerationAndRewards } from '../../components/Card/CardRemunerationAndRewards';
 import { CardFinish } from '../../components/Card/CardFinish';
-
-const stepLocal = window.localStorage.getItem('currentStep');
+import { CardFormPersonalInformation } from '../../components/Card/CardFormPersonalInformation';
 
 const CandidateAdd = () => {
+  const stepLocal = window.localStorage.getItem('currentStep');
+  if (stepLocal === null) {
+    window.localStorage.setItem('currentStep', 0);
+  }
   const [currentStep, setCurrentStep] = useState(stepLocal || 0);
 
   useEffect(() => {}, [currentStep]);

@@ -28,7 +28,10 @@ const FormListPhoneNumberValidate = ({
   fields,
   isListField,
   phoneNumber,
+  disabled,
 }) => {
+  console.log('disabled', disabled);
+
   const prefixSelector = (
     <Form.Item name={[name, 'phone_code']} noStyle>
       <Select
@@ -39,7 +42,12 @@ const FormListPhoneNumberValidate = ({
       >
         {phoneNumber.map((option) => {
           return (
-            <Option key={option.key} value={option.key} label={option.label}>
+            <Option
+              key={option.key}
+              value={option.key}
+              label={option.label}
+              disabled={disabled}
+            >
               <div>
                 <img
                   src={`https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/${option.extra.code.toLowerCase()}.svg`}
@@ -121,13 +129,14 @@ const FormListPhoneNumberValidate = ({
                 onChange={(value, option) =>
                   handleNumberChange(value, option, name)
                 }
+                disabled={disabled}
               />
             </Form.Item>
           </Col>
 
           <Col span={3}>
             {fields.length > 1 && (
-              <MinusCircleOutlined onClick={handleRemove} />
+              <>{!disabled && <MinusCircleOutlined onClick={handleRemove} />}</>
             )}
           </Col>
         </Row>

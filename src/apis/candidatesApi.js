@@ -45,3 +45,8 @@ export const getDetailCandidate = async (id) => {
   const url = `/api/candidates/${id}`;
   return await axiosClient.get(url);
 };
+
+export const putCandidateInDetailPage = async (id, params) => {
+  const url = `/api/candidates/${id}`;
+  return await axiosClient.put(url, params);
+};

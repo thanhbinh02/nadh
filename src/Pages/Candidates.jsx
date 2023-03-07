@@ -41,90 +41,92 @@ export const Candidates = () => {
   }, []);
 
   return (
-    <div>
-      <Row
-        style={{
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginTop: '20px',
-        }}
-      >
-        <Col
+    <>
+      <div>
+        <Row
           style={{
-            marginLeft: '54px',
-            color: '#465f7b',
-            fontSize: '20px',
-            fontWeight: '600',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginTop: '20px',
           }}
         >
-          Candidates List ({totalItem})
-        </Col>
-        <Col style={{ marginRight: '73px' }}>
-          <Row>
-            <Col span={12}>
-              <Button
-                type="primary"
-                ghost
-                style={{ display: 'flex', alignItems: 'center' }}
-                onClick={() => {
-                  dispatch(refreshCandidates());
-                  dispatch(
-                    getTagsCandidates({
-                      page: 1,
-                      perPage: 10,
-                    }),
-                  );
-                }}
-              >
-                Clear All Filters
-              </Button>
-            </Col>
-            <Col span={12}>
-              <Link to="/candidate-add">
+          <Col
+            style={{
+              marginLeft: '54px',
+              color: '#465f7b',
+              fontSize: '20px',
+              fontWeight: '600',
+            }}
+          >
+            Candidates List ({totalItem})
+          </Col>
+          <Col style={{ marginRight: '73px' }}>
+            <Row>
+              <Col span={12}>
                 <Button
                   type="primary"
-                  color="red"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    backgroundColor: '#1890ff',
+                  ghost
+                  style={{ display: 'flex', alignItems: 'center' }}
+                  onClick={() => {
+                    dispatch(refreshCandidates());
+                    dispatch(
+                      getTagsCandidates({
+                        page: 1,
+                        perPage: 10,
+                      }),
+                    );
                   }}
                 >
-                  <PlusOutlined />
-                  Create Candidate
+                  Clear All Filters
                 </Button>
-              </Link>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-      <Row
-        style={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          marginRight: '54px',
-          marginTop: '10px',
-        }}
-      >
-        <CustomColumns
-          namePage="candidates"
-          listCustom={listCustomCandidates}
+              </Col>
+              <Col span={12}>
+                <Link to="/candidate-add">
+                  <Button
+                    type="primary"
+                    color="red"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      backgroundColor: '#1890ff',
+                    }}
+                  >
+                    <PlusOutlined />
+                    Create Candidate
+                  </Button>
+                </Link>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Row
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginRight: '54px',
+            marginTop: '10px',
+          }}
+        >
+          <CustomColumns
+            namePage="candidates"
+            listCustom={listCustomCandidates}
+          />
+        </Row>
+        <TableCandidates
+          totalItem={totalItem ? totalItem : null}
+          data={candidates ? candidates : null}
+          languages={languages ? languages : null}
+          city={countries ? countries : null}
+          sectors={sectors}
+          categories={categories}
+          industries={industries ? industries : null}
+          listCustomCandidates={
+            listCustomCandidates ? listCustomCandidates : null
+          }
+          listTagFilter={listTagFilter}
+          filerCandidates={filerCandidates}
         />
-      </Row>
-      <TableCandidates
-        totalItem={totalItem ? totalItem : null}
-        data={candidates ? candidates : null}
-        languages={languages ? languages : null}
-        city={countries ? countries : null}
-        sectors={sectors}
-        categories={categories}
-        industries={industries ? industries : null}
-        listCustomCandidates={
-          listCustomCandidates ? listCustomCandidates : null
-        }
-        listTagFilter={listTagFilter}
-        filerCandidates={filerCandidates}
-      />
-    </div>
+      </div>
+    </>
   );
 };

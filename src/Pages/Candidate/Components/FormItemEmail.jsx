@@ -2,8 +2,19 @@ import React from 'react';
 import FormListEmail from '../../../components/Form/FormListEmail';
 import { Form, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { useEffect } from 'react';
 
-export const FormItemEmail = ({ form }) => {
+export const FormItemEmail = ({ form, defaultValue, check }) => {
+  useEffect(() => {
+    if (defaultValue) {
+      for (let i = 0; i < defaultValue.length; i++) {
+        form.setFieldValue(['emails', i, 'email'], defaultValue[i]);
+      }
+    }
+  }, []);
+
+  console.log('check', check);
+
   return (
     <Form.Item label="Email" required>
       <Form.List name="emails" initialValue={[{}]}>
@@ -20,6 +31,8 @@ export const FormItemEmail = ({ form }) => {
                     remove={remove}
                     fields={fields}
                     isListField={isListField}
+                    defaultValue={defaultValue}
+                    disabled={check}
                   />
                 );
               })}
@@ -29,6 +42,7 @@ export const FormItemEmail = ({ form }) => {
                   onClick={() => add()}
                   block
                   icon={<PlusOutlined />}
+                  disabled={check}
                 >
                   Add field
                 </Button>
@@ -40,11 +54,3 @@ export const FormItemEmail = ({ form }) => {
     </Form.Item>
   );
 };
-
-const a = [
-  { email: '45e@gmail.com' },
-  { email: 'rrr@gmail.com' },
-  { email: '231@gmail.com' },
-];
-
-const b = ['45e@gmail.com', 'rrr@gmail.com', '231@gmail.com'];

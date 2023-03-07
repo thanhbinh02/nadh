@@ -2,7 +2,13 @@ import React from 'react';
 import { Form, InputNumber } from 'antd';
 import { useDispatch } from 'react-redux';
 
-export const FormItemInputNumber = ({ label, name, actionDispatch }) => {
+export const FormItemInputNumber = ({
+  label,
+  name,
+  actionDispatch,
+  defaultValue,
+  check,
+}) => {
   const dispatch = useDispatch();
 
   const handleBlur = (e) => {
@@ -16,6 +22,8 @@ export const FormItemInputNumber = ({ label, name, actionDispatch }) => {
         onBlur={handleBlur}
         placeholder="0"
         style={{ width: '100%' }}
+        defaultValue={defaultValue}
+        disabled={check}
       />
     </Form.Item>
   );

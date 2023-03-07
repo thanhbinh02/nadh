@@ -14,6 +14,8 @@ export const DropDownInfo = () => {
   const auth = JSON.parse(window.localStorage.getItem('user_sent'));
 
   const handleLogout = () => {
+    window.localStorage.removeItem('candidateDetail');
+    window.localStorage.removeItem('currentStep');
     dispatch(logoutAuth());
   };
 

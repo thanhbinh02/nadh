@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
+
 const axiosClient = axios.create({
   baseURL: 'https://lubrytics.com:8443/nadh-api-crm',
   headers: {
@@ -30,8 +32,12 @@ axiosClient.interceptors.response.use(
       window.location.reload();
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('user_sent');
-      // window.localStorage.removeItem('candidateDetail');
-      // window.localStorage.removeItem('currentStep');
+      window.localStorage.removeItem('candidateDetail');
+      window.localStorage.removeItem('currentStep');
+      toast.error('Expired account. Please login again!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
     }
     return Promise.reject(error);
   },

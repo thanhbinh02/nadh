@@ -69,7 +69,7 @@ const FormItemBusinessLine = ({
   const [finalResult, setfinalResult] = useState(businessLine);
   const [check, setCheck] = useState(false);
   const [dataTable, setDataTable] = useState(
-    JSON.parse(localStorage.getItem('candidateDetail')).business_line,
+    JSON.parse(localStorage.getItem('candidateDetail'))?.business_line,
   );
   const loading = useSelector((state) => state.businessLine.loading);
 
@@ -120,7 +120,7 @@ const FormItemBusinessLine = ({
       primary: -1,
     };
 
-    const isResultInArray = finalResult.some(
+    const isResultInArray = finalResult?.some(
       (item) =>
         item.industry_id === result.industry_id &&
         item.sector_id === result.sector_id &&

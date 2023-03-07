@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { AiOutlineDelete } from 'react-icons/ai';
 
 const convertStringToArray = (string) => {
-  let arr = string?.split(',').map(function (item) {
+  let arr = string?.split(',')?.map(function (item) {
     return parseInt(item, 10);
   });
   return arr;
@@ -29,7 +29,7 @@ export const FormItemSelectLanguages = ({
   const [listLanguages, setListLanguages] = useState(dataDefault);
 
   if (id) {
-    defaultValue = dataDefault.map((item) => item.key);
+    defaultValue = dataDefault?.map((item) => item.key);
   }
 
   useEffect(() => {}, [listLanguages]);
@@ -82,7 +82,7 @@ export const FormItemSelectLanguages = ({
       const result = options.filter((item) =>
         newFormItemValue.includes(item.key),
       );
-      const newResult = result.map(({ key, label }) => ({ key, label }));
+      const newResult = result?.map(({ key, label }) => ({ key, label }));
       const newName = { [`${name}`]: newResult };
       const newDataInLocal = { ...detailCandidate, ...newName };
       window.localStorage.setItem(nameLocal, JSON.stringify(newDataInLocal));
@@ -101,7 +101,7 @@ export const FormItemSelectLanguages = ({
       const result = options.filter((item) =>
         newFormItemValue.includes(item.key),
       );
-      const newResult = result.map(({ key, label }) => ({ key, label }));
+      const newResult = result?.map(({ key, label }) => ({ key, label }));
 
       const newName = { [`${name}`]: newResult };
       const newDataInLocal = { ...detailCandidate, ...newName };
@@ -130,8 +130,8 @@ export const FormItemSelectLanguages = ({
           defaultValue={defaultValue}
           className="select_language"
         >
-          {options.map((option) => {
-            const hasKeyOne = listLanguages.find(
+          {options?.map((option) => {
+            const hasKeyOne = listLanguages?.find(
               (item) => item.key === option.key,
             );
             return (
@@ -159,7 +159,7 @@ export const FormItemSelectLanguages = ({
         >
           List of Languages
         </Col>
-        {listLanguages.map((item) => {
+        {listLanguages?.map((item) => {
           return (
             <Col span={12} key={item.key}>
               {item.label}

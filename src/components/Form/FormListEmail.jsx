@@ -3,7 +3,14 @@ import { Form, Row, Col, Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { putDataCandidateEmail } from '../../store/createCandidateSlice';
 
-const FormListEmail = ({ name, form, remove, fields, isListField }) => {
+const FormListEmail = ({
+  name,
+  form,
+  remove,
+  fields,
+  isListField,
+  disabled,
+}) => {
   const { getFieldValue } = form;
   const dispatch = useDispatch();
 
@@ -52,12 +59,13 @@ const FormListEmail = ({ name, form, remove, fields, isListField }) => {
               <Input
                 placeholder="ex: email@gmail.com"
                 onBlur={handleBlur}
+                disabled={disabled}
               ></Input>
             </Form.Item>
           </Col>
           <Col span={3}>
             {fields.length > 1 && (
-              <MinusCircleOutlined onClick={handleRemove} />
+              <>{!disabled && <MinusCircleOutlined onClick={handleRemove} />}</>
             )}
           </Col>
         </Row>

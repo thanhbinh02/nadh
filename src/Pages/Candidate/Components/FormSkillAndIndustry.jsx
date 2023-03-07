@@ -38,7 +38,7 @@ const FormSkillAndIndustry = ({ setCurrentStep }) => {
   const sectors = useSelector((state) => state.categories.sectors);
   const categories = useSelector((state) => state.categories.categories);
 
-  const newBusinessLine = businessLine.map((obj) => ({
+  const newBusinessLine = businessLine?.map((obj) => ({
     industry_id: obj?.industry?.key,
     sector_id: obj?.sector?.key,
     category_id: obj?.category?.key,
@@ -127,7 +127,7 @@ const FormSkillAndIndustry = ({ setCurrentStep }) => {
             fetchDataItemTwo={fetchSectors}
             fetchDataItemThree={fetchCategories}
             typeThree={3}
-            businessLine={newBusinessLine}
+            businessLine={newBusinessLine || []}
             form={form}
             id={idCandidate}
             actionDispatch={putBusinessLineSlice}
