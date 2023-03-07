@@ -40,3 +40,8 @@ export const putDetailCandidate = async (id, params) => {
       console.log(error);
     });
 };
+
+export const getDetailCandidate = async (id) => {
+  const url = `/api/candidates/${id}`;
+  return await axiosClient.get(url);
+};

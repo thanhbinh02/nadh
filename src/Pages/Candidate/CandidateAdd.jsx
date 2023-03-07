@@ -5,6 +5,9 @@ import FormPersonalInformation from './Components/FormPersonalInformation';
 import FormSkillAndIndustry from './Components/FormSkillAndIndustry';
 import { CardEducationAndCertificate } from '../../components/Card/CardEducationAndCertificate';
 import { useEffect } from 'react';
+import { CardWorkingHistory } from '../../components/Card/CardWorkingHistory';
+import { CardRemunerationAndRewards } from '../../components/Card/CardRemunerationAndRewards';
+import { CardFinish } from '../../components/Card/CardFinish';
 
 const stepLocal = window.localStorage.getItem('currentStep');
 
@@ -54,9 +57,9 @@ const CandidateAdd = () => {
         />
       </Row>
       <Row style={{ width: '100%' }}>
-        {currentStep === 0 && (
+        {Number(currentStep) === 0 && (
           <Card style={{ width: '100%' }}>
-            <FormPersonalInformation />
+            <FormPersonalInformation setCurrentStep={setCurrentStep} />
           </Card>
         )}
         {Number(currentStep) === 1 && (
@@ -64,7 +67,18 @@ const CandidateAdd = () => {
             <FormSkillAndIndustry setCurrentStep={setCurrentStep} />
           </Card>
         )}
-        {Number(currentStep) === 2 && <CardEducationAndCertificate />}
+        {Number(currentStep) === 2 && (
+          <CardEducationAndCertificate setCurrentStep={setCurrentStep} />
+        )}
+        {Number(currentStep) === 3 && (
+          <CardWorkingHistory setCurrentStep={setCurrentStep} />
+        )}
+        {Number(currentStep) === 4 && (
+          <CardRemunerationAndRewards setCurrentStep={setCurrentStep} />
+        )}
+        {Number(currentStep) === 5 && (
+          <CardFinish setCurrentStep={setCurrentStep} />
+        )}
       </Row>
     </div>
   );

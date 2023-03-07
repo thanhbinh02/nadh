@@ -45,7 +45,9 @@ const TableCandidates = ({
           filterValue={filerCandidates?.candidate_id || undefined}
         />
       ),
-      render: (text) => <Link>{text}</Link>,
+      render: (text) => {
+        return <Link to={`/candidate-detail/${text}`}>{text}</Link>;
+      },
     },
     {
       title: 'Name',
@@ -60,7 +62,11 @@ const TableCandidates = ({
           filterValue={filerCandidates?.full_name || undefined}
         />
       ),
-      render: (text) => <Link>{text}</Link>,
+      render: (text, record) => {
+        return (
+          <Link to={`/candidate-detail/${record.candidate_id}`}>{text}</Link>
+        );
+      },
     },
     {
       title: 'Primary Status',

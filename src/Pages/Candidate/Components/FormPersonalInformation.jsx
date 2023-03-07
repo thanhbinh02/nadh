@@ -44,7 +44,7 @@ import {
   READY_TO_MOVE,
 } from '../../../utils/const';
 
-const FormPersonalInformation = () => {
+const FormPersonalInformation = ({ setCurrentStep }) => {
   const [form] = Form.useForm();
   const { Option } = Select;
   const dispatch = useDispatch();
@@ -79,6 +79,11 @@ const FormPersonalInformation = () => {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
     console.log('createCandidate', createCandidate);
+  };
+
+  const handleNextStep = () => {
+    setCurrentStep(1);
+    window.localStorage.setItem('currentStep', 1);
   };
 
   return (
@@ -322,6 +327,14 @@ const FormPersonalInformation = () => {
             Submit
           </Button>
         </Form.Item>
+      </Row>
+
+      <Row gutter={(12, 12)}>
+        <Col span={24} style={{ textAlign: 'right', marginTop: '10px' }}>
+          <Button type="primary" onClick={handleNextStep}>
+            Next
+          </Button>
+        </Col>
       </Row>
     </Form>
   );

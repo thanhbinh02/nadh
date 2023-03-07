@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu } from 'antd';
-import Link from 'antd/es/typography/Link';
+import { Link } from 'react-router-dom';
 import { FaUsers } from 'react-icons/fa';
 import { RiFileUserLine } from 'react-icons/ri';
 import { BsCardChecklist } from 'react-icons/bs';

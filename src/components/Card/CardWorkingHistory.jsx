@@ -1,28 +1,26 @@
 import { Card, Row, Col, Button, Form } from 'antd';
-import { TableAcademic } from '../Table/TableAcademic';
-import { TableCertificate } from '../Table/TableCertificate';
+import { TableWorkingHistory } from '../Table/TableWorkingHistory';
 
-export const CardEducationAndCertificate = ({ setCurrentStep }) => {
+export const CardWorkingHistory = ({ setCurrentStep }) => {
   const handleNextStep = () => {
-    setCurrentStep(3);
-    window.localStorage.setItem('currentStep', 3);
+    setCurrentStep(4);
+    window.localStorage.setItem('currentStep', 4);
   };
 
   const handlePreviousStep = () => {
-    setCurrentStep(1);
-    window.localStorage.setItem('currentStep', 1);
+    setCurrentStep(2);
+    window.localStorage.setItem('currentStep', 2);
   };
 
   return (
     <Card
-      title="EDUCATION AND CERTIFICATE"
+      title="WORKING HISTORY"
       bordered={false}
       style={{
         width: '100%',
       }}
     >
-      <TableAcademic />
-      <TableCertificate />
+      <TableWorkingHistory />
       <Row gutter={(12, 12)}>
         <Col span={24} style={{ textAlign: 'right', marginTop: '10px' }}>
           <Button style={{ marginRight: '10px' }} onClick={handlePreviousStep}>

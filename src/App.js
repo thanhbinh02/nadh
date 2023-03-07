@@ -6,6 +6,7 @@ import { Candidates } from './Pages/Candidates';
 import { PrivateLayout } from './layouts/PrivateLayout';
 import CandidateAdd from './Pages/Candidate/CandidateAdd';
 import { ToastContainer } from 'react-toastify';
+import { CandidateDetail } from './Pages/Candidate/CandidateDetail';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -19,6 +20,10 @@ function App() {
         <Route element={<PrivateLayout />}>
           <Route path="/candidates" element={<Candidates />} />
           <Route path="/candidate-add" element={<CandidateAdd />} />
+          <Route
+            path="/candidate-detail/:candidate_id"
+            element={<CandidateDetail />}
+          />
         </Route>
       </Routes>
       <ToastContainer />
