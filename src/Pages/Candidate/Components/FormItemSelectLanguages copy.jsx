@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Select, Row, Col, Button } from 'antd';
+import { Form, Select, Row, Col } from 'antd';
 import { useDispatch } from 'react-redux';
 import { AiOutlineDelete } from 'react-icons/ai';
-import { PlusOutlined } from '@ant-design/icons';
+
+const convertStringToArray = (string) => {
+  let arr = string?.split(',')?.map(function (item) {
+    return parseInt(item, 10);
+  });
+  return arr;
+};
 
 const { Option } = Select;
 export const FormItemSelectLanguages = ({
@@ -21,15 +27,6 @@ export const FormItemSelectLanguages = ({
   let defaultValue;
 
   const [listLanguages, setListLanguages] = useState(dataDefault);
-  const [showAddItem, setShowAddItem] = useState(false);
-
-  const handleSearch = (value) => {
-    if (value !== '' && value !== undefined) {
-      setShowAddItem(true);
-    } else {
-      setShowAddItem(false);
-    }
-  };
 
   if (id) {
     defaultValue = dataDefault?.map((item) => item.key);
@@ -60,7 +57,7 @@ export const FormItemSelectLanguages = ({
     }
 
     if (!id) {
-      // dispatch(actionDispatch({ value: result, label: name }));
+      dispatch(actionDispatch({ value: result, label: name }));
     } else {
       const newData = {
         id: id,
@@ -72,7 +69,7 @@ export const FormItemSelectLanguages = ({
       const newName = { [`${name}`]: result };
       const newDataInLocal = { ...detailCandidate, ...newName };
       window.localStorage.setItem(nameLocal, JSON.stringify(newDataInLocal));
-      // dispatch(actionDispatch(newData));
+      dispatch(actionDispatch(newData));
     }
   };
 
@@ -95,7 +92,7 @@ export const FormItemSelectLanguages = ({
           [`${name}`]: newResult,
         },
       };
-      // dispatch(actionDispatch(newData));
+      dispatch(actionDispatch(newData));
     } else {
       const newFormItemValue = currentFormItemValue.filter(
         (value) => value !== key,
@@ -116,7 +113,7 @@ export const FormItemSelectLanguages = ({
           [`${name}`]: newResult,
         },
       };
-      // dispatch(actionDispatch(newData));
+      dispatch(actionDispatch(newData));
     }
   };
 
@@ -124,7 +121,6 @@ export const FormItemSelectLanguages = ({
     <>
       <Form.Item name={name} label={label}>
         <Select
-          onSearch={handleSearch}
           tokenSeparators={[]}
           mode="multiple"
           showSearch
@@ -133,20 +129,6 @@ export const FormItemSelectLanguages = ({
           onChange={handleChange}
           defaultValue={defaultValue}
           className="select_language"
-          dropdownRender={(menu) => (
-            <>
-              {menu}
-              {showAddItem && (
-                <Button
-                  type="text"
-                  icon={<PlusOutlined />}
-                  style={{ width: '100%', alignItems: 'flex-start' }}
-                >
-                  Add item
-                </Button>
-              )}
-            </>
-          )}
         >
           {options?.map((option) => {
             const hasKeyOne = listLanguages?.find(

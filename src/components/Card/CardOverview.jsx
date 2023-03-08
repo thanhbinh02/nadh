@@ -3,9 +3,7 @@ import { Input } from 'antd';
 
 const { TextArea } = Input;
 export const CardOverview = () => {
-  const onChange = (e) => {
-    console.log('Change:', e.target.value);
-  };
+  const onChange = (e) => {};
 
   return (
     <Card

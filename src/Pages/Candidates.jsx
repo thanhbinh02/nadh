@@ -29,6 +29,7 @@ export const Candidates = () => {
 
   const filerCandidates = JSON.parse(window.localStorage.getItem('filterCDD'));
   const listTagFilter = useSelector((state) => state.tagsCandidates.data);
+  window.localStorage.setItem('test', JSON.stringify(['binh123', 'binh234']));
 
   useEffect(() => {
     dispatch(fetchCountries({ type: 4 }));

@@ -31,13 +31,19 @@ import {
 import { FormItemOption } from './FormItemOption';
 import { FormItemRadio } from './FormItemRadio';
 import { FormItemInputNumber } from './FormItemInputnumber';
-import { FormItemSelectMultiple } from './FormItemSelectMultiple';
+import { FormItemSelectMultiple } from './FormItemSelectNationality';
 import { FormItemPosition } from './FormItemPosition';
 import { postNewCandidate } from '../../../store/createCandidateSlice';
 import { postCandidate } from '../../../apis/candidatesApi';
 import { CustomButton } from '../../../components/CustomButton/CustomButton';
 
 import { InfoCircleOutlined } from '@ant-design/icons';
+
+import { SelectMultipleAdd } from '../../../components/Select/SelectMultipleAdd';
+
+import { getNationalityTest } from '../../../apis/filterApi';
+import { postNationality } from '../../../store/nationalitySlice';
+import { FormItemSelectNationality } from './FormItemSelectNationality';
 
 import {
   priority_status,
@@ -71,6 +77,10 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
   const districts = useSelector((state) => state.locations.districts);
   const createCandidate = useSelector((state) => state.createCandidate.data);
 
+  const checkPostNewCandidateSuccess = useSelector(
+    (state) => state.createCandidate.isSuccess,
+  );
+
   useEffect(() => {
     dispatch(fetchNationality());
     dispatch(fetchPosition());
@@ -95,10 +105,12 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
   };
 
   const handleAgree = () => {
-    dispatch(postNewCandidate(createCandidate));
     setOpen(false);
-    setCurrentStep(1);
-    window.localStorage.setItem('currentStep', 1);
+    dispatch(postNewCandidate(createCandidate));
+
+    setTimeout(() => {
+      setCurrentStep(Number(window.localStorage.getItem('currentStep')));
+    }, 1200);
   };
 
   return (
@@ -334,11 +346,19 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
 
         <Row gutter={(12, 12)}>
           <Col span={24}>
-            <FormItemSelectMultiple
-              options={nationality}
+            <FormItemSelectNationality
+              // options={nationality}
               name="nationality"
               label="Nationality"
               actionDispatch={putDataCandidateType}
+              defaultValue={
+                checkCurrentCandidate ? checkCurrentCandidate.nationality : []
+              }
+              check={checkCurrentCandidate ? true : false}
+              addItem
+              getData={getNationalityTest}
+              postData={postNationality}
+              form={form}
             />
           </Col>
         </Row>

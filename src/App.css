@@ -109,7 +109,7 @@ span.ant-table-column-title {
   border-radius: 0px;
 }
 
-:where(.css-dev-only-do-not-override-1km3mtt).select_language
+/* :where(.css-dev-only-do-not-override-1km3mtt).select_language
   .ant-select-selection-overflow {
   position: relative;
   display: flex;
@@ -128,7 +128,7 @@ span.ant-table-column-title {
   content: 'Select\ or\ add\ your\ language';
   color: #bfbfbf;
   width: 100%;
-}
+} */
 
 :where(.css-dev-only-do-not-override-1km3mtt).ant-card:not(.ant-card-bordered) {
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 50%), 0 1px 6px -1px rgb(0 0 0 / 4%),
@@ -137,4 +137,8 @@ span.ant-table-column-title {
 
 :where(.css-dev-only-do-not-override-1km3mtt).ant-card {
   border-radius: 0px;
+}
+
+:where(.css-dev-only-do-not-override-1km3mtt).ant-modal-root .ant-modal-wrap {
+  z-index: 2000;
 }

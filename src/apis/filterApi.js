@@ -66,3 +66,43 @@ export const getPhoneNumber = async () => {
   const url = '/api/locations?type=4';
   return await axiosClient.get(url);
 };
+
+// property_values
+export const postPropertyValue = async (params) => {
+  const url = '/api/property_values';
+  return await axiosClient.post(url, params);
+};
+// https://lubrytics.com:8443/nadh-api-crm/api/property_values?property_name=nationality
+
+// export const getNationalityTest = async () => {
+//   const url = '/api/property_values?property_name=nationality';
+//   return await axiosClient.get(url);
+// };
+
+// export const postNationalityTest = createAsyncThunk(
+//   'nationality/postNationality',
+//   async (value) =>
+//     await postPropertyValue({
+//       value,
+//       name: 'nationality',
+//     }),
+// );
+
+export const getNationalityTest = async (value) => {
+  const url = '/api/property_values';
+  return await axiosClient.get(url, {
+    params: {
+      value: value,
+      property_name: 'nationality',
+    },
+  });
+};
+
+export const postNationalityTest = async (value) => {
+  const url = '/api/property_values';
+  console.log('value', value);
+  return await axiosClient.post(url, {
+    value: value,
+    name: 'nationality',
+  });
+};

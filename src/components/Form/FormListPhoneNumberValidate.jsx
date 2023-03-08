@@ -30,8 +30,6 @@ const FormListPhoneNumberValidate = ({
   phoneNumber,
   disabled,
 }) => {
-  console.log('disabled', disabled);
-
   const prefixSelector = (
     <Form.Item name={[name, 'phone_code']} noStyle>
       <Select

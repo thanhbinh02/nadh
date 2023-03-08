@@ -21,24 +21,28 @@ export const DropDownInfo = () => {
 
   const items = [
     {
-      label: 'User Information',
+      label: (
+        <div aria-hidden="true">
+          <UserOutlined />
+          <span style={{ marginLeft: '10px' }}>User Information</span>
+        </div>
+      ),
       key: 1,
-      icon: <UserOutlined />,
     },
     {
       label: (
-        <span
+        <div
           aria-hidden="true"
           role="presentation"
           onClick={() => {
             setOpenModal(true);
           }}
         >
-          Log Out
-        </span>
+          <LogoutOutlined />
+          <span style={{ marginLeft: '10px' }}> Log Out</span>
+        </div>
       ),
       key: 2,
-      icon: <LogoutOutlined />,
     },
   ];
 

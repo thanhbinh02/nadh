@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { postCandidate } from '../apis/candidatesApi';
+import { toast } from 'react-toastify';
 
 export const postNewCandidate = createAsyncThunk(
   'createCandidate/postNewCandidate',
@@ -9,7 +10,7 @@ export const postNewCandidate = createAsyncThunk(
 export const createCandidateSlice = createSlice({
   name: 'createCandidate',
   initialState: {
-    isSuccess: undefined,
+    isSuccess: 123,
     loading: false,
     data: {
       first_name: undefined,
@@ -58,12 +59,14 @@ export const createCandidateSlice = createSlice({
         state.loading = true;
       },
       [postNewCandidate.fulfilled]: (state, { payload }) => {
+        console.log('fulfilled');
         state.user = payload;
         state.loading = false;
-        state.isSuccess = false;
+        state.isSuccess = true;
         localStorage.setItem('candidateDetail', payload);
       },
       [postNewCandidate.rejected]: (state) => {
+        console.log('rejected');
         state.loading = false;
         state.isSuccess = false;
       },

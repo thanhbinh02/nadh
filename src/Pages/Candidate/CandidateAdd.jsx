@@ -17,7 +17,7 @@ const CandidateAdd = () => {
   }
   const [currentStep, setCurrentStep] = useState(stepLocal || 0);
 
-  useEffect(() => {}, [currentStep]);
+  useEffect(() => {}, [stepLocal]);
 
   return (
     <div style={{ margin: '20px 30px' }}>

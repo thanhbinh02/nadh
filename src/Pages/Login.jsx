@@ -101,7 +101,7 @@ const Login = () => {
                 }}
                 onFinish={onFinish}
               >
-                <Form.Item name="username">
+                <Form.Item name="username" style={{ marginBottom: '10px' }}>
                   <Input
                     prefix={<UserOutlined className="site-form-item-icon" />}
                     placeholder="Username"
@@ -115,7 +115,7 @@ const Login = () => {
                   />
                 </Form.Item>
 
-                <Form.Item>
+                <Form.Item style={{ marginTop: '10px' }}>
                   <Button
                     type="primary"
                     htmlType="submit"

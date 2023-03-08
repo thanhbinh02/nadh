@@ -7,16 +7,16 @@ export const CardFinish = ({ setCurrentStep }) => {
 
   const handlePreviousStep = () => {
     setCurrentStep(4);
-    window.localStorage.setItem('currentStep', 4);
+    window.localStorage?.setItem('currentStep', 4);
   };
 
   const candidateId = JSON.parse(
-    localStorage.getItem('candidateDetail'),
-  ).candidate_id;
+    localStorage?.getItem('candidateDetail'),
+  )?.candidate_id;
 
   const fullName = JSON.parse(
-    localStorage.getItem('candidateDetail'),
-  ).full_name;
+    localStorage?.getItem('candidateDetail'),
+  )?.full_name;
 
   const handleViewDetail = () => {
     window.localStorage.removeItem('candidateDetail');
@@ -27,7 +27,10 @@ export const CardFinish = ({ setCurrentStep }) => {
   const handleCreateNew = () => {
     window.localStorage.removeItem('candidateDetail');
     window.localStorage.removeItem('currentStep');
-    navigate(`/candidate-add`);
+    setCurrentStep(0);
+    // setTimeout(() => {
+    //   navigate(`/candidate-add`);
+    // }, 1000);
   };
 
   return (

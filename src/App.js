@@ -7,12 +7,14 @@ import { PrivateLayout } from './layouts/PrivateLayout';
 import CandidateAdd from './Pages/Candidate/CandidateAdd';
 import { ToastContainer } from 'react-toastify';
 import { CandidateDetail } from './Pages/Candidate/CandidateDetail';
-
+import { SelectAddItem } from './components/Select/SelectAddItem';
+import { QueryClientProvider, QueryClient } from 'react-query';
 import 'react-toastify/dist/ReactToastify.css';
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div>
+    <QueryClientProvider client={queryClient}>
       <Routes>
         <Route element={<DefaultLayout />}>
           <Route path="/" element={<Login />} />
@@ -20,6 +22,7 @@ function App() {
         <Route element={<PrivateLayout />}>
           <Route path="/candidates" element={<Candidates />} />
           <Route path="/candidate-add" element={<CandidateAdd />} />
+          <Route path="/test" element={<SelectAddItem />} />
           <Route
             path="/candidate-detail/:candidate_id"
             element={<CandidateDetail />}
@@ -27,7 +30,7 @@ function App() {
         </Route>
       </Routes>
       <ToastContainer />
-    </div>
+    </QueryClientProvider>
   );
 }
 

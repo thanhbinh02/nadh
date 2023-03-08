@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getNationality } from '../apis/filterApi';
+import { postPropertyValue } from '../apis/filterApi';
+import { toast } from 'react-toastify';
 
 export const fetchNationality = createAsyncThunk(
   'nationality/fetchNationality',
@@ -12,12 +14,22 @@ export const fetchNationality = createAsyncThunk(
     }),
 );
 
+export const postNationality = createAsyncThunk(
+  'nationality/postNationality',
+  async (value) =>
+    await postPropertyValue({
+      value,
+      name: 'nationality',
+    }),
+);
+
 export const nationalitySlice = createSlice({
   name: 'nationality',
   initialState: {
     isSuccess: undefined,
     loading: false,
     data: [],
+    keyNationality: undefined,
   },
   reducers: {},
   extraReducers: {
@@ -32,6 +44,27 @@ export const nationalitySlice = createSlice({
     [fetchNationality.rejected]: (state) => {
       state.loading = false;
       state.isSuccess = false;
+    },
+    [fetchNationality.pending]: (state) => {
+      state.loading = true;
+      state.isSuccess = false;
+    },
+    [postNationality.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.isSuccess = true;
+      state.keyNationality = payload.key;
+      toast.success('Success create!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+    },
+    [postNationality.rejected]: (state) => {
+      state.loading = false;
+      state.isSuccess = false;
+      toast.error('Duplicate nationality value!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
     },
   },
 });

@@ -13,8 +13,6 @@ export const FormItemEmail = ({ form, defaultValue, check }) => {
     }
   }, []);
 
-  console.log('check', check);
-
   return (
     <Form.Item label="Email" required>
       <Form.List name="emails" initialValue={[{}]}>
