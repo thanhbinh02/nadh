@@ -280,17 +280,25 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
           </Col>
         </Row>
 
-        {/* <Row gutter={(12, 12)}>
+        <Row gutter={(12, 12)}>
           <Col span={24}>
             <FormItemAddress
               form={form}
               countries={countries}
               cities={cities}
               districts={districts}
+              actionDispatch={putDataCandidateType}
+              dataNewCandidate={createCandidate.addresses}
+              defaultValue={
+                checkCurrentCandidate
+                  ? checkCurrentCandidate.addresses
+                  : undefined
+              }
+              check={checkCurrentCandidate ? true : false}
             />
           </Col>
-        </Row> */}
-        {/* postPosition */}
+        </Row>
+
         <Row gutter={(12, 12)}>
           <Col span={24}>
             <FormItemSelectNationality

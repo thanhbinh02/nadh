@@ -34,10 +34,6 @@ axiosClient.interceptors.response.use(
       window.localStorage.removeItem('user_sent');
       // window.localStorage.removeItem('candidateDetail');
       // window.localStorage.removeItem('currentStep');
-      toast.error('Expired account. Please login again!', {
-        autoClose: 1000,
-        position: 'top-right',
-      });
     }
     console.log('error');
     return Promise.reject(error);

@@ -1,9 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import FormListAddress from '../../../components/Form/FormListAddress';
 import { Form, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
-export const FormItemAddress = ({ form, countries, cities, districts }) => {
+export const FormItemAddress = ({
+  form,
+  countries,
+  cities,
+  districts,
+  actionDispatch,
+  dataNewCandidate,
+  defaultValue,
+  check,
+}) => {
+  console.log('defaultValue', defaultValue);
+
+  useEffect(() => {
+    if (check) {
+      for (let i = 0; i < defaultValue.length; i++) {
+        form.setFieldValue(
+          ['addresses', i, 'country'],
+          defaultValue[i]?.country?.label || undefined,
+        );
+        form.setFieldValue(
+          ['addresses', i, 'city'],
+          defaultValue[i]?.city?.label || undefined,
+        );
+        form.setFieldValue(
+          ['addresses', i, 'district'],
+          defaultValue[i]?.district?.label || undefined,
+        );
+        form.setFieldValue(
+          ['addresses', i, 'address'],
+          defaultValue[i]?.address || undefined,
+        );
+      }
+    }
+  }, []);
+
   return (
     <Form.Item label="Address">
       <Form.List name="addresses" initialValue={[{}]}>
@@ -23,6 +57,9 @@ export const FormItemAddress = ({ form, countries, cities, districts }) => {
                     optionOne={countries}
                     optionTwo={cities}
                     optionThree={districts}
+                    actionDispatch={actionDispatch}
+                    dataNewCandidate={dataNewCandidate}
+                    check
                   />
                 );
               })}
@@ -32,6 +69,7 @@ export const FormItemAddress = ({ form, countries, cities, districts }) => {
                   onClick={() => add()}
                   block
                   icon={<PlusOutlined />}
+                  disabled={check}
                 >
                   Add field
                 </Button>
