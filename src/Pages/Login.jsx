@@ -22,7 +22,7 @@ const Login = () => {
       (values.password !== undefined || values.password !== '')
     ) {
       setOpenModal(true);
-      setContentModal('Vui lòng nhập username!');
+      setContentModal('Please enter username!');
       return;
     }
     if (
@@ -30,7 +30,7 @@ const Login = () => {
       (values.password === undefined || values.password === '')
     ) {
       setOpenModal(true);
-      setContentModal('Vui lòng nhập password!');
+      setContentModal('Please enter password!');
       return;
     }
     if (
@@ -38,7 +38,7 @@ const Login = () => {
       (values.password === undefined || values.password === '')
     ) {
       setOpenModal(true);
-      setContentModal('Vui lòng nhập username và password!');
+      setContentModal('Please enter username and password!');
       return;
     }
 
@@ -52,7 +52,7 @@ const Login = () => {
     setTimeout(() => {
       if (successLogin === undefined || successLogin === false) {
         setOpenModal(true);
-        setContentModal('Username hoặc password sai!');
+        setContentModal('Username or password error!');
         return;
       }
     }, 800);

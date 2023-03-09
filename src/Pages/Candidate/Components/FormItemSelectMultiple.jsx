@@ -24,7 +24,7 @@ export const FormItemSelectMultiple = ({
   const dispatch = useDispatch();
   let defaultValue;
   if (id) {
-    defaultValue = dataDefault.map((item) => item.key);
+    defaultValue = dataDefault.map((item) => Number(item.key));
   }
 
   const handleChange = (value) => {
@@ -75,7 +75,7 @@ export const FormItemSelectMultiple = ({
       >
         {options.map((option) => {
           return (
-            <Option key={option.key} value={option.key} label={option.label}>
+            <Option key={option.key} value={option.key} label={option.key}>
               {option.label}
             </Option>
           );

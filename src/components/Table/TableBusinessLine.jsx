@@ -14,16 +14,16 @@ export const TableBusinessLine = ({
   dispatch,
 }) => {
   const [change, setChange] = useState(dataTable);
-  const [checkClick, setCheckClick] = useState(true);
 
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem('candidateDetail')).business_line,
   );
 
   useEffect(() => {
-    setData(JSON.parse(localStorage.getItem('candidateDetail')).business_line);
-    console.log('data', data);
-  }, [checkClick]);
+    setChange(
+      JSON.parse(localStorage.getItem('candidateDetail'))?.business_line,
+    );
+  }, [check]);
 
   const columns = [
     {
@@ -35,13 +35,13 @@ export const TableBusinessLine = ({
             {text === -1 && (
               <Checkbox
                 checked={false}
-                onClick={() => handleSetPrimary(text, record)}
+                // onClick={() => handleSetPrimary(text, record)}
               ></Checkbox>
             )}
             {text === 1 && (
               <Checkbox
                 checked={true}
-                onClick={() => handleSetPrimary(text, record)}
+                // onClick={() => handleSetPrimary(text, record)}
               ></Checkbox>
             )}
           </>
@@ -96,18 +96,10 @@ export const TableBusinessLine = ({
       },
     };
 
-    // dispatch(actionDispatch(newData));
+    dispatch(actionDispatch(newData));
   };
 
-  useEffect(() => {
-    setChange(
-      JSON.parse(localStorage.getItem('candidateDetail'))?.business_line,
-    );
-  }, [check]);
-
   const handleSetPrimary = (text, record) => {
-    setCheckClick(!checkClick);
-
     if (record.primary === 1) {
       setCheck(!check);
       const updatedObj = Object.assign({}, data[record.key], {
@@ -124,8 +116,6 @@ export const TableBusinessLine = ({
         }
       }
 
-      console.log('final 1', final);
-
       const newData = {
         id: id,
         params: {
@@ -136,7 +126,6 @@ export const TableBusinessLine = ({
       dispatch(actionDispatch(newData));
     } else {
       setCheck(!check);
-      console.log('finalResult', finalResult);
 
       const updatedObj = Object.assign({}, data[record.key], {
         primary: 1,
@@ -177,7 +166,7 @@ export const TableBusinessLine = ({
     // dispatch(actionDispatch(newData));
   };
 
-  const newData = data?.map((item, index) => ({
+  const newData = change?.map((item, index) => ({
     key: index,
     primary: item?.primary,
     industry: item?.industry?.label,

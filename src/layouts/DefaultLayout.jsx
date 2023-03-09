@@ -4,5 +4,6 @@ import { useSelector } from 'react-redux';
 
 export const DefaultLayout = () => {
   const token = useSelector((state) => state.auth.token);
-  return token ? <Navigate to="/candidates" /> : <Outlet />;
+  const user_sent = useSelector((state) => state.auth.user_sent);
+  return token && user_sent ? <Navigate to="/candidates" /> : <Outlet />;
 };

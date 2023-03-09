@@ -38,6 +38,12 @@ export const Candidates = () => {
     dispatch(fetchHighestDegree({ type: 1 }));
     dispatch(fetchListCustoms('candidates'));
     dispatch(getTagsCandidates(filerCandidates));
+    if (!filerCandidates) {
+      window.localStorage.setItem(
+        'filterCDD',
+        JSON.stringify({ page: 1, perPage: 10 }),
+      );
+    }
   }, []);
 
   return (

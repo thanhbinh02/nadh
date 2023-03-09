@@ -17,6 +17,7 @@ import jobFunctionsSkillsReducer from './jobFunctionsSkillsSlice';
 import createCandidateReducer from './createCandidateSlice';
 import businessLineReducer from './businessLineSlice';
 import detailCandidateReducer from './detailCandidateSlice';
+import detailCandidateLocalReducer from './detailCandidateLocalSlice';
 
 export const store = configureStore({
   reducer: {
@@ -38,5 +39,6 @@ export const store = configureStore({
     createCandidate: createCandidateReducer,
     businessLine: businessLineReducer,
     detailCandidate: detailCandidateReducer,
+    detailCandidateLocal: detailCandidateLocalReducer,
   },
 });

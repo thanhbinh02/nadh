@@ -16,6 +16,7 @@ export const DropDownInfo = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('candidateDetail');
     window.localStorage.removeItem('currentStep');
+    window.localStorage.removeItem('filterCDD');
     dispatch(logoutAuth());
   };
 
@@ -111,34 +112,3 @@ export const DropDownInfo = () => {
     </>
   );
 };
-
-// const array = [
-//   {
-//     full_name: '33',
-//   },
-//   {
-//     priority_status: '44',
-//   },
-//   {
-//     location: {
-//       countryCity: {
-//         city: 'An Giang',
-//         country: 'Viet Nam',
-//       },
-//     },
-//   },
-// ];
-
-const array = [
-  {
-    priority_status: '44',
-  },
-  {
-    location: {
-      countryCity: {
-        city: 'An Giang',
-        country: 'Viet Nam',
-      },
-    },
-  },
-];

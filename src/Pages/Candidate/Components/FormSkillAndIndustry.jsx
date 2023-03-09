@@ -45,8 +45,6 @@ const FormSkillAndIndustry = ({ setCurrentStep }) => {
     primary: obj?.primary,
   }));
 
-  console.log('newBusinessLine', newBusinessLine);
-
   useEffect(() => {
     dispatch(fetchSoftSkills());
     dispatch(fetchJobFunctionsSkills());
@@ -108,7 +106,7 @@ const FormSkillAndIndustry = ({ setCurrentStep }) => {
           <FormItemSelectLanguages
             name="languages"
             label="Languages"
-            placeholder="Select or add your languages"
+            placeholder="Select your languages"
             options={languages}
             actionDispatch={putNewDetailCandidate}
             id={idCandidate}

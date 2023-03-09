@@ -1,7 +1,7 @@
 import { Table, Tag, Spin } from 'antd';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineEye } from 'react-icons/ai';
 
@@ -33,7 +33,11 @@ const TableCandidates = ({
 }) => {
   const dispatch = useDispatch();
   const listCustomCandidates = useSelector((state) => state.customColumn.data);
-  const [pageTable, setPageTable] = useState(filerCandidates.page);
+  const [pageTable, setPageTable] = useState(filerCandidates?.page);
+
+  useEffect(() => {
+    setPageTable(filerCandidates?.page);
+  }, [filerCandidates?.page]);
 
   const columns = [
     {

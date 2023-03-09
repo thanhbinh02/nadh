@@ -6,7 +6,8 @@ import { NavHeader } from './components/NavHeader';
 
 export const PrivateLayout = () => {
   const token = useSelector((state) => state.auth.token);
-  return token ? (
+  const user_sent = useSelector((state) => state.auth.user_sent);
+  return token && user_sent ? (
     <>
       <Header />
       <NavHeader />

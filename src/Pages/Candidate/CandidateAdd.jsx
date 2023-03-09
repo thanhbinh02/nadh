@@ -11,9 +11,21 @@ import { CardFinish } from '../../components/Card/CardFinish';
 import { CardFormPersonalInformation } from '../../components/Card/CardFormPersonalInformation';
 import { useDispatch } from 'react-redux';
 
+import { fetchDetailCandidateLocalSlice } from '../../store/detailCandidateLocalSlice';
+
 const CandidateAdd = () => {
   const dispatch = useDispatch();
+
   const stepLocal = window.localStorage.getItem('currentStep');
+  const checkCurrentCandidate = JSON.parse(
+    window.localStorage.getItem('candidateDetail'),
+  );
+
+  useEffect(() => {
+    if (checkCurrentCandidate) {
+      dispatch(fetchDetailCandidateLocalSlice(checkCurrentCandidate.id));
+    }
+  }, []);
 
   if (stepLocal === null) {
     window.localStorage.setItem('currentStep', 0);

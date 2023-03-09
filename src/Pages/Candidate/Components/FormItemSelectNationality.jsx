@@ -70,7 +70,6 @@ export const FormItemSelectNationality = ({
     const hasLabe = dataGet.data.some((item) => item.label === contentModal);
     if (!hasLabe) {
       const currentValue = form.getFieldValue(name);
-      console.log('currentValue', currentValue);
       setTest((prevValues) => [...currentValue, contentModal]);
     }
 
@@ -102,7 +101,10 @@ export const FormItemSelectNationality = ({
         const resultFinal = dataDispatch.filter((obj) =>
           value.includes(obj.label),
         );
-        dispatch(actionDispatch({ value: resultFinal, label: name }));
+        const uniqueData = [
+          ...new Set(resultFinal.map((item) => JSON.stringify(item))),
+        ].map((item) => JSON.parse(item));
+        dispatch(actionDispatch({ value: uniqueData, label: name }));
       }
     } else {
       const newData = {
@@ -147,7 +149,10 @@ export const FormItemSelectNationality = ({
           ) === index
         );
       });
-      dispatch(actionDispatch({ value: dataDispatch, label: name }));
+      const uniqueData = [
+        ...new Set(dataDispatch.map((item) => JSON.stringify(item))),
+      ].map((item) => JSON.parse(item));
+      dispatch(actionDispatch({ value: uniqueData, label: name }));
       setCheckFocus(false);
     }
     setContentModal();
@@ -182,12 +187,15 @@ export const FormItemSelectNationality = ({
         obj.label === value
       );
     });
+    const uniqueData = [
+      ...new Set(filteredArr.map((item) => JSON.stringify(item))),
+    ].map((item) => JSON.parse(item));
     setTestResult(filteredArr);
-    dispatch(actionDispatch({ value: filteredArr, label: name }));
+    dispatch(actionDispatch({ value: uniqueData, label: name }));
 
     form.setFieldValue(
-      filteredArr,
-      filteredArr.map((obj) => obj.label),
+      uniqueData,
+      uniqueData.map((obj) => obj.label),
     );
   };
 

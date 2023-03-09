@@ -101,7 +101,10 @@ export const FormItemSelectPosition = ({
         const resultFinal = dataDispatch.filter((obj) =>
           value.includes(obj.label),
         );
-        dispatch(actionDispatch(resultFinal));
+        const uniqueData = [
+          ...new Set(resultFinal.map((item) => JSON.stringify(item))),
+        ].map((item) => JSON.parse(item));
+        dispatch(actionDispatch(uniqueData));
       }
     } else {
       const newData = {
@@ -146,7 +149,10 @@ export const FormItemSelectPosition = ({
           ) === index
         );
       });
-      dispatch(actionDispatch(dataDispatch));
+      const uniqueData = [
+        ...new Set(dataDispatch.map((item) => JSON.stringify(item))),
+      ].map((item) => JSON.parse(item));
+      dispatch(actionDispatch(uniqueData));
       setCheckFocus(false);
     }
     setContentModal();
@@ -181,12 +187,16 @@ export const FormItemSelectPosition = ({
         obj.label === value
       );
     });
-    setTestResult(filteredArr);
-    dispatch(actionDispatch(filteredArr));
+    const uniqueData = [
+      ...new Set(filteredArr.map((item) => JSON.stringify(item))),
+    ].map((item) => JSON.parse(item));
+    setTestResult(uniqueData);
+
+    dispatch(actionDispatch(uniqueData));
 
     form.setFieldValue(
-      filteredArr,
-      filteredArr.map((obj) => obj.label),
+      uniqueData,
+      uniqueData.map((obj) => obj.label),
     );
   };
 
