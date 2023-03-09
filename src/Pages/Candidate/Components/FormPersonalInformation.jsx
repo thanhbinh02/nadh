@@ -44,6 +44,10 @@ import { SelectMultipleAdd } from '../../../components/Select/SelectMultipleAdd'
 import { getNationalityTest } from '../../../apis/filterApi';
 import { postNationality } from '../../../store/nationalitySlice';
 import { FormItemSelectNationality } from './FormItemSelectNationality';
+import { postPosition } from '../../../store/positionSlice';
+import { getPositionTest } from '../../../apis/filterApi';
+
+import { FormItemSelectPosition } from './FormItemSelectPosition';
 
 import {
   priority_status,
@@ -80,6 +84,12 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
   const checkPostNewCandidateSuccess = useSelector(
     (state) => state.createCandidate.isSuccess,
   );
+
+  const keyNationality = useSelector(
+    (state) => state.nationality.keyNationality,
+  );
+
+  const keyPosition = useSelector((state) => state.position.keyPosition);
 
   useEffect(() => {
     dispatch(fetchNationality());
@@ -343,11 +353,10 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
             />
           </Col>
         </Row> */}
-
+        {/* postPosition */}
         <Row gutter={(12, 12)}>
           <Col span={24}>
             <FormItemSelectNationality
-              // options={nationality}
               name="nationality"
               label="Nationality"
               actionDispatch={putDataCandidateType}
@@ -359,22 +368,41 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
               getData={getNationalityTest}
               postData={postNationality}
               form={form}
+              keyNewItem={keyNationality}
             />
           </Col>
         </Row>
 
         <Row gutter={(12, 12)}>
-          <Col span={24}>
+          {/* <Col span={24}>
             <FormItemPosition
               name="positions"
               label="Position Applied"
               options={position}
               actionDispatch={putDataCandidatePositions}
             />
+          </Col> */}
+          <Col span={24}>
+            <FormItemSelectPosition
+              name="positions"
+              label="Position Applied"
+              actionDispatch={putDataCandidatePositions}
+              defaultValue={
+                checkCurrentCandidate
+                  ? checkCurrentCandidate?.prefer_position?.positions
+                  : []
+              }
+              check={checkCurrentCandidate ? true : false}
+              addItem
+              getData={getPositionTest}
+              postData={postPosition}
+              form={form}
+              keyNewItem={keyPosition}
+            />
           </Col>
         </Row>
 
-        {/* <Row gutter={(12, 12)}>
+        <Row gutter={(12, 12)}>
           <Col span={24}>
             <FormItemOption
               name="highest_education"
@@ -384,7 +412,7 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
               actionDispatch={putDataCandidateType}
             />
           </Col>
-        </Row> */}
+        </Row>
 
         <Row gutter={(12, 12)}>
           <Col span={12}>

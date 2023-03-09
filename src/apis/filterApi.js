@@ -106,3 +106,13 @@ export const postNationalityTest = async (value) => {
     name: 'nationality',
   });
 };
+
+export const getPositionTest = async (value) => {
+  const url = '/api/property_values';
+  return await axiosClient.get(url, {
+    params: {
+      value: value,
+      property_name: 'position',
+    },
+  });
+};

@@ -8,7 +8,7 @@ import { CustomButton } from '../../../components/CustomButton/CustomButton';
 import { useQuery } from 'react-query';
 
 const { Option } = Select;
-export const FormItemSelectNationality = ({
+export const FormItemSelectPosition = ({
   name,
   label,
   actionDispatch,
@@ -101,7 +101,7 @@ export const FormItemSelectNationality = ({
         const resultFinal = dataDispatch.filter((obj) =>
           value.includes(obj.label),
         );
-        dispatch(actionDispatch({ value: resultFinal, label: name }));
+        dispatch(actionDispatch(resultFinal));
       }
     } else {
       const newData = {
@@ -142,7 +142,7 @@ export const FormItemSelectNationality = ({
           ) === index
         );
       });
-      dispatch(actionDispatch({ value: dataDispatch, label: name }));
+      dispatch(actionDispatch(dataDispatch));
       setCheckFocus(false);
     }
     setContentModal();
@@ -154,7 +154,7 @@ export const FormItemSelectNationality = ({
   };
 
   const handleClear = () => {
-    dispatch(actionDispatch({ value: [], label: name }));
+    dispatch(actionDispatch([]));
     setTestResult([]);
     setClearItem(true);
   };
@@ -178,7 +178,7 @@ export const FormItemSelectNationality = ({
       );
     });
     setTestResult(filteredArr);
-    dispatch(actionDispatch({ value: filteredArr, label: name }));
+    dispatch(actionDispatch(filteredArr));
 
     form.setFieldValue(
       filteredArr,
