@@ -24,7 +24,7 @@ export const createCandidateSlice = createSlice({
       addresses: [],
       current_emails: [],
       direct_reports: undefined,
-      // dob: undefined,
+      dob: undefined,
       emails: [],
       // highest_education: undefined,
       industry_years: undefined,

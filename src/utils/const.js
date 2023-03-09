@@ -188,51 +188,51 @@ export const DATES = [
 
 export const MONTHS = [
   {
-    key: 1,
+    key: '01',
     label: 'Jan',
   },
   {
-    key: 2,
+    key: '02',
     label: 'Feb',
   },
   {
-    key: 3,
+    key: '03',
     label: 'Mar',
   },
   {
-    key: 4,
+    key: '04',
     label: 'Apr',
   },
   {
-    key: 5,
+    key: '05',
     label: 'May',
   },
   {
-    key: 6,
+    key: '06',
     label: 'Jun',
   },
   {
-    key: 7,
+    key: '07',
     label: 'Jul',
   },
   {
-    key: 8,
+    key: '08',
     label: 'Aug',
   },
   {
-    key: 9,
+    key: '09',
     label: 'Sep',
   },
   {
-    key: 10,
+    key: '10',
     label: 'Oct',
   },
   {
-    key: 11,
+    key: '11',
     label: 'Nov',
   },
   {
-    key: 12,
+    key: '12',
     label: 'Dec',
   },
 ];

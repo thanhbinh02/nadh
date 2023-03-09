@@ -31,15 +31,9 @@ import {
 import { FormItemOption } from './FormItemOption';
 import { FormItemRadio } from './FormItemRadio';
 import { FormItemInputNumber } from './FormItemInputnumber';
-import { FormItemSelectMultiple } from './FormItemSelectNationality';
-import { FormItemPosition } from './FormItemPosition';
-import { postNewCandidate } from '../../../store/createCandidateSlice';
-import { postCandidate } from '../../../apis/candidatesApi';
 import { CustomButton } from '../../../components/CustomButton/CustomButton';
 
 import { InfoCircleOutlined } from '@ant-design/icons';
-
-import { SelectMultipleAdd } from '../../../components/Select/SelectMultipleAdd';
 
 import { getNationalityTest } from '../../../apis/filterApi';
 import { postNationality } from '../../../store/nationalitySlice';
@@ -48,11 +42,11 @@ import { postPosition } from '../../../store/positionSlice';
 import { getPositionTest } from '../../../apis/filterApi';
 
 import { FormItemSelectPosition } from './FormItemSelectPosition';
+import { FormItemBirthday } from './FormItemBirthday';
+import { postNewCandidate } from '../../../store/createCandidateSlice';
 
 import {
   priority_status,
-  DATES,
-  MONTHS,
   GENDERS,
   MARITAL_STATUS,
   READY_TO_MOVE,
@@ -72,18 +66,12 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
     yearsRange.push({ key: i });
   }
 
-  const nationality = useSelector((state) => state.nationality.data);
-  const position = useSelector((state) => state.position.data);
   const degree = useSelector((state) => state.degree.data);
   const phoneNumber = useSelector((state) => state.phoneNumber.data);
   const countries = useSelector((state) => state.locations.countries);
   const cities = useSelector((state) => state.locations.cities);
   const districts = useSelector((state) => state.locations.districts);
   const createCandidate = useSelector((state) => state.createCandidate.data);
-
-  const checkPostNewCandidateSuccess = useSelector(
-    (state) => state.createCandidate.isSuccess,
-  );
 
   const keyNationality = useSelector(
     (state) => state.nationality.keyNationality,
@@ -116,11 +104,11 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
 
   const handleAgree = () => {
     setOpen(false);
-    dispatch(postNewCandidate(createCandidate));
+    // dispatch(postNewCandidate(createCandidate));
 
     setTimeout(() => {
       setCurrentStep(Number(window.localStorage.getItem('currentStep')));
-    }, 1200);
+    }, 1000);
   };
 
   return (
@@ -199,66 +187,14 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
           </Col>
         </Row>
 
-        {/* <Form.Item label="Birthday">
-          <Row gutter={(12, 12)}>
-            <Col span={4}>
-              <Form.Item name="date_birthday">
-                <Select
-                  allowClear
-                  showSearch
-                  style={{ width: '100%', borderRadius: '0px' }}
-                  placeholder="Date"
-                >
-                  {DATES.map((option) => {
-                    return (
-                      <Option key={option.key} value={option.key}>
-                        {option.key}
-                      </Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col span={4}>
-              <Form.Item name="month_birthday">
-                <Select
-                  allowClear
-                  showSearch
-                  style={{ width: '100%', borderRadius: '0px' }}
-                  placeholder="Month"
-                  optionFilterProp="children"
-                >
-                  {MONTHS.map((option) => {
-                    return (
-                      <Option key={option.key} value={option.key}>
-                        {option.label}
-                      </Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col span={4}>
-              <Form.Item name="year_birthday">
-                <Select
-                  allowClear
-                  showSearch
-                  style={{ width: '100%', borderRadius: '0px' }}
-                  placeholder="Year"
-                  optionFilterProp="children"
-                >
-                  {yearsRange.map((option) => {
-                    return (
-                      <Option key={option.key} value={option.key}>
-                        {option.key}
-                      </Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form.Item> */}
+        <FormItemBirthday
+          form={form}
+          actionDispatch={putDataCandidateType}
+          defaultValue={
+            checkCurrentCandidate ? checkCurrentCandidate.dob : undefined
+          }
+          check={checkCurrentCandidate ? true : false}
+        />
 
         <Row gutter={(12, 12)}>
           <Col span={12}>
