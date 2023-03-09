@@ -45,6 +45,8 @@ const FormSkillAndIndustry = ({ setCurrentStep }) => {
     primary: obj?.primary,
   }));
 
+  console.log('newBusinessLine', newBusinessLine);
+
   useEffect(() => {
     dispatch(fetchSoftSkills());
     dispatch(fetchJobFunctionsSkills());

@@ -41,7 +41,7 @@ export const CandidateDetail = () => {
                 <Breadcrumb.Item>
                   <span
                     style={{ fontWeight: '500' }}
-                  >{`${candidate_id} - ${detailCandidate?.full_name?.toUpperCase()} - ACTIVE - RAW`}</span>
+                  >{`${candidate_id} - ${detailCandidate?.full_name?.toUpperCase()} `}</span>
                 </Breadcrumb.Item>
               </Breadcrumb>
             </Col>
@@ -60,10 +60,10 @@ export const CandidateDetail = () => {
           >
             <Col span={16}>
               <CardOverview />
-              <CardSkillsAndIndustry
+              {/* <CardSkillsAndIndustry
                 idCandidate={detailCandidate.id}
                 dataDefault={detailCandidate.soft_skills}
-              />
+              /> */}
             </Col>
             <Col>Thanh Binh</Col>
           </Row>

@@ -1,21 +1,24 @@
-import { Table, Tag } from 'antd';
+import { Table, Tag, Spin } from 'antd';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AiOutlineEye } from 'react-icons/ai';
+
 import { FilterDropDownText } from '../Filter/FilterDropDownText';
 import { FilterDropDownSelectOneItem } from '../Filter/FilterDropDownSelectOneItem';
-import { priority_status } from '../../utils/const';
 import FilterDropDownCountryCity from '../Filter/FilterDropDownCountryCity';
 import FilterDropDownIndustry from '../Filter/FilterDropDownIndustry';
+import { filterTagCandidates } from '../../utils/filterTagCandidates';
+import { FilterTimeRange } from '../Filter/FilterTimeRange';
+
+import { priority_status } from '../../utils/const';
+import { candidate_flow_status } from '../../utils/const';
+
 import { fetchSectors } from '../../store/categoriesSlice';
 import { fetchCategories } from '../../store/categoriesSlice';
-import { FilterTimeRange } from '../Filter/FilterTimeRange';
-import { candidate_flow_status } from '../../utils/const';
-import { AiOutlineEye } from 'react-icons/ai';
-import { useDispatch } from 'react-redux';
 import { fetchCandidates } from '../../store/candidatesSlice';
 import TagFilter from '../TagFilter';
-import { filterTagCandidates } from '../../utils/filterTagCandidates';
-import { useSelector } from 'react-redux';
 
 const TableCandidates = ({
   data,
@@ -30,6 +33,7 @@ const TableCandidates = ({
 }) => {
   const dispatch = useDispatch();
   const listCustomCandidates = useSelector((state) => state.customColumn.data);
+  const [pageTable, setPageTable] = useState(filerCandidates.page);
 
   const columns = [
     {
@@ -181,9 +185,17 @@ const TableCandidates = ({
         />
       ),
       render: (text) => {
-        return text?.map((item, index) => (
-          <p key={index}>* {item?.sector?.name}</p>
-        ));
+        return text?.map((item, index) => {
+          if (item?.category?.name) {
+            return <p key={index}>* {item?.category?.name}</p>;
+          }
+          if (item?.sector?.name) {
+            return <p key={index}>* {item?.sector?.name}</p>;
+          }
+          if (item?.industry?.name) {
+            return <p key={index}>* {item?.industry?.name}</p>;
+          }
+        });
       },
     },
     {
@@ -223,16 +235,10 @@ const TableCandidates = ({
         />
       ),
       render: (text) => {
-        if (text === 2) {
-          return <div>Screening Call</div>;
-        }
-        if (text === 1) {
-          return <div>Raw</div>;
-        }
-        if (text === -3) {
-          return <div>Rejected by Client</div>;
-        }
-        return <div>{text}</div>;
+        const item = candidate_flow_status?.find(
+          (item) => item.key === Number(text),
+        );
+        return <div>{item?.label}</div>;
       },
     },
     {
@@ -306,8 +312,12 @@ const TableCandidates = ({
     {
       title: 'Action',
       dataIndex: 'action',
-      render: (text) => {
-        return <AiOutlineEye />;
+      render: (text, record) => {
+        return (
+          <Link to={`/candidate-detail/${record.candidate_id}`}>
+            <AiOutlineEye />
+          </Link>
+        );
       },
     },
   ];
@@ -357,9 +367,11 @@ const TableCandidates = ({
                 total: totalItem,
                 showSizeChanger: false,
                 showQuickJumper: true,
-                onChange: (page, pageSize) => {
+                onChange: (page) => {
+                  setPageTable(page);
                   dispatch(fetchCandidates({ page: page }));
                 },
+                current: pageTable,
               }}
             />
           </>

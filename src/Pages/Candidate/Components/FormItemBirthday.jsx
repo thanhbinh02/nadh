@@ -14,8 +14,7 @@ export const FormItemBirthday = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (defaultValue !== undefined) {
-      console.log('vodaykhong');
+    if (defaultValue !== undefined && defaultValue !== null) {
       const dateArr = defaultValue.split('-');
       const year = dateArr[0];
       const month = dateArr[1];
@@ -84,7 +83,7 @@ export const FormItemBirthday = ({
 
   return (
     <Form.Item label="Birthday" name="dob">
-      <Row gutter={(12, 12)}>
+      <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
         <Col span={4}>
           <Form.Item
             name="date_birthday"

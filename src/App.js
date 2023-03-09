@@ -10,6 +10,8 @@ import { CandidateDetail } from './Pages/Candidate/CandidateDetail';
 import { SelectAddItem } from './components/Select/SelectAddItem';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import 'react-toastify/dist/ReactToastify.css';
+import { Page404 } from './Pages/Page404';
+
 const queryClient = new QueryClient();
 
 function App() {
@@ -27,6 +29,7 @@ function App() {
             path="/candidate-detail/:candidate_id"
             element={<CandidateDetail />}
           />
+          <Route path="*" element={<Page404 />} />
         </Route>
       </Routes>
       <ToastContainer />

@@ -100,7 +100,6 @@ export const getNationalityTest = async (value) => {
 
 export const postNationalityTest = async (value) => {
   const url = '/api/property_values';
-  console.log('value', value);
   return await axiosClient.post(url, {
     value: value,
     name: 'nationality',

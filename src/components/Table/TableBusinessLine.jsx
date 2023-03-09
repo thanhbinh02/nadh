@@ -2,6 +2,7 @@ import React from 'react';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { Table, Row, Col, Checkbox } from 'antd';
 import { useState, useEffect } from 'react';
+import { useQuery } from 'react-query';
 
 export const TableBusinessLine = ({
   dataTable,
@@ -13,6 +14,16 @@ export const TableBusinessLine = ({
   dispatch,
 }) => {
   const [change, setChange] = useState(dataTable);
+  const [checkClick, setCheckClick] = useState(true);
+
+  const [data, setData] = useState(
+    JSON.parse(localStorage.getItem('candidateDetail')).business_line,
+  );
+
+  useEffect(() => {
+    setData(JSON.parse(localStorage.getItem('candidateDetail')).business_line);
+    console.log('data', data);
+  }, [checkClick]);
 
   const columns = [
     {
@@ -25,17 +36,13 @@ export const TableBusinessLine = ({
               <Checkbox
                 checked={false}
                 onClick={() => handleSetPrimary(text, record)}
-              >
-                Checkbox
-              </Checkbox>
+              ></Checkbox>
             )}
             {text === 1 && (
               <Checkbox
                 checked={true}
                 onClick={() => handleSetPrimary(text, record)}
-              >
-                Checkbox
-              </Checkbox>
+              ></Checkbox>
             )}
           </>
         );
@@ -89,28 +96,7 @@ export const TableBusinessLine = ({
       },
     };
 
-    dispatch(actionDispatch(newData));
-  };
-
-  const handleSetPrimary = (text, record) => {
-    const key = record.key;
-    const updateData = finalResult.map((item, index) => {
-      if (index === key && text === -1) {
-        return { ...item, primary: 1 };
-      }
-      if (index === key && text === 1) {
-        return { ...item, primary: -1 };
-      }
-      return item;
-    });
-
-    const newData = {
-      id: id,
-      params: {
-        business_line: updateData,
-      },
-    };
-    dispatch(actionDispatch(newData));
+    // dispatch(actionDispatch(newData));
   };
 
   useEffect(() => {
@@ -119,7 +105,79 @@ export const TableBusinessLine = ({
     );
   }, [check]);
 
-  const newData = change?.map((item, index) => ({
+  const handleSetPrimary = (text, record) => {
+    setCheckClick(!checkClick);
+
+    if (record.primary === 1) {
+      setCheck(!check);
+      const updatedObj = Object.assign({}, data[record.key], {
+        primary: -1,
+      });
+
+      const final = [];
+
+      for (let i = 0; i < data.length; i++) {
+        if (i !== record.key) {
+          final.push(data[i]);
+        } else {
+          final.push(updatedObj);
+        }
+      }
+
+      console.log('final 1', final);
+
+      const newData = {
+        id: id,
+        params: {
+          business_line: final,
+        },
+      };
+
+      dispatch(actionDispatch(newData));
+    } else {
+      setCheck(!check);
+      console.log('finalResult', finalResult);
+
+      const updatedObj = Object.assign({}, data[record.key], {
+        primary: 1,
+      });
+
+      const final = [];
+
+      for (let i = 0; i < data.length; i++) {
+        if (i !== record.key) {
+          console.log('i', i, data[i]);
+          final.push(data[i]);
+        } else {
+          final.push(updatedObj);
+        }
+      }
+
+      console.log('final -1', final);
+
+      const newData = {
+        id: id,
+        params: {
+          business_line: final,
+        },
+      };
+
+      dispatch(actionDispatch(newData));
+    }
+
+    // const newData = {
+    //   id: id,
+    //   params: {
+    //     business_line: updateData,
+    //   },
+    // };
+
+    // console.log('newData', newData);
+
+    // dispatch(actionDispatch(newData));
+  };
+
+  const newData = data?.map((item, index) => ({
     key: index,
     primary: item?.primary,
     industry: item?.industry?.label,

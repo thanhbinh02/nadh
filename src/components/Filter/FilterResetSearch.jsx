@@ -3,7 +3,7 @@ import { Button, Col } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { ButtonReset } from '../CustomButton/ButtonReset';
 
-export const FilterResetSearch = ({ onClick, disable }) => {
+export const FilterResetSearch = ({ onClick, disabled }) => {
   return (
     <>
       <Col span={12}>
@@ -16,7 +16,7 @@ export const FilterResetSearch = ({ onClick, disable }) => {
           style={{ width: '100%', borderRadius: '0px' }}
           icon={<SearchOutlined />}
           onClick={onClick}
-          disable={disable}
+          disabled={disabled}
         >
           Search
         </Button>

@@ -13,8 +13,6 @@ export const FormItemAddress = ({
   defaultValue,
   check,
 }) => {
-  console.log('defaultValue', defaultValue);
-
   useEffect(() => {
     if (check) {
       for (let i = 0; i < defaultValue.length; i++) {
@@ -59,7 +57,7 @@ export const FormItemAddress = ({
                     optionThree={districts}
                     actionDispatch={actionDispatch}
                     dataNewCandidate={dataNewCandidate}
-                    check
+                    check={check}
                   />
                 );
               })}

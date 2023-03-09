@@ -1,50 +1,38 @@
-import {
-  Select,
-  Form,
-  Input,
-  Row,
-  Col,
-  Radio,
-  InputNumber,
-  Button,
-  Modal,
-} from 'antd';
+import { Form, Row, Col, Button, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { fetchNationality } from '../../../store/nationalitySlice';
 import { fetchPosition } from '../../../store/positionSlice';
 import { fetchDegree } from '../../../store/degreeSlice';
 import { fetchPhoneNumber } from '../../../store/phoneNumberSlice';
-
-import { FormSelectItem } from '../../../components/Form/FormSelectItem';
 import { fetchCountries } from '../../../store/locationsSlice';
+import { getNationalityTest } from '../../../apis/filterApi';
+import { getPositionTest } from '../../../apis/filterApi';
+import { postNationality } from '../../../store/nationalitySlice';
+import { postPosition } from '../../../store/positionSlice';
+import { postNewCandidate } from '../../../store/createCandidateSlice';
+import { FormItemSelectNationality } from './FormItemSelectNationality';
 
+import { FormItemOption } from './FormItemOption';
+import { FormItemRadio } from './FormItemRadio';
+import { FormItemInputNumber } from './FormItemInputnumber';
 import { FormItemAddress } from './FormItemAddress';
 import { FormItemPhone } from './FormItemPhone';
 import { FormItemEmail } from './FormItemEmail';
 import { FormItemInputText } from './FormItemInputText';
+import { FormItemHighestEducation } from './FormItemHighestEducation';
+import { FormItemSelectPosition } from './FormItemSelectPosition';
+import { FormItemBirthday } from './FormItemBirthday';
+
 import {
   putDataCandidateType,
   putDataCandidatePositions,
 } from '../../../store/createCandidateSlice';
-import { FormItemOption } from './FormItemOption';
-import { FormItemRadio } from './FormItemRadio';
-import { FormItemInputNumber } from './FormItemInputnumber';
 import { CustomButton } from '../../../components/CustomButton/CustomButton';
 
 import { InfoCircleOutlined } from '@ant-design/icons';
-
-import { getNationalityTest } from '../../../apis/filterApi';
-import { postNationality } from '../../../store/nationalitySlice';
-import { FormItemSelectNationality } from './FormItemSelectNationality';
-import { postPosition } from '../../../store/positionSlice';
-import { getPositionTest } from '../../../apis/filterApi';
-
-import { FormItemSelectPosition } from './FormItemSelectPosition';
-import { FormItemBirthday } from './FormItemBirthday';
-import { postNewCandidate } from '../../../store/createCandidateSlice';
-import { FormItemHighestEducation } from './FormItemHighestEducation';
 
 import {
   priority_status,
@@ -52,7 +40,7 @@ import {
   MARITAL_STATUS,
   READY_TO_MOVE,
 } from '../../../utils/const';
-const { Option } = Select;
+
 const FormPersonalInformation = ({ setCurrentStep }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState();
@@ -96,6 +84,10 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
     console.log('createCandidate', createCandidate);
+    toast.error('Please recheck your form!', {
+      autoClose: 1000,
+      position: 'top-right',
+    });
   };
 
   const handleNextStep = () => {
@@ -121,7 +113,7 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
         onFinish={onFinish}
         autoComplete="off"
       >
-        <Row gutter={(12, 12)}>
+        <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
           <Col span={12}>
             <FormItemInputText
               required={require}
@@ -156,7 +148,7 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
           </Col>
         </Row>
 
-        <Row gutter={(12, 12)}>
+        <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
           <Col span={12}>
             <FormItemInputText
               label="Middle Name"
@@ -197,7 +189,7 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
           check={checkCurrentCandidate ? true : false}
         />
 
-        <Row gutter={(12, 12)}>
+        <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
           <Col span={12}>
             <FormItemRadio
               label="Gender"
@@ -226,7 +218,7 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
           </Col>
         </Row>
 
-        <Row gutter={(12, 12)}>
+        <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
           <Col span={12}>
             <FormItemOption
               name="relocating_willingness"
@@ -255,7 +247,7 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
           </Col>
         </Row>
 
-        <Row gutter={(12, 12)}>
+        <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
           <Col span={24}>
             <FormItemEmail
               form={form}
@@ -267,7 +259,7 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
           </Col>
         </Row>
 
-        <Row gutter={(12, 12)}>
+        <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
           <Col span={24}>
             <FormItemPhone
               form={form}
@@ -280,7 +272,7 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
           </Col>
         </Row>
 
-        <Row gutter={(12, 12)}>
+        <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
           <Col span={24}>
             <FormItemAddress
               form={form}
@@ -299,7 +291,7 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
           </Col>
         </Row>
 
-        <Row gutter={(12, 12)}>
+        <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
           <Col span={24}>
             <FormItemSelectNationality
               name="nationality"
@@ -319,7 +311,7 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
           </Col>
         </Row>
 
-        <Row gutter={(12, 12)}>
+        <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
           <Col span={24}>
             <FormItemSelectPosition
               name="positions"
@@ -341,7 +333,7 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
           </Col>
         </Row>
 
-        <Row gutter={(12, 12)}>
+        <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
           <Col span={24}>
             <FormItemHighestEducation
               name="highest_education"
@@ -359,7 +351,7 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
           </Col>
         </Row>
 
-        <Row gutter={(12, 12)}>
+        <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
           <Col span={12}>
             <FormItemInputNumber
               label="Industry Year of Services"
@@ -388,7 +380,7 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
           </Col>
         </Row>
 
-        <Row gutter={(12, 12)}>
+        <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
           <Col span={12}>
             <FormItemInputNumber
               label="No. of Direct Reports"
@@ -404,7 +396,7 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
           </Col>
         </Row>
 
-        <Row gutter={(12, 12)}>
+        <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
           <Col span={24} style={{ textAlign: 'right', marginTop: '10px' }}>
             {checkCurrentCandidate ? (
               <Button type="primary" onClick={handleNextStep}>

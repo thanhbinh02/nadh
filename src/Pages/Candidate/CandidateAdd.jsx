@@ -9,9 +9,12 @@ import { CardWorkingHistory } from '../../components/Card/CardWorkingHistory';
 import { CardRemunerationAndRewards } from '../../components/Card/CardRemunerationAndRewards';
 import { CardFinish } from '../../components/Card/CardFinish';
 import { CardFormPersonalInformation } from '../../components/Card/CardFormPersonalInformation';
+import { useDispatch } from 'react-redux';
 
 const CandidateAdd = () => {
+  const dispatch = useDispatch();
   const stepLocal = window.localStorage.getItem('currentStep');
+
   if (stepLocal === null) {
     window.localStorage.setItem('currentStep', 0);
   }
@@ -34,7 +37,7 @@ const CandidateAdd = () => {
       <div style={{ fontSize: '20px', fontWeight: '600', margin: '10px 0' }}>
         Create Candidate
       </div>
-      <Row>
+      <Row style={{ margin: '14px' }}>
         <Steps
           current={currentStep}
           items={[

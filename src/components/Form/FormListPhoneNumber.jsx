@@ -77,7 +77,7 @@ const FormListPhoneNumber = ({
   return (
     <Form.Item>
       <Input.Group>
-        <Row gutter={16}>
+        <Row gutter={16} style={{ marginBottom: '10px' }}>
           <Col span={12}>
             <Form.Item
               noStyle
