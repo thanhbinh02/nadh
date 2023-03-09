@@ -44,6 +44,7 @@ import { getPositionTest } from '../../../apis/filterApi';
 import { FormItemSelectPosition } from './FormItemSelectPosition';
 import { FormItemBirthday } from './FormItemBirthday';
 import { postNewCandidate } from '../../../store/createCandidateSlice';
+import { FormItemHighestEducation } from './FormItemHighestEducation';
 
 import {
   priority_status,
@@ -104,7 +105,7 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
 
   const handleAgree = () => {
     setOpen(false);
-    // dispatch(postNewCandidate(createCandidate));
+    dispatch(postNewCandidate(createCandidate));
 
     setTimeout(() => {
       setCurrentStep(Number(window.localStorage.getItem('currentStep')));
@@ -305,19 +306,12 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
               postData={postNationality}
               form={form}
               keyNewItem={keyNationality}
+              placeholder="Select or add your nationality"
             />
           </Col>
         </Row>
 
         <Row gutter={(12, 12)}>
-          {/* <Col span={24}>
-            <FormItemPosition
-              name="positions"
-              label="Position Applied"
-              options={position}
-              actionDispatch={putDataCandidatePositions}
-            />
-          </Col> */}
           <Col span={24}>
             <FormItemSelectPosition
               name="positions"
@@ -334,18 +328,25 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
               postData={postPosition}
               form={form}
               keyNewItem={keyPosition}
+              placeholder="Select or add your position applied"
             />
           </Col>
         </Row>
 
         <Row gutter={(12, 12)}>
           <Col span={24}>
-            <FormItemOption
+            <FormItemHighestEducation
               name="highest_education"
               label="Highest Education"
               options={degree}
-              placeholder="Highest Education"
+              placeholder="Select your highest education"
               actionDispatch={putDataCandidateType}
+              defaultValue={
+                checkCurrentCandidate
+                  ? checkCurrentCandidate?.highest_education?.key
+                  : undefined
+              }
+              check={checkCurrentCandidate ? true : false}
             />
           </Col>
         </Row>

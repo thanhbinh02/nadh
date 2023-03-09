@@ -69,7 +69,9 @@ export const FormItemSelectNationality = ({
     setOpen(false);
     const hasLabe = dataGet.data.some((item) => item.label === contentModal);
     if (!hasLabe) {
+      console.log('hasLabel');
       const currentValue = form.getFieldValue(name);
+      console.log('currentValue', currentValue);
       setTest((prevValues) => [...currentValue, contentModal]);
     }
 
@@ -82,6 +84,8 @@ export const FormItemSelectNationality = ({
   };
 
   const handleChange = (value) => {
+    console.log('change value', value);
+
     const result = dataGet?.data
       .filter((item) => value.includes(item.label))
       .map(({ label, key }) => ({ label, key }));
@@ -132,8 +136,12 @@ export const FormItemSelectNationality = ({
 
   const handleFocus = () => {
     if (checkFocus) {
+      const key = dataGet?.data?.find((item) => item.label === contentModal);
       let resultPush = testResult;
-      resultPush = [...resultPush, { key: keyNewItem, label: contentModal }];
+      resultPush = [
+        ...resultPush,
+        { key: keyNewItem || key.key, label: contentModal },
+      ];
       setTestResult(resultPush);
       const dataDispatch = resultPush.filter((item, index, array) => {
         return (

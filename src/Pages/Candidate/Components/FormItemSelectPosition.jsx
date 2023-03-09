@@ -132,8 +132,12 @@ export const FormItemSelectPosition = ({
 
   const handleFocus = () => {
     if (checkFocus) {
+      const key = dataGet?.data?.find((item) => item.label === contentModal);
       let resultPush = testResult;
-      resultPush = [...resultPush, { key: keyNewItem, label: contentModal }];
+      resultPush = [
+        ...resultPush,
+        { key: keyNewItem || key.key, label: contentModal },
+      ];
       setTestResult(resultPush);
       const dataDispatch = resultPush.filter((item, index, array) => {
         return (
