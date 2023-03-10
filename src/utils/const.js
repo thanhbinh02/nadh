@@ -30,7 +30,7 @@ export const priority_status = [ACTIVE, OFF_LIMIT, BLACK_LIST, INACTIVE];
 
 const RAW = { id: 1, key: 1, label: 'Raw' };
 const CALL = { id: 2, key: 2, label: 'Screening Call' };
-const INTERVIEW_NADH = { id: 3, key: '3', label: 'Interview with NADH' };
+const INTERVIEW_NADH = { id: 3, key: 3, label: 'Interview with NADH' };
 const SHORT_LIST = { id: 4, key: 4, label: 'Shortlisting' };
 const SUBMIT_CLIENT = { id: 5, key: 5, label: 'Submit to Client' };
 const INTERVIEW_CLIENT = { id: 6, key: 6, label: 'Interview with Client' };

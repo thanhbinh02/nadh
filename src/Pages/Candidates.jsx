@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Row, Col, Button } from 'antd';
+import { Row, Col, Button, Spin } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { CustomColumns } from '../components/CustomColumns';
 import TableCandidates from '../components/Table/TableCandidates';
@@ -24,6 +24,7 @@ export const Candidates = () => {
   const categories = useSelector((state) => state.categories.categories);
   const totalItem = useSelector((state) => state.candidates.count);
   const candidates = useSelector((state) => state.candidates.data);
+  const loadingCandidate = useSelector((state) => state.candidates.loading);
   const languages = useSelector((state) => state.languages.languages);
   const listCustomCandidates = useSelector((state) => state.customColumn.data);
 
@@ -64,7 +65,7 @@ export const Candidates = () => {
               fontWeight: '600',
             }}
           >
-            Candidates List ({totalItem})
+            Candidates List {loadingCandidate ? '' : totalItem}
           </Col>
           <Col style={{ marginRight: '73px' }}>
             <Row>
@@ -118,20 +119,33 @@ export const Candidates = () => {
             listCustom={listCustomCandidates}
           />
         </Row>
-        <TableCandidates
-          totalItem={totalItem ? totalItem : null}
-          data={candidates ? candidates : null}
-          languages={languages ? languages : null}
-          city={countries ? countries : null}
-          sectors={sectors}
-          categories={categories}
-          industries={industries ? industries : null}
-          listCustomCandidates={
-            listCustomCandidates ? listCustomCandidates : null
-          }
-          listTagFilter={listTagFilter}
-          filerCandidates={filerCandidates}
-        />
+        {loadingCandidate ? (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '40vh',
+            }}
+          >
+            <Spin size="large" tip="Loading" />
+          </div>
+        ) : (
+          <TableCandidates
+            totalItem={totalItem ? totalItem : null}
+            data={candidates ? candidates : null}
+            languages={languages ? languages : null}
+            city={countries ? countries : null}
+            sectors={sectors}
+            categories={categories}
+            industries={industries ? industries : null}
+            listCustomCandidates={
+              listCustomCandidates ? listCustomCandidates : null
+            }
+            listTagFilter={listTagFilter}
+            filerCandidates={filerCandidates}
+          />
+        )}
       </div>
     </>
   );

@@ -27,17 +27,20 @@ const TableCandidates = ({
   industries,
   sectors,
   categories,
-  totalItem,
+  // totalItem,
   listTagFilter,
   filerCandidates,
 }) => {
   const dispatch = useDispatch();
   const listCustomCandidates = useSelector((state) => state.customColumn.data);
   const [pageTable, setPageTable] = useState(filerCandidates?.page);
+  const totalItem = useSelector((state) => state.candidates.count);
+  const [totalMain, setTotalMain] = useState(totalItem);
 
   useEffect(() => {
     setPageTable(filerCandidates?.page);
-  }, [filerCandidates?.page]);
+    setTotalMain(totalItem);
+  }, [filerCandidates?.page, totalItem]);
 
   const columns = [
     {
@@ -229,7 +232,7 @@ const TableCandidates = ({
       filterIcon: <AiOutlineSearch />,
       filterDropdown: (
         <FilterDropDownSelectOneItem
-          placeholder="Search Languages"
+          placeholder="Search Activity"
           options={candidate_flow_status}
           mode="multiple"
           param="flow_status"
@@ -368,12 +371,14 @@ const TableCandidates = ({
               scroll={{ x: '100vw' }}
               pagination={{
                 pageSize: 10,
-                total: totalItem,
+                total: totalMain,
                 showSizeChanger: false,
                 showQuickJumper: true,
                 onChange: (page) => {
                   setPageTable(page);
-                  dispatch(fetchCandidates({ page: page }));
+                  let newParam = filerCandidates;
+                  newParam.page = page;
+                  dispatch(fetchCandidates(newParam));
                 },
                 current: pageTable,
               }}

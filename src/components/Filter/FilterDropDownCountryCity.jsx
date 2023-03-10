@@ -26,6 +26,7 @@ const FilterDropDownCountryCity = ({ data, country, city }) => {
       dispatch(fetchCities({ type: 1, parent_id: Number(option.key) }));
       setListCity(!listCity);
     }
+    form.setFieldValue('city', undefined);
   };
 
   const handleClearCountry = () => {

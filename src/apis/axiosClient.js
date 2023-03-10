@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 const axiosClient = axios.create({
   baseURL: 'https://lubrytics.com:8443/nadh-api-crm',
@@ -35,7 +36,13 @@ axiosClient.interceptors.response.use(
       // window.localStorage.removeItem('candidateDetail');
       // window.localStorage.removeItem('currentStep');
     }
-    console.log('error');
+
+    if (error.message === 'Request failed with status code 401') {
+      window.location.reload();
+      window.localStorage.removeItem('token');
+      window.localStorage.removeItem('user_sent');
+      useNavigate('/');
+    }
     return Promise.reject(error);
   },
 );

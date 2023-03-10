@@ -98,6 +98,10 @@ export const FilterTimeRange = ({
     }
   };
 
+  const isPositiveInteger = (value) => {
+    return /^[1-9]\d*$/.test(value);
+  };
+
   const handleParserValueFrom = (value) => {
     if (value === '') {
       setCheckSearch(false);
@@ -108,9 +112,10 @@ export const FilterTimeRange = ({
       return '';
     }
 
-    if (isNaN(value)) {
+    if (isNaN(value) || !isPositiveInteger(value)) {
       setCheckValidateFrom(false);
       setCheckParseValueFrom(true);
+
       setValueFrom(value);
       setCheckSearch(true);
       return value;
@@ -119,7 +124,12 @@ export const FilterTimeRange = ({
         setCheckSearch(true);
         setCheckValidateFrom(true);
       } else {
-        setCheckSearch(false);
+        if (!isPositiveInteger(valueTo)) {
+          setCheckSearch(true);
+        } else {
+          setCheckSearch(false);
+        }
+
         setCheckValidateFrom(false);
       }
 
@@ -138,17 +148,26 @@ export const FilterTimeRange = ({
       return '';
     }
 
-    if (isNaN(value)) {
+    if (isNaN(value) || !isPositiveInteger(value)) {
       setCheckParseValueTo(true);
       setValueTo(value);
       setCheckSearch(true);
       return value;
     } else {
       if (Number(value) < valueFrom && value !== undefined) {
-        setCheckSearch(true);
+        if (!isPositiveInteger(valueFrom)) {
+          setCheckSearch(true);
+        } else {
+          setCheckSearch(false);
+        }
         setCheckValidateTo(true);
       } else {
-        setCheckSearch(false);
+        if (!isPositiveInteger(valueFrom)) {
+          setCheckSearch(true);
+        } else {
+          setCheckSearch(false);
+        }
+
         setCheckValidateTo(false);
       }
 
@@ -176,7 +195,7 @@ export const FilterTimeRange = ({
                     min={1}
                     parser={handleParserValueFrom}
                     type="string"
-                    placeholder="To"
+                    placeholder="From"
                     style={{
                       width: '100%',
                       borderRadius: '0px',
@@ -204,8 +223,12 @@ export const FilterTimeRange = ({
             <Row gutter={[8, 8]}>
               <Col span={12}>
                 {checkParseValueFrom && (
-                  <span style={{ color: 'red' }}>Must be number</span>
+                  <>
+                    <span style={{ color: 'red' }}>Must be number Integer</span>
+                    <br />
+                  </>
                 )}
+
                 {checkValidateFrom && (
                   <span style={{ color: 'red' }}>
                     Must be lower than to value
@@ -214,8 +237,12 @@ export const FilterTimeRange = ({
               </Col>
               <Col span={12}>
                 {checkParseValueTo && (
-                  <span style={{ color: 'red' }}>Must be number</span>
+                  <>
+                    <span style={{ color: 'red' }}>Must be number Integer</span>
+                    <br />
+                  </>
                 )}
+
                 {checkValidateTo && (
                   <span style={{ color: 'red' }}>
                     Must be higher than from's value
