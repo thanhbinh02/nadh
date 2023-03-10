@@ -20,6 +20,14 @@ import { fetchCategories } from '../../store/categoriesSlice';
 import { fetchCandidates } from '../../store/candidatesSlice';
 import TagFilter from '../TagFilter';
 
+const checkIconGlow = (name, obj) => {
+  if (name in obj) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 const TableCandidates = ({
   data,
   languages,
@@ -46,7 +54,20 @@ const TableCandidates = ({
     {
       title: 'ID',
       dataIndex: 'candidate_id',
-      filterIcon: <AiOutlineSearch name={'Search candidate_id'} />,
+      filterIcon: (
+        <>
+          {checkIconGlow('candidate_id', filerCandidates) ? (
+            <AiOutlineSearch
+              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
+            />
+          ) : (
+            <AiOutlineSearch
+              name={'Search candidate_id'}
+              style={{ fontSize: '14px' }}
+            />
+          )}
+        </>
+      ),
       filterDropdown: (
         <FilterDropDownText
           placeholder="Search candidate_id"
@@ -63,7 +84,20 @@ const TableCandidates = ({
     {
       title: 'Name',
       dataIndex: 'full_name',
-      filterIcon: <AiOutlineSearch />,
+      filterIcon: (
+        <>
+          {checkIconGlow('full_name', filerCandidates) ? (
+            <AiOutlineSearch
+              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
+            />
+          ) : (
+            <AiOutlineSearch
+              name={'Search candidate_id'}
+              style={{ fontSize: '14px' }}
+            />
+          )}
+        </>
+      ),
       filterDropdown: (
         <FilterDropDownText
           placeholder="Search full_name"
@@ -82,7 +116,20 @@ const TableCandidates = ({
     {
       title: 'Primary Status',
       dataIndex: 'priority_status',
-      filterIcon: <AiOutlineSearch />,
+      filterIcon: (
+        <>
+          {checkIconGlow('priority_status', filerCandidates) ? (
+            <AiOutlineSearch
+              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
+            />
+          ) : (
+            <AiOutlineSearch
+              name={'Search candidate_id'}
+              style={{ fontSize: '14px' }}
+            />
+          )}
+        </>
+      ),
       filterDropdown: (
         <FilterDropDownSelectOneItem
           placeholder="Search Priority_status"
@@ -119,7 +166,20 @@ const TableCandidates = ({
     {
       title: 'Languages',
       dataIndex: 'language',
-      filterIcon: <AiOutlineSearch />,
+      filterIcon: (
+        <>
+          {checkIconGlow('language', filerCandidates) ? (
+            <AiOutlineSearch
+              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
+            />
+          ) : (
+            <AiOutlineSearch
+              name={'Search candidate_id'}
+              style={{ fontSize: '14px' }}
+            />
+          )}
+        </>
+      ),
       filterDropdown: (
         <FilterDropDownSelectOneItem
           placeholder="Search Languages"
@@ -140,14 +200,40 @@ const TableCandidates = ({
     {
       title: 'Highest degree',
       dataIndex: 'highest_education',
-      filterIcon: <AiOutlineSearch />,
+      filterIcon: (
+        <>
+          {checkIconGlow('highest_education', filerCandidates) ? (
+            <AiOutlineSearch
+              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
+            />
+          ) : (
+            <AiOutlineSearch
+              name={'Search candidate_id'}
+              style={{ fontSize: '14px' }}
+            />
+          )}
+        </>
+      ),
       filterDropdown: <div>Filter</div>,
       render: (text) => <div>{text}</div>,
     },
     {
       title: 'City',
       dataIndex: 'location',
-      filterIcon: <AiOutlineSearch />,
+      filterIcon: (
+        <>
+          {checkIconGlow('location', filerCandidates) ? (
+            <AiOutlineSearch
+              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
+            />
+          ) : (
+            <AiOutlineSearch
+              name={'Search candidate_id'}
+              style={{ fontSize: '14px' }}
+            />
+          )}
+        </>
+      ),
       filterDropdown: (
         <FilterDropDownCountryCity
           data={city}
@@ -168,7 +254,20 @@ const TableCandidates = ({
     {
       title: 'Industry',
       dataIndex: 'industry',
-      filterIcon: <AiOutlineSearch />,
+      filterIcon: (
+        <>
+          {checkIconGlow('industry', filerCandidates) ? (
+            <AiOutlineSearch
+              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
+            />
+          ) : (
+            <AiOutlineSearch
+              name={'Search candidate_id'}
+              style={{ fontSize: '14px' }}
+            />
+          )}
+        </>
+      ),
       filterDropdown: (
         <FilterDropDownIndustry
           data={industries}
@@ -208,7 +307,21 @@ const TableCandidates = ({
     {
       title: 'YOB',
       dataIndex: 'yob',
-      filterIcon: <AiOutlineSearch />,
+      filterIcon: (
+        <>
+          {checkIconGlow('yob_from', filerCandidates) ||
+          checkIconGlow('yob_to', filerCandidates) ? (
+            <AiOutlineSearch
+              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
+            />
+          ) : (
+            <AiOutlineSearch
+              name={'Search candidate_id'}
+              style={{ fontSize: '14px' }}
+            />
+          )}
+        </>
+      ),
       filterDropdown: (
         <FilterTimeRange
           fetchData={fetchCandidates}
@@ -229,7 +342,20 @@ const TableCandidates = ({
     {
       title: 'Activity',
       dataIndex: 'flow_status',
-      filterIcon: <AiOutlineSearch />,
+      filterIcon: (
+        <>
+          {checkIconGlow('flow_status', filerCandidates) ? (
+            <AiOutlineSearch
+              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
+            />
+          ) : (
+            <AiOutlineSearch
+              name={'Search candidate_id'}
+              style={{ fontSize: '14px' }}
+            />
+          )}
+        </>
+      ),
       filterDropdown: (
         <FilterDropDownSelectOneItem
           placeholder="Search Activity"
@@ -251,7 +377,20 @@ const TableCandidates = ({
     {
       title: 'Recent companies',
       dataIndex: 'current_company',
-      filterIcon: <AiOutlineSearch />,
+      filterIcon: (
+        <>
+          {checkIconGlow('current_company_text', filerCandidates) ? (
+            <AiOutlineSearch
+              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
+            />
+          ) : (
+            <AiOutlineSearch
+              name={'Search candidate_id'}
+              style={{ fontSize: '14px' }}
+            />
+          )}
+        </>
+      ),
       filterDropdown: (
         <FilterDropDownText
           placeholder="Search current_company"
@@ -270,7 +409,20 @@ const TableCandidates = ({
     {
       title: 'Recent positions',
       dataIndex: 'current_position',
-      filterIcon: <AiOutlineSearch />,
+      filterIcon: (
+        <>
+          {checkIconGlow('current_position_text', filerCandidates) ? (
+            <AiOutlineSearch
+              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
+            />
+          ) : (
+            <AiOutlineSearch
+              name={'Search candidate_id'}
+              style={{ fontSize: '14px' }}
+            />
+          )}
+        </>
+      ),
       filterDropdown: (
         <FilterDropDownText
           placeholder="Search current_company_text"
@@ -289,7 +441,21 @@ const TableCandidates = ({
     {
       title: 'Year of services',
       dataIndex: 'industry_years',
-      filterIcon: <AiOutlineSearch />,
+      filterIcon: (
+        <>
+          {checkIconGlow('industry_years_to', filerCandidates) ||
+          checkIconGlow('industry_years_from', filerCandidates) ? (
+            <AiOutlineSearch
+              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
+            />
+          ) : (
+            <AiOutlineSearch
+              name={'Search candidate_id'}
+              style={{ fontSize: '14px' }}
+            />
+          )}
+        </>
+      ),
       filterDropdown: (
         <FilterTimeRange
           fetchData={fetchCandidates}
@@ -304,7 +470,21 @@ const TableCandidates = ({
     {
       title: 'Year of management',
       dataIndex: 'management_years',
-      filterIcon: <AiOutlineSearch />,
+      filterIcon: (
+        <>
+          {checkIconGlow('management_years_from', filerCandidates) ||
+          checkIconGlow('management_years_to', filerCandidates) ? (
+            <AiOutlineSearch
+              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
+            />
+          ) : (
+            <AiOutlineSearch
+              name={'Search candidate_id'}
+              style={{ fontSize: '14px' }}
+            />
+          )}
+        </>
+      ),
       filterDropdown: (
         <FilterTimeRange
           fetchData={fetchCandidates}
