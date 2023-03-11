@@ -26,6 +26,7 @@ export const postCandidate = async (params) => {
         autoClose: 1000,
         position: 'top-right',
       });
+      return response;
     })
     .catch(function (error) {
       const checkEmails = error.response.data.find(

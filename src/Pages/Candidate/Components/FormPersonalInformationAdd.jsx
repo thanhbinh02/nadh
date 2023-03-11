@@ -2,46 +2,18 @@ import { Form, Row, Col, Button, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { InfoCircleOutlined } from '@ant-design/icons';
 
 import { fetchNationality } from '../../../store/nationalitySlice';
 import { fetchPosition } from '../../../store/positionSlice';
 import { fetchDegree } from '../../../store/degreeSlice';
 import { fetchPhoneNumber } from '../../../store/phoneNumberSlice';
 import { fetchCountries } from '../../../store/locationsSlice';
-import { getNationalityTest } from '../../../apis/filterApi';
-import { getPositionTest } from '../../../apis/filterApi';
-import { postNationality } from '../../../store/nationalitySlice';
-import { postPosition } from '../../../store/positionSlice';
 import { postNewCandidate } from '../../../store/createCandidateSlice';
-import { FormItemSelectNationality } from './FormItemSelectNationality';
-
-import { FormItemOption } from './FormItemOption';
-import { FormItemRadio } from './FormItemRadio';
-import { FormItemInputNumber } from './FormItemInputnumber';
-import { FormItemAddress } from './FormItemAddress';
-import { FormItemPhone } from './FormItemPhone';
-import { FormItemEmail } from './FormItemEmail';
-import { FormItemInputText } from './FormItemInputText';
-import { FormItemHighestEducation } from './FormItemHighestEducation';
-import { FormItemSelectPosition } from './FormItemSelectPosition';
-import { FormItemBirthday } from './FormItemBirthday';
-
-import {
-  putDataCandidateType,
-  putDataCandidatePositions,
-} from '../../../store/createCandidateSlice';
 import { CustomButton } from '../../../components/CustomButton/CustomButton';
+import { FormMain } from './FormMain';
 
-import { InfoCircleOutlined } from '@ant-design/icons';
-
-import {
-  priority_status,
-  GENDERS,
-  MARITAL_STATUS,
-  READY_TO_MOVE,
-} from '../../../utils/const';
-
-const FormPersonalInformation = ({ setCurrentStep }) => {
+const FormPersonalInformationAdd = ({ setCurrentStep }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState();
 
@@ -67,7 +39,9 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
 
   useEffect(() => {
     if (postCandidateSuccess) {
-      setCurrentStep(1);
+      setTimeout(() => {
+        setCurrentStep(1);
+      }, 1200);
     }
   }, [postCandidateSuccess]);
 
@@ -109,6 +83,18 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
         onFinish={onFinish}
         autoComplete="off"
       >
+        <FormMain
+          form={form}
+          phoneNumber={phoneNumber}
+          countries={countries}
+          cities={cities}
+          districts={districts}
+          createCandidate={createCandidate}
+          keyNationality={keyNationality}
+          keyPosition={keyPosition}
+          degree={degree}
+        />
+
         <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
           <Col span={24} style={{ textAlign: 'right', marginTop: '10px' }}>
             <Button type="primary" htmlType="submit">
@@ -149,4 +135,4 @@ const FormPersonalInformation = ({ setCurrentStep }) => {
     </>
   );
 };
-export default FormPersonalInformation;
+export default FormPersonalInformationAdd;

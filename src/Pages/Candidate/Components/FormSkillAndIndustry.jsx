@@ -17,7 +17,7 @@ import { fetchCategories } from '../../../store/categoriesSlice';
 import { putIndustryDetailCandidate } from '../../../store/candidatesSlice';
 import { putBusinessLineSlice } from '../../../store/businessLineSlice';
 
-const FormSkillAndIndustry = ({ setCurrentStep }) => {
+const FormSkillAndIndustry = () => {
   const [test, setTest] = useState([]);
   const [form] = Form.useForm();
   const { Option } = Select;
@@ -57,16 +57,6 @@ const FormSkillAndIndustry = ({ setCurrentStep }) => {
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
-  };
-
-  const handleNextStep = () => {
-    setCurrentStep(2);
-    window.localStorage.setItem('currentStep', 2);
-  };
-
-  const handlePreviousStep = () => {
-    setCurrentStep(0);
-    window.localStorage.setItem('currentStep', 0);
   };
 
   return (
@@ -132,22 +122,6 @@ const FormSkillAndIndustry = ({ setCurrentStep }) => {
             id={idCandidate}
             actionDispatch={putBusinessLineSlice}
           />
-        </Col>
-      </Row>
-
-      <Row gutter={(12, 12)}>
-        <Col span={24} style={{ textAlign: 'right', marginTop: '10px' }}>
-          <Form.Item>
-            <Button
-              style={{ marginRight: '10px' }}
-              onClick={handlePreviousStep}
-            >
-              Previous
-            </Button>
-            <Button type="primary" onClick={handleNextStep}>
-              Next
-            </Button>
-          </Form.Item>
         </Col>
       </Row>
     </Form>

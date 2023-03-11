@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { postCandidate } from '../apis/candidatesApi';
+import { postCandidateTest } from '../apis/candidatesApi';
 
 export const postNewCandidate = createAsyncThunk(
   'createCandidate/postNewCandidate',
@@ -68,7 +69,6 @@ export const createCandidateSlice = createSlice({
       state.postCandidateSuccess = true;
     },
     [postNewCandidate.rejected]: (state, { payload }) => {
-      console.log('payload', payload);
       state.user = [];
       state.postCandidateLoading = false;
       state.postCandidateSuccess = false;

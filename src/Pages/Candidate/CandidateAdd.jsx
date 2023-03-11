@@ -1,9 +1,8 @@
 import { Steps, Row, Card, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import FormPersonalInformation from './Components/FormPersonalInformation';
-import { useEffect } from 'react';
 import { CardFinish } from '../../components/Card/CardFinish';
+import FormPersonalInformationAdd from './Components/FormPersonalInformationAdd';
 
 const CandidateAdd = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -39,7 +38,7 @@ const CandidateAdd = () => {
       <Row style={{ width: '100%' }}>
         {Number(currentStep) === 0 && (
           <Card style={{ width: '100%' }}>
-            <FormPersonalInformation setCurrentStep={setCurrentStep} />
+            <FormPersonalInformationAdd setCurrentStep={setCurrentStep} />
           </Card>
         )}
         {Number(currentStep) === 1 && (
