@@ -29,7 +29,7 @@ export const FormItemSelectNationality = ({
   const [showAddItem, setShowAddItem] = useState(false);
   const [fetchData, setFetchData] = useState(true);
   const [open, setOpen] = useState(false);
-  const [test, setTest] = useState(defaultValue.map((item) => item.label));
+  const [test, setTest] = useState(defaultValue?.map((item) => item.label));
   const [testResult, setTestResult] = useState([]);
   const [checkPost, setCheckPost] = useState(true);
   const [checkFocus, setCheckFocus] = useState(false);

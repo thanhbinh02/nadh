@@ -123,7 +123,7 @@ export const FormItemSelectLanguages = ({
           className="select_language"
         >
           {options.map((option) => {
-            const hasKeyOne = listLanguages.find(
+            const hasKeyOne = listLanguages?.find(
               (item) => item.key === option.key,
             );
             return (
@@ -151,7 +151,7 @@ export const FormItemSelectLanguages = ({
         >
           List of Languages
         </Col>
-        {listLanguages.map((item) => {
+        {listLanguages?.map((item) => {
           return (
             <Col span={12} key={item.key}>
               {item.label}

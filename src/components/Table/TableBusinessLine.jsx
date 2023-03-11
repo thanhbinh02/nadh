@@ -16,7 +16,7 @@ export const TableBusinessLine = ({
   const [change, setChange] = useState(dataTable);
 
   const [data, setData] = useState(
-    JSON.parse(localStorage.getItem('candidateDetail')).business_line,
+    JSON.parse(localStorage.getItem('candidateDetail'))?.business_line,
   );
 
   useEffect(() => {

@@ -22,8 +22,6 @@ export const postCandidate = async (params) => {
   return await axiosClient
     .post(url, params)
     .then(function (response) {
-      window.localStorage.setItem('candidateDetail', JSON.stringify(response));
-      window.localStorage.setItem('currentStep', 1);
       toast.success('Create Success!', {
         autoClose: 1000,
         position: 'top-right',
@@ -72,4 +70,9 @@ export const getDetailCandidate = async (id) => {
 export const putCandidateInDetailPage = async (id, params) => {
   const url = `/api/candidates/${id}`;
   return await axiosClient.put(url, params);
+};
+
+export const postCandidateTest = async (params) => {
+  const url = '/api/candidates';
+  return await axiosClient.post(url, params);
 };

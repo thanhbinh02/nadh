@@ -425,7 +425,7 @@ const TableCandidates = ({
       ),
       filterDropdown: (
         <FilterDropDownText
-          placeholder="Search current_company_text"
+          placeholder="Search current_position_text"
           param="current_position_text"
           fetchData={fetchCandidates}
           keyPage="filterCDD"

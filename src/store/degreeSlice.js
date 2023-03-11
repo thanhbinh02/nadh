@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getDegree } from '../apis/filterApi';
 
 export const fetchDegree = createAsyncThunk(
-  'degree/fetchdegree',
+  'degree/fetchDegree',
   async (params) =>
     await getDegree({
       params: {

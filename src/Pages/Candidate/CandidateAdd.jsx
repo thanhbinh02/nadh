@@ -2,37 +2,11 @@ import { Steps, Row, Card, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import FormPersonalInformation from './Components/FormPersonalInformation';
-import FormSkillAndIndustry from './Components/FormSkillAndIndustry';
-import { CardEducationAndCertificate } from '../../components/Card/CardEducationAndCertificate';
 import { useEffect } from 'react';
-import { CardWorkingHistory } from '../../components/Card/CardWorkingHistory';
-import { CardRemunerationAndRewards } from '../../components/Card/CardRemunerationAndRewards';
 import { CardFinish } from '../../components/Card/CardFinish';
-import { CardFormPersonalInformation } from '../../components/Card/CardFormPersonalInformation';
-import { useDispatch } from 'react-redux';
-
-import { fetchDetailCandidateLocalSlice } from '../../store/detailCandidateLocalSlice';
 
 const CandidateAdd = () => {
-  const dispatch = useDispatch();
-
-  const stepLocal = window.localStorage.getItem('currentStep');
-  const checkCurrentCandidate = JSON.parse(
-    window.localStorage.getItem('candidateDetail'),
-  );
-
-  useEffect(() => {
-    if (checkCurrentCandidate) {
-      dispatch(fetchDetailCandidateLocalSlice(checkCurrentCandidate.id));
-    }
-  }, []);
-
-  if (stepLocal === null) {
-    window.localStorage.setItem('currentStep', 0);
-  }
-  const [currentStep, setCurrentStep] = useState(stepLocal || 0);
-
-  useEffect(() => {}, [stepLocal]);
+  const [currentStep, setCurrentStep] = useState(0);
 
   return (
     <div style={{ margin: '20px 30px' }}>
@@ -57,18 +31,6 @@ const CandidateAdd = () => {
               title: 'Personal Information',
             },
             {
-              title: 'Skills and Industry',
-            },
-            {
-              title: 'Education and Certificate',
-            },
-            {
-              title: 'Working History',
-            },
-            {
-              title: 'Remunertion and Rewards',
-            },
-            {
               title: 'Finish',
             },
           ]}
@@ -81,20 +43,6 @@ const CandidateAdd = () => {
           </Card>
         )}
         {Number(currentStep) === 1 && (
-          <Card style={{ width: '100%' }}>
-            <FormSkillAndIndustry setCurrentStep={setCurrentStep} />
-          </Card>
-        )}
-        {Number(currentStep) === 2 && (
-          <CardEducationAndCertificate setCurrentStep={setCurrentStep} />
-        )}
-        {Number(currentStep) === 3 && (
-          <CardWorkingHistory setCurrentStep={setCurrentStep} />
-        )}
-        {Number(currentStep) === 4 && (
-          <CardRemunerationAndRewards setCurrentStep={setCurrentStep} />
-        )}
-        {Number(currentStep) === 5 && (
           <CardFinish setCurrentStep={setCurrentStep} />
         )}
       </Row>

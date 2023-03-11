@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { postCandidate } from '../apis/candidatesApi';
-import { toast } from 'react-toastify';
 
 export const postNewCandidate = createAsyncThunk(
   'createCandidate/postNewCandidate',
@@ -11,6 +10,8 @@ export const createCandidateSlice = createSlice({
   name: 'createCandidate',
   initialState: {
     isSuccess: 123,
+    postCandidateSuccess: false,
+    postCandidateLoading: false,
     loading: false,
     data: {
       first_name: undefined,
@@ -52,24 +53,25 @@ export const createCandidateSlice = createSlice({
     putDataCandidateAddresses: (state, { payload }) => {
       state.data.addresses = payload;
     },
+    removeUserNewCandidate: (state) => {
+      state.user = [];
+      state.postCandidateSuccess = false;
+    },
   },
   extraReducers: {
-    extraReducers: {
-      [postNewCandidate.pending]: (state) => {
-        state.loading = true;
-      },
-      [postNewCandidate.fulfilled]: (state, { payload }) => {
-        console.log('fulfilled');
-        state.user = payload;
-        state.loading = false;
-        state.isSuccess = true;
-        localStorage.setItem('candidateDetail', payload);
-      },
-      [postNewCandidate.rejected]: (state) => {
-        console.log('rejected');
-        state.loading = false;
-        state.isSuccess = false;
-      },
+    [postNewCandidate.pending]: (state) => {
+      state.postCandidateLoading = true;
+    },
+    [postNewCandidate.fulfilled]: (state, { payload }) => {
+      state.user = payload;
+      state.postCandidateLoading = false;
+      state.postCandidateSuccess = true;
+    },
+    [postNewCandidate.rejected]: (state, { payload }) => {
+      console.log('payload', payload);
+      state.user = [];
+      state.postCandidateLoading = false;
+      state.postCandidateSuccess = false;
     },
   },
 });
@@ -79,6 +81,7 @@ export const {
   putDataCandidateEmail,
   putDataCandidateAddresses,
   putDataCandidatePositions,
+  removeUserNewCandidate,
 } = createCandidateSlice.actions;
 
 const { reducer } = createCandidateSlice;

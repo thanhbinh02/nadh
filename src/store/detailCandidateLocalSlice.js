@@ -22,7 +22,6 @@ export const detailCandidateLocalSlice = createSlice({
       state.data = payload;
       state.loading = false;
       state.isSuccess = true;
-      window.localStorage.setItem('candidateDetail', JSON.stringify(payload));
     },
     [fetchDetailCandidateLocalSlice.rejected]: (state) => {
       state.loading = false;

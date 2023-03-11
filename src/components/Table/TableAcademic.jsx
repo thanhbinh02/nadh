@@ -4,8 +4,11 @@ import { Table, Row, Col, Button, Modal, Form, Checkbox, Input } from 'antd';
 import { useState, useEffect } from 'react';
 import { ModalAddEducation } from '../Modal/ModalAddEducation';
 import { FormEducation } from '../Form/FormEducation';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDegree } from '../../store/degreeSlice';
 
 export const TableAcademic = ({ data }) => {
+  const dispatch = useDispatch();
   const columns = [
     {
       title: 'Current Schooly',
@@ -60,7 +63,13 @@ export const TableAcademic = ({ data }) => {
       },
     },
   ];
-  const [modal2Open, setModal2Open] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const degree = useSelector((state) => state.degree.data);
+
+  useEffect(() => {
+    dispatch(fetchDegree());
+  }, []);
 
   return (
     <Row>
@@ -73,7 +82,7 @@ export const TableAcademic = ({ data }) => {
         }}
       >
         <div style={{ fontSize: '18px', fontWeight: '600' }}>ACADEMIC</div>
-        <Button type="primary" ghost onClick={() => setModal2Open(true)}>
+        <Button type="primary" ghost onClick={() => setModalOpen(true)}>
           Add Education
         </Button>
       </Col>
@@ -86,11 +95,11 @@ export const TableAcademic = ({ data }) => {
           }}
         />
       </Col>
-      <Modal centered open={modal2Open} closable={false} footer={null}>
+      <Modal centered open={modalOpen} closable={false} footer={null}>
         <Row style={{ textAlign: 'left', fontSize: '18px', fontWeight: '600' }}>
           Add Education
         </Row>
-        <FormEducation />
+        <FormEducation setModalOpen={setModalOpen} degree={degree} />
       </Modal>
     </Row>
   );

@@ -1,38 +1,30 @@
 import { Card, Row, Col, Button, Result } from 'antd';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { removeUserNewCandidate } from '../../store/createCandidateSlice';
 
 export const CardFinish = ({ setCurrentStep }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handlePreviousStep = () => {
-    setCurrentStep(4);
-    window.localStorage?.setItem('currentStep', 4);
-  };
-
-  const candidateId = JSON.parse(
-    localStorage?.getItem('candidateDetail'),
-  )?.candidate_id;
-
-  const fullName = JSON.parse(
-    localStorage?.getItem('candidateDetail'),
-  )?.full_name;
+  const user = useSelector((state) => state.createCandidate.user);
 
   const handleViewDetail = () => {
     window.localStorage.removeItem('candidateDetail');
     window.localStorage.removeItem('currentStep');
-    navigate(`/candidate-detail/${candidateId}`);
+    navigate(`/candidate-detail/${user.candidate_id}`);
+    dispatch(removeUserNewCandidate());
   };
 
   const handleCreateNew = () => {
     window.localStorage.removeItem('candidateDetail');
     window.localStorage.removeItem('currentStep');
+    dispatch(removeUserNewCandidate());
+    navigate('/candidate-add');
     setCurrentStep(0);
-    // setTimeout(() => {
-    //   navigate(`/candidate-add`);
-    // }, 1000);
   };
-
   return (
     <Card
       title="FINISH"
@@ -43,8 +35,7 @@ export const CardFinish = ({ setCurrentStep }) => {
     >
       <Result
         status="success"
-        title="Successfully"
-        subTitle={`Candidate Number: ${candidateId} ${fullName}`}
+        title="Create successfully"
         extra={[
           <Button type="primary" key="console" onClick={handleViewDetail}>
             View Detail
@@ -54,13 +45,6 @@ export const CardFinish = ({ setCurrentStep }) => {
           </Button>,
         ]}
       />
-      <Row gutter={(12, 12)}>
-        <Col span={24} style={{ textAlign: 'right', marginTop: '10px' }}>
-          <Button style={{ marginRight: '10px' }} onClick={handlePreviousStep}>
-            Previous
-          </Button>
-        </Col>
-      </Row>
     </Card>
   );
 };

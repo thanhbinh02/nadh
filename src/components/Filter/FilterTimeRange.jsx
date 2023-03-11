@@ -14,6 +14,10 @@ function filterArray(abc, title) {
   return filteredObj;
 }
 
+const isPositiveInteger = (value) => {
+  return /^[1-9]\d*$/.test(value);
+};
+
 export const FilterTimeRange = ({
   paramFrom,
   paramTo,
@@ -98,10 +102,6 @@ export const FilterTimeRange = ({
     }
   };
 
-  const isPositiveInteger = (value) => {
-    return /^[1-9]\d*$/.test(value);
-  };
-
   const handleParserValueFrom = (value) => {
     if (value === '') {
       setCheckSearch(false);
@@ -112,28 +112,33 @@ export const FilterTimeRange = ({
       return '';
     }
 
-    if (isNaN(value) || !isPositiveInteger(value)) {
+    if (isNaN(value)) {
       setCheckValidateFrom(false);
       setCheckParseValueFrom(true);
-
       setValueFrom(value);
       setCheckSearch(true);
       return value;
     } else {
-      if (Number(value) > valueTo && value !== undefined && valueTo !== '') {
-        setCheckSearch(true);
-        setCheckValidateFrom(true);
-      } else {
-        if (!isPositiveInteger(valueTo)) {
+      if (
+        isPositiveInteger(value) &&
+        (value !== undefined || value !== null || value !== '')
+      ) {
+        setCheckParseValueFrom(false);
+        if (Number(value) > valueTo && value !== undefined && valueTo !== '') {
+          console.log('value to', valueTo);
           setCheckSearch(true);
+          setCheckValidateFrom(true);
+          setCheckValidateTo(true);
         } else {
           setCheckSearch(false);
+          setCheckValidateFrom(false);
+          setCheckValidateTo(false);
         }
-
-        setCheckValidateFrom(false);
+      } else {
+        setCheckParseValueFrom(true);
+        setCheckSearch(true);
       }
 
-      setCheckParseValueFrom(false);
       return Number(value);
     }
   };
@@ -148,30 +153,35 @@ export const FilterTimeRange = ({
       return '';
     }
 
-    if (isNaN(value) || !isPositiveInteger(value)) {
+    if (isNaN(value)) {
       setCheckParseValueTo(true);
       setValueTo(value);
       setCheckSearch(true);
       return value;
     } else {
-      if (Number(value) < valueFrom && value !== undefined) {
-        if (!isPositiveInteger(valueFrom)) {
+      if (
+        isPositiveInteger(value) &&
+        (value !== undefined || value !== null || value !== '')
+      ) {
+        setCheckParseValueTo(false);
+        if (
+          Number(value) < valueFrom &&
+          value !== undefined &&
+          valueTo !== ''
+        ) {
           setCheckSearch(true);
+          setCheckValidateTo(true);
+          setCheckValidateFrom(true);
         } else {
           setCheckSearch(false);
+          setCheckValidateTo(false);
+          setCheckValidateFrom(false);
         }
-        setCheckValidateTo(true);
       } else {
-        if (!isPositiveInteger(valueFrom)) {
-          setCheckSearch(true);
-        } else {
-          setCheckSearch(false);
-        }
-
-        setCheckValidateTo(false);
+        setCheckParseValueTo(true);
+        setCheckSearch(true);
       }
 
-      setCheckParseValueTo(false);
       return Number(value);
     }
   };
@@ -195,7 +205,7 @@ export const FilterTimeRange = ({
                     min={1}
                     parser={handleParserValueFrom}
                     type="string"
-                    placeholder="From"
+                    placeholder="To"
                     style={{
                       width: '100%',
                       borderRadius: '0px',
@@ -224,11 +234,10 @@ export const FilterTimeRange = ({
               <Col span={12}>
                 {checkParseValueFrom && (
                   <>
-                    <span style={{ color: 'red' }}>Must be number Integer</span>
+                    <span style={{ color: 'red' }}>Must be number integer</span>
                     <br />
                   </>
                 )}
-
                 {checkValidateFrom && (
                   <span style={{ color: 'red' }}>
                     Must be lower than to value
@@ -238,11 +247,10 @@ export const FilterTimeRange = ({
               <Col span={12}>
                 {checkParseValueTo && (
                   <>
-                    <span style={{ color: 'red' }}>Must be number Integer</span>
+                    <span style={{ color: 'red' }}>Must be number integer</span>
                     <br />
                   </>
                 )}
-
                 {checkValidateTo && (
                   <span style={{ color: 'red' }}>
                     Must be higher than from's value

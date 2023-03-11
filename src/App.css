@@ -140,5 +140,5 @@ span.ant-table-column-title {
 }
 
 :where(.css-dev-only-do-not-override-1km3mtt).ant-modal-root .ant-modal-wrap {
-  z-index: 2000;
+  /* z-index: 2000; */
 }
