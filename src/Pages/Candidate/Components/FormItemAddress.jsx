@@ -60,6 +60,7 @@ export const FormItemAddress = ({
                     dataNewCandidate={dataNewCandidate}
                     check={check}
                     setOpen={setOpen}
+                    defaultValue={defaultValue}
                   />
                 );
               })}

@@ -1,8 +1,8 @@
 import React from 'react';
-
 import { MinusCircleOutlined } from '@ant-design/icons';
 import { Form, Select, Row, Col, Input } from 'antd';
 import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 
 const { Option } = Select;
 
@@ -18,8 +18,11 @@ const FormListPhoneNumber = ({
   setOpen,
 }) => {
   const dispatch = useDispatch();
+  const [removeItem, setRemoveItem] = useState(false);
 
   const handleChange = (e) => {
+    console.log('vo 1');
+
     if (setOpen) {
       setOpen(true);
     }
@@ -75,6 +78,7 @@ const FormListPhoneNumber = ({
   );
 
   const handleRemove = () => {
+    console.log('vo 2');
     if (setOpen) {
       setOpen(true);
     }
@@ -91,6 +95,7 @@ const FormListPhoneNumber = ({
     });
 
     dispatch(putCandidateType({ value: result, label: 'phones' }));
+    // setRemoveItem(true);
   };
 
   return (

@@ -100,7 +100,6 @@ export const detailCandidateSlice = createSlice({
     },
     [putNewDetailCandidate.pending]: (state) => {},
     [putNewDetailCandidate.fulfilled]: (state, { payload }) => {
-      console.log('payload', payload);
       if (payload === undefined) {
         state.isPutSuccess = false;
       } else {

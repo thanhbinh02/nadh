@@ -99,10 +99,9 @@ export const FormItemSelectNationalityDetail = ({
 
   const handleFocus = () => {
     if (checkFocus && contentModal !== undefined) {
-      console.log('contentModal', contentModal);
       let currentValue = form.getFieldValue(name);
       currentValue.push(contentModal);
-      console.log('currentValue', currentValue);
+
       form.setFieldValue(name, currentValue);
       const resultPush = { key: keyNewItem, label: contentModal };
 
@@ -123,7 +122,6 @@ export const FormItemSelectNationalityDetail = ({
   const handleBlur = () => {
     setFetchData(!fetchData);
 
-    console.log('newValue', newValue);
     if (clearItem) {
       setClearItem([]);
       dispatch(actionDispatch({ value: [], label: name }));

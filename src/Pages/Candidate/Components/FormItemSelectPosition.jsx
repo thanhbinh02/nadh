@@ -59,8 +59,6 @@ export const FormItemSelectPosition = ({
         form.setFieldValue(name, result);
         setClearItem(false);
       }
-    } else {
-      form.setFieldValue(name, []);
     }
   }, [fetchData]);
 

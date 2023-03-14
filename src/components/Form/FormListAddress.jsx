@@ -44,6 +44,7 @@ const FormListAddress = ({
   dataNewCandidate,
   check,
   setOpen,
+  defaultValue,
 }) => {
   const dispatch = useDispatch();
 
@@ -78,8 +79,12 @@ const FormListAddress = ({
   }, []);
 
   useEffect(() => {
-    if (form.getFieldValue(['addresses', name, 'country']) !== undefined) {
-      setDisabledInput(false);
+    if (defaultValue) {
+      for (let i = 0; i < defaultValue.length; i++) {
+        if (defaultValue[name]?.country?.label !== undefined) {
+          setDisabledInput(false);
+        }
+      }
     }
   }, []);
 
@@ -153,8 +158,15 @@ const FormListAddress = ({
           }
         }
       }
-      console.log('newDataFinal', newDataFinal);
-      setDisabledInput(true);
+
+      if (
+        form.getFieldValue(['addresses', name, 'address']) !== '' &&
+        form.getFieldValue(['addresses', name, 'address']) !== undefined
+      ) {
+        setDisabledInput(false);
+      } else {
+        setDisabledInput(true);
+      }
     }
   };
 
@@ -238,6 +250,7 @@ const FormListAddress = ({
         newData.push(dataNewCandidate[i]);
       }
     }
+    form.setFieldValue(['addresses', name, 'address'], undefined);
     dispatch(actionDispatch({ value: newData, label: 'addresses' }));
   };
 

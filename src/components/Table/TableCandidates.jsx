@@ -247,8 +247,13 @@ const TableCandidates = ({
       render: (text) => {
         return text?.map((item, index) => (
           <div key={index}>
-            {item.country.label}
-            {item.city?.label && <p> - {item.city.label}</p>}
+            {item.city?.label ? (
+              <>
+                {item.country.label} -<p> {item.city.label}</p>
+              </>
+            ) : (
+              <> {item.country.label}</>
+            )}
           </div>
         ));
       },

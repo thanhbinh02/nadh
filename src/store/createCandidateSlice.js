@@ -61,9 +61,11 @@ export const createCandidateSlice = createSlice({
       state.postCandidateLoading = true;
     },
     [postNewCandidate.fulfilled]: (state, { payload }) => {
-      state.user = payload;
-      state.postCandidateLoading = false;
-      state.postCandidateSuccess = true;
+      if (payload !== undefined) {
+        state.user = payload;
+        state.postCandidateLoading = false;
+        state.postCandidateSuccess = true;
+      }
     },
     [postNewCandidate.rejected]: (state, { payload }) => {
       state.user = [];

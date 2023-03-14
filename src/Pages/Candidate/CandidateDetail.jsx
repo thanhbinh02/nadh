@@ -184,6 +184,7 @@ export const CandidateDetail = () => {
                 style={{
                   width: '100%',
                   marginTop: '24px',
+                  marginBottom: '50px',
                 }}
               >
                 <FormSkillAndIndustry detailCandidate={detailCandidate} />

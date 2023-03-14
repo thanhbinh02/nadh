@@ -58,8 +58,6 @@ export const FormItemSelectNationality = ({
         form.setFieldValue(name, result);
         setClearItem(false);
       }
-    } else {
-      form.setFieldValue(name, []);
     }
   }, [fetchData]);
 
