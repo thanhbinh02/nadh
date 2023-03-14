@@ -2,7 +2,6 @@ import { Select, Form, Row, Col, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { fetchSoftSkills } from '../../../store/softSkillsSlice';
-import { FormSelectItem } from '../../../components/Form/FormSelectItem';
 import { fetchJobFunctionsSkills } from '../../../store/jobFunctionsSkillsSlice';
 import FormSelectGroup from '../../../components/Form/FormSelectGroup';
 import { fetchLanguages } from '../../../store/languagesSlice';
@@ -14,7 +13,6 @@ import FormItemBusinessLine from './FormItemBusinessLine';
 import { fetchIndustries } from '../../../store/categoriesSlice';
 import { fetchSectors } from '../../../store/categoriesSlice';
 import { fetchCategories } from '../../../store/categoriesSlice';
-import { putIndustryDetailCandidate } from '../../../store/candidatesSlice';
 import { putBusinessLineSlice } from '../../../store/businessLineSlice';
 
 const FormSkillAndIndustry = ({ detailCandidate }) => {
@@ -37,13 +35,6 @@ const FormSkillAndIndustry = ({ detailCandidate }) => {
   const sectors = useSelector((state) => state.categories.sectors);
   const categories = useSelector((state) => state.categories.categories);
 
-  const newBusinessLine = businessLine?.map((obj) => ({
-    industry_id: obj?.industry?.key,
-    sector_id: obj?.sector?.key,
-    category_id: obj?.category?.key,
-    primary: obj?.primary,
-  }));
-
   useEffect(() => {
     dispatch(fetchSoftSkills());
     dispatch(fetchJobFunctionsSkills());
@@ -51,21 +42,8 @@ const FormSkillAndIndustry = ({ detailCandidate }) => {
     dispatch(fetchIndustries({ type: 1 }));
   }, []);
 
-  const onFinish = (values) => {
-    console.log('Success:', values);
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
-
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
-    >
+    <Form form={form} layout="vertical" autoComplete="off">
       <Row gutter={(16, 16)} style={{ marginBottom: '24px' }}>
         <Col span={12}>
           <FormItemSelectMultiple
@@ -116,7 +94,7 @@ const FormSkillAndIndustry = ({ detailCandidate }) => {
             fetchDataItemTwo={fetchSectors}
             fetchDataItemThree={fetchCategories}
             typeThree={3}
-            businessLine={newBusinessLine || []}
+            businessLine={businessLine}
             form={form}
             id={idCandidate}
             actionDispatch={putBusinessLineSlice}

@@ -183,6 +183,7 @@ export const CandidateDetail = () => {
                 title="Skills And Industry"
                 style={{
                   width: '100%',
+                  marginTop: '24px',
                 }}
               >
                 <FormSkillAndIndustry detailCandidate={detailCandidate} />

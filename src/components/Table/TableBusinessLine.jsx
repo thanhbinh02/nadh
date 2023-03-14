@@ -1,8 +1,6 @@
 import React from 'react';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { Table, Row, Col, Checkbox } from 'antd';
-import { useState, useEffect } from 'react';
-import { useQuery } from 'react-query';
 
 export const TableBusinessLine = ({
   dataTable,
@@ -12,36 +10,27 @@ export const TableBusinessLine = ({
   id,
   actionDispatch,
   dispatch,
+  setDataTable,
+  dataFromRedux,
+  businessLine,
 }) => {
-  const [change, setChange] = useState(dataTable);
-
-  const [data, setData] = useState(
-    JSON.parse(localStorage.getItem('candidateDetail'))?.business_line,
-  );
-
-  useEffect(() => {
-    setChange(
-      JSON.parse(localStorage.getItem('candidateDetail'))?.business_line,
-    );
-  }, [check]);
-
   const columns = [
     {
       title: 'Primary',
       dataIndex: 'primary',
-      render: (text, record) => {
+      render: (text, record, index) => {
         return (
           <>
             {text === -1 && (
               <Checkbox
                 checked={false}
-                // onClick={() => handleSetPrimary(text, record)}
+                onClick={() => handlePrimary(text, record, index)}
               ></Checkbox>
             )}
             {text === 1 && (
               <Checkbox
                 checked={true}
-                // onClick={() => handleSetPrimary(text, record)}
+                onClick={() => handlePrimary(text, record, index)}
               ></Checkbox>
             )}
           </>
@@ -86,102 +75,117 @@ export const TableBusinessLine = ({
 
   const handleRemove = (text, record) => {
     const key = record.key;
-    let newResult = finalResult;
-    newResult.splice(key, 1);
 
-    const newData = {
-      id: id,
-      params: {
-        business_line: newResult,
-      },
-    };
-
-    dispatch(actionDispatch(newData));
-  };
-
-  const handleSetPrimary = (text, record) => {
-    if (record.primary === 1) {
-      setCheck(!check);
-      const updatedObj = Object.assign({}, data[record.key], {
-        primary: -1,
-      });
-
-      const final = [];
-
-      for (let i = 0; i < data.length; i++) {
-        if (i !== record.key) {
-          final.push(data[i]);
-        } else {
-          final.push(updatedObj);
-        }
-      }
+    if (dataFromRedux.length === 0) {
+      let newResult = finalResult;
+      newResult.splice(key, 1);
 
       const newData = {
         id: id,
         params: {
-          business_line: final,
+          business_line: newResult,
         },
       };
-
       dispatch(actionDispatch(newData));
     } else {
-      setCheck(!check);
-
-      const updatedObj = Object.assign({}, data[record.key], {
-        primary: 1,
-      });
-
-      const final = [];
-
-      for (let i = 0; i < data.length; i++) {
-        if (i !== record.key) {
-          console.log('i', i, data[i]);
-          final.push(data[i]);
-        } else {
-          final.push(updatedObj);
-        }
-      }
-
-      console.log('final -1', final);
-
+      let newResult = dataFromRedux.map((item, index) => ({
+        primary: item?.primary,
+        industry_id: item?.industry?.key,
+        sector_id: item?.sector?.key,
+        category_id: item?.category?.key,
+      }));
+      newResult.splice(key, 1);
       const newData = {
         id: id,
         params: {
-          business_line: final,
+          business_line: newResult,
         },
       };
-
       dispatch(actionDispatch(newData));
     }
-
-    // const newData = {
-    //   id: id,
-    //   params: {
-    //     business_line: updateData,
-    //   },
-    // };
-
-    // console.log('newData', newData);
-
-    // dispatch(actionDispatch(newData));
   };
 
-  const newData = change?.map((item, index) => ({
-    key: index,
-    primary: item?.primary,
-    industry: item?.industry?.label,
-    sector: item?.sector?.label,
-    category: item?.category?.label,
-  }));
+  const handlePrimary = (text, record) => {
+    let newValueIndex = dataTable[record.key];
+    if (text === -1) {
+      newValueIndex.primary = 1;
+    } else {
+      newValueIndex.primary = -1;
+    }
+    let result = [];
+    for (let i = 0; i < dataTable.length; i++) {
+      if (i !== record.key) {
+        result.push(dataTable[i]);
+      } else {
+        result.push(newValueIndex);
+      }
+    }
+    setDataTable(result);
+    if (dataFromRedux.length === 0) {
+      let newPutVaLueInput;
+      if (text === -1) {
+        newPutVaLueInput = { ...businessLine[record.key], primary: 1 };
+      } else {
+        newPutVaLueInput = { ...businessLine[record.key], primary: -1 };
+      }
+      let resultPut = [];
+      for (let i = 0; i < businessLine.length; i++) {
+        if (i !== record.key) {
+          resultPut.push(businessLine[i]);
+        } else {
+          resultPut.push(newPutVaLueInput);
+        }
+      }
+      const newData = {
+        id: id,
+        params: {
+          business_line: resultPut.map((item, index) => ({
+            primary: item?.primary,
+            industry_id: item?.industry?.key,
+            sector_id: item?.sector?.key,
+            category_id: item?.category?.key,
+          })),
+        },
+      };
+      dispatch(actionDispatch(newData));
+    } else {
+      let newPutVaLueInput;
+      if (text === -1) {
+        newPutVaLueInput = { ...dataFromRedux[record.key], primary: 1 };
+      } else {
+        newPutVaLueInput = { ...dataFromRedux[record.key], primary: -1 };
+      }
+      let resultPut = [];
+      for (let i = 0; i < dataFromRedux.length; i++) {
+        if (i !== record.key) {
+          resultPut.push(dataFromRedux[i]);
+        } else {
+          resultPut.push(newPutVaLueInput);
+        }
+      }
+      const newData = {
+        id: id,
+        params: {
+          business_line: resultPut.map((item, index) => ({
+            primary: item?.primary,
+            industry_id: item?.industry?.key,
+            sector_id: item?.sector?.key,
+            category_id: item?.category?.key,
+          })),
+        },
+      };
+      dispatch(actionDispatch(newData));
+    }
+  };
 
   return (
     <>
-      {newData?.length !== 0 && (
+      {dataTable?.length !== 0 && (
         <Row>
           <Col span={24}>
             <Table
               columns={columns}
-              dataSource={newData}
+              dataSource={dataTable}
               pagination={{
                 pageSize: 5,
               }}

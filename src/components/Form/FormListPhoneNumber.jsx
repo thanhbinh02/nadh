@@ -79,6 +79,18 @@ const FormListPhoneNumber = ({
       setOpen(true);
     }
     remove(name);
+    const formValue = form.getFieldValue('phones');
+    const filterFormValue = formValue.filter((item) => item !== undefined);
+
+    const result = filterFormValue.map((item) => {
+      return {
+        current: -1,
+        number: item.number,
+        phone_code: { key: item.phone_code ? item.phone_code : 1280 },
+      };
+    });
+
+    dispatch(putCandidateType({ value: result, label: 'phones' }));
   };
 
   return (

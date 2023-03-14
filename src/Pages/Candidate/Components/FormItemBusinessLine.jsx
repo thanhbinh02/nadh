@@ -66,12 +66,43 @@ const FormItemBusinessLine = ({
   const [listItemTwo, setListItemTwo] = useState(false);
   const [listItemThree, setListItemThree] = useState(false);
   const [openSave, setOpenSave] = useState(false);
-  const [finalResult, setfinalResult] = useState(businessLine);
+  const [finalResult, setfinalResult] = useState(
+    businessLine?.map((obj) => ({
+      industry_id: obj?.industry?.key,
+      sector_id: obj?.sector?.key,
+      category_id: obj?.category?.key,
+      primary: obj?.primary,
+    })),
+  );
   const [check, setCheck] = useState(false);
   const [dataTable, setDataTable] = useState(
-    JSON.parse(localStorage.getItem('candidateDetail'))?.business_line,
+    businessLine?.map((item, index) => ({
+      key: index,
+      primary: item?.primary,
+      industry: item?.industry?.label,
+      sector: item?.sector?.label,
+      category: item?.category?.label,
+    })),
   );
   const loading = useSelector((state) => state.businessLine.loading);
+  const isSuccess = useSelector((state) => state.businessLine.isSuccess);
+  const dataFromRedux = useSelector((state) => state.businessLine.data);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setDataTable(
+        dataFromRedux?.map((item, index) => ({
+          key: index,
+          primary: item?.primary,
+          industry: item?.industry?.label,
+          sector: item?.sector?.label,
+          category: item?.category?.label,
+        })),
+      );
+    }
+  }, [loading]);
+
+  useEffect(() => {}, []);
 
   const handleItemOneChange = (value, option) => {
     if (option) {
@@ -129,7 +160,7 @@ const FormItemBusinessLine = ({
 
     if (!isResultInArray) {
       let dataPush = finalResult;
-      dataPush.push(result);
+      dataPush.unshift(result);
       const newData = {
         id: id,
         params: {
@@ -138,10 +169,6 @@ const FormItemBusinessLine = ({
       };
       dispatch(actionDispatch(newData));
       setCheck(!check);
-      const detailCandidate = JSON.parse(
-        localStorage.getItem('candidateDetail'),
-      ).business_line;
-      setDataTable(detailCandidate);
       handleCancel();
     } else {
       toast.error('Industry exit', {
@@ -150,14 +177,6 @@ const FormItemBusinessLine = ({
       });
     }
   };
-
-  const newData = dataTable?.map((item, index) => ({
-    key: index,
-    primary: item?.primary,
-    industry: item?.industry?.label,
-    sector: item?.sector?.label,
-    category: item?.category?.label,
-  }));
 
   return (
     <>
@@ -242,20 +261,23 @@ const FormItemBusinessLine = ({
         {loading ? (
           <Spin tip="Loading...">
             <TableBusinessLine
-              dataTable={newData}
+              dataTable={dataTable}
               check={check}
               finalResult={finalResult}
             />
           </Spin>
         ) : (
           <TableBusinessLine
-            dataTable={newData}
+            dataTable={dataTable}
             check={check}
             finalResult={finalResult}
             setCheck={setCheck}
             id={id}
             actionDispatch={actionDispatch}
             dispatch={dispatch}
+            setDataTable={setDataTable}
+            dataFromRedux={dataFromRedux}
+            businessLine={businessLine}
           />
         )}
       </>

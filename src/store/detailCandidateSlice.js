@@ -13,6 +13,11 @@ export const putNewDetailCandidate = createAsyncThunk(
   async ({ id, params }) => await putDetailCandidate(id, params),
 );
 
+export const putNewBusinessLineCandidate = createAsyncThunk(
+  'detailCandidate/putNewDetailCandidate',
+  async ({ id, params }) => await putDetailCandidate(id, params),
+);
+
 export const detailCandidateSlice = createSlice({
   name: 'detailCandidate',
   initialState: {
@@ -40,6 +45,7 @@ export const detailCandidateSlice = createSlice({
       nationality: [],
       phones: [],
       prefer_position: { positions: [] },
+      business_line: [],
     },
   },
   reducers: {
@@ -86,6 +92,7 @@ export const detailCandidateSlice = createSlice({
       state.user.phones = payload?.phones;
       state.user.prefer_position.positions = payload?.prefer_position.positions;
       state.user.overview_text_new = payload.overview_text_new;
+      state.user.business_line = payload.business_line;
     },
     [fetchDetailCandidateSlice.rejected]: (state) => {
       state.loading = false;
@@ -99,9 +106,6 @@ export const detailCandidateSlice = createSlice({
       } else {
         state.isPutSuccess = true;
       }
-    },
-    [putNewDetailCandidate.rejected]: (state, { error }) => {
-      state.isPutSuccess = false;
     },
   },
 });

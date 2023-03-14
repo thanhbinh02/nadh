@@ -108,21 +108,6 @@ export const FormItemSelectNationality = ({
         ].map((item) => JSON.parse(item));
         dispatch(actionDispatch({ value: uniqueData, label: name }));
       }
-    } else {
-      const newData = {
-        id: id,
-        params: {
-          [`${name}`]: result,
-        },
-      };
-
-      const newName = { [`${name}`]: result };
-      if (detailCandidate) {
-        const newDataInLocal = { ...detailCandidate, ...newName };
-        window.localStorage.setItem(nameLocal, JSON.stringify(newDataInLocal));
-      }
-
-      // dispatch(actionDispatch(newData));
     }
   };
 

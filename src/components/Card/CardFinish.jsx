@@ -12,15 +12,11 @@ export const CardFinish = ({ setCurrentStep }) => {
   const user = useSelector((state) => state.createCandidate.user);
 
   const handleViewDetail = () => {
-    window.localStorage.removeItem('candidateDetail');
-    window.localStorage.removeItem('currentStep');
     navigate(`/candidate-detail/${user.candidate_id}`);
     dispatch(removeUserNewCandidate());
   };
 
   const handleCreateNew = () => {
-    window.localStorage.removeItem('candidateDetail');
-    window.localStorage.removeItem('currentStep');
     dispatch(removeUserNewCandidate());
     navigate('/candidate-add');
     setCurrentStep(0);

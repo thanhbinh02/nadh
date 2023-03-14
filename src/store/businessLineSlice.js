@@ -10,21 +10,20 @@ export const putBusinessLineSlice = createAsyncThunk(
 export const businessLineSlice = createSlice({
   name: 'businessLine',
   initialState: {
-    isSuccess: undefined,
+    isSuccess: false,
     loading: false,
+    data: [],
   },
   reducers: {},
   extraReducers: {
     [putBusinessLineSlice.pending]: (state) => {
       state.loading = true;
+      state.isSuccess = false;
     },
     [putBusinessLineSlice.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.isSuccess = true;
-      toast.success('Successfully updated', {
-        autoClose: 1000,
-        position: 'top-right',
-      });
+      state.data = payload.business_line;
     },
   },
 });

@@ -133,7 +133,7 @@ export const FormPersonalInformation = ({
             label="Ready to move"
             options={READY_TO_MOVE}
             actionDispatch={putCandidateType}
-            defaultValue={defaultValue?.relocating_willingness}
+            defaultValue={defaultValue?.relocating_willingness || 1}
             form={form}
             setOpen={setOpen}
           />
