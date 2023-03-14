@@ -56,7 +56,9 @@ export const SelectMultipleAdd = ({
   };
 
   const handleOpenModalAdd = () => {
-    setOpen(true);
+    if (setOpen) {
+      setOpen(true);
+    }
   };
 
   const handleAgree = () => {

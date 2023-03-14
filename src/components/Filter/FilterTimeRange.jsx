@@ -125,7 +125,6 @@ export const FilterTimeRange = ({
       ) {
         setCheckParseValueFrom(false);
         if (Number(value) > valueTo && value !== undefined && valueTo !== '') {
-          console.log('value to', valueTo);
           setCheckSearch(true);
           setCheckValidateFrom(true);
           setCheckValidateTo(true);

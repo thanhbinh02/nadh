@@ -4,14 +4,20 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { InfoCircleOutlined } from '@ant-design/icons';
 
-import { fetchNationality } from '../../../store/nationalitySlice';
-import { fetchPosition } from '../../../store/positionSlice';
-import { fetchDegree } from '../../../store/degreeSlice';
-import { fetchPhoneNumber } from '../../../store/phoneNumberSlice';
-import { fetchCountries } from '../../../store/locationsSlice';
-import { postNewCandidate } from '../../../store/createCandidateSlice';
-import { CustomButton } from '../../../components/CustomButton/CustomButton';
-import { FormMain } from './FormMain';
+import { fetchDegree } from '../../store/degreeSlice';
+import { fetchPhoneNumber } from '../../store/phoneNumberSlice';
+import { fetchCountries } from '../../store/locationsSlice';
+import { postNewCandidate } from '../../store/createCandidateSlice';
+import { CustomButton } from '../CustomButton/CustomButton';
+import { FormPersonalInformation } from './FormPersonalInformation';
+
+import { fetchNationality } from '../../store/nationalitySlice';
+import { fetchPosition } from '../../store/positionSlice';
+import {
+  putDataCandidateType,
+  putDataCandidatePositions,
+  putDataCandidateEmail,
+} from '../../store/createCandidateSlice';
 
 const FormPersonalInformationAdd = ({ setCurrentStep }) => {
   const [form] = Form.useForm();
@@ -58,7 +64,9 @@ const FormPersonalInformationAdd = ({ setCurrentStep }) => {
   const onFinish = (values) => {
     console.log('Success:', values);
     console.log('createCandidate', createCandidate);
-    setOpen(true);
+    if (setOpen) {
+      setOpen(true);
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -71,6 +79,7 @@ const FormPersonalInformationAdd = ({ setCurrentStep }) => {
 
   const handleAgree = () => {
     setOpen(false);
+    console.log('createCandidate', createCandidate);
     dispatch(postNewCandidate(createCandidate));
   };
 
@@ -83,7 +92,7 @@ const FormPersonalInformationAdd = ({ setCurrentStep }) => {
         onFinish={onFinish}
         autoComplete="off"
       >
-        <FormMain
+        <FormPersonalInformation
           form={form}
           phoneNumber={phoneNumber}
           countries={countries}
@@ -93,6 +102,9 @@ const FormPersonalInformationAdd = ({ setCurrentStep }) => {
           keyNationality={keyNationality}
           keyPosition={keyPosition}
           degree={degree}
+          putCandidateType={putDataCandidateType}
+          putCandidatePositions={putDataCandidatePositions}
+          putCandidateEmail={putDataCandidateEmail}
         />
 
         <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>

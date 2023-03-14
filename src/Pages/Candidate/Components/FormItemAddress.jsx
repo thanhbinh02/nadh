@@ -12,9 +12,10 @@ export const FormItemAddress = ({
   dataNewCandidate,
   defaultValue,
   check,
+  setOpen,
 }) => {
   useEffect(() => {
-    if (check) {
+    if (defaultValue) {
       for (let i = 0; i < defaultValue.length; i++) {
         form.setFieldValue(
           ['addresses', i, 'country'],
@@ -58,6 +59,7 @@ export const FormItemAddress = ({
                     actionDispatch={actionDispatch}
                     dataNewCandidate={dataNewCandidate}
                     check={check}
+                    setOpen={setOpen}
                   />
                 );
               })}

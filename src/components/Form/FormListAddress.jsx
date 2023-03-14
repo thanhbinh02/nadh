@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MinusCircleOutlined } from '@ant-design/icons';
 import { Form, Select, Row, Col, Input } from 'antd';
 import { getLocations } from '../../apis/filterApi';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const { Option } = Select;
 
@@ -43,6 +43,7 @@ const FormListAddress = ({
   actionDispatch,
   dataNewCandidate,
   check,
+  setOpen,
 }) => {
   const dispatch = useDispatch();
 
@@ -76,7 +77,16 @@ const FormListAddress = ({
     fetchDataCountry({ type: 4 });
   }, []);
 
+  useEffect(() => {
+    if (form.getFieldValue(['addresses', name, 'country']) !== undefined) {
+      setDisabledInput(false);
+    }
+  }, []);
+
   const handleCountryChange = (value, option, name) => {
+    if (setOpen) {
+      setOpen(true);
+    }
     fetchDataCity({ type: 1, parent_id: value });
     form.setFieldValue(['addresses', name, 'district'], undefined);
     form.setFieldValue(['addresses', name, 'city'], undefined);
@@ -84,19 +94,30 @@ const FormListAddress = ({
     if (value !== undefined) {
       setDisabledInput(false);
       if (name === 0) {
-        const newData = [
-          {
-            country: {
-              key: option?.key,
-              label: option.children,
-            },
-            city: null,
-            district: null,
-            address: null,
+        const newData = {
+          country: {
+            key: option?.key,
+            label: option.children,
           },
-        ];
-        dispatch(actionDispatch({ value: newData, label: 'addresses' }));
-        setFinal(newData);
+          city: undefined,
+          district: undefined,
+          address: undefined,
+        };
+
+        let newDataFinal = [];
+        if (dataNewCandidate.length === 0) {
+          newDataFinal = [newData];
+        } else {
+          for (let i = 0; i < dataNewCandidate.length; i++) {
+            if (i !== name) {
+              newDataFinal.push(dataNewCandidate[i]);
+            } else {
+              newDataFinal.push(newData);
+            }
+          }
+        }
+        dispatch(actionDispatch({ value: newDataFinal, label: 'addresses' }));
+        setFinal(newDataFinal);
       } else {
         const newData = [
           ...dataNewCandidate,
@@ -105,20 +126,42 @@ const FormListAddress = ({
               key: Number(option?.key),
               label: option.children,
             },
-            city: null,
-            district: null,
-            address: null,
+            city: undefined,
+            district: undefined,
+            address: undefined,
           },
         ];
         setFinal(newData);
         dispatch(actionDispatch({ value: newData, label: 'addresses' }));
       }
     } else {
+      const newData = {
+        country: undefined,
+        city: undefined,
+        district: undefined,
+        address: undefined,
+      };
+      let newDataFinal = [];
+      if (dataNewCandidate.length === 0) {
+        newDataFinal = [newData];
+      } else {
+        for (let i = 0; i < dataNewCandidate.length; i++) {
+          if (i !== name) {
+            newDataFinal.push(dataNewCandidate[i]);
+          } else {
+            newDataFinal.push(newData);
+          }
+        }
+      }
+      console.log('newDataFinal', newDataFinal);
       setDisabledInput(true);
     }
   };
 
   const handleCityChange = (value, option, name) => {
+    if (setOpen) {
+      setOpen(true);
+    }
     fetchDataListDistrict({ type: 2, parent_id: value });
     form.setFieldValue(['addresses', name, 'district'], undefined);
 
@@ -128,6 +171,7 @@ const FormListAddress = ({
           key: Number(option?.key),
           label: option?.children,
         },
+        district: undefined,
       });
 
       const newData = [];
@@ -138,11 +182,15 @@ const FormListAddress = ({
           newData.push(updatedObj);
         }
       }
+
       dispatch(actionDispatch({ value: newData, label: 'addresses' }));
     }
   };
 
   const handleDistrictChange = (value, option, name) => {
+    if (setOpen) {
+      setOpen(true);
+    }
     if (value !== undefined) {
       const updatedObj = Object.assign({}, dataNewCandidate[name], {
         district: {
@@ -164,17 +212,26 @@ const FormListAddress = ({
   };
 
   const handleRemove = () => {
-    remove(name);
-    const newData = [];
-    for (let i = 0; i < dataNewCandidate.length; i++) {
-      if (i !== name) {
-        newData.push(dataNewCandidate[i]);
-      }
+    if (setOpen) {
+      setOpen(true);
     }
-    dispatch(actionDispatch({ value: newData, label: 'addresses' }));
+    if (form.getFieldValue(['addresses', name, 'country']) !== undefined) {
+      const newData = [];
+      for (let i = 0; i < dataNewCandidate.length; i++) {
+        if (i !== name) {
+          newData.push(dataNewCandidate[i]);
+        }
+      }
+
+      dispatch(actionDispatch({ value: newData, label: 'addresses' }));
+    }
+    remove(name);
   };
 
   const handleClearCountry = (name) => {
+    if (setOpen) {
+      setOpen(true);
+    }
     const newData = [];
     for (let i = 0; i < dataNewCandidate.length; i++) {
       if (i !== name) {
@@ -185,9 +242,12 @@ const FormListAddress = ({
   };
 
   const handleClearCity = (name) => {
+    if (setOpen) {
+      setOpen(true);
+    }
     const updatedObj = Object.assign({}, dataNewCandidate[name], {
-      district: null,
-      city: null,
+      district: undefined,
+      city: undefined,
     });
 
     const newData = [];
@@ -202,8 +262,11 @@ const FormListAddress = ({
   };
 
   const handleClearDistrict = (name) => {
+    if (setOpen) {
+      setOpen(true);
+    }
     const updatedObj = Object.assign({}, dataNewCandidate[name], {
-      district: null,
+      district: undefined,
     });
 
     const newData = [];
@@ -218,6 +281,9 @@ const FormListAddress = ({
   };
 
   const handleChangeInputAddress = (e) => {
+    if (setOpen) {
+      setOpen(true);
+    }
     const updatedObj = Object.assign({}, dataNewCandidate[name], {
       address: e.target.value,
     });
@@ -349,3 +415,20 @@ const FormListAddress = ({
 };
 
 export default FormListAddress;
+
+const xyz = [
+  {
+    country: 'Viet Nam',
+    city: 'An Giang',
+    district: 'Chau Thanh',
+    address: 'tt',
+  },
+
+  {
+    country: 'Viet Nam',
+    city: 'Bac Kan',
+    district: 'Bac Kan city',
+    address: undefined,
+  },
+  { country: 1280, district: 78, city: 2 },
+];

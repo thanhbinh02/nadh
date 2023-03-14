@@ -15,8 +15,6 @@ export const getCandidates = async (params) => {
   return await axiosClient.get(url, params);
 };
 
-//lubrytics.com:8443/nadh-api-crm/api/candidates
-
 export const postCandidate = async (params) => {
   const url = '/api/candidates';
   return await axiosClient
@@ -58,9 +56,32 @@ export const putDetailCandidate = async (id, params) => {
   return await axiosClient
     .put(url, params)
     .then(function (response) {
-      window.localStorage.setItem('candidateDetail', JSON.stringify(response));
+      toast.success('Update Success!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+      return response;
     })
-    .catch(function (error) {});
+    .catch(function (error) {
+      const checkEmails = error.response.data.find(
+        (item) => item.message === 'Duplicated' && item.field === 'emails',
+      );
+      const checkPhone = error.response.data.find(
+        (item) => item.message === 'Duplicated' && item.field === 'phones',
+      );
+      if (checkEmails) {
+        toast.error('Email already exists!', {
+          autoClose: 1000,
+          position: 'top-right',
+        });
+      }
+      if (checkPhone) {
+        toast.error('Phone already exists!', {
+          autoClose: 1000,
+          position: 'top-right',
+        });
+      }
+    });
 };
 
 export const getDetailCandidate = async (id) => {

@@ -21,9 +21,6 @@ export const businessLineSlice = createSlice({
     [putBusinessLineSlice.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.isSuccess = true;
-      state.businessLine = JSON.parse(
-        localStorage.getItem('candidateDetail'),
-      ).business_line;
       toast.success('Successfully updated', {
         autoClose: 1000,
         position: 'top-right',

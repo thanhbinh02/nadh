@@ -4,7 +4,13 @@ import { Form, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useEffect } from 'react';
 
-export const FormItemEmail = ({ form, defaultValue, check }) => {
+export const FormItemEmail = ({
+  form,
+  defaultValue,
+  check,
+  putCandidateEmail,
+  setOpen,
+}) => {
   useEffect(() => {
     if (defaultValue) {
       for (let i = 0; i < defaultValue.length; i++) {
@@ -31,6 +37,8 @@ export const FormItemEmail = ({ form, defaultValue, check }) => {
                     isListField={isListField}
                     defaultValue={defaultValue}
                     disabled={check}
+                    putCandidateEmail={putCandidateEmail}
+                    setOpen={setOpen}
                   />
                 );
               })}

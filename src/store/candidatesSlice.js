@@ -79,18 +79,10 @@ export const candidatesSlice = createSlice({
     [putNewDetailCandidate.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.isSuccess = true;
-      toast.success('Successfully updated', {
-        autoClose: 1000,
-        position: 'top-right',
-      });
     },
     [putNewDetailCandidate.rejected]: (state) => {
       state.loading = false;
       state.isSuccess = false;
-      toast.success('Update failed', {
-        autoClose: 1000,
-        position: 'top-right',
-      });
     },
     [putIndustryDetailCandidate.pending]: (state) => {
       state.loading = true;
@@ -98,9 +90,6 @@ export const candidatesSlice = createSlice({
     [putIndustryDetailCandidate.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.isSuccess = true;
-      state.businessLine = JSON.parse(
-        localStorage.getItem('candidateDetail'),
-      ).business_line;
       toast.success('Successfully updated', {
         autoClose: 1000,
         position: 'top-right',
@@ -108,8 +97,6 @@ export const candidatesSlice = createSlice({
     },
   },
 });
-
-// export const { putNewDetailCandidate } = candidatesSlice.actions;
 
 const { reducer } = candidatesSlice;
 export default reducer;

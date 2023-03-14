@@ -142,3 +142,17 @@ span.ant-table-column-title {
 :where(.css-dev-only-do-not-override-1km3mtt).ant-modal-root .ant-modal-wrap {
   /* z-index: 2000; */
 }
+
+.sticky-row {
+  position: fixed !important;
+  bottom: 0;
+  right: 0;
+  border-top: 1px solid #d9d9d9;
+  background-color: #e9e9e9;
+  padding: 10px 24px !important;
+  text-align: right;
+  width: 100%;
+  z-index: 2;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}

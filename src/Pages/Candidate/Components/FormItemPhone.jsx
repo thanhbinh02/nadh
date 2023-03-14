@@ -4,7 +4,13 @@ import { PlusOutlined } from '@ant-design/icons';
 import FormListPhoneNumber from '../../../components/Form/FormListPhoneNumber';
 import { useEffect } from 'react';
 
-export const FormItemPhone = ({ form, phoneNumber, defaultValue, check }) => {
+export const FormItemPhone = ({
+  form,
+  phoneNumber,
+  defaultValue,
+  putCandidateType,
+  setOpen,
+}) => {
   useEffect(() => {
     if (defaultValue) {
       for (let i = 0; i < defaultValue.length; i++) {
@@ -34,7 +40,8 @@ export const FormItemPhone = ({ form, phoneNumber, defaultValue, check }) => {
                     fields={fields}
                     isListField={isListField}
                     phoneNumber={phoneNumber}
-                    disabled={check}
+                    putCandidateType={putCandidateType}
+                    setOpen={setOpen}
                   />
                 );
               })}
@@ -44,7 +51,6 @@ export const FormItemPhone = ({ form, phoneNumber, defaultValue, check }) => {
                   onClick={() => add()}
                   block
                   icon={<PlusOutlined />}
-                  disabled={check}
                 >
                   Add field
                 </Button>

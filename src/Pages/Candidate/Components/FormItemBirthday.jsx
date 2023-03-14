@@ -9,7 +9,7 @@ export const FormItemBirthday = ({
   form,
   actionDispatch,
   defaultValue,
-  check,
+  setOpen,
 }) => {
   const dispatch = useDispatch();
 
@@ -31,6 +31,9 @@ export const FormItemBirthday = ({
   }
 
   const onChangeDate = (value) => {
+    if (setOpen) {
+      setOpen(true);
+    }
     form.validateFields(['month_birthday', 'year_birthday']);
     if (
       form.getFieldValue('date_birthday') !== undefined &&
@@ -48,6 +51,9 @@ export const FormItemBirthday = ({
   };
 
   const onChangeMonth = (value) => {
+    if (setOpen) {
+      setOpen(true);
+    }
     form.validateFields(['date_birthday', 'year_birthday']);
     if (
       form.getFieldValue('date_birthday') !== undefined &&
@@ -65,6 +71,9 @@ export const FormItemBirthday = ({
   };
 
   const onChangeYear = (value) => {
+    if (setOpen) {
+      setOpen(true);
+    }
     form.validateFields(['date_birthday', 'month_birthday']);
     if (
       form.getFieldValue('date_birthday') !== undefined &&
@@ -104,7 +113,6 @@ export const FormItemBirthday = ({
             ]}
           >
             <Select
-              disabled={check}
               allowClear
               showSearch
               style={{ width: '100%', borderRadius: '0px' }}
@@ -141,7 +149,6 @@ export const FormItemBirthday = ({
             ]}
           >
             <Select
-              disabled={check}
               allowClear
               showSearch
               style={{ width: '100%', borderRadius: '0px' }}
@@ -179,7 +186,6 @@ export const FormItemBirthday = ({
             ]}
           >
             <Select
-              disabled={check}
               allowClear
               showSearch
               style={{ width: '100%', borderRadius: '0px' }}

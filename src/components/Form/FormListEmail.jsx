@@ -1,7 +1,6 @@
 import { MinusCircleOutlined } from '@ant-design/icons';
 import { Form, Row, Col, Input } from 'antd';
 import { useDispatch } from 'react-redux';
-import { putDataCandidateEmail } from '../../store/createCandidateSlice';
 
 const FormListEmail = ({
   name,
@@ -10,6 +9,8 @@ const FormListEmail = ({
   fields,
   isListField,
   disabled,
+  putCandidateEmail,
+  setOpen,
 }) => {
   const { getFieldValue } = form;
   const dispatch = useDispatch();
@@ -18,21 +19,27 @@ const FormListEmail = ({
     const listEmail = getFieldValue('emails');
 
     if (listEmail.length === 1) {
-      const result = [listEmail[0].email];
-      dispatch(putDataCandidateEmail(result));
+      const result = [listEmail[0]?.email];
+      dispatch(putCandidateEmail(result));
     }
     if (listEmail.length > 1) {
       const result = listEmail.map((obj) => obj?.email);
-      dispatch(putDataCandidateEmail(result));
+      dispatch(putCandidateEmail(result));
     }
   };
 
   const handleRemove = () => {
+    if (setOpen) {
+      setOpen(true);
+    }
     remove(name);
     dispatchValueEmail();
   };
 
-  const handleBlur = (e) => {
+  const handleChange = (e) => {
+    if (setOpen) {
+      setOpen(true);
+    }
     dispatchValueEmail();
   };
 
@@ -58,7 +65,7 @@ const FormListEmail = ({
             >
               <Input
                 placeholder="ex: email@gmail.com"
-                onBlur={handleBlur}
+                onChange={handleChange}
                 disabled={disabled}
               ></Input>
             </Form.Item>

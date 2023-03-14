@@ -242,14 +242,14 @@ const FormItemBusinessLine = ({
         {loading ? (
           <Spin tip="Loading...">
             <TableBusinessLine
-              dataTable={dataTable}
+              dataTable={newData}
               check={check}
               finalResult={finalResult}
             />
           </Spin>
         ) : (
           <TableBusinessLine
-            dataTable={dataTable}
+            dataTable={newData}
             check={check}
             finalResult={finalResult}
             setCheck={setCheck}

@@ -17,7 +17,7 @@ import { fetchCategories } from '../../../store/categoriesSlice';
 import { putIndustryDetailCandidate } from '../../../store/candidatesSlice';
 import { putBusinessLineSlice } from '../../../store/businessLineSlice';
 
-const FormSkillAndIndustry = () => {
+const FormSkillAndIndustry = ({ detailCandidate }) => {
   const [test, setTest] = useState([]);
   const [form] = Form.useForm();
   const { Option } = Select;
@@ -28,7 +28,6 @@ const FormSkillAndIndustry = () => {
   const languages = useSelector((state) => state.languages.languages);
 
   const softSkills = useSelector((state) => state.softSkills.data);
-  const detailCandidate = JSON.parse(localStorage.getItem('candidateDetail'));
   const idCandidate = detailCandidate?.id;
   const softSkillsCandidate = detailCandidate?.soft_skills;
   const languagesCandidate = detailCandidate?.languages;

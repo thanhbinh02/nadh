@@ -51,9 +51,6 @@ export const createCandidateSlice = createSlice({
     putDataCandidateEmail: (state, { payload }) => {
       state.data.emails = payload;
     },
-    putDataCandidateAddresses: (state, { payload }) => {
-      state.data.addresses = payload;
-    },
     removeUserNewCandidate: (state) => {
       state.user = [];
       state.postCandidateSuccess = false;
@@ -79,7 +76,6 @@ export const createCandidateSlice = createSlice({
 export const {
   putDataCandidateType,
   putDataCandidateEmail,
-  putDataCandidateAddresses,
   putDataCandidatePositions,
   removeUserNewCandidate,
 } = createCandidateSlice.actions;

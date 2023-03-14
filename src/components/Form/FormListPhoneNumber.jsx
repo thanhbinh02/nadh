@@ -3,7 +3,6 @@ import React from 'react';
 import { MinusCircleOutlined } from '@ant-design/icons';
 import { Form, Select, Row, Col, Input } from 'antd';
 import { useDispatch } from 'react-redux';
-import { putDataCandidateType } from '../../store/createCandidateSlice';
 
 const { Option } = Select;
 
@@ -15,10 +14,15 @@ const FormListPhoneNumber = ({
   phoneNumber,
   form,
   disabled,
+  putCandidateType,
+  setOpen,
 }) => {
   const dispatch = useDispatch();
 
-  const handleBlur = (e) => {
+  const handleChange = (e) => {
+    if (setOpen) {
+      setOpen(true);
+    }
     const formValue = form.getFieldValue('phones');
     const filterFormValue = formValue.filter((item) => item !== undefined);
 
@@ -30,7 +34,7 @@ const FormListPhoneNumber = ({
       };
     });
 
-    dispatch(putDataCandidateType({ value: result, label: 'phones' }));
+    dispatch(putCandidateType({ value: result, label: 'phones' }));
   };
 
   const prefixSelector = (
@@ -71,6 +75,9 @@ const FormListPhoneNumber = ({
   );
 
   const handleRemove = () => {
+    if (setOpen) {
+      setOpen(true);
+    }
     remove(name);
   };
 
@@ -99,8 +106,9 @@ const FormListPhoneNumber = ({
                 style={{
                   width: '100%',
                 }}
-                onBlur={handleBlur}
+                onChange={handleChange}
                 disabled={disabled}
+                placeholder="ex: 981234567"
               />
             </Form.Item>
           </Col>

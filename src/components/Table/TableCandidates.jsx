@@ -21,10 +21,12 @@ import { fetchCandidates } from '../../store/candidatesSlice';
 import TagFilter from '../TagFilter';
 
 const checkIconGlow = (name, obj) => {
-  if (name in obj) {
-    return true;
-  } else {
-    return false;
+  if (obj) {
+    if (name in obj) {
+      return true;
+    } else {
+      return false;
+    }
   }
 };
 
@@ -548,7 +550,7 @@ const TableCandidates = ({
             <Table
               columns={newColumns}
               dataSource={newData}
-              scroll={{ x: '100vw' }}
+              scroll={{ x: '110vw' }}
               pagination={{
                 pageSize: 10,
                 total: totalMain,

@@ -20,7 +20,7 @@ export const FormItemSelectPosition = ({
   addItem,
   postData,
   form,
-  check,
+
   getData,
   keyNewItem,
 }) => {
@@ -29,7 +29,7 @@ export const FormItemSelectPosition = ({
   const [showAddItem, setShowAddItem] = useState(false);
   const [fetchData, setFetchData] = useState(true);
   const [open, setOpen] = useState(false);
-  const [test, setTest] = useState(defaultValue?.map((item) => item.label));
+  const [test, setTest] = useState([]);
   const [testResult, setTestResult] = useState([]);
   const [checkPost, setCheckPost] = useState(true);
   const [checkFocus, setCheckFocus] = useState(false);
@@ -43,14 +43,15 @@ export const FormItemSelectPosition = ({
   );
 
   useEffect(() => {
-    form.setFieldValue(name, test);
+    const data = defaultValue?.map((item) => item.label);
+    form.setFieldValue(name, data);
   }, []);
 
   useEffect(() => {}, [checkPost]);
 
   useEffect(() => {
     if (!clearItem) {
-      if (!check) {
+      if (!defaultValue) {
         const uniqueLabels = new Set(
           testResult.filter((item) => item.label).map((item) => item.label),
         );
@@ -78,7 +79,9 @@ export const FormItemSelectPosition = ({
   };
 
   const handleOpenModalAdd = () => {
-    setOpen(true);
+    if (setOpen) {
+      setOpen(true);
+    }
   };
 
   const handleChange = (value) => {
@@ -213,11 +216,8 @@ export const FormItemSelectPosition = ({
           onSearch={handleSearch}
           onBlur={handleBlur}
           onFocus={handleFocus}
-          // defaultValue={defaultValue.map((item) => item.label)}
-          // defaultValue={['1023']}
           onClear={handleClear}
           onDeselect={handleRemoveItem}
-          disabled={check}
           dropdownRender={(menu) => {
             return (
               <>

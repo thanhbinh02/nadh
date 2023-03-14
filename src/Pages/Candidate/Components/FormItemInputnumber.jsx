@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, InputNumber } from 'antd';
 import { useDispatch } from 'react-redux';
 
@@ -8,21 +8,29 @@ export const FormItemInputNumber = ({
   actionDispatch,
   defaultValue,
   check,
+  form,
+  setOpen,
 }) => {
   const dispatch = useDispatch();
 
-  const handleBlur = (e) => {
-    dispatch(actionDispatch({ value: Number(e.target.value), label: name }));
+  const handleChange = (value) => {
+    if (setOpen) {
+      setOpen(true);
+    }
+    dispatch(actionDispatch({ value: value, label: name }));
   };
+
+  useEffect(() => {
+    form.setFieldValue(name, defaultValue);
+  }, []);
 
   return (
     <Form.Item label={label} name={name}>
       <InputNumber
         min="0"
-        onBlur={handleBlur}
+        onChange={handleChange}
         placeholder="0"
         style={{ width: '100%' }}
-        defaultValue={defaultValue}
         disabled={check}
       />
     </Form.Item>

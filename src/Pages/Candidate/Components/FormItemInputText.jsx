@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Input } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 export const FormItemInputText = ({
   label,
@@ -10,13 +10,23 @@ export const FormItemInputText = ({
   message,
   actionDispatch,
   defaultValue,
-  check,
+  form,
+  setOpen,
 }) => {
   const dispatch = useDispatch();
 
-  const handleBlur = (e) => {
+  const handleChange = (e) => {
+    if (setOpen) {
+      setOpen(true);
+    }
     dispatch(actionDispatch({ value: e.target.value, label: name }));
   };
+
+  useEffect(() => {
+    if (defaultValue !== undefined) {
+      form.setFieldValue(name, defaultValue);
+    }
+  }, []);
 
   return (
     <>
@@ -32,21 +42,11 @@ export const FormItemInputText = ({
             },
           ]}
         >
-          <Input
-            placeholder={placeholder}
-            onBlur={handleBlur}
-            defaultValue={defaultValue}
-            disabled={check}
-          />
+          <Input placeholder={placeholder} onChange={handleChange} />
         </Form.Item>
       ) : (
         <Form.Item label={label} name={name}>
-          <Input
-            placeholder={placeholder}
-            onBlur={handleBlur}
-            defaultValue={defaultValue}
-            disabled={check}
-          />
+          <Input placeholder={placeholder} onChange={handleChange} />
         </Form.Item>
       )}
     </>
