@@ -64,7 +64,7 @@ export const CustomColumns = ({ namePage, listCustom }) => {
       <Button
         type="primary"
         ghost
-        style={{ display: 'flex', alignItems: 'center' }}
+        style={{ display: 'flex', alignItems: 'center', marginRight: '54px' }}
       >
         Custom Column
         <AiOutlineDown style={{ marginLeft: '10px' }} />

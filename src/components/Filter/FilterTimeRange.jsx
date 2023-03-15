@@ -197,14 +197,14 @@ export const FilterTimeRange = ({
           <Col span={14}>
             <Row gutter={[8, 8]}>
               <Col span={12}>
-                <Form.Item>
+                <Form.Item name={paramFrom}>
                   <InputNumber
                     onChange={setValueFrom}
                     value={valueFrom}
                     min={1}
                     parser={handleParserValueFrom}
                     type="string"
-                    placeholder="To"
+                    placeholder="From"
                     style={{
                       width: '100%',
                       borderRadius: '0px',
@@ -213,7 +213,7 @@ export const FilterTimeRange = ({
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item>
+                <Form.Item name={paramTo}>
                   <InputNumber
                     onChange={setValueTo}
                     value={valueTo}
@@ -263,6 +263,9 @@ export const FilterTimeRange = ({
               <FilterResetSearch
                 disabled={checkSearch}
                 onClick={handleSearch}
+                paramFrom={paramFrom}
+                paramTo={paramTo}
+                form={form}
               />
             </Row>
           </Col>

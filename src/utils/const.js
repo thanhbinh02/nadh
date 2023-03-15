@@ -87,17 +87,17 @@ export const CUSTOM_COLUMNS = {
 export const CUSTOM_COLUMNS_CANDIDATES = [
   { title: 'candidate_id', label: 'ID', disabled: true, check: true },
   { title: 'full_name', label: 'Name', disabled: true, check: true },
-  { title: 'priority_status', label: 'Primary Status', check: true },
-  { title: 'language', label: 'Languages', check: true },
+  { title: 'priority_status', label: 'Primary Status', check: true }, //
+  { title: 'language', label: 'Languages', check: true }, //
   { title: 'highest_education', label: 'Highest degree', check: true },
-  { title: 'location', label: 'City', check: true },
-  { title: 'industry', label: 'Industry', check: true },
-  { title: 'yob', label: 'YOB', check: true },
-  { title: 'flow_status', label: 'Activity', check: true },
-  { title: 'current_company', label: 'Recent companies', check: true },
+  { title: 'location', label: 'City', check: true }, //
+  { title: 'industry', label: 'Industry', check: true }, //
+  { title: 'yob', label: 'YOB', check: true }, //
+  { title: 'flow_status', label: 'Activity', check: true }, //
+  { title: 'current_company', label: 'Recent companies', check: true }, //
   { title: 'current_position', label: 'Recent positions', check: true },
-  { title: 'industry_years', label: 'Year of services', check: true },
-  { title: 'management_years', label: 'Year of management', check: true },
+  { title: 'industry_years', label: 'Year of services', check: true }, //
+  { title: 'management_years', label: 'Year of management', check: true }, //
   { title: 'action', label: 'Action', disabled: true, check: true },
 ];
 

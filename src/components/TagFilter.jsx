@@ -82,6 +82,7 @@ const TagFilter = ({ tags }) => {
         key={tag}
         style={{
           display: 'inline-block',
+          marginBottom: '8px',
         }}
       >
         {tagElem}

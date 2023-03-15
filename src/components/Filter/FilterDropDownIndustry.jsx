@@ -8,6 +8,19 @@ import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 import { refreshCandidates } from '../../store/candidatesSlice';
 
 const { Option } = Select;
+
+const checkTwoName = (names, obj) => {
+  if (obj) {
+    for (let i = 0; i < names.length; i++) {
+      if (names[i] in obj) {
+        return true;
+      }
+    }
+    return false;
+  }
+  return false;
+};
+
 const FilterDropDownIndustry = ({
   data,
   optionTwo,
@@ -55,6 +68,7 @@ const FilterDropDownIndustry = ({
   };
 
   const handleItemOneChange = (value, option) => {
+    form.setFieldValue('city', undefined);
     if (option) {
       dispatch(
         fetchDataItemTwo({ type: typeTwo, parent_id: Number(option.key) }),
@@ -85,14 +99,28 @@ const FilterDropDownIndustry = ({
   };
 
   const handleReset = () => {
-    dispatch(refreshCandidates());
-    dispatch(
-      getTagsCandidates({
-        page: 1,
-        perPage: 10,
-      }),
+    const filterSaveLocalStorage = JSON.parse(
+      localStorage.getItem('filterCDD'),
     );
-    handleClearItemOne();
+
+    if (
+      checkTwoName(['industry_id', 'industry_type'], filterSaveLocalStorage)
+    ) {
+      const {
+        location: { industries, ...restCountry },
+        ...rest
+      } = filterSaveLocalStorage;
+      const result = { ...rest, location: { ...restCountry } };
+
+      const propsToDelete = ['industry_id', 'industry_type'];
+      propsToDelete.forEach((prop) => delete result[prop]);
+      const newObj = { ...result };
+      window.localStorage.setItem('filterCDD', JSON.stringify(newObj));
+      dispatch(refreshCandidates(newObj));
+      dispatch(getTagsCandidates(newObj));
+      handleClearItemOne();
+    }
+    form.resetFields();
   };
 
   const handleSearch = () => {

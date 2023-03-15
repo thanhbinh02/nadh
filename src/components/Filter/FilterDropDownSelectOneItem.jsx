@@ -38,12 +38,14 @@ export const FilterDropDownSelectOneItem = ({
     if (mode !== 'multiple' || data.data === undefined) {
       const result = { [data.name]: data.data };
       const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
+      console.log('dataSaveLocal mode !multiple', dataSaveLocal);
       const newData = { ...dataSaveLocal, ...result, page: 1 };
       dispatch(fetchData(newData));
       dispatch(getTagsCandidates(newData));
     } else {
       const result = { [data.name]: data.data.join(',') };
       const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
+      console.log('dataSaveLocal mode multiple', dataSaveLocal);
       const newData = { ...dataSaveLocal, ...result, page: 1 };
       dispatch(fetchData(newData));
       dispatch(getTagsCandidates(newData));
@@ -59,7 +61,7 @@ export const FilterDropDownSelectOneItem = ({
     >
       <Form form={form}>
         <Row gutter={[8, 8]}>
-          <FilterResetSearch onClick={handleSearch} />
+          <FilterResetSearch onClick={handleSearch} param={param} form={form} />
           <Col span={24}>
             <Form.Item name={param}>
               <Select

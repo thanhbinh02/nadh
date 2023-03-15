@@ -36,7 +36,7 @@ export const FilterDropDownText = ({
     >
       <Form autoComplete="off" form={form}>
         <Row gutter={[8, 8]}>
-          <FilterResetSearch onClick={handleSearch} />
+          <FilterResetSearch onClick={handleSearch} param={param} form={form} />
           <Col span={24}>
             <Form.Item name={param}>
               <Input

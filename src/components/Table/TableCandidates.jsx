@@ -37,9 +37,9 @@ const TableCandidates = ({
   industries,
   sectors,
   categories,
-  // totalItem,
   listTagFilter,
   filerCandidates,
+  loadingCandidate,
 }) => {
   const dispatch = useDispatch();
   const listCustomCandidates = useSelector((state) => state.customColumn.data);
@@ -224,7 +224,7 @@ const TableCandidates = ({
       dataIndex: 'location',
       filterIcon: (
         <>
-          {checkIconGlow('location', filerCandidates) ? (
+          {checkIconGlow('country', filerCandidates) ? (
             <AiOutlineSearch
               style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
             />
@@ -263,7 +263,7 @@ const TableCandidates = ({
       dataIndex: 'industry',
       filterIcon: (
         <>
-          {checkIconGlow('industry', filerCandidates) ? (
+          {checkIconGlow('industry_id', filerCandidates) ? (
             <AiOutlineSearch
               style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
             />
@@ -542,38 +542,42 @@ const TableCandidates = ({
   }));
 
   return (
-    <>
-      <div
-        style={{
-          marginLeft: '54px',
-          marginRight: '54px',
-        }}
-      >
-        {listCustomCandidates && (
-          <>
-            <TagFilter tags={filterTagCandidates(listTagFilter, languages)} />
-            <Table
-              columns={newColumns}
-              dataSource={newData}
-              scroll={{ x: '110vw' }}
-              pagination={{
-                pageSize: 10,
-                total: totalMain,
-                showSizeChanger: false,
-                showQuickJumper: true,
-                onChange: (page) => {
-                  setPageTable(page);
-                  let newParam = filerCandidates;
-                  newParam.page = page;
-                  dispatch(fetchCandidates(newParam));
-                },
-                current: pageTable,
-              }}
-            />
-          </>
-        )}
-      </div>
-    </>
+    <div
+      style={{
+        marginLeft: '54px',
+        marginRight: '54px',
+      }}
+    >
+      <TagFilter tags={filterTagCandidates(listTagFilter, languages)} />
+      {loadingCandidate ? (
+        <Spin tip="Loading...">
+          <Table
+            columns={newColumns}
+            scroll={{ x: '110vw' }}
+            dataSource={newData}
+          />
+        </Spin>
+      ) : (
+        <Table
+          columns={newColumns}
+          dataSource={newData}
+          scroll={{ x: '110vw' }}
+          pagination={{
+            pageSize: 10,
+            total: totalMain,
+            showSizeChanger: false,
+            showQuickJumper: true,
+            onChange: (page) => {
+              setPageTable(page);
+              let newParam = filerCandidates;
+              newParam.page = page;
+              dispatch(fetchCandidates(newParam));
+            },
+            current: pageTable,
+          }}
+        />
+      )}
+    </div>
   );
 };
 export default TableCandidates;

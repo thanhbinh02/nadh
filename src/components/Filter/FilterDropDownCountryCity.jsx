@@ -9,6 +9,17 @@ import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 import { refreshCandidates } from '../../store/candidatesSlice';
 
 const { Option } = Select;
+
+const checkOneName = (name, obj) => {
+  if (obj) {
+    if (name in obj) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+};
+
 const FilterDropDownCountryCity = ({ data, country, city }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -36,13 +47,25 @@ const FilterDropDownCountryCity = ({ data, country, city }) => {
   const handleReset = () => {
     form.resetFields();
     handleClearCountry();
-    dispatch(refreshCandidates());
-    dispatch(
-      getTagsCandidates({
-        page: 1,
-        perPage: 10,
-      }),
+    const filterSaveLocalStorage = JSON.parse(
+      localStorage.getItem('filterCDD'),
     );
+    if (checkOneName('country', filterSaveLocalStorage)) {
+      const {
+        location: { countryCity, ...restCountry },
+        ...rest
+      } = filterSaveLocalStorage;
+      const result = { ...rest, location: { ...restCountry } };
+
+      const propsToDelete = ['country', 'city'];
+      propsToDelete.forEach((prop) => delete result[prop]);
+      const newObj = { ...result };
+      window.localStorage.setItem('filterCDD', JSON.stringify(newObj));
+      dispatch(refreshCandidates(newObj));
+      dispatch(getTagsCandidates(newObj));
+    } else {
+      form.setFieldValue('country', undefined);
+    }
   };
 
   const newData = (last_data) =>

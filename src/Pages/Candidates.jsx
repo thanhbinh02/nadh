@@ -25,8 +25,12 @@ export const Candidates = () => {
   const totalItem = useSelector((state) => state.candidates.count);
   const candidates = useSelector((state) => state.candidates.data);
   const loadingCandidate = useSelector((state) => state.candidates.loading);
+
   const languages = useSelector((state) => state.languages.languages);
   const listCustomCandidates = useSelector((state) => state.customColumn.data);
+  const isSuccessCustomColumn = useSelector(
+    (state) => state.customColumn.isSuccess,
+  );
 
   const filerCandidates = JSON.parse(window.localStorage.getItem('filterCDD'));
   const listTagFilter = useSelector((state) => state.tagsCandidates.data);
@@ -48,105 +52,92 @@ export const Candidates = () => {
   }, []);
 
   return (
-    <>
-      <div>
-        <Row
+    <div>
+      <Row
+        style={{
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginTop: '20px',
+        }}
+      >
+        <Col
           style={{
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginTop: '20px',
+            marginLeft: '54px',
+            color: '#465f7b',
+            fontSize: '20px',
+            fontWeight: '600',
           }}
         >
-          <Col
-            style={{
-              marginLeft: '54px',
-              color: '#465f7b',
-              fontSize: '20px',
-              fontWeight: '600',
-            }}
-          >
-            Candidates List {loadingCandidate ? '' : totalItem}
-          </Col>
-          <Col style={{ marginRight: '73px' }}>
-            <Row>
-              <Col span={12}>
+          Candidates List {loadingCandidate ? '' : <>({totalItem})</>}
+        </Col>
+        <Col style={{ marginRight: '73px' }}>
+          <Row>
+            <Col span={12}>
+              <Button
+                type="primary"
+                ghost
+                style={{ display: 'flex', alignItems: 'center' }}
+                onClick={() => {
+                  dispatch(refreshCandidates());
+                  dispatch(
+                    getTagsCandidates({
+                      page: 1,
+                      perPage: 10,
+                    }),
+                  );
+                }}
+              >
+                Clear All Filters
+              </Button>
+            </Col>
+            <Col span={12}>
+              <Link to="/candidate-add">
                 <Button
                   type="primary"
-                  ghost
-                  style={{ display: 'flex', alignItems: 'center' }}
-                  onClick={() => {
-                    dispatch(refreshCandidates());
-                    dispatch(
-                      getTagsCandidates({
-                        page: 1,
-                        perPage: 10,
-                      }),
-                    );
+                  color="red"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    backgroundColor: '#1890ff',
                   }}
                 >
-                  Clear All Filters
+                  <PlusOutlined />
+                  Create Candidate
                 </Button>
-              </Col>
-              <Col span={12}>
-                <Link to="/candidate-add">
-                  <Button
-                    type="primary"
-                    color="red"
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      backgroundColor: '#1890ff',
-                    }}
-                  >
-                    <PlusOutlined />
-                    Create Candidate
-                  </Button>
-                </Link>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-        <Row
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            marginRight: '54px',
-            marginTop: '10px',
-          }}
-        >
-          <CustomColumns
-            namePage="candidates"
-            listCustom={listCustomCandidates}
-          />
-        </Row>
-        {loadingCandidate ? (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: '40vh',
-            }}
-          >
-            <Spin size="large" tip="Loading" />
-          </div>
-        ) : (
-          <TableCandidates
-            totalItem={totalItem ? totalItem : null}
-            data={candidates ? candidates : null}
-            languages={languages ? languages : null}
-            city={countries ? countries : null}
-            sectors={sectors}
-            categories={categories}
-            industries={industries ? industries : null}
-            listCustomCandidates={
-              listCustomCandidates ? listCustomCandidates : null
-            }
-            listTagFilter={listTagFilter}
-            filerCandidates={filerCandidates}
-          />
-        )}
-      </div>
-    </>
+              </Link>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+      <Row
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          marginRight: '54px',
+          marginTop: '10px',
+        }}
+      >
+        <CustomColumns
+          namePage="candidates"
+          listCustom={listCustomCandidates}
+        />
+      </Row>
+      <TableCandidates
+        totalItem={totalItem ? totalItem : null}
+        data={candidates ? candidates : null}
+        languages={languages ? languages : null}
+        city={countries ? countries : null}
+        sectors={sectors}
+        categories={categories}
+        industries={industries ? industries : null}
+        listCustomCandidates={
+          listCustomCandidates ? listCustomCandidates : null
+        }
+        listTagFilter={listTagFilter}
+        filerCandidates={filerCandidates}
+        loadingCandidate={loadingCandidate}
+        isSuccessCustomColumn={isSuccessCustomColumn}
+      />
+    </div>
   );
 };

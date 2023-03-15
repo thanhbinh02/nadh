@@ -16,6 +16,8 @@ export const customColumnSlice = createSlice({
   name: 'customColumn',
   initialState: {
     data: [],
+    loading: false,
+    isSuccess: false,
   },
   reducers: {
     addItemColumn: function (state, { payload }) {
@@ -27,13 +29,19 @@ export const customColumnSlice = createSlice({
     },
   },
   extraReducers: {
+    [fetchListCustoms.pending]: (state) => {
+      state.loading = true;
+      state.isSuccess = false;
+    },
     [fetchListCustoms.fulfilled]: (state, { payload }) => {
       state.data = payload.data;
+      state.isSuccess = true;
     },
-    [putListCustomColumns.pending.type]: (state) => {
+    [putListCustomColumns.pending]: (state) => {
       state.loading = true;
+      state.isSuccess = false;
     },
-    [putListCustomColumns.fulfilled.type]: (state, { payload }) => {
+    [putListCustomColumns.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.data = payload.data;
     },

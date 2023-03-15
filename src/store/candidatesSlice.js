@@ -17,11 +17,12 @@ export const fetchCandidates = createAsyncThunk(
 
 export const refreshCandidates = createAsyncThunk(
   'candidates/refreshCandidates',
-  async () =>
+  async (params) =>
     await getCandidates({
       params: {
         page: 1,
         perPage: 10,
+        ...params,
       },
     }),
 );
@@ -39,7 +40,7 @@ export const putIndustryDetailCandidate = createAsyncThunk(
 export const candidatesSlice = createSlice({
   name: 'candidates',
   initialState: {
-    isSuccess: undefined,
+    isSuccess: false,
     loading: false,
     data: undefined,
     count: 0,
@@ -49,6 +50,7 @@ export const candidatesSlice = createSlice({
   extraReducers: {
     [fetchCandidates.pending]: (state) => {
       state.loading = true;
+      state.isSuccess = false;
     },
     [fetchCandidates.fulfilled]: (state, { payload }) => {
       state.data = payload.data;
@@ -62,6 +64,7 @@ export const candidatesSlice = createSlice({
     },
     [refreshCandidates.pending]: (state) => {
       state.loading = true;
+      state.isSuccess = false;
     },
     [refreshCandidates.fulfilled]: (state, { payload }) => {
       state.data = payload.data;
@@ -75,6 +78,7 @@ export const candidatesSlice = createSlice({
     },
     [putNewDetailCandidate.pending]: (state) => {
       state.loading = true;
+      state.isSuccess = false;
     },
     [putNewDetailCandidate.fulfilled]: (state, { payload }) => {
       state.loading = false;
@@ -86,6 +90,7 @@ export const candidatesSlice = createSlice({
     },
     [putIndustryDetailCandidate.pending]: (state) => {
       state.loading = true;
+      state.isSuccess = false;
     },
     [putIndustryDetailCandidate.fulfilled]: (state, { payload }) => {
       state.loading = false;
