@@ -1,6 +1,6 @@
 import React from 'react';
 import FormListEmail from '../../../components/Form/FormListEmail';
-import { Form, Button } from 'antd';
+import { Form, Button, Col } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useEffect } from 'react';
 
@@ -42,17 +42,24 @@ export const FormItemEmail = ({
                   />
                 );
               })}
-              <Form.Item>
-                <Button
-                  type="dashed"
-                  onClick={() => add()}
-                  block
-                  icon={<PlusOutlined />}
-                  disabled={check}
-                >
-                  Add field
-                </Button>
-              </Form.Item>
+
+              <>
+                {fields.length < 5 && (
+                  <Col span={12} offset={6}>
+                    <Form.Item>
+                      <Button
+                        onClick={() => add()}
+                        block
+                        icon={<PlusOutlined />}
+                        type="primary"
+                        ghost
+                      >
+                        Add email
+                      </Button>
+                    </Form.Item>
+                  </Col>
+                )}
+              </>
             </>
           );
         }}

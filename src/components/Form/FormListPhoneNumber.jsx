@@ -18,11 +18,8 @@ const FormListPhoneNumber = ({
   setOpen,
 }) => {
   const dispatch = useDispatch();
-  const [removeItem, setRemoveItem] = useState(false);
 
   const handleChange = (e) => {
-    console.log('vo 1');
-
     if (setOpen) {
       setOpen(true);
     }
@@ -40,21 +37,41 @@ const FormListPhoneNumber = ({
     dispatch(putCandidateType({ value: result, label: 'phones' }));
   };
 
+  const handleChangePrefixSelector = () => {
+    const formValue = form.getFieldValue('phones');
+    const filterFormValue = formValue.filter((item) => item !== undefined);
+
+    const result = filterFormValue.map((item) => {
+      return {
+        current: -1,
+        number: item.number,
+        phone_code: { key: item.phone_code ? item.phone_code : 1280 },
+      };
+    });
+
+    dispatch(putCandidateType({ value: result, label: 'phones' }));
+    setOpen(true);
+  };
+
   const prefixSelector = (
     <Form.Item name={[name, 'phone_code']} noStyle>
       <Select
         style={{ width: '120px', borderRadius: '0px' }}
-        optionFilterProp="children"
         showSearch
         defaultValue={1280}
+        onChange={handleChangePrefixSelector}
+        // optionFilterProp="label"
+        optionFilterProp="customFilterProp"
       >
         {phoneNumber.map((option) => {
+          const customFilterProp = `${option.label} ${option.extra.dial_code}`;
           return (
             <Option
               key={option.key}
               value={option.key}
               label={option.label}
               disabled={disabled}
+              customFilterProp={customFilterProp}
             >
               <div>
                 <img
@@ -132,7 +149,14 @@ const FormListPhoneNumber = ({
 
           <Col span={3}>
             {fields.length > 1 && (
-              <>{!disabled && <MinusCircleOutlined onClick={handleRemove} />}</>
+              <>
+                {!disabled && (
+                  <MinusCircleOutlined
+                    onClick={handleRemove}
+                    style={{ color: 'red' }}
+                  />
+                )}
+              </>
             )}
           </Col>
         </Row>

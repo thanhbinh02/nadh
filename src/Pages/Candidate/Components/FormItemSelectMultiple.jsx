@@ -17,7 +17,6 @@ export const FormItemSelectMultiple = ({
   actionDispatch,
   id,
   detailCandidate,
-  nameLocal,
   placeholder,
   dataDefault,
 }) => {
@@ -53,11 +52,6 @@ export const FormItemSelectMultiple = ({
         },
       };
 
-      const newName = { [`${name}`]: result };
-      if (detailCandidate) {
-        const newDataInLocal = { ...detailCandidate, ...newName };
-        window.localStorage.setItem(nameLocal, JSON.stringify(newDataInLocal));
-      }
       dispatch(actionDispatch(newData));
     }
   };

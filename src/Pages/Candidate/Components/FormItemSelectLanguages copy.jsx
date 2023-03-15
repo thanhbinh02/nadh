@@ -18,7 +18,6 @@ export const FormItemSelectLanguages = ({
   actionDispatch,
   id,
   detailCandidate,
-  nameLocal,
   placeholder,
   dataDefault,
   form,
@@ -68,7 +67,7 @@ export const FormItemSelectLanguages = ({
 
       const newName = { [`${name}`]: result };
       const newDataInLocal = { ...detailCandidate, ...newName };
-      window.localStorage.setItem(nameLocal, JSON.stringify(newDataInLocal));
+
       dispatch(actionDispatch(newData));
     }
   };
@@ -83,9 +82,7 @@ export const FormItemSelectLanguages = ({
         newFormItemValue.includes(item.key),
       );
       const newResult = result?.map(({ key, label }) => ({ key, label }));
-      const newName = { [`${name}`]: newResult };
-      const newDataInLocal = { ...detailCandidate, ...newName };
-      window.localStorage.setItem(nameLocal, JSON.stringify(newDataInLocal));
+
       const newData = {
         id: id,
         params: {
@@ -102,10 +99,6 @@ export const FormItemSelectLanguages = ({
         newFormItemValue.includes(item.key),
       );
       const newResult = result?.map(({ key, label }) => ({ key, label }));
-
-      const newName = { [`${name}`]: newResult };
-      const newDataInLocal = { ...detailCandidate, ...newName };
-      window.localStorage.setItem(nameLocal, JSON.stringify(newDataInLocal));
 
       const newData = {
         id: id,

@@ -72,7 +72,14 @@ const FormListEmail = ({
           </Col>
           <Col span={3}>
             {fields.length > 1 && (
-              <>{!disabled && <MinusCircleOutlined onClick={handleRemove} />}</>
+              <>
+                {!disabled && (
+                  <MinusCircleOutlined
+                    onClick={handleRemove}
+                    style={{ color: 'red' }}
+                  />
+                )}
+              </>
             )}
           </Col>
         </Row>

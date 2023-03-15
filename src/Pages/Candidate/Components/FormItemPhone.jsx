@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button } from 'antd';
+import { Form, Button, Col } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import FormListPhoneNumber from '../../../components/Form/FormListPhoneNumber';
 import { useEffect } from 'react';
@@ -45,16 +45,21 @@ export const FormItemPhone = ({
                   />
                 );
               })}
-              <Form.Item style={{ marginTop: '12px' }}>
-                <Button
-                  type="dashed"
-                  onClick={() => add()}
-                  block
-                  icon={<PlusOutlined />}
-                >
-                  Add field
-                </Button>
-              </Form.Item>
+              {fields.length < 5 && (
+                <Col span={12} offset={6}>
+                  <Form.Item>
+                    <Button
+                      onClick={() => add()}
+                      block
+                      icon={<PlusOutlined />}
+                      type="primary"
+                      ghost
+                    >
+                      Add phone
+                    </Button>
+                  </Form.Item>
+                </Col>
+              )}
             </>
           );
         }}

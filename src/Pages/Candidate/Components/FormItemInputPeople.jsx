@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Form, Input } from 'antd';
 import { useDispatch } from 'react-redux';
 
-export const FormItemInputText = ({
+export const FormItemInputPeople = ({
   label,
   name,
   placeholder,
@@ -42,14 +42,23 @@ export const FormItemInputText = ({
             },
             {
               pattern: /^[a-zA-Z]+$/,
-              message: 'Vui lòng chỉ nhập ký tự chữ',
+              message: 'Please enter only alphanumeric characters',
             },
           ]}
         >
           <Input placeholder={placeholder} onChange={handleChange} />
         </Form.Item>
       ) : (
-        <Form.Item label={label} name={name}>
+        <Form.Item
+          label={label}
+          name={name}
+          rules={[
+            {
+              pattern: /^[a-zA-Z]+$/,
+              message: 'Please enter only alphanumeric characters',
+            },
+          ]}
+        >
           <Input placeholder={placeholder} onChange={handleChange} />
         </Form.Item>
       )}

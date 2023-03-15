@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import FormListAddress from '../../../components/Form/FormListAddress';
-import { Form, Button } from 'antd';
+import { Form, Button, Row, Col } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 export const FormItemAddress = ({
@@ -64,17 +64,25 @@ export const FormItemAddress = ({
                   />
                 );
               })}
-              <Form.Item>
-                <Button
-                  type="dashed"
-                  onClick={() => add()}
-                  block
-                  icon={<PlusOutlined />}
-                  disabled={check}
-                >
-                  Add field
-                </Button>
-              </Form.Item>
+
+              <>
+                {fields.length < 5 && (
+                  <Col span={14} offset={6}>
+                    <Form.Item>
+                      <Button
+                        onClick={() => add()}
+                        block
+                        icon={<PlusOutlined />}
+                        disabled={check}
+                        type="primary"
+                        ghost
+                      >
+                        Add address
+                      </Button>
+                    </Form.Item>
+                  </Col>
+                )}
+              </>
             </>
           );
         }}

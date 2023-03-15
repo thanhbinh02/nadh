@@ -1,14 +1,23 @@
 import { Steps, Row, Card, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CardFinish } from '../../components/Card/CardFinish';
 import { CardFormPersonalInformationAdd } from '../../components/Card/CardFormPersonalInformationAdd';
+import { useSelector } from 'react-redux';
 
 const CandidateAdd = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  const postCandidateSuccess = useSelector(
+    (state) => state.createCandidate.postCandidateSuccess,
+  );
+  useEffect(() => {
+    if (postCandidateSuccess) {
+      setCurrentStep(1);
+    }
+  }, []);
 
   return (
-    <div style={{ margin: '20px 30px' }}>
+    <div style={{ margin: '20px' }}>
       <Row>
         <Breadcrumb>
           <Breadcrumb.Item>

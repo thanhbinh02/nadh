@@ -1,16 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router';
-import {
-  Breadcrumb,
-  Row,
-  Col,
-  Button,
-  Spin,
-  Form,
-  Drawer,
-  Space,
-  Card,
-} from 'antd';
+import { Breadcrumb, Row, Col, Button, Spin, Form, Card } from 'antd';
 
 import { Link } from 'react-router-dom';
 import { fetchDetailCandidateSlice } from '../../store/detailCandidateSlice';
@@ -35,6 +25,9 @@ import {
   changeIsPutSuccess,
 } from '../../store/detailCandidateSlice';
 
+import { candidate_flow_status } from '../../utils/const';
+import { priority_status } from '../../utils/const';
+
 export const CandidateDetail = () => {
   const { candidate_id } = useParams();
   const dispatch = useDispatch();
@@ -45,6 +38,14 @@ export const CandidateDetail = () => {
   const user = useSelector((state) => state.detailCandidate.user);
   const isPutSuccess = useSelector(
     (state) => state.detailCandidate.isPutSuccess,
+  );
+
+  const flowStatus = candidate_flow_status.find(
+    (item) => item.id === detailCandidate?.flow_status,
+  );
+
+  const primaryStatus = priority_status.find(
+    (item) => item.id === detailCandidate?.priority_status,
   );
 
   useEffect(() => {
@@ -106,7 +107,8 @@ export const CandidateDetail = () => {
         <>
           <Row
             style={{
-              padding: '8px 30px',
+              padding: '8px',
+              paddingLeft: '34px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -120,7 +122,7 @@ export const CandidateDetail = () => {
                 <Breadcrumb.Item>
                   <span
                     style={{ fontWeight: '500' }}
-                  >{`${candidate_id} - ${detailCandidate?.full_name?.toUpperCase()} `}</span>
+                  >{`${candidate_id} - ${detailCandidate?.full_name?.toUpperCase()} - ${primaryStatus?.label?.toUpperCase()} - ${flowStatus?.label?.toUpperCase()} `}</span>
                 </Breadcrumb.Item>
               </Breadcrumb>
             </Col>

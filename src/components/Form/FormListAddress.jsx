@@ -418,7 +418,10 @@ const FormListAddress = ({
         {!check && (
           <>
             {fields.length > 1 && (
-              <MinusCircleOutlined onClick={handleRemove} />
+              <MinusCircleOutlined
+                onClick={handleRemove}
+                style={{ color: 'red' }}
+              />
             )}
           </>
         )}
@@ -428,20 +431,3 @@ const FormListAddress = ({
 };
 
 export default FormListAddress;
-
-const xyz = [
-  {
-    country: 'Viet Nam',
-    city: 'An Giang',
-    district: 'Chau Thanh',
-    address: 'tt',
-  },
-
-  {
-    country: 'Viet Nam',
-    city: 'Bac Kan',
-    district: 'Bac Kan city',
-    address: undefined,
-  },
-  { country: 1280, district: 78, city: 2 },
-];

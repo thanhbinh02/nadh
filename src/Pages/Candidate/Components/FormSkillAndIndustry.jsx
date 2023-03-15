@@ -78,7 +78,6 @@ const FormSkillAndIndustry = ({ detailCandidate }) => {
             actionDispatch={putNewDetailCandidate}
             id={idCandidate}
             detailCandidate={detailCandidate}
-            nameLocal="candidateDetail"
             dataDefault={languagesCandidate}
             form={form}
           />

@@ -17,6 +17,7 @@ import { FormItemHighestEducation } from '../../Pages/Candidate/Components/FormI
 import { FormItemSelectPosition } from '../../Pages/Candidate/Components/FormItemSelectPosition';
 import { FormItemBirthday } from '../../Pages/Candidate/Components/FormItemBirthday';
 import { FormItemSelectNationalityDetail } from '../../Pages/Candidate/Components/FormItemSelectNationalityDetail';
+import { FormItemInputPeople } from '../../Pages/Candidate/Components/FormItemInputPeople';
 
 import {
   priority_status,
@@ -45,7 +46,7 @@ export const FormPersonalInformation = ({
     <>
       <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
         <Col span={12}>
-          <FormItemInputText
+          <FormItemInputPeople
             required={require}
             label="First Name"
             name="first_name"
@@ -58,7 +59,7 @@ export const FormPersonalInformation = ({
           />
         </Col>
         <Col span={12}>
-          <FormItemInputText
+          <FormItemInputPeople
             required={require}
             label="Last Name"
             name="last_name"
@@ -73,7 +74,7 @@ export const FormPersonalInformation = ({
       </Row>
       <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
         <Col span={12}>
-          <FormItemInputText
+          <FormItemInputPeople
             label="Middle Name"
             name="middle_name"
             placeholder="Middle Name"
@@ -201,20 +202,20 @@ export const FormPersonalInformation = ({
               placeholder="Select or add your nationality"
             />
           ) : (
-            // <FormItemSelectNationalityDetail
-            //   name="nationality"
-            //   label="Nationality"
-            //   actionDispatch={putCandidateType}
-            //   defaultValue={defaultValue?.nationality}
-            //   addItem
-            //   getData={getNationalityTest}
-            //   postData={postNationality}
-            //   form={form}
-            //   keyNewItem={keyNationality}
-            //   placeholder="Select or add your nationality"
-            //   setOpenSave={setOpen}
-            // />
-            <div></div>
+            <FormItemSelectNationalityDetail
+              name="nationality"
+              label="Nationality"
+              actionDispatch={putCandidateType}
+              defaultValue={defaultValue?.nationality}
+              addItem
+              getData={getNationalityTest}
+              postData={postNationality}
+              form={form}
+              keyNewItem={keyNationality}
+              placeholder="Select or add your nationality"
+              setOpenSave={setOpen}
+            />
+            // <div></div>
           )}
         </Col>
       </Row>
