@@ -10,6 +10,7 @@ export const FormItemPhone = ({
   defaultValue,
   putCandidateType,
   setOpen,
+  setCancel,
 }) => {
   useEffect(() => {
     if (defaultValue) {
@@ -42,6 +43,7 @@ export const FormItemPhone = ({
                     phoneNumber={phoneNumber}
                     putCandidateType={putCandidateType}
                     setOpen={setOpen}
+                    setCancel={setCancel}
                   />
                 );
               })}

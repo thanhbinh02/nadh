@@ -15,6 +15,7 @@ export const FormItemOption = ({
   check,
   form,
   setOpen,
+  setCancel,
 }) => {
   const dispatch = useDispatch();
 
@@ -23,6 +24,10 @@ export const FormItemOption = ({
   }, []);
 
   const handleChange = (value) => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     if (setOpen) {
       setOpen(true);
     }

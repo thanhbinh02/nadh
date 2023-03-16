@@ -21,6 +21,7 @@ export const FormItemSelectNationalityDetail = ({
   getData,
   keyNewItem,
   setOpenSave,
+  setCancel,
 }) => {
   // const keyNewItem = useSelector((state) => state.nationality.keyNationality);
   const dispatch = useDispatch();
@@ -79,6 +80,10 @@ export const FormItemSelectNationalityDetail = ({
   };
 
   const handleChange = (value) => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     setOpenSave(true);
     if (removeItem) {
       const label = newValue?.map((item) => item.label);
@@ -131,6 +136,10 @@ export const FormItemSelectNationalityDetail = ({
   };
 
   const handleClear = () => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     setOpenSave(true);
     // dispatch(actionDispatch({ value: [], label: name }));
     setTestResult([]);
@@ -140,6 +149,10 @@ export const FormItemSelectNationalityDetail = ({
   };
 
   const handleRemoveItem = (value) => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     setRemoveItem(false);
     setOpenSave(true);
     const result = newValue

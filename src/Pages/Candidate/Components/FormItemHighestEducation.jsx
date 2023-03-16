@@ -14,6 +14,7 @@ export const FormItemHighestEducation = ({
   defaultValue,
   form,
   setOpen,
+  setCancel,
 }) => {
   const dispatch = useDispatch();
 
@@ -24,6 +25,10 @@ export const FormItemHighestEducation = ({
   }, []);
 
   const handleChange = (value) => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     if (setOpen) {
       setOpen(true);
     }

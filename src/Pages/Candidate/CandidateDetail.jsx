@@ -16,6 +16,7 @@ import { fetchNationality } from '../../store/nationalitySlice';
 import { fetchPosition } from '../../store/positionSlice';
 import { toast } from 'react-toastify';
 import FormSkillAndIndustry from './Components/FormSkillAndIndustry';
+import { fetchDetailCandidateSliceNotLoading } from '../../store/detailCandidateSlice';
 
 import {
   putUserCandidateType,
@@ -33,6 +34,8 @@ export const CandidateDetail = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
+  const [cancel, setCancel] = useState(false);
+
   const detailCandidate = useSelector((state) => state.detailCandidate.data);
   const loading = useSelector((state) => state.detailCandidate.loading);
   const user = useSelector((state) => state.detailCandidate.user);
@@ -52,6 +55,9 @@ export const CandidateDetail = () => {
     if (isPutSuccess === true) {
       setOpen(false);
       dispatch(changeIsPutSuccess());
+      setTimeout(() => {
+        dispatch(fetchDetailCandidateSliceNotLoading(candidate_id));
+      }, 1000);
     }
   }, [isPutSuccess]);
 
@@ -83,11 +89,137 @@ export const CandidateDetail = () => {
         result[prop] = user[prop];
       }
     }
+
+    const addresses = result.addresses
+      ?.filter((item) => {
+        return item.country !== undefined;
+      })
+      ?.map((item) => {
+        if (
+          (item.address === undefined ||
+            item.address === '' ||
+            item.address === null) &&
+          item.city === undefined &&
+          item.district === undefined
+        ) {
+          return { country: item.country };
+        } else if (
+          (item.address === undefined ||
+            item.address === '' ||
+            item.address === null) &&
+          item.city !== undefined &&
+          item.district === undefined
+        ) {
+          return { country: item.country, city: item.city };
+        } else if (
+          (item.address === undefined ||
+            item.address === '' ||
+            item.address === null) &&
+          item.city !== undefined &&
+          item.district !== undefined
+        ) {
+          return {
+            country: item.country,
+            city: item.city,
+            district: item.district,
+          };
+        } else {
+          return item;
+        }
+      });
+
     const newData = {
       id: detailCandidate.id,
-      params: result,
+      params: { ...result, addresses },
     };
+
+    console.log('newData', newData);
+
     dispatch(putNewDetailCandidate(newData));
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+    setCancel(true);
+
+    form.setFieldValue('overview_text_new', detailCandidate.overview_text_new);
+    form.setFieldValue('first_name', detailCandidate.first_name);
+    form.setFieldValue('middle_name', detailCandidate.middle_name);
+    form.setFieldValue('last_name', detailCandidate.last_name);
+    form.setFieldValue('source', detailCandidate.source);
+    form.setFieldValue('priority_status', detailCandidate.priority_status);
+    if (detailCandidate.dob !== undefined && detailCandidate.dob !== null) {
+      const dateArr = detailCandidate.dob.split('-');
+      const year = dateArr[0];
+      const month = dateArr[1];
+      const date = dateArr[2];
+      form.setFieldValue('year_birthday', year);
+      form.setFieldValue('month_birthday', month);
+      form.setFieldValue('date_birthday', date);
+    }
+    form.setFieldValue('gender', detailCandidate.gender);
+    form.setFieldValue(
+      'martial_status',
+      detailCandidate?.extra?.martial_status,
+    );
+    form.setFieldValue(
+      'relocating_willingness',
+      detailCandidate?.relocating_willingness,
+    );
+
+    if (detailCandidate.emails) {
+      for (let i = 0; i < detailCandidate.emails.length; i++) {
+        form.setFieldValue(['emails', i, 'email'], detailCandidate.emails[i]);
+      }
+    }
+
+    if (detailCandidate.phones) {
+      for (let i = 0; i < detailCandidate.phones.length; i++) {
+        form.setFieldValue(
+          ['phones', i, 'phone_code'],
+          detailCandidate.phones[i].phone_code.key,
+        );
+        form.setFieldValue(
+          ['phones', i, 'number'],
+          detailCandidate.phones[i].number,
+        );
+      }
+    }
+
+    if (detailCandidate.nationality) {
+      form.setFieldValue(
+        'nationality',
+        detailCandidate.nationality?.map((item) => item.label),
+      );
+    }
+
+    if (detailCandidate.highest_education) {
+      form.setFieldValue(
+        'highest_education',
+        Number(detailCandidate?.highest_education?.key),
+      );
+    }
+
+    if (detailCandidate.management_years) {
+      form.setFieldValue(
+        'management_years',
+        Number(detailCandidate?.management_years),
+      );
+    }
+
+    if (detailCandidate.industry_year) {
+      form.setFieldValue(
+        'industry_year',
+        Number(detailCandidate?.industry_year),
+      );
+    }
+
+    if (detailCandidate.direct_reports) {
+      form.setFieldValue(
+        'direct_reports',
+        Number(detailCandidate?.direct_reports),
+      );
+    }
   };
 
   return (
@@ -152,6 +284,9 @@ export const CandidateDetail = () => {
                   putCandidateType={putUserCandidateType}
                   form={form}
                   setOpen={setOpen}
+                  cancel={cancel}
+                  setCancel={setCancel}
+                  detailCandidate={detailCandidate}
                 />
                 <CardFormPersonalInformationDetail
                   defaultValue={detailCandidate}
@@ -160,13 +295,15 @@ export const CandidateDetail = () => {
                   putCandidatePositions={putUserCandidatePositions}
                   putCandidateEmail={putUserCandidateEmail}
                   setOpen={setOpen}
+                  setCancel={setCancel}
+                  cancel={cancel}
                 />
                 {open && (
                   <Form.Item>
                     <div className="sticky-row">
                       <Button
                         style={{ marginRight: '12px' }}
-                        onClick={() => setOpen(false)}
+                        onClick={handleCancel}
                       >
                         Cancel
                       </Button>

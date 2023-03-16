@@ -10,6 +10,7 @@ export const FormItemBirthday = ({
   actionDispatch,
   defaultValue,
   setOpen,
+  setCancel,
 }) => {
   const dispatch = useDispatch();
 
@@ -31,6 +32,10 @@ export const FormItemBirthday = ({
   }
 
   const onChangeDate = (value) => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     if (setOpen) {
       setOpen(true);
     }
@@ -51,6 +56,10 @@ export const FormItemBirthday = ({
   };
 
   const onChangeMonth = (value) => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     if (setOpen) {
       setOpen(true);
     }
@@ -71,6 +80,10 @@ export const FormItemBirthday = ({
   };
 
   const onChangeYear = (value) => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     if (setOpen) {
       setOpen(true);
     }

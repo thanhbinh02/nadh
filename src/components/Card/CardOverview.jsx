@@ -8,6 +8,7 @@ export const CardOverview = ({
   putCandidateType,
   form,
   setOpen,
+  setCancel,
 }) => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -15,6 +16,7 @@ export const CardOverview = ({
   }, []);
 
   const onChange = (e) => {
+    setCancel(false);
     if (setOpen) {
       setOpen(true);
     }

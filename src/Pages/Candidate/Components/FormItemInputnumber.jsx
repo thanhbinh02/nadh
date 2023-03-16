@@ -10,10 +10,15 @@ export const FormItemInputNumber = ({
   check,
   form,
   setOpen,
+  setCancel,
 }) => {
   const dispatch = useDispatch();
 
   const handleChange = (value) => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     if (setOpen) {
       setOpen(true);
     }

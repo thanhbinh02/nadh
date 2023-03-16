@@ -45,6 +45,8 @@ const FormListAddress = ({
   check,
   setOpen,
   defaultValue,
+  setCancel,
+  cancel,
 }) => {
   const dispatch = useDispatch();
 
@@ -79,16 +81,90 @@ const FormListAddress = ({
   }, []);
 
   useEffect(() => {
-    if (defaultValue) {
-      for (let i = 0; i < defaultValue.length; i++) {
-        if (defaultValue[name]?.country?.label !== undefined) {
+    if (dataNewCandidate) {
+      for (let i = 0; i < dataNewCandidate.length; i++) {
+        if (dataNewCandidate[name]?.country?.label !== undefined) {
           setDisabledInput(false);
         }
       }
     }
+
+    if (dataNewCandidate) {
+      const fetchDataCountry = async (params) => {
+        const result = await getLocations({
+          params,
+        });
+        setListCountry(result.data);
+      };
+      fetchDataCountry({ type: 4 });
+
+      if (dataNewCandidate[name]?.country?.key) {
+        fetchDataCity({
+          type: 1,
+          parent_id: dataNewCandidate[name]?.country?.key,
+        });
+        form.setFieldValue(
+          ['addresses', name, 'country'],
+          dataNewCandidate[name]?.country?.key,
+        );
+      }
+
+      if (dataNewCandidate[name]?.city?.key) {
+        fetchDataListDistrict({
+          type: 2,
+          parent_id: dataNewCandidate[name]?.city?.key,
+        });
+        form.setFieldValue(
+          ['addresses', name, 'city'],
+          dataNewCandidate[name]?.city?.key,
+        );
+      }
+    }
   }, []);
 
+  useEffect(() => {
+    if (cancel) {
+      // form.setFieldValue('addresses', undefined);
+
+      if (defaultValue) {
+        for (let i = 0; i < defaultValue.length; i++) {
+          if (defaultValue[name]?.country?.label !== undefined) {
+            setDisabledInput(false);
+          }
+        }
+      }
+
+      if (defaultValue) {
+        if (defaultValue[name]?.country?.key) {
+          fetchDataCity({
+            type: 1,
+            parent_id: defaultValue[name]?.country?.key,
+          });
+          form.setFieldValue(
+            ['addresses', name, 'country'],
+            defaultValue[name]?.country?.key,
+          );
+        }
+
+        if (defaultValue[name]?.city?.key) {
+          fetchDataListDistrict({
+            type: 2,
+            parent_id: defaultValue[name]?.city?.key,
+          });
+          form.setFieldValue(
+            ['addresses', name, 'city'],
+            defaultValue[name]?.city?.key,
+          );
+        }
+      }
+    }
+  }, [cancel]);
+
   const handleCountryChange = (value, option, name) => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     if (setOpen) {
       setOpen(true);
     }
@@ -98,55 +174,19 @@ const FormListAddress = ({
 
     if (value !== undefined) {
       setDisabledInput(false);
-      if (name === 0) {
-        const newData = {
-          country: {
-            key: option?.key,
-            label: option.children,
-          },
-          city: undefined,
-          district: undefined,
-          address: undefined,
-        };
 
-        let newDataFinal = [];
-        if (dataNewCandidate.length === 0) {
-          newDataFinal = [newData];
-        } else {
-          for (let i = 0; i < dataNewCandidate.length; i++) {
-            if (i !== name) {
-              newDataFinal.push(dataNewCandidate[i]);
-            } else {
-              newDataFinal.push(newData);
-            }
-          }
-        }
-        dispatch(actionDispatch({ value: newDataFinal, label: 'addresses' }));
-        setFinal(newDataFinal);
-      } else {
-        const newData = [
-          ...dataNewCandidate,
-          {
-            country: {
-              key: Number(option?.key),
-              label: option.children,
-            },
-            city: undefined,
-            district: undefined,
-            address: undefined,
-          },
-        ];
-        setFinal(newData);
-        dispatch(actionDispatch({ value: newData, label: 'addresses' }));
-      }
-    } else {
       const newData = {
-        country: undefined,
+        country: {
+          key: option?.key,
+          label: option.children,
+        },
         city: undefined,
         district: undefined,
         address: undefined,
       };
+
       let newDataFinal = [];
+
       if (dataNewCandidate.length === 0) {
         newDataFinal = [newData];
       } else {
@@ -158,19 +198,17 @@ const FormListAddress = ({
           }
         }
       }
-
-      if (
-        form.getFieldValue(['addresses', name, 'address']) !== '' &&
-        form.getFieldValue(['addresses', name, 'address']) !== undefined
-      ) {
-        setDisabledInput(false);
-      } else {
-        setDisabledInput(true);
-      }
+      console.log('dataNewCandidate', dataNewCandidate);
+      console.log('newDataFinal', newDataFinal);
+      dispatch(actionDispatch({ value: newDataFinal, label: 'addresses' }));
     }
   };
 
   const handleCityChange = (value, option, name) => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     if (setOpen) {
       setOpen(true);
     }
@@ -183,10 +221,10 @@ const FormListAddress = ({
           key: Number(option?.key),
           label: option?.children,
         },
-        district: undefined,
       });
 
       const newData = [];
+
       for (let i = 0; i < dataNewCandidate.length; i++) {
         if (i !== name) {
           newData.push(dataNewCandidate[i]);
@@ -200,6 +238,10 @@ const FormListAddress = ({
   };
 
   const handleDistrictChange = (value, option, name) => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     if (setOpen) {
       setOpen(true);
     }
@@ -224,23 +266,35 @@ const FormListAddress = ({
   };
 
   const handleRemove = () => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     if (setOpen) {
       setOpen(true);
     }
-    if (form.getFieldValue(['addresses', name, 'country']) !== undefined) {
-      const newData = [];
-      for (let i = 0; i < dataNewCandidate.length; i++) {
-        if (i !== name) {
-          newData.push(dataNewCandidate[i]);
-        }
-      }
 
-      dispatch(actionDispatch({ value: newData, label: 'addresses' }));
+    const newData = [];
+
+    for (let i = 0; i < dataNewCandidate.length; i++) {
+      if (i !== name) {
+        newData.push(dataNewCandidate[i]);
+      }
     }
+
+    console.log('dataNewCandidate cancel', dataNewCandidate);
+
+    console.log('newData cancel', newData);
+
+    dispatch(actionDispatch({ value: newData, label: 'addresses' }));
     remove(name);
   };
 
   const handleClearCountry = (name) => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     if (setOpen) {
       setOpen(true);
     }
@@ -248,8 +302,16 @@ const FormListAddress = ({
     for (let i = 0; i < dataNewCandidate.length; i++) {
       if (i !== name) {
         newData.push(dataNewCandidate[i]);
+      } else {
+        newData.push({
+          country: undefined,
+          city: undefined,
+          district: undefined,
+          address: undefined,
+        });
       }
     }
+
     form.setFieldValue(['addresses', name, 'address'], undefined);
     dispatch(actionDispatch({ value: newData, label: 'addresses' }));
   };
@@ -271,10 +333,16 @@ const FormListAddress = ({
         newData.push(updatedObj);
       }
     }
+    console.log('dataNewCandidate clear city', dataNewCandidate);
+    console.log('newData clear city', newData);
     dispatch(actionDispatch({ value: newData, label: 'addresses' }));
   };
 
   const handleClearDistrict = (name) => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     if (setOpen) {
       setOpen(true);
     }
@@ -294,6 +362,10 @@ const FormListAddress = ({
   };
 
   const handleChangeInputAddress = (e) => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     if (setOpen) {
       setOpen(true);
     }

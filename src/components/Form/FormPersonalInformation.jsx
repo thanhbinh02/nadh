@@ -41,6 +41,8 @@ export const FormPersonalInformation = ({
   putCandidatePositions,
   putCandidateEmail,
   setOpen,
+  setCancel,
+  cancel,
 }) => {
   return (
     <>
@@ -56,6 +58,7 @@ export const FormPersonalInformation = ({
             defaultValue={defaultValue?.first_name}
             form={form}
             setOpen={setOpen}
+            setCancel={setCancel}
           />
         </Col>
         <Col span={12}>
@@ -69,6 +72,7 @@ export const FormPersonalInformation = ({
             defaultValue={defaultValue?.last_name}
             form={form}
             setOpen={setOpen}
+            setCancel={setCancel}
           />
         </Col>
       </Row>
@@ -82,6 +86,7 @@ export const FormPersonalInformation = ({
             defaultValue={defaultValue?.middle_name}
             form={form}
             setOpen={setOpen}
+            setCancel={setCancel}
           />
         </Col>
         <Col span={12}>
@@ -94,6 +99,7 @@ export const FormPersonalInformation = ({
             defaultValue={defaultValue?.priority_status}
             form={form}
             setOpen={setOpen}
+            setCancel={setCancel}
           />
         </Col>
       </Row>
@@ -102,6 +108,7 @@ export const FormPersonalInformation = ({
         actionDispatch={putCandidateType}
         defaultValue={defaultValue?.dob ? defaultValue?.dob : undefined}
         setOpen={setOpen}
+        setCancel={setCancel}
       />
       <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
         <Col span={12}>
@@ -113,6 +120,7 @@ export const FormPersonalInformation = ({
             defaultValue={defaultValue?.gender}
             form={form}
             setOpen={setOpen}
+            setCancel={setCancel}
           />
         </Col>
         <Col span={12}>
@@ -124,6 +132,7 @@ export const FormPersonalInformation = ({
             defaultValue={defaultValue?.extra?.martial_status}
             form={form}
             setOpen={setOpen}
+            setCancel={setCancel}
           />
         </Col>
       </Row>
@@ -137,6 +146,7 @@ export const FormPersonalInformation = ({
             defaultValue={defaultValue?.relocating_willingness || 1}
             form={form}
             setOpen={setOpen}
+            setCancel={setCancel}
           />
         </Col>
         <Col span={12}>
@@ -148,6 +158,7 @@ export const FormPersonalInformation = ({
             defaultValue={defaultValue?.source}
             form={form}
             setOpen={setOpen}
+            setCancel={setCancel}
           />
         </Col>
       </Row>
@@ -158,6 +169,7 @@ export const FormPersonalInformation = ({
             defaultValue={defaultValue?.emails}
             putCandidateEmail={putCandidateEmail}
             setOpen={setOpen}
+            setCancel={setCancel}
           />
         </Col>
       </Row>
@@ -169,6 +181,7 @@ export const FormPersonalInformation = ({
             defaultValue={defaultValue?.phones}
             putCandidateType={putCandidateType}
             setOpen={setOpen}
+            setCancel={setCancel}
           />
         </Col>
       </Row>
@@ -183,6 +196,8 @@ export const FormPersonalInformation = ({
             dataNewCandidate={createCandidate.addresses}
             defaultValue={defaultValue?.addresses}
             setOpen={setOpen}
+            setCancel={setCancel}
+            cancel={cancel}
           />
         </Col>
       </Row>
@@ -214,6 +229,7 @@ export const FormPersonalInformation = ({
               keyNewItem={keyNationality}
               placeholder="Select or add your nationality"
               setOpenSave={setOpen}
+              setCancel={setCancel}
             />
             // <div></div>
           )}
@@ -277,6 +293,7 @@ export const FormPersonalInformation = ({
             defaultValue={defaultValue?.highest_education?.key}
             form={form}
             setOpen={setOpen}
+            setCancel={setCancel}
           />
         </Col>
       </Row>
@@ -289,6 +306,7 @@ export const FormPersonalInformation = ({
             defaultValue={defaultValue?.industry_years}
             form={form}
             setOpen={setOpen}
+            setCancel={setCancel}
           />
         </Col>
         <Col span={12}>
@@ -299,6 +317,7 @@ export const FormPersonalInformation = ({
             defaultValue={defaultValue?.management_years}
             form={form}
             setOpen={setOpen}
+            setCancel={setCancel}
           />
         </Col>
       </Row>
@@ -311,6 +330,7 @@ export const FormPersonalInformation = ({
             defaultValue={defaultValue?.direct_reports}
             form={form}
             setOpen={setOpen}
+            setCancel={setCancel}
           />
         </Col>
       </Row>

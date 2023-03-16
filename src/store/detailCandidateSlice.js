@@ -8,6 +8,11 @@ export const fetchDetailCandidateSlice = createAsyncThunk(
   async (id) => await getDetailCandidate(id),
 );
 
+export const fetchDetailCandidateSliceNotLoading = createAsyncThunk(
+  'detailCandidate/fetchDetailCandidateSliceNotLoading',
+  async (id) => await getDetailCandidate(id),
+);
+
 export const putNewDetailCandidate = createAsyncThunk(
   'detailCandidate/putNewDetailCandidate',
   async ({ id, params }) => await putDetailCandidate(id, params),
@@ -98,13 +103,39 @@ export const detailCandidateSlice = createSlice({
       state.loading = false;
       state.isSuccess = false;
     },
-    [putNewDetailCandidate.pending]: (state) => {},
+    [putNewDetailCandidate.pending]: (state) => {
+      state.isPutSuccess = false;
+    },
     [putNewDetailCandidate.fulfilled]: (state, { payload }) => {
       if (payload === undefined) {
         state.isPutSuccess = false;
       } else {
         state.isPutSuccess = true;
       }
+    },
+    [fetchDetailCandidateSliceNotLoading.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.data = payload;
+      state.user.first_name = payload.first_name;
+      state.user.middle_name = payload.middle_name;
+      state.user.last_name = payload.last_name;
+      state.user.source = payload.source;
+      state.user.priority_status = payload.priority_status;
+      state.user.relocating_willingness = payload.relocating_willingness;
+      state.user.gender = payload.gender;
+      state.user.martial_status = payload.martial_status;
+      state.user.addresses = payload.addresses;
+      state.user.direct_reports = payload?.direct_reports;
+      state.user.dob = payload?.dob;
+      state.user.emails = payload?.emails;
+      state.user.highest_education = payload?.highest_education;
+      state.user.industry_years = payload?.industry_years;
+      state.user.management_years = payload?.management_years;
+      state.user.nationality = payload?.nationality;
+      state.user.phones = payload?.phones;
+      state.user.prefer_position.positions = payload?.prefer_position.positions;
+      state.user.overview_text_new = payload.overview_text_new;
+      state.user.business_line = payload.business_line;
     },
   },
 });

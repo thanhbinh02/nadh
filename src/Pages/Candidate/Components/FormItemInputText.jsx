@@ -12,10 +12,15 @@ export const FormItemInputText = ({
   defaultValue,
   form,
   setOpen,
+  setCancel,
 }) => {
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     if (setOpen) {
       setOpen(true);
     }

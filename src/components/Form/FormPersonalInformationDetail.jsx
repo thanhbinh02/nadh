@@ -16,6 +16,8 @@ const FormPersonalInformationDetail = ({
   putCandidatePositions,
   putCandidateEmail,
   setOpen,
+  setCancel,
+  cancel,
 }) => {
   const dispatch = useDispatch();
   const yearsRange = [];
@@ -58,6 +60,8 @@ const FormPersonalInformationDetail = ({
       putCandidatePositions={putCandidatePositions}
       putCandidateEmail={putCandidateEmail}
       setOpen={setOpen}
+      setCancel={setCancel}
+      cancel={cancel}
     />
   );
 };

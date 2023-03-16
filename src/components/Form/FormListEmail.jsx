@@ -11,6 +11,7 @@ const FormListEmail = ({
   disabled,
   putCandidateEmail,
   setOpen,
+  setCancel,
 }) => {
   const { getFieldValue } = form;
   const dispatch = useDispatch();
@@ -29,6 +30,10 @@ const FormListEmail = ({
   };
 
   const handleRemove = () => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     if (setOpen) {
       setOpen(true);
     }
@@ -37,6 +42,10 @@ const FormListEmail = ({
   };
 
   const handleChange = (e) => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     if (setOpen) {
       setOpen(true);
     }

@@ -16,10 +16,15 @@ const FormListPhoneNumber = ({
   disabled,
   putCandidateType,
   setOpen,
+  setCancel,
 }) => {
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
+    if (setCancel) {
+      setCancel(false);
+    }
+
     if (setOpen) {
       setOpen(true);
     }
@@ -95,7 +100,10 @@ const FormListPhoneNumber = ({
   );
 
   const handleRemove = () => {
-    console.log('vo 2');
+    if (setCancel) {
+      setCancel(false);
+    }
+
     if (setOpen) {
       setOpen(true);
     }
@@ -112,7 +120,6 @@ const FormListPhoneNumber = ({
     });
 
     dispatch(putCandidateType({ value: result, label: 'phones' }));
-    // setRemoveItem(true);
   };
 
   return (

@@ -10,6 +10,7 @@ export const FormItemEmail = ({
   check,
   putCandidateEmail,
   setOpen,
+  setCancel,
 }) => {
   useEffect(() => {
     if (defaultValue) {
@@ -39,6 +40,7 @@ export const FormItemEmail = ({
                     disabled={check}
                     putCandidateEmail={putCandidateEmail}
                     setOpen={setOpen}
+                    setCancel={setCancel}
                   />
                 );
               })}
