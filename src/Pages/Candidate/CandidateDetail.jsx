@@ -31,6 +31,7 @@ import { priority_status } from '../../utils/const';
 
 export const CandidateDetail = () => {
   const { candidate_id } = useParams();
+  window.localStorage.removeItem('filterCDD');
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
@@ -141,6 +142,7 @@ export const CandidateDetail = () => {
   const handleCancel = () => {
     setOpen(false);
     setCancel(true);
+    dispatch(fetchDetailCandidateSliceNotLoading(candidate_id));
 
     form.setFieldValue('overview_text_new', detailCandidate.overview_text_new);
     form.setFieldValue('first_name', detailCandidate.first_name);
@@ -200,26 +202,14 @@ export const CandidateDetail = () => {
       );
     }
 
-    if (detailCandidate.management_years) {
-      form.setFieldValue(
-        'management_years',
-        Number(detailCandidate?.management_years),
-      );
-    }
+    console.log('detailCandidate', detailCandidate);
 
-    if (detailCandidate.industry_year) {
-      form.setFieldValue(
-        'industry_year',
-        Number(detailCandidate?.industry_year),
-      );
-    }
-
-    if (detailCandidate.direct_reports) {
-      form.setFieldValue(
-        'direct_reports',
-        Number(detailCandidate?.direct_reports),
-      );
-    }
+    form.setFieldValue('industry_years', detailCandidate.industry_years);
+    form.setFieldValue('management_years', detailCandidate.management_years);
+    form.setFieldValue(
+      'direct_reports',
+      Number(detailCandidate?.direct_reports),
+    );
   };
 
   return (

@@ -49,8 +49,6 @@ export const MyCheckBox = ({ item, check }) => {
       onClick={(e) => e.stopPropagation()}
       onChange={(e) => {
         setMyCheck(!myCheck);
-        console.log('myCheck', myCheck);
-        console.log('title', item.title);
         const filterSaveLocalStorage = JSON.parse(
           localStorage.getItem('filterCDD'),
         );

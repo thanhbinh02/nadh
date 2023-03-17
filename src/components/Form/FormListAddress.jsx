@@ -198,8 +198,7 @@ const FormListAddress = ({
           }
         }
       }
-      console.log('dataNewCandidate', dataNewCandidate);
-      console.log('newDataFinal', newDataFinal);
+
       dispatch(actionDispatch({ value: newDataFinal, label: 'addresses' }));
     }
   };
@@ -282,10 +281,6 @@ const FormListAddress = ({
       }
     }
 
-    console.log('dataNewCandidate cancel', dataNewCandidate);
-
-    console.log('newData cancel', newData);
-
     dispatch(actionDispatch({ value: newData, label: 'addresses' }));
     remove(name);
   };
@@ -333,8 +328,6 @@ const FormListAddress = ({
         newData.push(updatedObj);
       }
     }
-    console.log('dataNewCandidate clear city', dataNewCandidate);
-    console.log('newData clear city', newData);
     dispatch(actionDispatch({ value: newData, label: 'addresses' }));
   };
 
@@ -381,6 +374,7 @@ const FormListAddress = ({
         newData.push(updatedObj);
       }
     }
+
     dispatch(actionDispatch({ value: newData, label: 'addresses' }));
   };
 

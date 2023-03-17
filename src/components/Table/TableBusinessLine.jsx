@@ -1,6 +1,6 @@
 import React from 'react';
 import { AiOutlineDelete } from 'react-icons/ai';
-import { Table, Row, Col, Checkbox } from 'antd';
+import { Table, Row, Col, Checkbox, Spin } from 'antd';
 
 export const TableBusinessLine = ({
   dataTable,
@@ -13,6 +13,10 @@ export const TableBusinessLine = ({
   setDataTable,
   dataFromRedux,
   businessLine,
+  loading,
+  setCurrent,
+  current,
+  setFinalResult,
 }) => {
   const columns = [
     {
@@ -147,6 +151,15 @@ export const TableBusinessLine = ({
           })),
         },
       };
+
+      setFinalResult(
+        resultPut.map((item, index) => ({
+          primary: item?.primary,
+          industry_id: item?.industry?.key,
+          sector_id: item?.sector?.key,
+          category_id: item?.category?.key,
+        })),
+      );
       dispatch(actionDispatch(newData));
     } else {
       let newPutVaLueInput;
@@ -174,6 +187,14 @@ export const TableBusinessLine = ({
           })),
         },
       };
+      setFinalResult(
+        resultPut.map((item, index) => ({
+          primary: item?.primary,
+          industry_id: item?.industry?.key,
+          sector_id: item?.sector?.key,
+          category_id: item?.category?.key,
+        })),
+      );
       dispatch(actionDispatch(newData));
     }
   };
@@ -183,13 +204,34 @@ export const TableBusinessLine = ({
       {dataTable?.length !== 0 && (
         <Row>
           <Col span={24}>
-            <Table
-              columns={columns}
-              dataSource={dataTable}
-              pagination={{
-                pageSize: 5,
-              }}
-            />
+            {loading ? (
+              <Spin tip="Loading...">
+                <Table
+                  columns={columns}
+                  dataSource={dataTable}
+                  pagination={{
+                    pageSize: 5,
+                    showSizeChanger: false,
+                    showQuickJumper: true,
+                    current: current,
+                  }}
+                />
+              </Spin>
+            ) : (
+              <Table
+                columns={columns}
+                dataSource={dataTable}
+                pagination={{
+                  pageSize: 5,
+                  showSizeChanger: false,
+                  showQuickJumper: true,
+                  current: current,
+                  onChange: (page) => {
+                    setCurrent(page);
+                  },
+                }}
+              />
+            )}
           </Col>
         </Row>
       )}

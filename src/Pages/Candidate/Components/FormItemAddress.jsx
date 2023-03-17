@@ -114,21 +114,45 @@ export const FormItemAddress = ({
                           if (setCancel) {
                             setCancel(false);
                           }
-                          let currentData = [
-                            ...dataNewCandidate,
-                            {
-                              country: undefined,
-                              city: undefined,
-                              district: undefined,
-                              address: undefined,
-                            },
-                          ];
-                          dispatch(
-                            actionDispatch({
-                              value: currentData,
-                              label: 'addresses',
-                            }),
-                          );
+                          if (dataNewCandidate.length === 0) {
+                            let currentData = [
+                              {
+                                country: undefined,
+                                city: undefined,
+                                district: undefined,
+                                address: undefined,
+                              },
+                              {
+                                country: undefined,
+                                city: undefined,
+                                district: undefined,
+                                address: undefined,
+                              },
+                            ];
+
+                            dispatch(
+                              actionDispatch({
+                                value: currentData,
+                                label: 'addresses',
+                              }),
+                            );
+                          } else {
+                            let currentData = [
+                              ...dataNewCandidate,
+                              {
+                                country: undefined,
+                                city: undefined,
+                                district: undefined,
+                                address: undefined,
+                              },
+                            ];
+                            dispatch(
+                              actionDispatch({
+                                value: currentData,
+                                label: 'addresses',
+                              }),
+                            );
+                          }
                         }}
                         block
                         icon={<PlusOutlined />}

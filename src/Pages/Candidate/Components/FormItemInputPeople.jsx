@@ -42,10 +42,10 @@ export const FormItemInputPeople = ({
           rules={[
             {
               required: true,
-              message: { message },
+              message: message,
             },
             {
-              pattern: /^[a-zA-Z]+$/,
+              pattern: /^[a-zA-Z\s]+$/,
               message: 'Please enter only alphanumeric characters',
             },
           ]}
@@ -58,7 +58,7 @@ export const FormItemInputPeople = ({
           name={name}
           rules={[
             {
-              pattern: /^[a-zA-Z]+$/,
+              pattern: /^[a-zA-Z\s]+$/,
               message: 'Please enter only alphanumeric characters',
             },
           ]}

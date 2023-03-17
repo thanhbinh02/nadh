@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 
 const CandidateAdd = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  window.localStorage.removeItem('filterCDD');
   const postCandidateSuccess = useSelector(
     (state) => state.createCandidate.postCandidateSuccess,
   );

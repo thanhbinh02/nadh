@@ -63,10 +63,11 @@ const FormItemBusinessLine = ({
 }) => {
   const dispatch = useDispatch();
 
+  const [current, setCurrent] = useState(1);
   const [listItemTwo, setListItemTwo] = useState(false);
   const [listItemThree, setListItemThree] = useState(false);
   const [openSave, setOpenSave] = useState(false);
-  const [finalResult, setfinalResult] = useState(
+  const [finalResult, setFinalResult] = useState(
     businessLine?.map((obj) => ({
       industry_id: obj?.industry?.key,
       sector_id: obj?.sector?.key,
@@ -74,6 +75,7 @@ const FormItemBusinessLine = ({
       primary: obj?.primary,
     })),
   );
+
   const [check, setCheck] = useState(false);
   const [dataTable, setDataTable] = useState(
     businessLine?.map((item, index) => ({
@@ -169,6 +171,7 @@ const FormItemBusinessLine = ({
       };
       dispatch(actionDispatch(newData));
       setCheck(!check);
+      setCurrent(1);
       handleCancel();
     } else {
       toast.error('Industry exit', {
@@ -257,30 +260,22 @@ const FormItemBusinessLine = ({
           )}
         </Row>
       </Form.Item>
-      <>
-        {loading ? (
-          <Spin tip="Loading...">
-            <TableBusinessLine
-              dataTable={dataTable}
-              check={check}
-              finalResult={finalResult}
-            />
-          </Spin>
-        ) : (
-          <TableBusinessLine
-            dataTable={dataTable}
-            check={check}
-            finalResult={finalResult}
-            setCheck={setCheck}
-            id={id}
-            actionDispatch={actionDispatch}
-            dispatch={dispatch}
-            setDataTable={setDataTable}
-            dataFromRedux={dataFromRedux}
-            businessLine={businessLine}
-          />
-        )}
-      </>
+      <TableBusinessLine
+        dataTable={dataTable}
+        check={check}
+        finalResult={finalResult}
+        setCheck={setCheck}
+        id={id}
+        actionDispatch={actionDispatch}
+        dispatch={dispatch}
+        setDataTable={setDataTable}
+        dataFromRedux={dataFromRedux}
+        businessLine={businessLine}
+        loading={loading}
+        setCurrent={setCurrent}
+        current={current}
+        setFinalResult={setFinalResult}
+      />
     </>
   );
 };

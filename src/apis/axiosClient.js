@@ -33,12 +33,15 @@ axiosClient.interceptors.response.use(
       window.location.reload();
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('user_sent');
+      window.localStorage.removeItem('filterCDD');
     }
 
     if (error.message === 'Request failed with status code 401') {
       window.location.reload();
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('user_sent');
+      window.localStorage.removeItem('filterCDD');
+
       useNavigate('/');
     }
     return Promise.reject(error);
