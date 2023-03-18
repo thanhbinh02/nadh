@@ -160,7 +160,6 @@ export const FormPersonalInformation = ({
               label="Nationality"
               actionDispatch={putCandidateType}
               defaultValue={defaultValue?.nationality}
-              addItem
               getData={getNationalityTest}
               postData={postNationality}
               form={form}
@@ -173,7 +172,6 @@ export const FormPersonalInformation = ({
               label="Nationality"
               actionDispatch={putCandidateType}
               defaultValue={defaultValue?.nationality}
-              addItem
               getData={getNationalityTest}
               postData={postNationality}
               form={form}

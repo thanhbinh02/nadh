@@ -9,15 +9,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CardOverview } from '../../components/Card/CardOverview';
 import { CardFormPersonalInformationDetail } from '../../components/Card/CardFormPersonalInformationDetail';
 import { useState } from 'react';
-import { fetchDegree } from '../../store/degreeSlice';
-import { fetchPhoneNumber } from '../../store/phoneNumberSlice';
-import { fetchCountries } from '../../store/locationsSlice';
-import { fetchNationality } from '../../store/nationalitySlice';
-import { fetchPosition } from '../../store/positionSlice';
 import { toast } from 'react-toastify';
 import FormSkillAndIndustry from './Components/FormSkillAndIndustry';
 import { fetchDetailCandidateSliceNotLoading } from '../../store/detailCandidateSlice';
-import { formatDateBirthday } from '../../utils/const';
+import { formatDate } from '../../utils/const';
 
 import {
   putUserCandidateType,
@@ -279,13 +274,13 @@ export const CandidateDetail = () => {
                   priority_status: detailCandidate?.priority_status,
                   dob: detailCandidate?.dob,
                   date_birthday: detailCandidate?.dob
-                    ? formatDateBirthday(detailCandidate?.dob).date
+                    ? formatDate(detailCandidate?.dob).date
                     : null,
                   month_birthday: detailCandidate?.dob
-                    ? formatDateBirthday(detailCandidate?.dob).month
+                    ? formatDate(detailCandidate?.dob).month
                     : null,
                   year_birthday: detailCandidate?.dob
-                    ? formatDateBirthday(detailCandidate?.dob).year
+                    ? formatDate(detailCandidate?.dob).year
                     : null,
                   gender: detailCandidate?.gender,
                   martial_status: detailCandidate?.extra?.martial_status,
@@ -335,7 +330,7 @@ export const CandidateDetail = () => {
               >
                 <FormSkillAndIndustry detailCandidate={detailCandidate} />
               </Card>
-              <CardEducationAndCertificate />
+              <CardEducationAndCertificate candidate_id={detailCandidate.id} />
             </Col>
 
             <Col>Thanh Binh</Col>

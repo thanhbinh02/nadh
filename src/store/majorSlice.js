@@ -3,28 +3,28 @@ import { getDegree } from '../apis/filterApi';
 import { postPropertyValues } from '../apis/filterApi';
 import { toast } from 'react-toastify';
 
-export const fetchSchool = createAsyncThunk(
-  'school/fetchSchool',
+export const fetchMajor = createAsyncThunk(
+  'major/fetchMajor',
   async (params) =>
     await getDegree({
       params: {
         ...params,
-        property_name: 'school',
+        property_name: 'major',
       },
     }),
 );
 
-export const postSchool = createAsyncThunk(
-  'school/postSchool',
+export const postMajor = createAsyncThunk(
+  'major/postMajor',
   async (value) =>
     await postPropertyValues({
       value,
-      name: 'school',
+      name: 'major',
     }),
 );
 
-export const schoolSlice = createSlice({
-  name: 'school',
+export const majorSlice = createSlice({
+  name: 'major',
   initialState: {
     isSuccess: undefined,
     loading: false,
@@ -35,25 +35,25 @@ export const schoolSlice = createSlice({
     },
   },
   reducers: {
-    putDataSchool: (state, { payload }) => {
+    putDataMajor: (state, { payload }) => {
       state.item.label = payload.label;
       state.item.key = payload.key;
     },
   },
   extraReducers: {
-    [fetchSchool.pending]: (state) => {
+    [fetchMajor.pending]: (state) => {
       state.loading = true;
     },
-    [fetchSchool.fulfilled]: (state, { payload }) => {
+    [fetchMajor.fulfilled]: (state, { payload }) => {
       state.data = payload.data;
       state.loading = false;
       state.isSuccess = false;
     },
-    [fetchSchool.rejected]: (state) => {
+    [fetchMajor.rejected]: (state) => {
       state.loading = false;
       state.isSuccess = false;
     },
-    [postSchool.fulfilled]: (state, { payload }) => {
+    [postMajor.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.isSuccess = true;
       state.item.key = payload.key;
@@ -63,7 +63,7 @@ export const schoolSlice = createSlice({
         position: 'top-right',
       });
     },
-    [postSchool.rejected]: (state) => {
+    [postMajor.rejected]: (state) => {
       state.loading = false;
       state.isSuccess = false;
       toast.error('Duplicate value!', {
@@ -74,7 +74,7 @@ export const schoolSlice = createSlice({
   },
 });
 
-export const { putDataSchool } = schoolSlice.actions;
+export const { putDataMajor } = majorSlice.actions;
 
-const { reducer } = schoolSlice;
+const { reducer } = majorSlice;
 export default reducer;

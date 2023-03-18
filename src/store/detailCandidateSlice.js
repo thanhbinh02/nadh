@@ -2,6 +2,9 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getDetailCandidate } from '../apis/candidatesApi';
 import { putDetailCandidate } from '../apis/candidatesApi';
 import { toast } from 'react-toastify';
+import { putCandidateHistories } from '../apis/candidatesApi';
+import { postCandidateHistories } from '../apis/candidatesApi';
+import { deleteCandidateHistories } from '../apis/candidatesApi';
 
 export const fetchDetailCandidateSlice = createAsyncThunk(
   'detailCandidate/fetchDetailCandidateSlice',
@@ -23,12 +26,23 @@ export const putNewBusinessLineCandidate = createAsyncThunk(
   async ({ id, params }) => await putDetailCandidate(id, params),
 );
 
+export const postDetailCandidateHistory = createAsyncThunk(
+  'detailCandidates/postDetailCandidateHistory',
+  postCandidateHistories,
+);
+
+export const putDetailCandidateHistory = createAsyncThunk(
+  'detailCandidate/putDetailCandidateHistory',
+  async ({ id, params }) => await putCandidateHistories(id, params),
+);
+
 export const detailCandidateSlice = createSlice({
   name: 'detailCandidate',
   initialState: {
     isSuccess: undefined,
     loading: false,
     isPutSuccess: false,
+    isLoadingAcademic: false,
     data: [],
     user: {
       overview_text_new: undefined,
@@ -52,6 +66,7 @@ export const detailCandidateSlice = createSlice({
       prefer_position: { positions: [] },
       business_line: [],
     },
+    history: [],
   },
   reducers: {
     putUserCandidateType: (state, { payload }) => {
@@ -69,6 +84,14 @@ export const detailCandidateSlice = createSlice({
     changeIsPutSuccess: (state) => {
       state.isPutSuccess = false;
     },
+    deleteHistory: (state, { payload }) => {
+      state.history = state.history.filter((item) => item.id !== payload);
+      deleteCandidateHistories(payload);
+      toast.success('Delete success!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+    },
   },
   extraReducers: {
     [fetchDetailCandidateSlice.pending]: (state) => {
@@ -78,6 +101,7 @@ export const detailCandidateSlice = createSlice({
       state.data = payload;
       state.loading = false;
       state.isSuccess = true;
+      state.history = payload.histories;
       state.user.first_name = payload.first_name;
       state.user.middle_name = payload.middle_name;
       state.user.last_name = payload.last_name;
@@ -114,8 +138,10 @@ export const detailCandidateSlice = createSlice({
       }
     },
     [fetchDetailCandidateSliceNotLoading.fulfilled]: (state, { payload }) => {
+      state.isLoadingAcademic = false;
       state.loading = false;
       state.data = payload;
+      state.history = payload.histories;
       state.user.first_name = payload.first_name;
       state.user.middle_name = payload.middle_name;
       state.user.last_name = payload.last_name;
@@ -137,6 +163,42 @@ export const detailCandidateSlice = createSlice({
       state.user.overview_text_new = payload.overview_text_new;
       state.user.business_line = payload.business_line;
     },
+
+    [postDetailCandidateHistory.pending]: (state) => {
+      state.isLoadingAcademic = true;
+    },
+    [postDetailCandidateHistory.fulfilled]: (state) => {
+      state.isLoadingAcademic = false;
+      toast.success('Create success!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+    },
+    [postDetailCandidateHistory.rejected]: (state) => {
+      state.isLoadingAcademic = false;
+      toast.error('Create error!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+    },
+
+    [putDetailCandidateHistory.pending]: (state) => {
+      state.isLoadingAcademic = true;
+    },
+    [putDetailCandidateHistory.fulfilled]: (state) => {
+      state.isLoadingAcademic = false;
+      toast.success('Update success!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+    },
+    [putDetailCandidateHistory.rejected]: (state) => {
+      state.isLoadingAcademic = false;
+      toast.error('Update failed!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+    },
   },
 });
 
@@ -145,6 +207,7 @@ export const {
   putUserCandidatePositions,
   putUserCandidateEmail,
   changeIsPutSuccess,
+  deleteHistory,
 } = detailCandidateSlice.actions;
 
 const { reducer } = detailCandidateSlice;

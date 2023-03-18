@@ -22,6 +22,7 @@ import schoolReducer from './schoolSlice';
 import clientsReducer from './clientsSlice';
 import tagsClientsReducer from './tagsClientsSlice';
 import usersReducer from './usersSlice';
+import majorReducer from './majorSlice';
 
 export const store = configureStore({
   reducer: {
@@ -48,5 +49,6 @@ export const store = configureStore({
     clients: clientsReducer,
     tagsClients: tagsClientsReducer,
     users: usersReducer,
+    major: majorReducer,
   },
 });

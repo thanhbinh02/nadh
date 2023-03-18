@@ -98,3 +98,18 @@ export const postCandidateTest = async (params) => {
   const url = '/api/candidates';
   return await axiosClient.post(url, params);
 };
+
+export const postCandidateHistories = async (params) => {
+  const url = `/api/candidate_histories`;
+  return await axiosClient.post(url, params);
+};
+
+export const putCandidateHistories = async (id, params) => {
+  const url = `/api/candidate_histories/${id}`;
+  await axiosClient.put(url, params);
+};
+
+export const deleteCandidateHistories = async (id) => {
+  const url = `/api/candidate_histories/${id}`;
+  await axiosClient.delete(url);
+};

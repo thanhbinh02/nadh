@@ -116,7 +116,22 @@ export const getPositionTest = async (value) => {
   });
 };
 
+export const getSchoolTest = async (value) => {
+  const url = '/api/property_values';
+  return await axiosClient.get(url, {
+    params: {
+      value: value,
+      property_name: 'school',
+    },
+  });
+};
+
 export const getUsers = async (params) => {
   const url = '/api/users';
   return await axiosClient.get(url, params);
+};
+
+export const postPropertyValues = async (params) => {
+  const url = '/api/property_values';
+  return await axiosClient.post(url, params);
 };

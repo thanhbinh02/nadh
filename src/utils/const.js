@@ -306,7 +306,7 @@ export const READY_TO_MOVE = [
   },
 ];
 
-export const formatDateBirthday = (dob) => {
+export const formatDate = (dob) => {
   if (dob) {
     const dateArr = dob.split('-');
     const year = dateArr[0];
@@ -317,6 +317,8 @@ export const formatDateBirthday = (dob) => {
       month,
       date,
     };
+  } else {
+    return;
   }
 };
 
