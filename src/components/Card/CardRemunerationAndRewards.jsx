@@ -1,4 +1,4 @@
-import { Card, Row, Col, Button, Form } from 'antd';
+import { Card } from 'antd';
 
 export const CardRemunerationAndRewards = () => {
   return (

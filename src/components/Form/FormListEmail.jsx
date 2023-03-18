@@ -10,8 +10,6 @@ const FormListEmail = ({
   isListField,
   disabled,
   putCandidateEmail,
-  setOpen,
-  setCancel,
 }) => {
   const { getFieldValue } = form;
   const dispatch = useDispatch();
@@ -30,25 +28,11 @@ const FormListEmail = ({
   };
 
   const handleRemove = () => {
-    if (setCancel) {
-      setCancel(false);
-    }
-
-    if (setOpen) {
-      setOpen(true);
-    }
     remove(name);
     dispatchValueEmail();
   };
 
   const handleChange = (e) => {
-    if (setCancel) {
-      setCancel(false);
-    }
-
-    if (setOpen) {
-      setOpen(true);
-    }
     dispatchValueEmail();
   };
 

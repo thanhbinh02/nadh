@@ -6,13 +6,12 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 
 import { fetchDegree } from '../../store/degreeSlice';
 import { fetchPhoneNumber } from '../../store/phoneNumberSlice';
-import { fetchCountries } from '../../store/locationsSlice';
+
 import { postNewCandidate } from '../../store/createCandidateSlice';
 import { CustomButton } from '../CustomButton/CustomButton';
 import { FormPersonalInformation } from './FormPersonalInformation';
-
-import { fetchNationality } from '../../store/nationalitySlice';
 import { fetchPosition } from '../../store/positionSlice';
+
 import {
   putDataCandidateType,
   putDataCandidatePositions,
@@ -32,8 +31,6 @@ const FormPersonalInformationAdd = ({ setCurrentStep }) => {
   const degree = useSelector((state) => state.degree.data);
   const phoneNumber = useSelector((state) => state.phoneNumber.data);
   const countries = useSelector((state) => state.locations.countries);
-  const cities = useSelector((state) => state.locations.cities);
-  const districts = useSelector((state) => state.locations.districts);
   const createCandidate = useSelector((state) => state.createCandidate.data);
   const postCandidateSuccess = useSelector(
     (state) => state.createCandidate.postCandidateSuccess,
@@ -54,11 +51,9 @@ const FormPersonalInformationAdd = ({ setCurrentStep }) => {
   const keyPosition = useSelector((state) => state.position.keyPosition);
 
   useEffect(() => {
-    dispatch(fetchNationality());
     dispatch(fetchPosition());
     dispatch(fetchDegree());
     dispatch(fetchPhoneNumber());
-    dispatch(fetchCountries({ type: 4 }));
   }, []);
 
   const onFinish = (values) => {
@@ -96,8 +91,6 @@ const FormPersonalInformationAdd = ({ setCurrentStep }) => {
           form={form}
           phoneNumber={phoneNumber}
           countries={countries}
-          cities={cities}
-          districts={districts}
           createCandidate={createCandidate}
           keyNationality={keyNationality}
           keyPosition={keyPosition}
@@ -115,7 +108,13 @@ const FormPersonalInformationAdd = ({ setCurrentStep }) => {
           </Col>
         </Row>
         {open && (
-          <Modal centered open={open} closable={false} footer={null}>
+          <Modal
+            centered
+            open={open}
+            closable={false}
+            footer={null}
+            className="modal-add-new-candidate"
+          >
             <Row style={{ textAlign: 'center', margin: '20px' }}>
               <Col span={24}>
                 <InfoCircleOutlined

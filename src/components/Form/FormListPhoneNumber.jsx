@@ -15,19 +15,10 @@ const FormListPhoneNumber = ({
   form,
   disabled,
   putCandidateType,
-  setOpen,
-  setCancel,
 }) => {
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
-    if (setCancel) {
-      setCancel(false);
-    }
-
-    if (setOpen) {
-      setOpen(true);
-    }
     const formValue = form.getFieldValue('phones');
     const filterFormValue = formValue.filter((item) => item !== undefined);
 
@@ -55,7 +46,6 @@ const FormListPhoneNumber = ({
     });
 
     dispatch(putCandidateType({ value: result, label: 'phones' }));
-    setOpen(true);
   };
 
   const prefixSelector = (
@@ -65,7 +55,6 @@ const FormListPhoneNumber = ({
         showSearch
         defaultValue={1280}
         onChange={handleChangePrefixSelector}
-        // optionFilterProp="label"
         optionFilterProp="customFilterProp"
       >
         {phoneNumber.map((option) => {
@@ -100,13 +89,6 @@ const FormListPhoneNumber = ({
   );
 
   const handleRemove = () => {
-    if (setCancel) {
-      setCancel(false);
-    }
-
-    if (setOpen) {
-      setOpen(true);
-    }
     remove(name);
     const formValue = form.getFieldValue('phones');
     const filterFormValue = formValue.filter((item) => item !== undefined);

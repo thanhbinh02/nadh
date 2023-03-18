@@ -1,4 +1,4 @@
-import { Card, Row, Col, Button, Form } from 'antd';
+import { Card } from 'antd';
 import { TableWorkingHistory } from '../Table/TableWorkingHistory';
 
 export const CardWorkingHistory = () => {
@@ -14,4 +14,3 @@ export const CardWorkingHistory = () => {
     </Card>
   );
 };
-// ACADEMIC

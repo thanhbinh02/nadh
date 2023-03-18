@@ -20,7 +20,6 @@ export const FormItemSelectNationalityDetail = ({
   check,
   getData,
   keyNewItem,
-  setOpenSave,
   setCancel,
 }) => {
   // const keyNewItem = useSelector((state) => state.nationality.keyNationality);
@@ -64,7 +63,6 @@ export const FormItemSelectNationalityDetail = ({
     setCheckFocus(true);
     setFetchData(!fetchData);
     if (contentModal !== undefined) {
-      setOpenSave(true);
       let currentValue = form.getFieldValue(name);
       currentValue.push(contentModal);
       form.setFieldValue(name, currentValue);
@@ -84,7 +82,6 @@ export const FormItemSelectNationalityDetail = ({
       setCancel(false);
     }
 
-    setOpenSave(true);
     if (removeItem) {
       const label = newValue?.map((item) => item.label);
       const valueAdd = value.filter((item) => !label.includes(item));
@@ -105,25 +102,6 @@ export const FormItemSelectNationalityDetail = ({
     }
   };
 
-  const handleFocus = () => {
-    // console.log('newValue', newValue);
-    // if (checkFocus && contentModal !== undefined) {
-    //   let currentValue = form.getFieldValue(name);
-    //   currentValue.push(contentModal);
-    //   form.setFieldValue(name, currentValue);
-    //   const resultPush = { key: keyNewItem, label: contentModal };
-    //   if (newValue.length === 0) {
-    //     setNewValue([resultPush]);
-    //   } else {
-    //     const giatri = newValue.push(resultPush);
-    //     setNewValue(newValue.push(resultPush));
-    //   }
-    //   setRemoveItem(true);
-    //   setContentModal();
-    // }
-    // setFetchData(!fetchData);
-  };
-
   const handleBlur = () => {
     setFetchData(!fetchData);
 
@@ -140,8 +118,6 @@ export const FormItemSelectNationalityDetail = ({
       setCancel(false);
     }
 
-    setOpenSave(true);
-    // dispatch(actionDispatch({ value: [], label: name }));
     setTestResult([]);
     setNewValue([]);
     setClearItem(true);
@@ -154,7 +130,7 @@ export const FormItemSelectNationalityDetail = ({
     }
 
     setRemoveItem(false);
-    setOpenSave(true);
+
     const result = newValue
       .filter((item) => item.label !== value)
       .map((item) => ({ label: item.label, key: item.key }));
@@ -175,9 +151,6 @@ export const FormItemSelectNationalityDetail = ({
           placeholder={placeholder}
           onSearch={handleSearch}
           onBlur={handleBlur}
-          onFocus={handleFocus}
-          // defaultValue={defaultValue.map((item) => item.label)}
-          // defaultValue={['1023']}
           onClear={handleClear}
           onDeselect={handleRemoveItem}
           disabled={check}

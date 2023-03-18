@@ -1,25 +1,12 @@
 import { Card, Input, Form } from 'antd';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+
 const { TextArea } = Input;
 
-export const CardOverview = ({
-  defaultValue,
-  putCandidateType,
-  form,
-  setOpen,
-  setCancel,
-}) => {
+export const CardOverview = ({ putCandidateType }) => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    form.setFieldValue('overview_text_new', defaultValue);
-  }, []);
 
   const onChange = (e) => {
-    setCancel(false);
-    if (setOpen) {
-      setOpen(true);
-    }
     dispatch(
       putCandidateType({ value: e.target.value, label: 'overview_text_new' }),
     );
@@ -30,6 +17,7 @@ export const CardOverview = ({
       title="Overview"
       style={{
         width: '100%',
+        marginBottom: '50px',
       }}
     >
       <Form.Item name="overview_text_new">

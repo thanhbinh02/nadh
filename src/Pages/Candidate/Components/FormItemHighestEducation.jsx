@@ -1,7 +1,6 @@
 import React from 'react';
 import { Select, Form } from 'antd';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 
 const { Option } = Select;
 
@@ -11,27 +10,10 @@ export const FormItemHighestEducation = ({
   label,
   actionDispatch,
   placeholder,
-  defaultValue,
-  form,
-  setOpen,
-  setCancel,
 }) => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (defaultValue !== undefined) {
-      form.setFieldValue(name, Number(defaultValue));
-    }
-  }, []);
-
   const handleChange = (value) => {
-    if (setCancel) {
-      setCancel(false);
-    }
-
-    if (setOpen) {
-      setOpen(true);
-    }
     const item = options.find((item) => item.key === value);
     dispatch(
       actionDispatch({

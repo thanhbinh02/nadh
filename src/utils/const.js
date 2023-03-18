@@ -278,3 +278,17 @@ export const READY_TO_MOVE = [
     label: 'Available',
   },
 ];
+
+export const formatDateBirthday = (dob) => {
+  if (dob) {
+    const dateArr = dob.split('-');
+    const year = dateArr[0];
+    const month = dateArr[1];
+    const date = dateArr[2];
+    return {
+      year,
+      month,
+      date,
+    };
+  }
+};

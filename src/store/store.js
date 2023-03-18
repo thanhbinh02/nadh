@@ -18,6 +18,7 @@ import createCandidateReducer from './createCandidateSlice';
 import businessLineReducer from './businessLineSlice';
 import detailCandidateReducer from './detailCandidateSlice';
 import detailCandidateLocalReducer from './detailCandidateLocalSlice';
+import schoolReducer from './schoolSlice';
 
 export const store = configureStore({
   reducer: {
@@ -40,5 +41,6 @@ export const store = configureStore({
     businessLine: businessLineReducer,
     detailCandidate: detailCandidateReducer,
     detailCandidateLocal: detailCandidateLocalReducer,
+    school: schoolReducer,
   },
 });

@@ -39,6 +39,8 @@ export const FilterTimeRange = ({
   useEffect(() => {
     setValueFrom(filterValueFrom);
     setValueTo(filterValueTo);
+    form.setFieldValue(`${paramFrom}`, filterValueFrom);
+    form.setFieldValue(`${paramTo}`, filterValueTo);
   }, [filterValueFrom, filterValueTo]);
 
   const handleSearch = () => {

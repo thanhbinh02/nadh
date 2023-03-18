@@ -17,6 +17,7 @@ import { fetchPosition } from '../../store/positionSlice';
 import { toast } from 'react-toastify';
 import FormSkillAndIndustry from './Components/FormSkillAndIndustry';
 import { fetchDetailCandidateSliceNotLoading } from '../../store/detailCandidateSlice';
+import { formatDateBirthday } from '../../utils/const';
 
 import {
   putUserCandidateType,
@@ -28,6 +29,7 @@ import {
 
 import { candidate_flow_status } from '../../utils/const';
 import { priority_status } from '../../utils/const';
+import { CardEducationAndCertificate } from '../../components/Card/CardEducationAndCertificate';
 
 export const CandidateDetail = () => {
   const { candidate_id } = useParams();
@@ -38,7 +40,6 @@ export const CandidateDetail = () => {
   const [cancel, setCancel] = useState(false);
 
   const detailCandidate = useSelector((state) => state.detailCandidate.data);
-  const loading = useSelector((state) => state.detailCandidate.loading);
   const user = useSelector((state) => state.detailCandidate.user);
   const isPutSuccess = useSelector(
     (state) => state.detailCandidate.isPutSuccess,
@@ -68,11 +69,6 @@ export const CandidateDetail = () => {
   }
 
   useEffect(() => {
-    dispatch(fetchNationality());
-    dispatch(fetchPosition());
-    dispatch(fetchDegree());
-    dispatch(fetchPhoneNumber());
-    dispatch(fetchCountries({ type: 4 }));
     dispatch(fetchDetailCandidateSlice(candidate_id));
   }, []);
 
@@ -134,8 +130,6 @@ export const CandidateDetail = () => {
       params: { ...result, addresses },
     };
 
-    console.log('newData', newData);
-
     dispatch(putNewDetailCandidate(newData));
   };
 
@@ -143,11 +137,13 @@ export const CandidateDetail = () => {
     setOpen(false);
     setCancel(true);
     dispatch(fetchDetailCandidateSliceNotLoading(candidate_id));
-
     form.setFieldValue('overview_text_new', detailCandidate.overview_text_new);
     form.setFieldValue('first_name', detailCandidate.first_name);
     form.setFieldValue('middle_name', detailCandidate.middle_name);
     form.setFieldValue('last_name', detailCandidate.last_name);
+    form.validateFields(['last_name']);
+    form.validateFields(['first_name']);
+    form.validateFields(['middle_name']);
     form.setFieldValue('source', detailCandidate.source);
     form.setFieldValue('priority_status', detailCandidate.priority_status);
     if (detailCandidate.dob !== undefined && detailCandidate.dob !== null) {
@@ -170,12 +166,14 @@ export const CandidateDetail = () => {
     );
 
     if (detailCandidate.emails) {
+      form.setFieldValue('emails', undefined);
       for (let i = 0; i < detailCandidate.emails.length; i++) {
         form.setFieldValue(['emails', i, 'email'], detailCandidate.emails[i]);
       }
     }
 
     if (detailCandidate.phones) {
+      form.setFieldValue('phones', undefined);
       for (let i = 0; i < detailCandidate.phones.length; i++) {
         form.setFieldValue(
           ['phones', i, 'phone_code'],
@@ -212,9 +210,13 @@ export const CandidateDetail = () => {
     );
   };
 
+  const handleOnValueChange = () => {
+    setOpen(true);
+  };
+
   return (
     <>
-      {loading ? (
+      {detailCandidate.length === 0 ? (
         <div
           style={{
             display: 'flex',
@@ -268,26 +270,45 @@ export const CandidateDetail = () => {
                 onFinishFailed={onFinishFailed}
                 onFinish={handleDispatchSave}
                 autoComplete="off"
+                onValuesChange={handleOnValueChange}
+                initialValues={{
+                  overview_text_new: detailCandidate?.overview_text_new,
+                  first_name: detailCandidate?.first_name,
+                  last_name: detailCandidate?.last_name,
+                  middle_name: detailCandidate?.middle_name,
+                  priority_status: detailCandidate?.priority_status,
+                  dob: detailCandidate?.dob,
+                  date_birthday: detailCandidate?.dob
+                    ? formatDateBirthday(detailCandidate?.dob).date
+                    : null,
+                  month_birthday: detailCandidate?.dob
+                    ? formatDateBirthday(detailCandidate?.dob).month
+                    : null,
+                  year_birthday: detailCandidate?.dob
+                    ? formatDateBirthday(detailCandidate?.dob).year
+                    : null,
+                  gender: detailCandidate?.gender,
+                  martial_status: detailCandidate?.extra?.martial_status,
+                  relocating_willingness:
+                    detailCandidate?.relocating_willingness,
+                  source: detailCandidate?.source,
+                  nationality: detailCandidate?.nationality,
+                  highest_education: detailCandidate?.highest_education,
+                  industry_years: detailCandidate?.industry_years || 0,
+                  management_years: detailCandidate?.management_years || 0,
+                  direct_reports: detailCandidate?.direct_reports || 0,
+                }}
               >
-                <CardOverview
-                  defaultValue={detailCandidate?.overview_text_new}
-                  putCandidateType={putUserCandidateType}
-                  form={form}
-                  setOpen={setOpen}
-                  cancel={cancel}
-                  setCancel={setCancel}
-                  detailCandidate={detailCandidate}
-                />
+                <CardOverview putCandidateType={putUserCandidateType} />
                 <CardFormPersonalInformationDetail
                   defaultValue={detailCandidate}
                   form={form}
                   putCandidateType={putUserCandidateType}
                   putCandidatePositions={putUserCandidatePositions}
                   putCandidateEmail={putUserCandidateEmail}
-                  setOpen={setOpen}
                   setCancel={setCancel}
-                  cancel={cancel}
                 />
+
                 {open && (
                   <Form.Item>
                     <div className="sticky-row">
@@ -297,11 +318,7 @@ export const CandidateDetail = () => {
                       >
                         Cancel
                       </Button>
-                      <Button
-                        type="primary"
-                        // onClick={handleDispatchSave}
-                        htmlType="submit"
-                      >
+                      <Button type="primary" htmlType="submit">
                         Save
                       </Button>
                     </div>
@@ -318,6 +335,7 @@ export const CandidateDetail = () => {
               >
                 <FormSkillAndIndustry detailCandidate={detailCandidate} />
               </Card>
+              <CardEducationAndCertificate />
             </Col>
 
             <Col>Thanh Binh</Col>

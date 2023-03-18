@@ -1,52 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Form, Select, Button, Row, Col, Table, Checkbox, Spin } from 'antd';
-import { AiOutlineDelete } from 'react-icons/ai';
+import { Form, Select, Button, Row, Col } from 'antd';
 import { TableBusinessLine } from '../../../components/Table/TableBusinessLine';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 const { Option } = Select;
-
-const columns = [
-  {
-    title: 'Primary',
-    dataIndex: 'primary',
-    render: (text) => {
-      return <Checkbox defaultValue={text}>Checkbox</Checkbox>;
-    },
-  },
-  {
-    title: 'Industry',
-    dataIndex: 'industry',
-    render: (text) => {
-      return <div>{text}</div>;
-    },
-  },
-
-  {
-    title: 'Sector',
-    dataIndex: 'sector',
-    render: (text) => {
-      return <div>{text}</div>;
-    },
-  },
-  {
-    title: 'Category',
-    dataIndex: 'category',
-    render: (text) => {
-      return <div>{text}</div>;
-    },
-  },
-  {
-    title: 'Action',
-    dataIndex: 'action',
-    render: () => {
-      return <AiOutlineDelete style={{ color: 'red' }} />;
-    },
-  },
-];
 
 const FormItemBusinessLine = ({
   data,

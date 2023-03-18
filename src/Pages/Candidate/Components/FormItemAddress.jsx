@@ -13,7 +13,6 @@ export const FormItemAddress = ({
   dataNewCandidate,
   defaultValue,
   check,
-  setOpen,
   setCancel,
   cancel,
 }) => {
@@ -42,37 +41,37 @@ export const FormItemAddress = ({
     }
   }, []);
 
-  useEffect(() => {
-    if (cancel) {
-      form.setFieldValue('addresses', undefined);
-      // dispatch(actionDispatch({ value: defaultValue, label: 'addresses' }));
+  // useEffect(() => {
+  //   if (cancel) {
+  //     form.setFieldValue('addresses', undefined);
+  //     // dispatch(actionDispatch({ value: defaultValue, label: 'addresses' }));
 
-      if (defaultValue) {
-        if (defaultValue.length === 0) {
-          form.setFieldValue(['addresses', 0, 'country'], undefined);
-        } else {
-          for (let i = 0; i < defaultValue.length; i++) {
-            form.setFieldValue(
-              ['addresses', i, 'country'],
-              defaultValue[i]?.country?.key || undefined,
-            );
-            form.setFieldValue(
-              ['addresses', i, 'city'],
-              defaultValue[i]?.city?.label || undefined,
-            );
-            form.setFieldValue(
-              ['addresses', i, 'district'],
-              defaultValue[i]?.district?.label || undefined,
-            );
-            form.setFieldValue(
-              ['addresses', i, 'address'],
-              defaultValue[i]?.address || undefined,
-            );
-          }
-        }
-      }
-    }
-  }, [cancel]);
+  //     if (defaultValue) {
+  //       if (defaultValue.length === 0) {
+  //         form.setFieldValue(['addresses', 0, 'country'], undefined);
+  //       } else {
+  //         for (let i = 0; i < defaultValue.length; i++) {
+  //           form.setFieldValue(
+  //             ['addresses', i, 'country'],
+  //             defaultValue[i]?.country?.key || undefined,
+  //           );
+  //           form.setFieldValue(
+  //             ['addresses', i, 'city'],
+  //             defaultValue[i]?.city?.label || undefined,
+  //           );
+  //           form.setFieldValue(
+  //             ['addresses', i, 'district'],
+  //             defaultValue[i]?.district?.label || undefined,
+  //           );
+  //           form.setFieldValue(
+  //             ['addresses', i, 'address'],
+  //             defaultValue[i]?.address || undefined,
+  //           );
+  //         }
+  //       }
+  //     }
+  //   }
+  // }, [cancel]);
 
   return (
     <Form.Item label="Address">
@@ -96,7 +95,6 @@ export const FormItemAddress = ({
                     actionDispatch={actionDispatch}
                     dataNewCandidate={dataNewCandidate}
                     check={check}
-                    setOpen={setOpen}
                     defaultValue={defaultValue}
                     setCancel={setCancel}
                     cancel={cancel}

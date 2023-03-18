@@ -1,17 +1,12 @@
 import React from 'react';
 import { Form, Radio } from 'antd';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 
 export const FormItemRadio = ({
   label,
   name,
   options,
   actionDispatch,
-  defaultValue,
-  check,
-  form,
-  setOpen,
   setCancel,
 }) => {
   const dispatch = useDispatch();
@@ -21,19 +16,12 @@ export const FormItemRadio = ({
       setCancel(false);
     }
 
-    if (setOpen) {
-      setOpen(true);
-    }
     dispatch(actionDispatch({ value: e.target.value, label: name }));
   };
 
-  useEffect(() => {
-    form.setFieldValue(name, defaultValue);
-  }, []);
-
   return (
     <Form.Item label={label} name={name}>
-      <Radio.Group onChange={handleChange} disabled={check}>
+      <Radio.Group onChange={handleChange}>
         {options?.map((gender) => (
           <Radio value={gender.key} key={gender.key}>
             {gender.label}

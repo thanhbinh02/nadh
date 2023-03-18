@@ -9,7 +9,6 @@ export const FormItemPhone = ({
   phoneNumber,
   defaultValue,
   putCandidateType,
-  setOpen,
   setCancel,
 }) => {
   useEffect(() => {
@@ -42,7 +41,6 @@ export const FormItemPhone = ({
                     isListField={isListField}
                     phoneNumber={phoneNumber}
                     putCandidateType={putCandidateType}
-                    setOpen={setOpen}
                     setCancel={setCancel}
                   />
                 );

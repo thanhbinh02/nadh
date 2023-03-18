@@ -10,8 +10,6 @@ export const FormItemSelectLanguages = ({
   label,
   actionDispatch,
   id,
-  detailCandidate,
-  nameLocal,
   dataDefault,
   form,
 }) => {

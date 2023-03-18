@@ -2,29 +2,10 @@ import React from 'react';
 import { Row, Col, Form, Select } from 'antd';
 import { DATES, MONTHS } from '../../../utils/const';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 
 const { Option } = Select;
-export const FormItemBirthday = ({
-  form,
-  actionDispatch,
-  defaultValue,
-  setOpen,
-  setCancel,
-}) => {
+export const FormItemBirthday = ({ form, actionDispatch }) => {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (defaultValue !== undefined && defaultValue !== null) {
-      const dateArr = defaultValue.split('-');
-      const year = dateArr[0];
-      const month = dateArr[1];
-      const date = dateArr[2];
-      form.setFieldValue('year_birthday', year);
-      form.setFieldValue('month_birthday', month);
-      form.setFieldValue('date_birthday', date);
-    }
-  }, []);
 
   const yearsRange = [];
   for (var i = 1960; i <= 2023; i++) {
@@ -32,13 +13,6 @@ export const FormItemBirthday = ({
   }
 
   const onChangeDate = (value) => {
-    if (setCancel) {
-      setCancel(false);
-    }
-
-    if (setOpen) {
-      setOpen(true);
-    }
     form.validateFields(['month_birthday', 'year_birthday']);
     if (
       form.getFieldValue('date_birthday') !== undefined &&
@@ -56,13 +30,6 @@ export const FormItemBirthday = ({
   };
 
   const onChangeMonth = (value) => {
-    if (setCancel) {
-      setCancel(false);
-    }
-
-    if (setOpen) {
-      setOpen(true);
-    }
     form.validateFields(['date_birthday', 'year_birthday']);
     if (
       form.getFieldValue('date_birthday') !== undefined &&
@@ -80,13 +47,6 @@ export const FormItemBirthday = ({
   };
 
   const onChangeYear = (value) => {
-    if (setCancel) {
-      setCancel(false);
-    }
-
-    if (setOpen) {
-      setOpen(true);
-    }
     form.validateFields(['date_birthday', 'month_birthday']);
     if (
       form.getFieldValue('date_birthday') !== undefined &&

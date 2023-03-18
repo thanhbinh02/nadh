@@ -1,10 +1,8 @@
-import { Form } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { fetchDegree } from '../../store/degreeSlice';
 import { fetchPhoneNumber } from '../../store/phoneNumberSlice';
-import { fetchCountries } from '../../store/locationsSlice';
 import { FormPersonalInformation } from './FormPersonalInformation';
 import { fetchNationality } from '../../store/nationalitySlice';
 import { fetchPosition } from '../../store/positionSlice';
@@ -15,7 +13,6 @@ const FormPersonalInformationDetail = ({
   putCandidateType,
   putCandidatePositions,
   putCandidateEmail,
-  setOpen,
   setCancel,
   cancel,
 }) => {
@@ -24,7 +21,6 @@ const FormPersonalInformationDetail = ({
   for (var i = 1960; i <= 2023; i++) {
     yearsRange.push({ key: i });
   }
-
   const degree = useSelector((state) => state.degree.data);
   const phoneNumber = useSelector((state) => state.phoneNumber.data);
   const countries = useSelector((state) => state.locations.countries);
@@ -41,7 +37,6 @@ const FormPersonalInformationDetail = ({
     dispatch(fetchPosition());
     dispatch(fetchDegree());
     dispatch(fetchPhoneNumber());
-    dispatch(fetchCountries({ type: 4 }));
   }, []);
 
   return (
@@ -59,7 +54,6 @@ const FormPersonalInformationDetail = ({
       putCandidateType={putCandidateType}
       putCandidatePositions={putCandidatePositions}
       putCandidateEmail={putCandidateEmail}
-      setOpen={setOpen}
       setCancel={setCancel}
       cancel={cancel}
     />

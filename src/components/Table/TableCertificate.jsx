@@ -1,7 +1,6 @@
 import React from 'react';
 import { BsPencil } from 'react-icons/bs';
 import { Table, Row, Col, Button } from 'antd';
-import { useState, useEffect } from 'react';
 
 export const TableCertificate = ({ data }) => {
   const columns = [

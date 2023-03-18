@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Select, Space, Button, Modal, Row, Col } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { InfoCircleOutlined } from '@ant-design/icons';
@@ -8,11 +8,10 @@ import { CustomButton } from '../../../components/CustomButton/CustomButton';
 import { useQuery } from 'react-query';
 
 const { Option } = Select;
-export const FormItemSelectNationality = ({
+export const FormItemSelectMultipleAdd = ({
   name,
   label,
   actionDispatch,
-  id,
   placeholder,
   defaultValue,
   addItem,
@@ -22,6 +21,7 @@ export const FormItemSelectNationality = ({
   getData,
   keyNewItem,
 }) => {
+  // const keyNewItem = useSelector((state) => state.nationality.keyNationality);
   const dispatch = useDispatch();
   const [showAddItem, setShowAddItem] = useState(false);
   const [fetchData, setFetchData] = useState(true);
@@ -38,6 +38,12 @@ export const FormItemSelectNationality = ({
   const { data: dataGet } = useQuery([name, contentModal], () =>
     getData(contentModal),
   );
+
+  useEffect(() => {
+    form.setFieldValue(name, test);
+  }, []);
+
+  useEffect(() => {}, [checkPost]);
 
   useEffect(() => {
     if (!clearItem) {
@@ -80,24 +86,6 @@ export const FormItemSelectNationality = ({
     resultPush = [...resultPush, ...result];
     setTestResult(resultPush);
     setContentModal(undefined);
-
-    const dataDispatch = resultPush.filter((item, index, array) => {
-      return (
-        array.findIndex((t) => t.label === item.label && t.key === item.key) ===
-        index
-      );
-    });
-    if (!id) {
-      if (removeItem) {
-        const resultFinal = dataDispatch.filter((obj) =>
-          value.includes(obj.label),
-        );
-        const uniqueData = [
-          ...new Set(resultFinal.map((item) => JSON.stringify(item))),
-        ].map((item) => JSON.parse(item));
-        dispatch(actionDispatch({ value: uniqueData, label: name }));
-      }
-    }
   };
 
   const handleSearch = (value) => {
@@ -188,8 +176,6 @@ export const FormItemSelectNationality = ({
           onSearch={handleSearch}
           onBlur={handleBlur}
           onFocus={handleFocus}
-          // defaultValue={defaultValue.map((item) => item.label)}
-          // defaultValue={['1023']}
           onClear={handleClear}
           onDeselect={handleRemoveItem}
           disabled={check}

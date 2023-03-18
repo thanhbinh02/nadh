@@ -4,9 +4,7 @@ import { Table, Row, Col, Checkbox, Spin } from 'antd';
 
 export const TableBusinessLine = ({
   dataTable,
-  check,
   finalResult,
-  setCheck,
   id,
   actionDispatch,
   dispatch,

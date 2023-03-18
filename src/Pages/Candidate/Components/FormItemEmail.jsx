@@ -9,8 +9,6 @@ export const FormItemEmail = ({
   defaultValue,
   check,
   putCandidateEmail,
-  setOpen,
-  setCancel,
 }) => {
   useEffect(() => {
     if (defaultValue) {
@@ -36,11 +34,8 @@ export const FormItemEmail = ({
                     remove={remove}
                     fields={fields}
                     isListField={isListField}
-                    defaultValue={defaultValue}
                     disabled={check}
                     putCandidateEmail={putCandidateEmail}
-                    setOpen={setOpen}
-                    setCancel={setCancel}
                   />
                 );
               })}

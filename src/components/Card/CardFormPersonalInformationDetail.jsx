@@ -8,9 +8,6 @@ export const CardFormPersonalInformationDetail = ({
   putCandidateType,
   putCandidatePositions,
   putCandidateEmail,
-  setOpen,
-  setCancel,
-  cancel,
 }) => {
   return (
     <Card
@@ -25,9 +22,6 @@ export const CardFormPersonalInformationDetail = ({
         putCandidateType={putCandidateType}
         putCandidatePositions={putCandidatePositions}
         putCandidateEmail={putCandidateEmail}
-        setOpen={setOpen}
-        setCancel={setCancel}
-        cancel={cancel}
       />
     </Card>
   );

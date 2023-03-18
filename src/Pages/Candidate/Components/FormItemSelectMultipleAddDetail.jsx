@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Select, Space, Button, Modal, Row, Col } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { InfoCircleOutlined } from '@ant-design/icons';
@@ -8,11 +8,10 @@ import { CustomButton } from '../../../components/CustomButton/CustomButton';
 import { useQuery } from 'react-query';
 
 const { Option } = Select;
-export const FormItemSelectNationality = ({
+export const FormItemSelectMultipleAddDetail = ({
   name,
   label,
   actionDispatch,
-  id,
   placeholder,
   defaultValue,
   addItem,
@@ -21,7 +20,10 @@ export const FormItemSelectNationality = ({
   check,
   getData,
   keyNewItem,
+  setOpenSave,
+  setCancel,
 }) => {
+  // const keyNewItem = useSelector((state) => state.nationality.keyNationality);
   const dispatch = useDispatch();
   const [showAddItem, setShowAddItem] = useState(false);
   const [fetchData, setFetchData] = useState(true);
@@ -30,6 +32,7 @@ export const FormItemSelectNationality = ({
   const [testResult, setTestResult] = useState([]);
   const [checkPost, setCheckPost] = useState(true);
   const [checkFocus, setCheckFocus] = useState(false);
+  const [newValue, setNewValue] = useState(defaultValue);
 
   const [contentModal, setContentModal] = useState();
   const [removeItem, setRemoveItem] = useState(true);
@@ -40,13 +43,15 @@ export const FormItemSelectNationality = ({
   );
 
   useEffect(() => {
+    setNewValue(defaultValue);
+    form.setFieldValue(name, test);
+  }, []);
+
+  useEffect(() => {}, [checkPost]);
+
+  useEffect(() => {
     if (!clearItem) {
-      if (!check) {
-        const uniqueLabels = new Set(
-          testResult.filter((item) => item.label).map((item) => item.label),
-        );
-        const result = [...uniqueLabels];
-        form.setFieldValue(name, result);
+      if (!defaultValue) {
         setClearItem(false);
       }
     }
@@ -56,47 +61,38 @@ export const FormItemSelectNationality = ({
     dispatch(postData(contentModal));
     setCheckPost(!checkPost);
     setOpen(false);
-    const hasLabe = dataGet.data.some((item) => item.label === contentModal);
-    if (!hasLabe) {
-      const currentValue = form.getFieldValue(name);
-      setTest((prevValues) => [...currentValue, contentModal]);
-    }
-
     setCheckFocus(true);
     setFetchData(!fetchData);
+    if (contentModal !== undefined) {
+      setOpenSave(true);
+      let currentValue = form.getFieldValue(name);
+      currentValue.push(contentModal);
+      form.setFieldValue(name, currentValue);
+      let dataPut = [...newValue, { key: keyNewItem, label: contentModal }];
+      dispatch(actionDispatch({ value: dataPut, label: name }));
+      setNewValue(dataPut);
+      setContentModal(undefined);
+    }
   };
 
   const handleOpenModalAdd = () => {
-    if (setOpen) {
-      setOpen(true);
-    }
+    setOpen(true);
   };
 
   const handleChange = (value) => {
-    const result = dataGet?.data
-      .filter((item) => value.includes(item.label))
-      .map(({ label, key }) => ({ label, key }));
-    let resultPush = testResult;
-    resultPush = [...resultPush, ...result];
-    setTestResult(resultPush);
-    setContentModal(undefined);
+    if (setCancel) {
+      setCancel(false);
+    }
 
-    const dataDispatch = resultPush.filter((item, index, array) => {
-      return (
-        array.findIndex((t) => t.label === item.label && t.key === item.key) ===
-        index
-      );
-    });
-    if (!id) {
-      if (removeItem) {
-        const resultFinal = dataDispatch.filter((obj) =>
-          value.includes(obj.label),
-        );
-        const uniqueData = [
-          ...new Set(resultFinal.map((item) => JSON.stringify(item))),
-        ].map((item) => JSON.parse(item));
-        dispatch(actionDispatch({ value: uniqueData, label: name }));
-      }
+    setOpenSave(true);
+    if (removeItem) {
+      const label = newValue?.map((item) => item.label);
+      const valueAdd = value.filter((item) => !label.includes(item));
+      const result = dataGet?.data
+        .filter((item) => valueAdd.includes(item.label))
+        .map(({ label, key }) => ({ label, key }));
+      setNewValue(newValue.concat(result));
+    } else {
     }
   };
 
@@ -110,69 +106,61 @@ export const FormItemSelectNationality = ({
   };
 
   const handleFocus = () => {
-    if (checkFocus) {
-      const key = dataGet?.data?.find((item) => item.label === contentModal);
-      let resultPush = testResult;
-      resultPush = [
-        ...resultPush,
-        { key: keyNewItem || key.key, label: contentModal },
-      ];
-      setTestResult(resultPush);
-      const dataDispatch = resultPush.filter((item, index, array) => {
-        return (
-          array.findIndex(
-            (t) => t.label === item.label && t.key === item.key,
-          ) === index
-        );
-      });
-      const uniqueData = [
-        ...new Set(dataDispatch.map((item) => JSON.stringify(item))),
-      ].map((item) => JSON.parse(item));
-      dispatch(actionDispatch({ value: uniqueData, label: name }));
-      setCheckFocus(false);
-    }
-    setContentModal();
-    setFetchData(!fetchData);
+    // console.log('newValue', newValue);
+    // if (checkFocus && contentModal !== undefined) {
+    //   let currentValue = form.getFieldValue(name);
+    //   currentValue.push(contentModal);
+    //   form.setFieldValue(name, currentValue);
+    //   const resultPush = { key: keyNewItem, label: contentModal };
+    //   if (newValue.length === 0) {
+    //     setNewValue([resultPush]);
+    //   } else {
+    //     const giatri = newValue.push(resultPush);
+    //     setNewValue(newValue.push(resultPush));
+    //   }
+    //   setRemoveItem(true);
+    //   setContentModal();
+    // }
+    // setFetchData(!fetchData);
   };
 
   const handleBlur = () => {
     setFetchData(!fetchData);
+
+    if (clearItem) {
+      setClearItem([]);
+      dispatch(actionDispatch({ value: [], label: name }));
+    } else {
+      dispatch(actionDispatch({ value: newValue, label: name }));
+    }
   };
 
   const handleClear = () => {
-    dispatch(actionDispatch({ value: [], label: name }));
+    if (setCancel) {
+      setCancel(false);
+    }
+
+    setOpenSave(true);
+    // dispatch(actionDispatch({ value: [], label: name }));
     setTestResult([]);
+    setNewValue([]);
     setClearItem(true);
+    setRemoveItem(true);
   };
 
   const handleRemoveItem = (value) => {
-    let resultPush = testResult;
-    resultPush = [...resultPush, { key: keyNewItem, label: contentModal }];
-    setTestResult(resultPush);
-    const dataDispatch = resultPush.filter((item, index, array) => {
-      return (
-        array.findIndex((t) => t.label === item.label && t.key === item.key) ===
-        index
-      );
-    });
+    if (setCancel) {
+      setCancel(false);
+    }
 
-    const filteredArr = dataDispatch.filter((obj) => {
-      return !(
-        obj.label === undefined ||
-        obj.key === undefined ||
-        obj.label === value
-      );
-    });
-    const uniqueData = [
-      ...new Set(filteredArr.map((item) => JSON.stringify(item))),
-    ].map((item) => JSON.parse(item));
-    setTestResult(filteredArr);
-    dispatch(actionDispatch({ value: uniqueData, label: name }));
+    setRemoveItem(false);
+    setOpenSave(true);
+    const result = newValue
+      .filter((item) => item.label !== value)
+      .map((item) => ({ label: item.label, key: item.key }));
+    setNewValue(result);
 
-    form.setFieldValue(
-      uniqueData,
-      uniqueData.map((obj) => obj.label),
-    );
+    dispatch(actionDispatch({ value: result, label: name }));
   };
 
   return (

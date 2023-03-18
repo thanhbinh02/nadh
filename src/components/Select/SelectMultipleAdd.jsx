@@ -1,26 +1,23 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Select, Modal, Row, Col, Form, Space } from 'antd';
 import { useState } from 'react';
-import { fetchNationality } from '../../store/nationalitySlice';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { CustomButton } from '../CustomButton/CustomButton';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { postNationality } from '../../store/nationalitySlice';
-import { getNationalityTest } from '../../apis/filterApi';
 import { useQuery } from 'react-query';
 
 const { Option } = Select;
 
 export const SelectMultipleAdd = ({
-  form, //
-  getData, //
-  name, //
-  label, //
+  form,
+  getData,
+  name,
+  label,
   placeholder,
   dataDefault,
   id,
-  actionDispatch, //
 }) => {
   const dispatch = useDispatch();
 

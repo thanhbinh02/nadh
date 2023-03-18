@@ -43,7 +43,6 @@ const FormListAddress = ({
   actionDispatch,
   dataNewCandidate,
   check,
-  setOpen,
   defaultValue,
   setCancel,
   cancel,
@@ -53,7 +52,6 @@ const FormListAddress = ({
   const [listCountry, setListCountry] = useState([]);
   const [listCity, seListCity] = useState([]);
   const [listDistrict, setListDistrict] = useState([]);
-  const [final, setFinal] = useState([]);
   const [disabledInput, setDisabledInput] = useState(true);
 
   const fetchDataCity = async (params) => {
@@ -78,9 +76,7 @@ const FormListAddress = ({
       setListCountry(result.data);
     };
     fetchDataCountry({ type: 4 });
-  }, []);
 
-  useEffect(() => {
     if (dataNewCandidate) {
       for (let i = 0; i < dataNewCandidate.length; i++) {
         if (dataNewCandidate[name]?.country?.label !== undefined) {
@@ -90,14 +86,6 @@ const FormListAddress = ({
     }
 
     if (dataNewCandidate) {
-      const fetchDataCountry = async (params) => {
-        const result = await getLocations({
-          params,
-        });
-        setListCountry(result.data);
-      };
-      fetchDataCountry({ type: 4 });
-
       if (dataNewCandidate[name]?.country?.key) {
         fetchDataCity({
           type: 1,
@@ -124,8 +112,7 @@ const FormListAddress = ({
 
   useEffect(() => {
     if (cancel) {
-      // form.setFieldValue('addresses', undefined);
-
+      console.log('zoday 2');
       if (defaultValue) {
         for (let i = 0; i < defaultValue.length; i++) {
           if (defaultValue[name]?.country?.label !== undefined) {
@@ -142,7 +129,7 @@ const FormListAddress = ({
           });
           form.setFieldValue(
             ['addresses', name, 'country'],
-            defaultValue[name]?.country?.key,
+            defaultValue[name]?.country?.label,
           );
         }
 
@@ -153,7 +140,7 @@ const FormListAddress = ({
           });
           form.setFieldValue(
             ['addresses', name, 'city'],
-            defaultValue[name]?.city?.key,
+            defaultValue[name]?.city?.label,
           );
         }
       }
@@ -161,13 +148,10 @@ const FormListAddress = ({
   }, [cancel]);
 
   const handleCountryChange = (value, option, name) => {
-    if (setCancel) {
+    if (cancel) {
       setCancel(false);
     }
 
-    if (setOpen) {
-      setOpen(true);
-    }
     fetchDataCity({ type: 1, parent_id: value });
     form.setFieldValue(['addresses', name, 'district'], undefined);
     form.setFieldValue(['addresses', name, 'city'], undefined);
@@ -204,13 +188,10 @@ const FormListAddress = ({
   };
 
   const handleCityChange = (value, option, name) => {
-    if (setCancel) {
+    if (cancel) {
       setCancel(false);
     }
 
-    if (setOpen) {
-      setOpen(true);
-    }
     fetchDataListDistrict({ type: 2, parent_id: value });
     form.setFieldValue(['addresses', name, 'district'], undefined);
 
@@ -237,13 +218,10 @@ const FormListAddress = ({
   };
 
   const handleDistrictChange = (value, option, name) => {
-    if (setCancel) {
+    if (cancel) {
       setCancel(false);
     }
 
-    if (setOpen) {
-      setOpen(true);
-    }
     if (value !== undefined) {
       const updatedObj = Object.assign({}, dataNewCandidate[name], {
         district: {
@@ -265,12 +243,8 @@ const FormListAddress = ({
   };
 
   const handleRemove = () => {
-    if (setCancel) {
+    if (cancel) {
       setCancel(false);
-    }
-
-    if (setOpen) {
-      setOpen(true);
     }
 
     const newData = [];
@@ -286,13 +260,10 @@ const FormListAddress = ({
   };
 
   const handleClearCountry = (name) => {
-    if (setCancel) {
+    if (cancel) {
       setCancel(false);
     }
 
-    if (setOpen) {
-      setOpen(true);
-    }
     const newData = [];
     for (let i = 0; i < dataNewCandidate.length; i++) {
       if (i !== name) {
@@ -312,9 +283,6 @@ const FormListAddress = ({
   };
 
   const handleClearCity = (name) => {
-    if (setOpen) {
-      setOpen(true);
-    }
     const updatedObj = Object.assign({}, dataNewCandidate[name], {
       district: undefined,
       city: undefined,
@@ -332,13 +300,10 @@ const FormListAddress = ({
   };
 
   const handleClearDistrict = (name) => {
-    if (setCancel) {
+    if (cancel) {
       setCancel(false);
     }
 
-    if (setOpen) {
-      setOpen(true);
-    }
     const updatedObj = Object.assign({}, dataNewCandidate[name], {
       district: undefined,
     });
@@ -355,13 +320,10 @@ const FormListAddress = ({
   };
 
   const handleChangeInputAddress = (e) => {
-    if (setCancel) {
+    if (cancel) {
       setCancel(false);
     }
 
-    if (setOpen) {
-      setOpen(true);
-    }
     const updatedObj = Object.assign({}, dataNewCandidate[name], {
       address: e.target.value,
     });

@@ -1,13 +1,10 @@
 import { Card } from 'antd';
-import { Input } from 'antd';
-import { Select, Form, Row, Col, Button } from 'antd';
+import { Select, Form, Row, Col } from 'antd';
 import { FormItemSelectMultiple } from '../../Pages/Candidate/Components/FormItemSelectMultiple';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchSoftSkills } from '../../store/softSkillsSlice';
 import { putSoftSkillsCandidate } from '../../store/softSkillsSlice';
-
-const { Option } = Select;
 
 export const CardSkillsAndIndustry = ({ idCandidate, dataDefault }) => {
   const [form] = Form.useForm();

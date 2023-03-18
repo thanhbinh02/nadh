@@ -1,6 +1,5 @@
-import { Button, Modal, Row, Col, Form } from 'antd';
+import { Modal, Row } from 'antd';
 import { useState } from 'react';
-import { CloseCircleOutlined } from '@ant-design/icons';
 import { CustomButton } from '../CustomButton/CustomButton';
 
 export const ModalAddEducation = ({ open }) => {

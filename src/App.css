@@ -131,15 +131,17 @@ span.ant-table-column-title {
 }
 
 :where(.css-dev-only-do-not-override-1km3mtt).ant-card:not(.ant-card-bordered) {
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 50%), 0 1px 6px -1px rgb(0 0 0 / 4%),
-    0 2px 4px 0 rgb(0 0 0 / 12%);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 50%), 0 1px 6px -1px rgb(0 0 0 / 1%),
+    0 2px 4px 0 rgb(0 0 0 / 1%);
 }
 
 :where(.css-dev-only-do-not-override-1km3mtt).ant-card {
   border-radius: 0px;
 }
 
-:where(.css-dev-only-do-not-override-1km3mtt).ant-modal-root .ant-modal-wrap {
+.modal-add-new-candidate
+  :where(.css-dev-only-do-not-override-1km3mtt).ant-modal-root
+  .ant-modal-wrap {
   z-index: 2000;
 }
 
@@ -159,4 +161,8 @@ span.ant-table-column-title {
 .ant-row.css-dev-only-do-not-override-1km3mtt {
   margin-left: 0 !important;
   margin-right: 0 !important;
+}
+
+.ant-modal.css-dev-only-do-not-override-1km3mtt.modal-add-education {
+  width: 700px !important;
 }

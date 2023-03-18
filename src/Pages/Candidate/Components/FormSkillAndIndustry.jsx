@@ -1,6 +1,6 @@
-import { Select, Form, Row, Col, Button } from 'antd';
+import { Form, Row, Col } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { fetchSoftSkills } from '../../../store/softSkillsSlice';
 import { fetchJobFunctionsSkills } from '../../../store/jobFunctionsSkillsSlice';
 import FormSelectGroup from '../../../components/Form/FormSelectGroup';
@@ -16,9 +16,7 @@ import { fetchCategories } from '../../../store/categoriesSlice';
 import { putBusinessLineSlice } from '../../../store/businessLineSlice';
 
 const FormSkillAndIndustry = ({ detailCandidate }) => {
-  const [test, setTest] = useState([]);
   const [form] = Form.useForm();
-  const { Option } = Select;
   const dispatch = useDispatch();
   const jobFunctionsSkills = useSelector(
     (state) => state.jobFunctionsSkills.data,

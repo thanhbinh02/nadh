@@ -1,5 +1,4 @@
-import { Card, Row, Col, Button, Result } from 'antd';
-import { Link } from 'react-router-dom';
+import { Card, Button, Result } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
