@@ -11,6 +11,7 @@ import { SelectAddItem } from './components/Select/SelectAddItem';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import 'react-toastify/dist/ReactToastify.css';
 import { Page404 } from './Pages/Page404';
+import { Clients } from './Pages/Clients';
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ function App() {
         </Route>
         <Route element={<PrivateLayout />}>
           <Route path="/candidates" element={<Candidates />} />
+          <Route path="/clients" element={<Clients />} />
           <Route path="/candidate-add" element={<CandidateAdd />} />
           <Route path="/test" element={<SelectAddItem />} />
           <Route

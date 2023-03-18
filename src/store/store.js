@@ -19,6 +19,9 @@ import businessLineReducer from './businessLineSlice';
 import detailCandidateReducer from './detailCandidateSlice';
 import detailCandidateLocalReducer from './detailCandidateLocalSlice';
 import schoolReducer from './schoolSlice';
+import clientsReducer from './clientsSlice';
+import tagsClientsReducer from './tagsClientsSlice';
+import usersReducer from './usersSlice';
 
 export const store = configureStore({
   reducer: {
@@ -42,5 +45,8 @@ export const store = configureStore({
     detailCandidate: detailCandidateReducer,
     detailCandidateLocal: detailCandidateLocalReducer,
     school: schoolReducer,
+    clients: clientsReducer,
+    tagsClients: tagsClientsReducer,
+    users: usersReducer,
   },
 });

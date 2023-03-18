@@ -12,10 +12,10 @@ export const NavHeader = () => {
         <Menu.Item key={0} icon={<RiFileUserLine />}>
           <Link to="/candidates">Candidates</Link>
         </Menu.Item>
-        {/* <Menu.Item key={1} icon={<FaUsers />}>
-          <Link to="/"> Clients</Link>
+        <Menu.Item key={1} icon={<FaUsers />}>
+          <Link to="/clients"> Clients</Link>
         </Menu.Item>
-        <Menu.Item key={2} icon={<BsCardChecklist />}>
+        {/* <Menu.Item key={2} icon={<BsCardChecklist />}>
           <Link to="/"> Jobs</Link>
         </Menu.Item> */}
       </Menu>

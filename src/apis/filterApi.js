@@ -115,3 +115,8 @@ export const getPositionTest = async (value) => {
     },
   });
 };
+
+export const getUsers = async (params) => {
+  const url = '/api/users';
+  return await axiosClient.get(url, params);
+};

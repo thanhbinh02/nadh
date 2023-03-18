@@ -5,47 +5,44 @@ import { Link } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { CustomColumns } from '../components/CustomColumns';
-import TableCandidates from '../components/Table/TableCandidates';
+import { fetchClients } from '../store/clientsSlice';
 
 import { fetchCountries } from '../store/locationsSlice';
-import { fetchIndustries } from '../store/categoriesSlice';
-import { fetchCandidates } from '../store/candidatesSlice';
-import { fetchLanguages } from '../store/languagesSlice';
-import { fetchHighestDegree } from '../store/highestDegreeSlice';
 import { fetchListCustoms } from '../store/customColumnSlice';
-import { getTagsCandidates } from '../store/tagsCandidatesSlice';
-import { refreshCandidates } from '../store/candidatesSlice';
+import { getTagsClients } from '../store/tagsClientsSlice';
+import { refreshClients } from '../store/clientsSlice';
+import TableClients from '../components/Table/TableClients';
+import { fetchUsers } from '../store/usersSlice';
 
-export const Candidates = () => {
+export const Clients = () => {
   const dispatch = useDispatch();
   const countries = useSelector((state) => state.locations.countries);
-  const industries = useSelector((state) => state.categories.industries);
-  const sectors = useSelector((state) => state.categories.sectors);
-  const categories = useSelector((state) => state.categories.categories);
-  const totalItem = useSelector((state) => state.candidates.count);
-  const candidates = useSelector((state) => state.candidates.data);
-  const loadingCandidate = useSelector((state) => state.candidates.loading);
-
-  const languages = useSelector((state) => state.languages.languages);
-  const listCustomCandidates = useSelector((state) => state.customColumn.data);
+  const totalItem = useSelector((state) => state.clients.count);
+  const clients = useSelector((state) => state.clients.data);
+  const loadingClients = useSelector((state) => state.clients.loading);
+  const listCustomClients = useSelector((state) => state.customColumn.data);
   const isSuccessCustomColumn = useSelector(
     (state) => state.customColumn.isSuccess,
   );
+  const filterClient = JSON.parse(window.localStorage.getItem('filterClient'));
+  const listTagFilter = useSelector((state) => state.tagsClients.data);
 
-  const filerCandidates = JSON.parse(window.localStorage.getItem('filterCDD'));
-  const listTagFilter = useSelector((state) => state.tagsCandidates.data);
+  const users = useSelector((state) => state.users.data).map(
+    ({ id, full_name }) => ({
+      key: id,
+      label: full_name,
+    }),
+  );
 
   useEffect(() => {
     dispatch(fetchCountries({ type: 4 }));
-    dispatch(fetchIndustries({ type: 1 }));
-    dispatch(fetchCandidates(filerCandidates));
-    dispatch(fetchLanguages({ type: 4 }));
-    dispatch(fetchHighestDegree({ type: 1 }));
-    dispatch(fetchListCustoms('candidates'));
-    dispatch(getTagsCandidates(filerCandidates));
-    if (!filerCandidates) {
+    dispatch(fetchClients(filterClient));
+    dispatch(fetchListCustoms('clients'));
+    dispatch(getTagsClients(filterClient));
+    dispatch(fetchUsers());
+    if (!filterClient) {
       window.localStorage.setItem(
-        'filterCDD',
+        'filterClient',
         JSON.stringify({ page: 1, perPage: 10 }),
       );
     }
@@ -68,7 +65,7 @@ export const Candidates = () => {
             fontWeight: '600',
           }}
         >
-          Candidates List {loadingCandidate ? '' : <>({totalItem})</>}
+          Candidates List {loadingClients ? '' : <>({totalItem})</>}
         </Col>
         <Col style={{ marginRight: '73px' }}>
           <Row>
@@ -78,9 +75,9 @@ export const Candidates = () => {
                 ghost
                 style={{ display: 'flex', alignItems: 'center' }}
                 onClick={() => {
-                  dispatch(refreshCandidates());
+                  dispatch(refreshClients());
                   dispatch(
-                    getTagsCandidates({
+                    getTagsClients({
                       page: 1,
                       perPage: 10,
                     }),
@@ -117,26 +114,17 @@ export const Candidates = () => {
           marginTop: '10px',
         }}
       >
-        <CustomColumns
-          namePage="candidates"
-          listCustom={listCustomCandidates}
-        />
+        <CustomColumns namePage="clients" listCustom={listCustomClients} />
       </Row>
-      <TableCandidates
+      <TableClients
         totalItem={totalItem ? totalItem : null}
-        data={candidates ? candidates : null}
-        languages={languages ? languages : null}
+        data={clients ? clients : null}
         city={countries ? countries : null}
-        sectors={sectors}
-        categories={categories}
-        industries={industries ? industries : null}
-        listCustomCandidates={
-          listCustomCandidates ? listCustomCandidates : null
-        }
+        listCustomCandidates={listCustomClients ? listCustomClients : null}
         listTagFilter={listTagFilter}
-        filerCandidates={filerCandidates}
-        loadingCandidate={loadingCandidate}
+        loadingClients={loadingClients}
         isSuccessCustomColumn={isSuccessCustomColumn}
+        users={users}
       />
     </div>
   );

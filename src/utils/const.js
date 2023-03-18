@@ -101,6 +101,33 @@ export const CUSTOM_COLUMNS_CANDIDATES = [
   { title: 'action', label: 'Action', disabled: true, check: true },
 ];
 
+export const CUSTOM_COLUMNS_CLIENTS = [
+  { title: 'client_id', label: 'ID', disabled: true, check: true },
+  { title: 'name', label: 'Trade Name', disabled: true, check: true },
+  { title: 'location', label: 'City', check: true },
+  { title: 'lead_consultants', label: 'Lead Consultant', check: true },
+  { title: 'account_status', label: 'Activity', check: true },
+  { title: 'tax_code', label: 'Tax Code', check: true },
+  { title: 'cpa"', label: 'CPA', check: true },
+  { title: 'industry"', label: 'Industry', check: true },
+  { title: 'client_jobs"', label: 'Job(s)', check: true },
+  { title: 'type"', label: 'Type', check: true },
+  { title: 'status"', label: 'Status', check: true },
+  {
+    title: 'contact_person_name"',
+    label: "Contact Person's Name",
+    check: true,
+  },
+  {
+    title: 'contact_person_title"',
+    label: "Contact Person's Title",
+    check: true,
+  },
+  { title: 'update_last_by"', label: 'Updated by', check: true },
+  { title: 'updated_on"', label: 'Updated on', check: true },
+  { title: 'action', label: 'Action', disabled: true, check: true },
+];
+
 export const TAG_CANDIDATES = [
   {
     title: 'candidate_id',
@@ -292,3 +319,119 @@ export const formatDateBirthday = (dob) => {
     };
   }
 };
+
+export const ACCOUNT_STATUS = [
+  {
+    key: 1,
+    label: 'Create Client',
+    color: 'geekblue',
+  },
+  {
+    key: 2,
+    label: 'Tele Marketing',
+    color: 'green',
+  },
+  {
+    key: 3,
+    label: 'Client Meeting',
+    color: 'magenta',
+  },
+  {
+    key: 4,
+    label: 'Proposal Sent',
+    color: 'cyan',
+  },
+  {
+    key: 5,
+    label: 'Follow Up',
+    color: 'orange',
+  },
+  {
+    key: 6,
+    label: 'Sign Contract',
+    color: 'purple',
+  },
+  {
+    key: 7,
+    label: 'Job Order Received',
+    color: 'blue',
+  },
+];
+
+export const CPA = [
+  {
+    key: 1,
+    label: 'Retained Plus',
+    color: 'green',
+  },
+  {
+    key: 2,
+    label: 'Retained Minus',
+    color: 'magenta',
+  },
+  {
+    key: 3,
+    label: 'New',
+    color: 'blue',
+  },
+  {
+    key: 4,
+    label: 'Prospecting',
+    color: 'orange',
+  },
+  {
+    key: 5,
+    label: 'Lost',
+    color: 'purple',
+  },
+];
+
+export const TYPE_CLIENT = [
+  {
+    key: 1,
+    label: 'Type A',
+  },
+  {
+    key: 2,
+    label: 'Type B',
+  },
+  {
+    key: 3,
+    label: 'Type C',
+  },
+  {
+    key: 4,
+    label: 'Type D',
+  },
+  {
+    key: 5,
+    label: 'Type T',
+  },
+  {
+    key: 6,
+    label: 'Type L',
+  },
+];
+
+export const STATUS_CLIENT = [
+  {
+    key: 9,
+    label: 'Active',
+    color: 'green',
+  },
+  {
+    key: 10,
+    label: 'Off-limit',
+    color: 'geekblue',
+  },
+  {
+    key: 11,
+    label: 'Blacklist',
+    color: 'magenta',
+  },
+  {
+    key: 12,
+    label: 'Inactive',
+    color: 'red',
+  },
+];

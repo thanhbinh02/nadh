@@ -20,7 +20,7 @@ const checkOneName = (name, obj) => {
   }
 };
 
-const FilterDropDownCountryCity = ({ data, country, city }) => {
+const FilterDropDownCountryCity = ({ data, country, city, keyPage }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [listCity, setListCity] = useState(false);
@@ -47,9 +47,7 @@ const FilterDropDownCountryCity = ({ data, country, city }) => {
   const handleReset = () => {
     form.resetFields();
     handleClearCountry();
-    const filterSaveLocalStorage = JSON.parse(
-      localStorage.getItem('filterCDD'),
-    );
+    const filterSaveLocalStorage = JSON.parse(localStorage.getItem(keyPage));
     if (checkOneName('country', filterSaveLocalStorage)) {
       const {
         location: { countryCity, ...restCountry },
@@ -60,7 +58,7 @@ const FilterDropDownCountryCity = ({ data, country, city }) => {
       const propsToDelete = ['country', 'city'];
       propsToDelete.forEach((prop) => delete result[prop]);
       const newObj = { ...result };
-      window.localStorage.setItem('filterCDD', JSON.stringify(newObj));
+      window.localStorage.setItem(keyPage, JSON.stringify(newObj));
       dispatch(refreshCandidates(newObj));
       dispatch(getTagsCandidates(newObj));
     } else {
@@ -88,7 +86,7 @@ const FilterDropDownCountryCity = ({ data, country, city }) => {
           city: cityResult,
         };
 
-        const dataSaveLocal = JSON.parse(localStorage.getItem('filterCDD'));
+        const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
         const locationSaveLocal = dataSaveLocal.location;
         const newData = {
           ...dataSaveLocal,
@@ -111,7 +109,7 @@ const FilterDropDownCountryCity = ({ data, country, city }) => {
           country: countryResult,
         };
 
-        const dataSaveLocal = JSON.parse(localStorage.getItem('filterCDD'));
+        const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
         const locationSaveLocal = dataSaveLocal.location;
         const newData = {
           ...dataSaveLocal,
@@ -132,7 +130,7 @@ const FilterDropDownCountryCity = ({ data, country, city }) => {
         country: countryResult,
       };
 
-      const dataSaveLocal = JSON.parse(localStorage.getItem('filterCDD'));
+      const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
       const locationSaveLocal = dataSaveLocal.location;
       const newData = {
         ...dataSaveLocal,

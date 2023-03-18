@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Card, Row, Col, Input, Form } from 'antd';
-
-import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 import { FilterResetSearch } from './FilterResetSearch';
 
 export const FilterDropDownText = ({
@@ -11,6 +9,7 @@ export const FilterDropDownText = ({
   fetchData,
   keyPage,
   filterValue,
+  getTags,
 }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -20,7 +19,7 @@ export const FilterDropDownText = ({
     const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
     const newData = { ...dataSaveLocal, ...result, page: 1 };
     dispatch(fetchData(newData));
-    dispatch(getTagsCandidates(newData));
+    dispatch(getTags(newData));
   };
 
   useEffect(() => {

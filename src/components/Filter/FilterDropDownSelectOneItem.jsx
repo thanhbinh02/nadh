@@ -75,6 +75,7 @@ export const FilterDropDownSelectOneItem = ({
                       key={option.key}
                       value={option.key}
                       label={option.label}
+                      style={{ textTransform: 'capitalize' }}
                     >
                       {option.label}
                     </Option>

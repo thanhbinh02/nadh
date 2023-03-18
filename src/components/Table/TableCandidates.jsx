@@ -19,6 +19,7 @@ import { fetchSectors } from '../../store/categoriesSlice';
 import { fetchCategories } from '../../store/categoriesSlice';
 import { fetchCandidates } from '../../store/candidatesSlice';
 import TagFilter from '../TagFilter';
+import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 
 const checkIconGlow = (name, obj) => {
   if (obj) {
@@ -77,6 +78,7 @@ const TableCandidates = ({
           fetchData={fetchCandidates}
           keyPage="filterCDD"
           filterValue={filerCandidates?.candidate_id || undefined}
+          getTags={getTagsCandidates}
         />
       ),
       render: (text) => {
@@ -107,6 +109,7 @@ const TableCandidates = ({
           fetchData={fetchCandidates}
           keyPage="filterCDD"
           filterValue={filerCandidates?.full_name || undefined}
+          getTags={getTagsCandidates}
         />
       ),
       render: (text, record) => {
@@ -405,6 +408,7 @@ const TableCandidates = ({
           fetchData={fetchCandidates}
           keyPage="filterCDD"
           filterValue={filerCandidates?.current_company_text || undefined}
+          getTags={getTagsCandidates}
         />
       ),
       render: (text) => {
@@ -437,6 +441,7 @@ const TableCandidates = ({
           fetchData={fetchCandidates}
           keyPage="filterCDD"
           filterValue={filerCandidates?.current_position_text || undefined}
+          getTags={getTagsCandidates}
         />
       ),
       render: (text) => {
