@@ -11,6 +11,16 @@ export const fetchDegree = createAsyncThunk(
       },
     }),
 );
+export const fetchDegreeCertificate = createAsyncThunk(
+  'degree/fetchDegreeCertificate',
+  async (params) =>
+    await getDegree({
+      params: {
+        ...params,
+        property_name: 'certificate',
+      },
+    }),
+);
 
 export const degreeSlice = createSlice({
   name: 'degree',
@@ -18,6 +28,7 @@ export const degreeSlice = createSlice({
     isSuccess: undefined,
     loading: false,
     data: [],
+    dataCertificate: [],
   },
   reducers: {},
   extraReducers: {
@@ -30,6 +41,19 @@ export const degreeSlice = createSlice({
       state.isSuccess = false;
     },
     [fetchDegree.rejected]: (state) => {
+      state.loading = false;
+      state.isSuccess = false;
+    },
+
+    [fetchDegreeCertificate.pending]: (state) => {
+      state.loading = true;
+    },
+    [fetchDegreeCertificate.fulfilled]: (state, { payload }) => {
+      state.dataCertificate = payload.data;
+      state.loading = false;
+      state.isSuccess = false;
+    },
+    [fetchDegreeCertificate.rejected]: (state) => {
       state.loading = false;
       state.isSuccess = false;
     },

@@ -126,6 +126,16 @@ export const getSchoolTest = async (value) => {
   });
 };
 
+export const getMajorTest = async (value) => {
+  const url = '/api/property_values';
+  return await axiosClient.get(url, {
+    params: {
+      value: value,
+      property_name: 'major',
+    },
+  });
+};
+
 export const getUsers = async (params) => {
   const url = '/api/users';
   return await axiosClient.get(url, params);

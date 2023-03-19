@@ -1,37 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Select, Space, Button, Modal, Row, Col } from 'antd';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { CustomButton } from '../../../components/CustomButton/CustomButton';
+import { useQuery } from 'react-query';
+import { CustomButton } from '../CustomButton/CustomButton';
 
+import { InfoCircleOutlined } from '@ant-design/icons';
 const { Option } = Select;
-export const FormItemSelectMultipleAdd = ({
+
+export const FormItemSelectOneAdd = ({
   name,
   label,
   placeholder,
   addItem,
   postData,
   form,
-  options,
   putData,
+  getData,
 }) => {
   const dispatch = useDispatch();
   const [showAddItem, setShowAddItem] = useState(false);
   const [open, setOpen] = useState(false);
   const [contentModal, setContentModal] = useState();
 
-  const handleAgree = () => {
-    dispatch(postData(contentModal));
-    form.setFieldValue(name, contentModal);
-    setOpen(false);
-  };
+  const { data } = useQuery([name, contentModal], () => getData(contentModal));
+
+  useEffect(() => {}, [open]);
 
   const handleOpenModalAdd = () => {
-    if (setOpen) {
-      setOpen(true);
-    }
+    dispatch(postData(contentModal));
+    form.setFieldValue(name, contentModal);
+    setOpen(!open);
+    setContentModal();
   };
 
   const handleChange = (value, option) => {
@@ -93,7 +94,7 @@ export const FormItemSelectMultipleAdd = ({
             );
           }}
         >
-          {options.map((option) => {
+          {data?.data.map((option) => {
             return (
               <Option
                 key={option.key}
@@ -106,33 +107,6 @@ export const FormItemSelectMultipleAdd = ({
           })}
         </Select>
       </Form.Item>
-      <Modal centered open={open} closable={false} footer={null}>
-        <Row style={{ textAlign: 'center', margin: '20px' }}>
-          <Col span={24}>
-            <InfoCircleOutlined
-              style={{ fontSize: '80px', color: '#facea8' }}
-            />
-          </Col>
-          <Col span={24}>
-            <h2
-              style={{
-                fontSize: '28px',
-                marginTop: '20px',
-              }}
-            >
-              {`Do you want to create  ${contentModal} as new ${name}?`}
-            </h2>
-          </Col>
-          <Col span={24}>
-            <CustomButton agree content={'Yes'} onClick={handleAgree} />
-            <CustomButton
-              reject
-              onClick={() => setOpen(false)}
-              content={'No'}
-            />
-          </Col>
-        </Row>
-      </Modal>
     </>
   );
 };

@@ -3,7 +3,6 @@ import { TableAcademic } from '../Table/TableAcademic';
 import { TableCertificate } from '../Table/TableCertificate';
 
 export const CardEducationAndCertificate = ({ candidate_id }) => {
-  console.log('candidate_id', candidate_id);
   return (
     <Card
       title="EDUCATION AND CERTIFICATE"
@@ -13,7 +12,7 @@ export const CardEducationAndCertificate = ({ candidate_id }) => {
       }}
     >
       <TableAcademic candidate_id={candidate_id} />
-      <TableCertificate />
+      <TableCertificate candidate_id={candidate_id} />
     </Card>
   );
 };

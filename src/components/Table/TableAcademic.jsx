@@ -3,13 +3,28 @@ import { BsPencil } from 'react-icons/bs';
 import { Table, Row, Col, Button, Modal, Spin } from 'antd';
 import { useState } from 'react';
 import { FormEducation } from '../Form/FormEducation';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { formatDate } from '../../utils/const';
+import { fetchDegree } from '../../store/degreeSlice';
+import { fetchSchool } from '../../store/schoolSlice';
+import { fetchMajor } from '../../store/majorSlice';
 
 export const TableAcademic = ({ candidate_id }) => {
+  const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
   const [initialValues, setInitialValues] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const degree = useSelector((state) => state.degree.data);
+  const school = useSelector((state) => state.school.data);
+  const major = useSelector((state) => state.school.data);
+  const itemSchool = useSelector((state) => state.school.item);
+  const itemMajor = useSelector((state) => state.major.item);
+
+  useEffect(() => {
+    dispatch(fetchDegree());
+    dispatch(fetchSchool());
+    dispatch(fetchMajor());
+  }, []);
 
   const history = useSelector((state) => state.detailCandidate.history).filter(
     (item) => item.type === 1,
@@ -36,7 +51,6 @@ export const TableAcademic = ({ candidate_id }) => {
         return <div>{formatDate(text)?.year}</div>;
       },
     },
-
     {
       title: 'Graduation Year',
       dataIndex: 'end_time',
@@ -82,10 +96,15 @@ export const TableAcademic = ({ candidate_id }) => {
     },
   ];
 
+  const newData = history?.map((item, index) => ({
+    ...item,
+    key: index,
+  }));
+
   return (
     <>
-      {history && (
-        <Row>
+      {newData && (
+        <Row style={{ marginBottom: '10px' }}>
           <Col
             style={{
               display: 'flex',
@@ -110,16 +129,18 @@ export const TableAcademic = ({ candidate_id }) => {
             {isLoadingAcademic ? (
               <Spin tip="Loading...">
                 <Table
+                  scroll={{ x: '80vw' }}
                   columns={columns}
                   pagination={{
                     pageSize: 5,
                     current: currentPage,
                   }}
-                  dataSource={history}
+                  dataSource={newData}
                 />
               </Spin>
             ) : (
               <Table
+                scroll={{ x: '80vw' }}
                 columns={columns}
                 pagination={{
                   pageSize: 5,
@@ -128,7 +149,7 @@ export const TableAcademic = ({ candidate_id }) => {
                     setCurrentPage(page);
                   },
                 }}
-                dataSource={history}
+                dataSource={newData}
               />
             )}
           </Col>
@@ -139,22 +160,17 @@ export const TableAcademic = ({ candidate_id }) => {
             footer={null}
             className="modal-add-education"
           >
-            <Row
-              style={{
-                textAlign: 'left',
-                fontSize: '18px',
-                fontWeight: '600',
-                marginBottom: '20px',
-              }}
-            >
-              Add Education
-            </Row>
             <FormEducation
               setModalOpen={setModalOpen}
               candidate_id={candidate_id}
               initialValues={initialValues}
               modalOpen={modalOpen}
               setInitialValues={setInitialValues}
+              degree={degree}
+              school={school}
+              major={major}
+              itemSchool={itemSchool}
+              itemMajor={itemMajor}
             />
           </Modal>
         </Row>
