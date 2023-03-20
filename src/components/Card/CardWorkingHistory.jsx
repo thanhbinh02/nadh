@@ -1,7 +1,7 @@
 import { Card } from 'antd';
 import { TableWorkingHistory } from '../Table/TableWorkingHistory';
 
-export const CardWorkingHistory = () => {
+export const CardWorkingHistory = ({ candidate_id, form }) => {
   return (
     <Card
       title="WORKING HISTORY"
@@ -10,7 +10,7 @@ export const CardWorkingHistory = () => {
         width: '100%',
       }}
     >
-      <TableWorkingHistory />
+      <TableWorkingHistory candidate_id={candidate_id} form={form} />
     </Card>
   );
 };

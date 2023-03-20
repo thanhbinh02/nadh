@@ -26,8 +26,18 @@ export const putNewBusinessLineCandidate = createAsyncThunk(
   async ({ id, params }) => await putDetailCandidate(id, params),
 );
 
-export const postDetailCandidateHistory = createAsyncThunk(
-  'detailCandidates/postDetailCandidateHistory',
+export const postDetailCandidateHistoryAcademic = createAsyncThunk(
+  'detailCandidates/postDetailCandidateHistoryAcademic',
+  postCandidateHistories,
+);
+
+export const postDetailCandidateHistoryCertificate = createAsyncThunk(
+  'detailCandidates/postDetailCandidateHistoryCertificate',
+  postCandidateHistories,
+);
+
+export const postDetailCandidateHistoryWorkingHistory = createAsyncThunk(
+  'detailCandidates/postDetailCandidateHistoryWorkingHistory',
   postCandidateHistories,
 );
 
@@ -43,6 +53,8 @@ export const detailCandidateSlice = createSlice({
     loading: false,
     isPutSuccess: false,
     isLoadingAcademic: false,
+    isLoadingCertificate: false,
+    isLoadingWorkingHistory: false,
     data: [],
     user: {
       overview_text_new: undefined,
@@ -164,18 +176,54 @@ export const detailCandidateSlice = createSlice({
       state.user.business_line = payload.business_line;
     },
 
-    [postDetailCandidateHistory.pending]: (state) => {
+    [postDetailCandidateHistoryAcademic.pending]: (state) => {
       state.isLoadingAcademic = true;
     },
-    [postDetailCandidateHistory.fulfilled]: (state) => {
+    [postDetailCandidateHistoryAcademic.fulfilled]: (state) => {
       state.isLoadingAcademic = false;
       toast.success('Create success!', {
         autoClose: 1000,
         position: 'top-right',
       });
     },
-    [postDetailCandidateHistory.rejected]: (state) => {
+    [postDetailCandidateHistoryAcademic.rejected]: (state) => {
       state.isLoadingAcademic = false;
+      toast.error('Create error!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+    },
+
+    [postDetailCandidateHistoryCertificate.pending]: (state) => {
+      state.isLoadingCertificate = true;
+    },
+    [postDetailCandidateHistoryCertificate.fulfilled]: (state) => {
+      state.isLoadingCertificate = false;
+      toast.success('Create success!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+    },
+    [postDetailCandidateHistoryCertificate.rejected]: (state) => {
+      state.isLoadingCertificate = false;
+      toast.error('Create error!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+    },
+
+    [postDetailCandidateHistoryWorkingHistory.pending]: (state) => {
+      state.isLoadingWorkingHistory = true;
+    },
+    [postDetailCandidateHistoryWorkingHistory.fulfilled]: (state) => {
+      state.isLoadingWorkingHistory = false;
+      toast.success('Create success!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+    },
+    [postDetailCandidateHistoryWorkingHistory.rejected]: (state) => {
+      state.isLoadingWorkingHistory = false;
       toast.error('Create error!', {
         autoClose: 1000,
         position: 'top-right',

@@ -27,8 +27,8 @@ export const TableCertificate = ({ candidate_id }) => {
     (item) => item.type === 3,
   );
 
-  const isLoadingAcademic = useSelector(
-    (state) => state.detailCandidate.isLoadingAcademic,
+  const isLoadingCertificate = useSelector(
+    (state) => state.detailCandidate.isLoadingCertificate,
   );
 
   const columns = [
@@ -118,7 +118,7 @@ export const TableCertificate = ({ candidate_id }) => {
             </Button>
           </Col>
           <Col span={24}>
-            {isLoadingAcademic ? (
+            {isLoadingCertificate ? (
               <Spin tip="Loading...">
                 <Table
                   scroll={{ x: '80vw' }}

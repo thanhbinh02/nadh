@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import FormSkillAndIndustry from './Components/FormSkillAndIndustry';
 import { fetchDetailCandidateSliceNotLoading } from '../../store/detailCandidateSlice';
 import { formatDate } from '../../utils/const';
+import { CardWorkingHistory } from '../../components/Card/CardWorkingHistory';
 
 import {
   putUserCandidateType,
@@ -195,8 +196,6 @@ export const CandidateDetail = () => {
       );
     }
 
-    console.log('detailCandidate', detailCandidate);
-
     form.setFieldValue('industry_years', detailCandidate.industry_years);
     form.setFieldValue('management_years', detailCandidate.management_years);
     form.setFieldValue(
@@ -259,80 +258,84 @@ export const CandidateDetail = () => {
             }}
           >
             <Col span={16}>
-              <Form
-                form={form}
-                layout="vertical"
-                onFinishFailed={onFinishFailed}
-                onFinish={handleDispatchSave}
-                autoComplete="off"
-                onValuesChange={handleOnValueChange}
-                initialValues={{
-                  overview_text_new: detailCandidate?.overview_text_new,
-                  first_name: detailCandidate?.first_name,
-                  last_name: detailCandidate?.last_name,
-                  middle_name: detailCandidate?.middle_name,
-                  priority_status: detailCandidate?.priority_status,
-                  dob: detailCandidate?.dob,
-                  date_birthday: detailCandidate?.dob
-                    ? formatDate(detailCandidate?.dob).date
-                    : null,
-                  month_birthday: detailCandidate?.dob
-                    ? formatDate(detailCandidate?.dob).month
-                    : null,
-                  year_birthday: detailCandidate?.dob
-                    ? formatDate(detailCandidate?.dob).year
-                    : null,
-                  gender: detailCandidate?.gender,
-                  martial_status: detailCandidate?.extra?.martial_status,
-                  relocating_willingness:
-                    detailCandidate?.relocating_willingness,
-                  source: detailCandidate?.source,
-                  nationality: detailCandidate?.nationality,
-                  highest_education: detailCandidate?.highest_education,
-                  industry_years: detailCandidate?.industry_years || 0,
-                  management_years: detailCandidate?.management_years || 0,
-                  direct_reports: detailCandidate?.direct_reports || 0,
-                }}
-              >
-                <CardOverview putCandidateType={putUserCandidateType} />
-                <CardFormPersonalInformationDetail
-                  defaultValue={detailCandidate}
+              <Form.Provider value={true}>
+                <Form
                   form={form}
-                  putCandidateType={putUserCandidateType}
-                  putCandidatePositions={putUserCandidatePositions}
-                  putCandidateEmail={putUserCandidateEmail}
-                  setCancel={setCancel}
+                  layout="vertical"
+                  onFinishFailed={onFinishFailed}
+                  onFinish={handleDispatchSave}
+                  autoComplete="off"
+                  onValuesChange={handleOnValueChange}
+                  initialValues={{
+                    overview_text_new: detailCandidate?.overview_text_new,
+                    first_name: detailCandidate?.first_name,
+                    last_name: detailCandidate?.last_name,
+                    middle_name: detailCandidate?.middle_name,
+                    priority_status: detailCandidate?.priority_status,
+                    dob: detailCandidate?.dob,
+                    date_birthday: detailCandidate?.dob
+                      ? formatDate(detailCandidate?.dob).date
+                      : null,
+                    month_birthday: detailCandidate?.dob
+                      ? formatDate(detailCandidate?.dob).month
+                      : null,
+                    year_birthday: detailCandidate?.dob
+                      ? formatDate(detailCandidate?.dob).year
+                      : null,
+                    gender: detailCandidate?.gender,
+                    martial_status: detailCandidate?.extra?.martial_status,
+                    relocating_willingness:
+                      detailCandidate?.relocating_willingness,
+                    source: detailCandidate?.source,
+                    nationality: detailCandidate?.nationality,
+                    highest_education: detailCandidate?.highest_education,
+                    industry_years: detailCandidate?.industry_years || 0,
+                    management_years: detailCandidate?.management_years || 0,
+                    direct_reports: detailCandidate?.direct_reports || 0,
+                  }}
+                >
+                  <CardOverview putCandidateType={putUserCandidateType} />
+                  <CardFormPersonalInformationDetail
+                    defaultValue={detailCandidate}
+                    form={form}
+                    putCandidateType={putUserCandidateType}
+                    putCandidatePositions={putUserCandidatePositions}
+                    putCandidateEmail={putUserCandidateEmail}
+                    setCancel={setCancel}
+                  />
+
+                  {open && (
+                    <Form.Item>
+                      <div className="sticky-row">
+                        <Button
+                          style={{ marginRight: '12px' }}
+                          onClick={handleCancel}
+                        >
+                          Cancel
+                        </Button>
+                        <Button type="primary" htmlType="submit">
+                          Save
+                        </Button>
+                      </div>
+                    </Form.Item>
+                  )}
+                </Form>
+                <Card
+                  title="Skills And Industry"
+                  style={{
+                    width: '100%',
+                    marginTop: '24px',
+                    marginBottom: '50px',
+                  }}
+                >
+                  <FormSkillAndIndustry detailCandidate={detailCandidate} />
+                </Card>
+                <CardEducationAndCertificate
+                  candidate_id={detailCandidate.id}
                 />
-
-                {open && (
-                  <Form.Item>
-                    <div className="sticky-row">
-                      <Button
-                        style={{ marginRight: '12px' }}
-                        onClick={handleCancel}
-                      >
-                        Cancel
-                      </Button>
-                      <Button type="primary" htmlType="submit">
-                        Save
-                      </Button>
-                    </div>
-                  </Form.Item>
-                )}
-              </Form>
-              <Card
-                title="Skills And Industry"
-                style={{
-                  width: '100%',
-                  marginTop: '24px',
-                  marginBottom: '50px',
-                }}
-              >
-                <FormSkillAndIndustry detailCandidate={detailCandidate} />
-              </Card>
-              <CardEducationAndCertificate candidate_id={detailCandidate.id} />
+                <CardWorkingHistory candidate_id={detailCandidate.id} />
+              </Form.Provider>
             </Col>
-
             <Col>Thanh Binh</Col>
           </Row>
         </>

@@ -7,7 +7,7 @@ import { Button, Select, Form, Row, Checkbox, Col } from 'antd';
 import { postSchool } from '../../store/schoolSlice';
 import { putDataSchool } from '../../store/schoolSlice';
 import { putDataMajor } from '../../store/majorSlice';
-import { postDetailCandidateHistory } from '../../store/detailCandidateSlice';
+import { postDetailCandidateHistoryCertificate } from '../../store/detailCandidateSlice';
 import { fetchDetailCandidateSliceNotLoading } from '../../store/detailCandidateSlice';
 import { putDetailCandidateHistory } from '../../store/detailCandidateSlice';
 import { deleteHistory } from '../../store/detailCandidateSlice';
@@ -108,8 +108,6 @@ export const FormCertificate = ({
   };
 
   const onFinish = async (values) => {
-    console.log('resultFinal(values)', resultFinal(values));
-
     if (initialValues.length !== 0) {
       await dispatch(
         putDetailCandidateHistory({
@@ -118,7 +116,9 @@ export const FormCertificate = ({
         }),
       );
     } else {
-      await dispatch(postDetailCandidateHistory(resultFinal(values)));
+      await dispatch(
+        postDetailCandidateHistoryCertificate(resultFinal(values)),
+      );
     }
     await dispatch(fetchDetailCandidateSliceNotLoading(candidate_id));
     await setModalOpen(false);
@@ -171,7 +171,11 @@ export const FormCertificate = ({
             marginBottom: '20px',
           }}
         >
-          Add Education
+          {initialValues.length === 0 ? (
+            <>Add Certificate</>
+          ) : (
+            <>Edit Certificate</>
+          )}
         </Col>
         {initialValues.length !== 0 && (
           <Col span={12} style={{ textAlign: 'right' }}>
@@ -343,7 +347,7 @@ export const FormCertificate = ({
               htmlType="submit"
               style={{ marginLeft: '10px' }}
             >
-              Save
+              {initialValues.length === 0 ? <>Add</> : <>Save</>}
             </Button>
           </Form.Item>
         </Col>

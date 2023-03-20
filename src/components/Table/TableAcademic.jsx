@@ -122,7 +122,11 @@ export const TableAcademic = ({ candidate_id }) => {
                 setInitialValues([]);
               }}
             >
-              Add Education
+              {initialValues.length === 0 ? (
+                <>Add Education</>
+              ) : (
+                <>Edit Education</>
+              )}
             </Button>
           </Col>
           <Col span={24}>

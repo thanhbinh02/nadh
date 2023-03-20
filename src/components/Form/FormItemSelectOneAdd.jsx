@@ -18,6 +18,8 @@ export const FormItemSelectOneAdd = ({
   form,
   putData,
   getData,
+  required,
+  message,
 }) => {
   const dispatch = useDispatch();
   const [showAddItem, setShowAddItem] = useState(false);
@@ -59,7 +61,21 @@ export const FormItemSelectOneAdd = ({
 
   return (
     <>
-      <Form.Item name={name} label={label}>
+      <Form.Item
+        name={name}
+        label={label}
+        required={required}
+        rules={
+          required
+            ? [
+                {
+                  required: true,
+                  message: message,
+                },
+              ]
+            : ''
+        }
+      >
         <Select
           showSearch
           allowClear

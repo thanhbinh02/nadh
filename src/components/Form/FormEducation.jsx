@@ -7,7 +7,7 @@ import { putDataSchool } from '../../store/schoolSlice';
 
 import { postMajor } from '../../store/majorSlice';
 import { putDataMajor } from '../../store/majorSlice';
-import { postDetailCandidateHistory } from '../../store/detailCandidateSlice';
+import { postDetailCandidateHistoryAcademic } from '../../store/detailCandidateSlice';
 import { fetchDetailCandidateSliceNotLoading } from '../../store/detailCandidateSlice';
 import { formatDate } from '../../utils/const';
 import { putDetailCandidateHistory } from '../../store/detailCandidateSlice';
@@ -126,7 +126,7 @@ export const FormEducation = ({
         }),
       );
     } else {
-      await dispatch(postDetailCandidateHistory(resultFinal(values)));
+      await dispatch(postDetailCandidateHistoryAcademic(resultFinal(values)));
     }
     await dispatch(fetchDetailCandidateSliceNotLoading(candidate_id));
   };
@@ -178,7 +178,11 @@ export const FormEducation = ({
             marginBottom: '20px',
           }}
         >
-          Add Education
+          {initialValues.length === 0 ? (
+            <>Add Education</>
+          ) : (
+            <>Edit Education</>
+          )}
         </Col>
         {initialValues.length !== 0 && (
           <Col span={12} style={{ textAlign: 'right' }}>
@@ -364,7 +368,7 @@ export const FormEducation = ({
               htmlType="submit"
               style={{ marginLeft: '10px' }}
             >
-              Save
+              {initialValues.length === 0 ? <>Add</> : <>Save</>}
             </Button>
           </Form.Item>
         </Col>

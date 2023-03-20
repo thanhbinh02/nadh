@@ -30,8 +30,17 @@ export const positionSlice = createSlice({
     loading: false,
     data: [],
     keyPosition: undefined,
+    item: {
+      label: undefined,
+      key: undefined,
+    },
   },
-  reducers: {},
+  reducers: {
+    putDataPosition: (state, { payload }) => {
+      state.item.label = payload.label;
+      state.item.key = payload.key;
+    },
+  },
   extraReducers: {
     [fetchPosition.pending]: (state) => {
       state.loading = true;
@@ -65,5 +74,6 @@ export const positionSlice = createSlice({
   },
 });
 
+export const { putDataPosition } = positionSlice.actions;
 const { reducer } = positionSlice;
 export default reducer;
