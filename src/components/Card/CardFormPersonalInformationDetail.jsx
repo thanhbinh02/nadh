@@ -2,13 +2,7 @@ import { Card } from 'antd';
 
 import FormPersonalInformationDetail from '../Form/FormPersonalInformationDetail';
 
-export const CardFormPersonalInformationDetail = ({
-  defaultValue,
-  form,
-  putCandidateType,
-  putCandidatePositions,
-  putCandidateEmail,
-}) => {
+export const CardFormPersonalInformationDetail = ({ form }) => {
   return (
     <Card
       title="Personal Information"
@@ -16,13 +10,7 @@ export const CardFormPersonalInformationDetail = ({
         width: '100%',
       }}
     >
-      <FormPersonalInformationDetail
-        defaultValue={defaultValue}
-        form={form}
-        putCandidateType={putCandidateType}
-        putCandidatePositions={putCandidatePositions}
-        putCandidateEmail={putCandidateEmail}
-      />
+      <FormPersonalInformationDetail form={form} />
     </Card>
   );
 };

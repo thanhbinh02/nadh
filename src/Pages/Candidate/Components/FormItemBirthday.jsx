@@ -12,55 +12,16 @@ export const FormItemBirthday = ({ form, actionDispatch }) => {
     yearsRange.push({ key: i });
   }
 
-  const onChangeDate = (value) => {
+  const onChangeDate = () => {
     form.validateFields(['month_birthday', 'year_birthday']);
-    if (
-      form.getFieldValue('date_birthday') !== undefined &&
-      form.getFieldValue('month_birthday') !== undefined &&
-      form.getFieldValue('year_birthday') !== undefined
-    ) {
-      const result =
-        form.getFieldValue('year_birthday') +
-        '-' +
-        form.getFieldValue('month_birthday') +
-        '-' +
-        form.getFieldValue('date_birthday');
-      dispatch(actionDispatch({ value: result, label: 'dob' }));
-    }
   };
 
-  const onChangeMonth = (value) => {
+  const onChangeMonth = () => {
     form.validateFields(['date_birthday', 'year_birthday']);
-    if (
-      form.getFieldValue('date_birthday') !== undefined &&
-      form.getFieldValue('month_birthday') !== undefined &&
-      form.getFieldValue('year_birthday') !== undefined
-    ) {
-      const result =
-        form.getFieldValue('year_birthday') +
-        '-' +
-        form.getFieldValue('month_birthday') +
-        '-' +
-        form.getFieldValue('date_birthday');
-      dispatch(actionDispatch({ value: result, label: 'dob' }));
-    }
   };
 
-  const onChangeYear = (value) => {
+  const onChangeYear = () => {
     form.validateFields(['date_birthday', 'month_birthday']);
-    if (
-      form.getFieldValue('date_birthday') !== undefined &&
-      form.getFieldValue('month_birthday') !== undefined &&
-      form.getFieldValue('year_birthday') !== undefined
-    ) {
-      const result =
-        form.getFieldValue('year_birthday') +
-        '-' +
-        form.getFieldValue('month_birthday') +
-        '-' +
-        form.getFieldValue('date_birthday');
-      dispatch(actionDispatch({ value: result, label: 'dob' }));
-    }
   };
 
   return (

@@ -1,17 +1,11 @@
-import { Row, Col } from 'antd';
-
-import { getNationalityTest } from '../../apis/filterApi';
-import { postNationality } from '../../store/nationalitySlice';
-import { FormItemSelectNationality } from '../../Pages/Candidate/Components/FormItemSelectNationality';
+import { Row, Col, Form, Select } from 'antd';
 
 import { FormItemOption } from '../../Pages/Candidate/Components/FormItemOption';
 import { FormItemRadio } from '../../Pages/Candidate/Components/FormItemRadio';
 import { FormItemAddress } from '../../Pages/Candidate/Components/FormItemAddress';
 import { FormItemPhone } from '../../Pages/Candidate/Components/FormItemPhone';
 import { FormItemEmail } from '../../Pages/Candidate/Components/FormItemEmail';
-import { FormItemHighestEducation } from '../../Pages/Candidate/Components/FormItemHighestEducation';
 import { FormItemBirthday } from '../../Pages/Candidate/Components/FormItemBirthday';
-import { FormItemSelectNationalityDetail } from '../../Pages/Candidate/Components/FormItemSelectNationalityDetail';
 import { FormItemInput } from '../../Pages/Candidate/Components/FormItemInput';
 
 import {
@@ -22,19 +16,11 @@ import {
 } from '../../utils/const';
 
 export const FormPersonalInformation = ({
-  defaultValue,
   form,
   phoneNumber,
   countries,
-  cities,
-  districts,
-  createCandidate,
-  keyNationality,
   degree,
-  putCandidateType,
-  putCandidateEmail,
-  setCancel,
-  cancel,
+  listCountry,
 }) => {
   return (
     <>
@@ -75,26 +61,20 @@ export const FormPersonalInformation = ({
             label="Primary status"
             options={priority_status}
             placeholder="Primary status"
-            actionDispatch={putCandidateType}
+            form={form}
           />
         </Col>
       </Row>
-      <FormItemBirthday form={form} actionDispatch={putCandidateType} />
+      <FormItemBirthday form={form} />
       <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
         <Col span={12}>
-          <FormItemRadio
-            label="Gender"
-            name="gender"
-            options={GENDERS}
-            actionDispatch={putCandidateType}
-          />
+          <FormItemRadio label="Gender" name="gender" options={GENDERS} />
         </Col>
         <Col span={12}>
           <FormItemRadio
             label="Marital Status"
             name="martial_status"
             options={MARITAL_STATUS}
-            actionDispatch={putCandidateType}
           />
         </Col>
       </Row>
@@ -104,7 +84,7 @@ export const FormPersonalInformation = ({
             name="relocating_willingness"
             label="Ready to move"
             options={READY_TO_MOVE}
-            actionDispatch={putCandidateType}
+            form={form}
           />
         </Col>
         <Col span={12}>
@@ -112,29 +92,18 @@ export const FormPersonalInformation = ({
             label="Source"
             name="source"
             placeholder="Please input source"
-            actionDispatch={putCandidateType}
             type="text"
           />
         </Col>
       </Row>
       <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
         <Col span={24}>
-          <FormItemEmail
-            form={form}
-            defaultValue={defaultValue?.emails}
-            putCandidateEmail={putCandidateEmail}
-          />
+          <FormItemEmail form={form} />
         </Col>
       </Row>
       <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
         <Col span={24}>
-          <FormItemPhone
-            form={form}
-            phoneNumber={phoneNumber}
-            defaultValue={defaultValue?.phones}
-            putCandidateType={putCandidateType}
-            cancel={cancel}
-          />
+          <FormItemPhone form={form} phoneNumber={phoneNumber} />
         </Col>
       </Row>
       <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
@@ -142,53 +111,19 @@ export const FormPersonalInformation = ({
           <FormItemAddress
             form={form}
             countries={countries}
-            cities={cities}
-            districts={districts}
-            actionDispatch={putCandidateType}
-            dataNewCandidate={createCandidate.addresses}
-            defaultValue={defaultValue?.addresses}
-            setCancel={setCancel}
-            cancel={cancel}
+            listCountry={listCountry}
           />
         </Col>
       </Row>
+
       <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
         <Col span={24}>
-          {!defaultValue ? (
-            <FormItemSelectNationality
-              name="nationality"
-              label="Nationality"
-              actionDispatch={putCandidateType}
-              defaultValue={defaultValue?.nationality}
-              getData={getNationalityTest}
-              postData={postNationality}
-              form={form}
-              keyNewItem={keyNationality}
-              placeholder="Select or add your nationality"
-            />
-          ) : (
-            <FormItemSelectNationalityDetail
-              name="nationality"
-              label="Nationality"
-              actionDispatch={putCandidateType}
-              defaultValue={defaultValue?.nationality}
-              getData={getNationalityTest}
-              postData={postNationality}
-              form={form}
-              keyNewItem={keyNationality}
-              placeholder="Select or add your nationality"
-            />
-          )}
-        </Col>
-      </Row>
-      <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
-        <Col span={24}>
-          <FormItemHighestEducation
+          <FormItemOption
             name="highest_education"
             label="Highest Education"
             options={degree}
             placeholder="Select your highest education"
-            actionDispatch={putCandidateType}
+            form={form}
           />
         </Col>
       </Row>

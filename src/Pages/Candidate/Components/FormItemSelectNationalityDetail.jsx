@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Select, Space, Button, Modal, Row, Col } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { InfoCircleOutlined } from '@ant-design/icons';
@@ -20,9 +20,7 @@ export const FormItemSelectNationalityDetail = ({
   check,
   getData,
   keyNewItem,
-  setCancel,
 }) => {
-  // const keyNewItem = useSelector((state) => state.nationality.keyNationality);
   const dispatch = useDispatch();
   const [showAddItem, setShowAddItem] = useState(false);
   const [fetchData, setFetchData] = useState(true);
@@ -78,10 +76,6 @@ export const FormItemSelectNationalityDetail = ({
   };
 
   const handleChange = (value) => {
-    if (setCancel) {
-      setCancel(false);
-    }
-
     if (removeItem) {
       const label = newValue?.map((item) => item.label);
       const valueAdd = value.filter((item) => !label.includes(item));
@@ -114,10 +108,6 @@ export const FormItemSelectNationalityDetail = ({
   };
 
   const handleClear = () => {
-    if (setCancel) {
-      setCancel(false);
-    }
-
     setTestResult([]);
     setNewValue([]);
     setClearItem(true);
@@ -125,10 +115,6 @@ export const FormItemSelectNationalityDetail = ({
   };
 
   const handleRemoveItem = (value) => {
-    if (setCancel) {
-      setCancel(false);
-    }
-
     setRemoveItem(false);
 
     const result = newValue

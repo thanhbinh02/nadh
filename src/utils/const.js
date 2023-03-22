@@ -437,3 +437,127 @@ export const STATUS_CLIENT = [
     color: 'red',
   },
 ];
+
+export const BENEFITS = [
+  {
+    key: 1,
+    label: 'Over x month',
+    name_radio: 'over_thirteen',
+    name_text: 'over_thirteen_text',
+    value: -1,
+  },
+  {
+    key: 2,
+    label: 'Lunch check',
+    name_radio: 'lunch_check',
+    name_text: 'lunch_check_text',
+    value: -1,
+  },
+  {
+    key: 3,
+    label: 'Parking check',
+    name_radio: 'car_parking',
+    name_text: 'car_parking_text',
+    value: -1,
+  },
+  {
+    key: 4,
+    label: 'Car allowance',
+    name_radio: 'car_allowance',
+    name_text: 'car_allowance_text',
+    value: -1,
+  },
+  {
+    key: 5,
+    label: 'Phone allowance',
+    name_radio: 'phone',
+    name_text: 'phone_text',
+    value: -1,
+  },
+  {
+    key: 6,
+    label: 'Laptop',
+    name_radio: 'laptop',
+    name_text: 'laptop_text',
+    value: -1,
+  },
+  {
+    key: 7,
+    label: 'Share options',
+    name_radio: 'share_option',
+    name_text: 'share_option_text',
+    value: -1,
+  },
+  {
+    key: 8,
+    label: 'Health cover',
+    name_radio: 'health_cover',
+    name_text: 'health_cover_text',
+    value: -1,
+  },
+];
+
+export const changeMoney = (value, keyFrom, keyTo) => {
+  let final;
+  if (keyFrom === 1) {
+    if (keyTo === 2) {
+      final = (value * 23300).toFixed(1);
+    }
+    if (keyTo === 3) {
+      final = (value * 110).toFixed(1);
+    }
+    if (keyTo === 4) {
+      final = (value * 0.9091).toFixed(1);
+    }
+  }
+
+  if (keyFrom === 2) {
+    if (keyTo === 1) {
+      final = (value / 23300).toFixed(1);
+    }
+    if (keyTo === 3) {
+      final = (value * 0.00472).toFixed(1);
+    }
+    if (keyTo === 4) {
+      final = (value * 0.00004).toFixed(1);
+    }
+  }
+
+  if (keyFrom === 3) {
+    if (keyTo === 1) {
+      final = (value * 0.0091).toFixed(1);
+    }
+    if (keyTo === 2) {
+      final = (value * 211.8182).toFixed(1);
+    }
+    if (keyTo === 4) {
+      final = (value * 0.0083).toFixed(2);
+    }
+  }
+
+  if (keyFrom === 4) {
+    if (keyTo === 1) {
+      final = (value * 1.1).toFixed(1);
+    }
+    if (keyTo === 2) {
+      final = (value * 25630).toFixed(1);
+    }
+    if (keyTo === 3) {
+      final = (value * 121).toFixed(1);
+    }
+  }
+
+  if (final === 'NaN') {
+    return 0;
+  } else {
+    return Number(final);
+  }
+};
+
+export const getKeyWithLabel = (object) => {
+  const result = {
+    key: parseInt(object?.key),
+    label: object?.label,
+  };
+  return result;
+};

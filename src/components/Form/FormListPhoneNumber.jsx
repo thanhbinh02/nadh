@@ -1,8 +1,6 @@
 import React from 'react';
 import { MinusCircleOutlined } from '@ant-design/icons';
 import { Form, Select, Row, Col, Input } from 'antd';
-import { useDispatch } from 'react-redux';
-import { useState } from 'react';
 
 const { Option } = Select;
 
@@ -12,53 +10,19 @@ const FormListPhoneNumber = ({
   fields,
   isListField,
   phoneNumber,
-  form,
   disabled,
-  putCandidateType,
 }) => {
-  const dispatch = useDispatch();
-
-  const handleChange = (e) => {
-    const formValue = form.getFieldValue('phones');
-    const filterFormValue = formValue.filter((item) => item !== undefined);
-
-    const result = filterFormValue.map((item) => {
-      return {
-        current: -1,
-        number: item.number,
-        phone_code: { key: item.phone_code ? item.phone_code : 1280 },
-      };
-    });
-
-    dispatch(putCandidateType({ value: result, label: 'phones' }));
-  };
-
-  const handleChangePrefixSelector = () => {
-    const formValue = form.getFieldValue('phones');
-    const filterFormValue = formValue.filter((item) => item !== undefined);
-
-    const result = filterFormValue.map((item) => {
-      return {
-        current: -1,
-        number: item.number,
-        phone_code: { key: item.phone_code ? item.phone_code : 1280 },
-      };
-    });
-
-    dispatch(putCandidateType({ value: result, label: 'phones' }));
-  };
-
   const prefixSelector = (
     <Form.Item name={[name, 'phone_code']} noStyle>
       <Select
         style={{ width: '120px', borderRadius: '0px' }}
         showSearch
         defaultValue={1280}
-        onChange={handleChangePrefixSelector}
         optionFilterProp="customFilterProp"
       >
         {phoneNumber.map((option) => {
           const customFilterProp = `${option.label} ${option.extra.dial_code}`;
+
           return (
             <Option
               key={option.key}
@@ -90,18 +54,6 @@ const FormListPhoneNumber = ({
 
   const handleRemove = () => {
     remove(name);
-    const formValue = form.getFieldValue('phones');
-    const filterFormValue = formValue.filter((item) => item !== undefined);
-
-    const result = filterFormValue.map((item) => {
-      return {
-        current: -1,
-        number: item.number,
-        phone_code: { key: item.phone_code ? item.phone_code : 1280 },
-      };
-    });
-
-    dispatch(putCandidateType({ value: result, label: 'phones' }));
   };
 
   return (
@@ -129,7 +81,6 @@ const FormListPhoneNumber = ({
                 style={{
                   width: '100%',
                 }}
-                onChange={handleChange}
                 disabled={disabled}
                 placeholder="ex: 981234567"
               />
@@ -155,3 +106,15 @@ const FormListPhoneNumber = ({
 };
 
 export default FormListPhoneNumber;
+
+const abc = [
+  'nguyenchicong2@gmail.com',
+  'nguyenchicong1@gmail.com',
+  'nguyenchicong0@gmail.com',
+];
+
+const result = [
+  { email: 'nguyenchicong2@gmail.com' },
+  { email: 'nguyenchicong1@gmail.com' },
+  { email: 'nguyenchicong0@gmail.com' },
+];

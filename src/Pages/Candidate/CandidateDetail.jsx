@@ -1,45 +1,99 @@
 import React from 'react';
 import { useParams } from 'react-router';
 import { Breadcrumb, Row, Col, Button, Spin, Form, Card } from 'antd';
-
-import { Link } from 'react-router-dom';
-import { fetchDetailCandidateSlice } from '../../store/detailCandidateSlice';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { CardOverview } from '../../components/Card/CardOverview';
-import { CardFormPersonalInformationDetail } from '../../components/Card/CardFormPersonalInformationDetail';
-import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+import { CardOverview } from '../../components/Card/CardOverview';
 import FormSkillAndIndustry from './Components/FormSkillAndIndustry';
-import { fetchDetailCandidateSliceNotLoading } from '../../store/detailCandidateSlice';
-import { formatDate } from '../../utils/const';
 import { CardWorkingHistory } from '../../components/Card/CardWorkingHistory';
+import { CardEducationAndCertificate } from '../../components/Card/CardEducationAndCertificate';
+import { CardRemunerationAndRewards } from '../../components/Card/CardRemunerationAndRewards';
+import { FormPersonalInformation } from '../../components/Form/FormPersonalInformation';
 
 import {
-  putUserCandidateType,
-  putUserCandidatePositions,
-  putUserCandidateEmail,
-  putNewDetailCandidate,
-  changeIsPutSuccess,
-} from '../../store/detailCandidateSlice';
+  candidate_flow_status,
+  priority_status,
+  formatDate,
+} from '../../utils/const';
 
-import { candidate_flow_status } from '../../utils/const';
-import { priority_status } from '../../utils/const';
-import { CardEducationAndCertificate } from '../../components/Card/CardEducationAndCertificate';
+import { fetchDetailCandidateSlice } from '../../store/detailCandidateSlice';
+import { fetchDegree } from '../../store/degreeSlice';
+import { fetchPhoneNumber } from '../../store/phoneNumberSlice';
+import { fetchPosition } from '../../store/positionSlice';
+import { fetchCountries } from '../../store/locationsSlice';
 
 export const CandidateDetail = () => {
   const { candidate_id } = useParams();
   window.localStorage.removeItem('filterCDD');
+  const detailCandidate = useSelector((state) => state.detailCandidate.data);
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
-  const [cancel, setCancel] = useState(false);
+  const listCountry = useSelector((state) => state.locations.countries);
+  const degree = useSelector((state) => state.degree.data);
+  const phoneNumber = useSelector((state) => state.phoneNumber.data);
+  const countries = useSelector((state) => state.locations.countries);
 
-  const detailCandidate = useSelector((state) => state.detailCandidate.data);
-  const user = useSelector((state) => state.detailCandidate.user);
-  const isPutSuccess = useSelector(
-    (state) => state.detailCandidate.isPutSuccess,
-  );
+  const yearsRange = [];
+  for (var i = 1960; i <= 2023; i++) {
+    yearsRange.push({ key: i });
+  }
+
+  useEffect(() => {
+    dispatch(fetchDetailCandidateSlice(candidate_id));
+    dispatch(fetchPosition());
+    dispatch(fetchDegree());
+    dispatch(fetchPhoneNumber());
+    dispatch(fetchCountries({ type: 4 }));
+  }, []);
+
+  const changeValueInitialPhoneValue = (array) => {
+    const result = array?.map((item) => {
+      return {
+        current: item.current,
+        number: item.number,
+        phone_code: item.phone_code.key,
+      };
+    });
+    return result;
+  };
+
+  const initialValues = {
+    emails: detailCandidate?.emails
+      ? detailCandidate?.emails?.map((email) => ({ email }))
+      : [],
+    overview_text_new: detailCandidate?.overview_text_new,
+    first_name: detailCandidate?.first_name,
+    last_name: detailCandidate?.last_name,
+    middle_name: detailCandidate?.middle_name,
+    priority_status: detailCandidate?.priority_status,
+    dob: detailCandidate?.dob,
+    date_birthday: detailCandidate?.dob
+      ? formatDate(detailCandidate?.dob).date
+      : null,
+    month_birthday: detailCandidate?.dob
+      ? formatDate(detailCandidate?.dob).month
+      : null,
+    year_birthday: detailCandidate?.dob
+      ? formatDate(detailCandidate?.dob).year
+      : null,
+    gender: detailCandidate?.gender,
+    martial_status: detailCandidate?.extra?.martial_status,
+    relocating_willingness: detailCandidate?.relocating_willingness,
+    source: detailCandidate?.source,
+    nationality: detailCandidate?.nationality,
+    highest_education: detailCandidate?.highest_education?.key,
+    industry_years: detailCandidate?.industry_years || 0,
+    management_years: detailCandidate?.management_years || 0,
+    direct_reports: detailCandidate?.direct_reports || 0,
+    phones: changeValueInitialPhoneValue(detailCandidate?.phones),
+    addresses: detailCandidate?.addresses?.length
+      ? detailCandidate?.addresses
+      : [null],
+  };
 
   const flowStatus = candidate_flow_status.find(
     (item) => item.id === detailCandidate?.flow_status,
@@ -49,25 +103,6 @@ export const CandidateDetail = () => {
     (item) => item.id === detailCandidate?.priority_status,
   );
 
-  useEffect(() => {
-    if (isPutSuccess === true) {
-      setOpen(false);
-      dispatch(changeIsPutSuccess());
-      setTimeout(() => {
-        dispatch(fetchDetailCandidateSliceNotLoading(candidate_id));
-      }, 1000);
-    }
-  }, [isPutSuccess]);
-
-  const yearsRange = [];
-  for (var i = 1960; i <= 2023; i++) {
-    yearsRange.push({ key: i });
-  }
-
-  useEffect(() => {
-    dispatch(fetchDetailCandidateSlice(candidate_id));
-  }, []);
-
   const onFinishFailed = () => {
     toast.error('Please check your form!', {
       autoClose: 1000,
@@ -75,136 +110,15 @@ export const CandidateDetail = () => {
     });
   };
 
-  const handleDispatchSave = () => {
-    const result = {};
-    for (let prop in user) {
-      if (user[prop] !== detailCandidate[prop]) {
-        result[prop] = user[prop];
-      }
-    }
-
-    const addresses = result.addresses
-      ?.filter((item) => {
-        return item.country !== undefined;
-      })
-      ?.map((item) => {
-        if (
-          (item.address === undefined ||
-            item.address === '' ||
-            item.address === null) &&
-          item.city === undefined &&
-          item.district === undefined
-        ) {
-          return { country: item.country };
-        } else if (
-          (item.address === undefined ||
-            item.address === '' ||
-            item.address === null) &&
-          item.city !== undefined &&
-          item.district === undefined
-        ) {
-          return { country: item.country, city: item.city };
-        } else if (
-          (item.address === undefined ||
-            item.address === '' ||
-            item.address === null) &&
-          item.city !== undefined &&
-          item.district !== undefined
-        ) {
-          return {
-            country: item.country,
-            city: item.city,
-            district: item.district,
-          };
-        } else {
-          return item;
-        }
-      });
-
-    const newData = {
-      id: detailCandidate.id,
-      params: { ...result, addresses },
-    };
-
-    dispatch(putNewDetailCandidate(newData));
+  const handleDispatchSave = (values) => {
+    console.log('Values', values);
   };
 
   const handleCancel = () => {
     setOpen(false);
-    setCancel(true);
-    dispatch(fetchDetailCandidateSliceNotLoading(candidate_id));
-    form.setFieldValue('overview_text_new', detailCandidate.overview_text_new);
-    form.setFieldValue('first_name', detailCandidate.first_name);
-    form.setFieldValue('middle_name', detailCandidate.middle_name);
-    form.setFieldValue('last_name', detailCandidate.last_name);
-    form.validateFields(['last_name']);
-    form.validateFields(['first_name']);
-    form.validateFields(['middle_name']);
-    form.setFieldValue('source', detailCandidate.source);
-    form.setFieldValue('priority_status', detailCandidate.priority_status);
-    if (detailCandidate.dob !== undefined && detailCandidate.dob !== null) {
-      const dateArr = detailCandidate.dob.split('-');
-      const year = dateArr[0];
-      const month = dateArr[1];
-      const date = dateArr[2];
-      form.setFieldValue('year_birthday', year);
-      form.setFieldValue('month_birthday', month);
-      form.setFieldValue('date_birthday', date);
-    }
-    form.setFieldValue('gender', detailCandidate.gender);
-    form.setFieldValue(
-      'martial_status',
-      detailCandidate?.extra?.martial_status,
-    );
-    form.setFieldValue(
-      'relocating_willingness',
-      detailCandidate?.relocating_willingness,
-    );
-
-    if (detailCandidate.emails) {
-      form.setFieldValue('emails', undefined);
-      for (let i = 0; i < detailCandidate.emails.length; i++) {
-        form.setFieldValue(['emails', i, 'email'], detailCandidate.emails[i]);
-      }
-    }
-
-    if (detailCandidate.phones) {
-      form.setFieldValue('phones', undefined);
-      for (let i = 0; i < detailCandidate.phones.length; i++) {
-        form.setFieldValue(
-          ['phones', i, 'phone_code'],
-          detailCandidate.phones[i].phone_code.key,
-        );
-        form.setFieldValue(
-          ['phones', i, 'number'],
-          detailCandidate.phones[i].number,
-        );
-      }
-    }
-
-    if (detailCandidate.nationality) {
-      form.setFieldValue(
-        'nationality',
-        detailCandidate.nationality?.map((item) => item.label),
-      );
-    }
-
-    if (detailCandidate.highest_education) {
-      form.setFieldValue(
-        'highest_education',
-        Number(detailCandidate?.highest_education?.key),
-      );
-    }
-
-    form.setFieldValue('industry_years', detailCandidate.industry_years);
-    form.setFieldValue('management_years', detailCandidate.management_years);
-    form.setFieldValue(
-      'direct_reports',
-      Number(detailCandidate?.direct_reports),
-    );
   };
 
-  const handleOnValueChange = () => {
+  const handleOnValuesChange = () => {
     setOpen(true);
   };
 
@@ -265,44 +179,24 @@ export const CandidateDetail = () => {
                   onFinishFailed={onFinishFailed}
                   onFinish={handleDispatchSave}
                   autoComplete="off"
-                  onValuesChange={handleOnValueChange}
-                  initialValues={{
-                    overview_text_new: detailCandidate?.overview_text_new,
-                    first_name: detailCandidate?.first_name,
-                    last_name: detailCandidate?.last_name,
-                    middle_name: detailCandidate?.middle_name,
-                    priority_status: detailCandidate?.priority_status,
-                    dob: detailCandidate?.dob,
-                    date_birthday: detailCandidate?.dob
-                      ? formatDate(detailCandidate?.dob).date
-                      : null,
-                    month_birthday: detailCandidate?.dob
-                      ? formatDate(detailCandidate?.dob).month
-                      : null,
-                    year_birthday: detailCandidate?.dob
-                      ? formatDate(detailCandidate?.dob).year
-                      : null,
-                    gender: detailCandidate?.gender,
-                    martial_status: detailCandidate?.extra?.martial_status,
-                    relocating_willingness:
-                      detailCandidate?.relocating_willingness,
-                    source: detailCandidate?.source,
-                    nationality: detailCandidate?.nationality,
-                    highest_education: detailCandidate?.highest_education,
-                    industry_years: detailCandidate?.industry_years || 0,
-                    management_years: detailCandidate?.management_years || 0,
-                    direct_reports: detailCandidate?.direct_reports || 0,
-                  }}
+                  initialValues={initialValues}
+                  onValuesChange={handleOnValuesChange}
                 >
-                  <CardOverview putCandidateType={putUserCandidateType} />
-                  <CardFormPersonalInformationDetail
-                    defaultValue={detailCandidate}
-                    form={form}
-                    putCandidateType={putUserCandidateType}
-                    putCandidatePositions={putUserCandidatePositions}
-                    putCandidateEmail={putUserCandidateEmail}
-                    setCancel={setCancel}
-                  />
+                  <CardOverview />
+                  <Card
+                    title="Personal Information"
+                    style={{
+                      width: '100%',
+                    }}
+                  >
+                    <FormPersonalInformation
+                      form={form}
+                      phoneNumber={phoneNumber}
+                      countries={countries}
+                      degree={degree}
+                      listCountry={listCountry}
+                    />
+                  </Card>
 
                   {open && (
                     <Form.Item>
@@ -320,7 +214,7 @@ export const CandidateDetail = () => {
                     </Form.Item>
                   )}
                 </Form>
-                <Card
+                {/* <Card
                   title="Skills And Industry"
                   style={{
                     width: '100%',
@@ -334,6 +228,9 @@ export const CandidateDetail = () => {
                   candidate_id={detailCandidate.id}
                 />
                 <CardWorkingHistory candidate_id={detailCandidate.id} />
+                <CardRemunerationAndRewards
+                  remuneration={detailCandidate.remuneration}
+                /> */}
               </Form.Provider>
             </Col>
             <Col>Thanh Binh</Col>

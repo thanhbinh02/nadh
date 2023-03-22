@@ -2,27 +2,8 @@ import React from 'react';
 import { Form, Button, Col } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import FormListPhoneNumber from '../../../components/Form/FormListPhoneNumber';
-import { useEffect } from 'react';
 
-export const FormItemPhone = ({
-  form,
-  phoneNumber,
-  defaultValue,
-  putCandidateType,
-  setCancel,
-}) => {
-  useEffect(() => {
-    if (defaultValue) {
-      for (let i = 0; i < defaultValue.length; i++) {
-        form.setFieldValue(
-          ['phones', i, 'phone_code'],
-          defaultValue[i].phone_code.key,
-        );
-        form.setFieldValue(['phones', i, 'number'], defaultValue[i].number);
-      }
-    }
-  }, []);
-
+export const FormItemPhone = ({ form, phoneNumber }) => {
   return (
     <Form.Item label="Mobile Phone" required>
       <Form.List name="phones" initialValue={[{}]}>
@@ -40,8 +21,6 @@ export const FormItemPhone = ({
                     fields={fields}
                     isListField={isListField}
                     phoneNumber={phoneNumber}
-                    putCandidateType={putCandidateType}
-                    setCancel={setCancel}
                   />
                 );
               })}
