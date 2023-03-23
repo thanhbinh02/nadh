@@ -14,6 +14,7 @@ import { putDetailCandidateHistory } from '../../store/detailCandidateSlice';
 import { deleteHistory } from '../../store/detailCandidateSlice';
 import { getSchoolTest } from '../../apis/filterApi';
 import { getMajorTest } from '../../apis/filterApi';
+import { getKeyWithLabel } from '../../utils/const';
 
 const { Option } = Select;
 export const FormEducation = ({
@@ -22,10 +23,6 @@ export const FormEducation = ({
   initialValues,
   setInitialValues,
   degree,
-  school,
-  major,
-  itemSchool,
-  itemMajor,
 }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -47,29 +44,19 @@ export const FormEducation = ({
       );
       setCheckDisable(false);
     }
-    console.log('checkDisable', checkDisable);
-    form.setFieldValue('degree', initialValues?.degree?.key);
+
     form.setFieldValue(
       'start_time',
       Number(formatDate(initialValues?.start_time)?.year) || undefined,
     );
 
+    form.setFieldValue('title', initialValues?.title || undefined);
     form.setFieldValue(
       'organization',
-      initialValues?.organization?.label || undefined,
+      initialValues?.organization || undefined,
     );
 
-    form.setFieldValue('title', initialValues?.title?.label || undefined);
-
-    form.setFieldValue('achievement', initialValues?.achievement);
-
-    if (initialValues?.organization?.key !== undefined) {
-      dispatch(putDataSchool(initialValues?.organization));
-    }
-
-    if (initialValues?.title?.key !== undefined) {
-      dispatch(putDataMajor(initialValues?.title));
-    }
+    form.setFieldValue('degree', initialValues?.degree);
   }, [initialValues]);
 
   const yearsRange = [];
@@ -78,42 +65,21 @@ export const FormEducation = ({
   }
 
   const resultFinal = (values) => {
-    let start_time = null;
-    let end_time = null;
-    let title = null;
-    let organization = null;
-
-    if (values.start_time !== undefined) {
-      start_time = `${values.start_time}-01-01`;
-    }
-    if (values.end_time !== undefined) {
-      end_time = `${values.end_time}-01-01`;
-    }
-    if (values.organization !== undefined) {
-      organization = itemSchool;
-    }
-    if (values.title !== undefined) {
-      title = itemMajor;
-    }
-
-    const itemDegree = degree.find((item) => item.key === values?.degree);
-    const result = {
+    const final = {
+      ...values,
       status: checkDisable ? 1 : -1,
-      start_time: start_time,
-      end_time: end_time,
-      organization: organization,
-      title: title,
-      degree: {
-        key: itemDegree?.key,
-        label: itemDegree?.label,
-      },
+      start_time: values?.start_time ? `${values.start_time}-01-01` : undefined,
+      end_time: values?.end_time ? `${values.end_time}-01-01` : undefined,
       type: 1,
       candidate_id: candidate_id,
     };
-    const filteredResult = Object.fromEntries(
-      Object.entries(result).filter(([key, value]) => value !== null),
-    );
-    return filteredResult;
+
+    for (const key in final) {
+      if (final[key] === undefined) {
+        delete final[key];
+      }
+    }
+    return final;
   };
 
   const onFinish = async (values) => {
@@ -133,7 +99,6 @@ export const FormEducation = ({
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
-    console.log('itemSchool failed', itemSchool);
   };
 
   const handleChangeEndTime = () => {
@@ -290,19 +255,18 @@ export const FormEducation = ({
             addItem
             postData={postSchool}
             form={form}
-            options={school}
             putData={putDataSchool}
             getData={getSchoolTest}
           />
         </Col>
       </Row>
+
       <Row gutter={(12, 12)} style={{ marginBottom: '20px' }}>
         <Col span={24}>
           <FormItemSelectOneAdd
             name="title"
             label="Major"
             placeholder="Select or add major"
-            addItem
             postData={postMajor}
             form={form}
             getData={getMajorTest}
@@ -329,10 +293,17 @@ export const FormEducation = ({
               style={{ width: '100%', borderRadius: '0px' }}
               placeholder="Select degree"
               optionFilterProp="children"
+              onChange={(value, option) => {
+                form.setFieldValue('degree', getKeyWithLabel(option));
+              }}
             >
               {degree?.map((option) => {
                 return (
-                  <Option key={option.key} value={option.key}>
+                  <Option
+                    key={option.key}
+                    value={option.key}
+                    label={option.label}
+                  >
                     {option.label}
                   </Option>
                 );

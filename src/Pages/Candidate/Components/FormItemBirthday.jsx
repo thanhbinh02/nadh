@@ -1,26 +1,41 @@
 import React from 'react';
 import { Row, Col, Form, Select } from 'antd';
 import { DATES, MONTHS } from '../../../utils/const';
-import { useDispatch } from 'react-redux';
 
 const { Option } = Select;
-export const FormItemBirthday = ({ form, actionDispatch }) => {
-  const dispatch = useDispatch();
-
+export const FormItemBirthday = ({ form }) => {
   const yearsRange = [];
   for (var i = 1960; i <= 2023; i++) {
     yearsRange.push({ key: i });
   }
 
   const onChangeDate = () => {
+    const newDob = `${form.getFieldValue('year_birthday')}-${form.getFieldValue(
+      'month_birthday',
+    )}-${form.getFieldValue('date_birthday')}`;
+
+    form.setFieldValue('dob', newDob);
+
     form.validateFields(['month_birthday', 'year_birthday']);
   };
 
   const onChangeMonth = () => {
+    const newDob = `${form.getFieldValue('year_birthday')}-${form.getFieldValue(
+      'month_birthday',
+    )}-${form.getFieldValue('date_birthday')}`;
+
+    form.setFieldValue('dob', newDob);
+
     form.validateFields(['date_birthday', 'year_birthday']);
   };
 
   const onChangeYear = () => {
+    const newDob = `${form.getFieldValue('year_birthday')}-${form.getFieldValue(
+      'month_birthday',
+    )}-${form.getFieldValue('date_birthday')}`;
+
+    form.setFieldValue('dob', newDob);
+
     form.validateFields(['date_birthday', 'month_birthday']);
   };
 

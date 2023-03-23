@@ -66,18 +66,10 @@ export const FormWorkingHistory = ({
 
       form.setFieldValue(
         'organization',
-        initialValues?.organization?.label || undefined,
+        initialValues?.organization || undefined,
       );
 
-      form.setFieldValue('title', initialValues?.title?.label || undefined);
-      // putDataCompany
-      if (initialValues?.organization?.key !== undefined) {
-        dispatch(putDataCompany(initialValues?.organization));
-      }
-
-      if (initialValues?.title?.key !== undefined) {
-        dispatch(putDataPosition(initialValues?.title));
-      }
+      form.setFieldValue('title', initialValues?.title || undefined);
     } else {
       form.setFieldValue('status', false);
       setCheckDisable(false);
@@ -85,18 +77,8 @@ export const FormWorkingHistory = ({
   }, [initialValues]);
 
   const resultFinal = (values) => {
-    let organization,
-      title,
-      start_time_month_flag,
-      start_time,
-      end_time_month_flag,
-      end_time;
-    if (values.organization !== undefined) {
-      organization = itemCompany;
-    }
-    if (values.title !== undefined) {
-      title = itemPosition;
-    }
+    let start_time_month_flag, start_time, end_time_month_flag, end_time;
+
     if (values.month_From !== undefined) {
       start_time_month_flag = 1;
       start_time = `${values.year_from}-${values.month_from}-01`;
@@ -125,14 +107,16 @@ export const FormWorkingHistory = ({
       end_time = null;
     }
 
+    const { title, organization } = values;
+
     const result = {
-      candidate_id: candidate_id,
+      title: title,
+      organization: organization,
       start_time: start_time,
       start_time_month_flag: start_time_month_flag,
       end_time: end_time,
       end_time_month_flag: end_time_month_flag,
-      organization: organization,
-      title: title,
+      candidate_id: candidate_id,
       type: 2,
     };
 
@@ -176,7 +160,7 @@ export const FormWorkingHistory = ({
       form.setFieldValue('month_to', monthTo);
       form.setFieldValue('year_to', yearTo);
     }
-    form.validateFields(['year_to']);
+    // form.validateFields(['year_to']);
   };
 
   const handleChangeMonthTo = (value) => {
@@ -268,10 +252,7 @@ export const FormWorkingHistory = ({
                   rules={[
                     () => ({
                       validator(_, value) {
-                        if (
-                          value === undefined &&
-                          form.getFieldValue('month_from')
-                        )
+                        if (value === undefined)
                           return Promise.reject(
                             new Error('Start select start year'),
                           );
@@ -334,7 +315,6 @@ export const FormWorkingHistory = ({
                       validator(_, value) {
                         if (
                           value === undefined &&
-                          form.getFieldValue('month_to') &&
                           form.getFieldValue('status') === false
                         )
                           return Promise.reject(

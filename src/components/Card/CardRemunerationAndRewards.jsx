@@ -1,15 +1,13 @@
 import { Card } from 'antd';
-import { Form, Row, Col, InputNumber, Select, Button } from 'antd';
+import { Form, Row, Col, InputNumber, Select } from 'antd';
 import { FormItemBenefits } from '../Form/FormItemBenefits';
 import { BENEFITS } from '../../utils/const';
 import { useState } from 'react';
 import { changeMoney } from '../../utils/const';
 
 const { Option } = Select;
-export const CardRemunerationAndRewards = ({ remuneration }) => {
-  const [form] = Form.useForm();
+export const CardRemunerationAndRewards = ({ remuneration, form }) => {
   const [valueSelect, setValueSelect] = useState(remuneration.currency);
-  const [reset, setReset] = useState(false);
 
   const options = [
     { name: 'USD', id: 1 },
@@ -18,20 +16,13 @@ export const CardRemunerationAndRewards = ({ remuneration }) => {
     { name: 'EUR', id: 4 },
   ];
 
-  const onFinish = async (values) => {
-    console.log('success', values);
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
-
   const handleChangeSelect = (value, option) => {
     const resultCurrentSalary = changeMoney(
       form.getFieldValue('current_salary'),
       Number(valueSelect.id),
       value,
     );
+
     const expectSalaryTo = changeMoney(
       form.getFieldValue('salary_to'),
       Number(valueSelect.id),
@@ -55,36 +46,7 @@ export const CardRemunerationAndRewards = ({ remuneration }) => {
 
   const handleChangeSalaryTo = () => {
     form.validateFields(['salary_to']);
-  };
-
-  const initialValues = {
-    current_salary: remuneration?.current_salary,
-    currency: remuneration?.currency?.id,
-
-    over_thirteen: remuneration?.benefit?.over_thirteen,
-    over_thirteen_text: remuneration?.benefit?.over_thirteen_text,
-    lunch_check: remuneration?.benefit?.lunch_check,
-    lunch_check_text: remuneration?.benefit?.lunch_check_text,
-    car_parking: remuneration?.benefit?.car_parking,
-    car_parking_text: remuneration?.benefit?.car_parking_text,
-    car_allowance: remuneration?.benefit?.car_allowance,
-    car_allowance_text: remuneration?.benefit?.car_allowance_text,
-    phone: remuneration?.benefit?.phone,
-    phone_text: remuneration?.benefit?.phone_text,
-    laptop: remuneration?.benefit?.laptop,
-    laptop_text: remuneration?.benefit?.laptop_text,
-    share_option: remuneration?.benefit?.share_option,
-    share_option_text: remuneration?.benefit?.share_option_text,
-    health_cover: remuneration?.benefit?.health_cover,
-    health_cover_text: remuneration?.benefit?.health_cover_text,
-    pension_scheme: remuneration?.benefit?.pension_scheme,
-    no_holiday: remuneration?.benefit?.no_holiday,
-    working_hour: remuneration?.benefit?.working_hour,
-    overtime_hour: remuneration?.benefit?.overtime_hour,
-
-    notice_days: remuneration?.notice_days,
-    salary_from: remuneration?.salary?.from,
-    salary_to: remuneration?.salary?.to,
+    form.validateFields(['salary_from']);
   };
 
   return (
@@ -97,16 +59,7 @@ export const CardRemunerationAndRewards = ({ remuneration }) => {
         marginTop: '30px',
       }}
     >
-      <Form
-        layout="vertical"
-        style={{
-          width: '100%',
-        }}
-        form={form}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        initialValues={initialValues}
-      >
+      <>
         <Row style={{ marginBottom: '10px' }}>
           <Col span={12}>
             <Form.Item
@@ -154,6 +107,7 @@ export const CardRemunerationAndRewards = ({ remuneration }) => {
                       key={option.id}
                       value={option.id}
                       label={option.name}
+                      id={option.id}
                     >
                       {option.name}
                     </Option>
@@ -177,7 +131,7 @@ export const CardRemunerationAndRewards = ({ remuneration }) => {
 
         <Row>
           <Col span={12}>
-            <Form.Item label="Pension scheme" name="pension_scheme">
+            <Form.Item label="Pension scheme" name="benefit_pension_scheme">
               <InputNumber
                 style={{ width: '90%' }}
                 formatter={(value = 0) => `${value}%`}
@@ -190,7 +144,7 @@ export const CardRemunerationAndRewards = ({ remuneration }) => {
           <Col span={12}>
             <Row>
               <Col span={22}>
-                <Form.Item label="Annual leaves" name="no_holiday">
+                <Form.Item label="Annual leaves" name="benefit_no_holiday">
                   <InputNumber min={0} style={{ width: '95%' }}></InputNumber>
                 </Form.Item>
               </Col>
@@ -206,7 +160,7 @@ export const CardRemunerationAndRewards = ({ remuneration }) => {
             <Col span={12}>
               <Row>
                 <Col span={12}>
-                  <Form.Item name="working_hour">
+                  <Form.Item name="benefit_working_hour">
                     <InputNumber min={0} style={{ width: '95%' }}></InputNumber>
                   </Form.Item>
                 </Col>
@@ -214,19 +168,14 @@ export const CardRemunerationAndRewards = ({ remuneration }) => {
               </Row>
             </Col>
             <Col span={12}>
-              <Form.Item name="overtime_hour">
-                <Row>
-                  <Col span={12}>
-                    <Form.Item name="overtime_hour">
-                      <InputNumber
-                        min={0}
-                        style={{ width: '95%' }}
-                      ></InputNumber>
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>hours per week</Col>
-                </Row>
-              </Form.Item>
+              <Row>
+                <Col span={12}>
+                  <Form.Item name="benefit_overtime_hour">
+                    <InputNumber min={0} style={{ width: '95%' }}></InputNumber>
+                  </Form.Item>
+                </Col>
+                <Col span={12}>hours per week</Col>
+              </Row>
             </Col>
           </Row>
         </Form.Item>
@@ -248,7 +197,7 @@ export const CardRemunerationAndRewards = ({ remuneration }) => {
           </Row>
         </Form.Item>
 
-        <Row>Expected salary</Row>
+        <Row style={{ marginTop: '12px' }}>Expected salary</Row>
 
         <Row>
           <Col span={12}>
@@ -348,31 +297,7 @@ export const CardRemunerationAndRewards = ({ remuneration }) => {
             </Form.Item>
           </Col>
         </Row>
-
-        <Row>
-          <Col span={24}>
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                style={{ marginLeft: '10px' }}
-              >
-                Save
-              </Button>
-            </Form.Item>
-            <Form.Item>
-              <Button
-                onClick={() => {
-                  form.resetFields();
-                  setReset(!reset);
-                }}
-              >
-                Reset
-              </Button>
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
+      </>
     </Card>
   );
 };

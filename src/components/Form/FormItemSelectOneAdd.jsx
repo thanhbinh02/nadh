@@ -7,13 +7,14 @@ import { useQuery } from 'react-query';
 import { CustomButton } from '../CustomButton/CustomButton';
 
 import { InfoCircleOutlined } from '@ant-design/icons';
+import { getKeyWithLabel } from '../../utils/const';
+
 const { Option } = Select;
 
 export const FormItemSelectOneAdd = ({
   name,
   label,
   placeholder,
-  addItem,
   postData,
   form,
   putData,
@@ -22,23 +23,22 @@ export const FormItemSelectOneAdd = ({
   message,
 }) => {
   const dispatch = useDispatch();
-  const [showAddItem, setShowAddItem] = useState(false);
-  const [open, setOpen] = useState(false);
+
   const [contentModal, setContentModal] = useState();
 
   const { data } = useQuery([name, contentModal], () => getData(contentModal));
 
-  useEffect(() => {}, [open]);
-
   const handleOpenModalAdd = () => {
     dispatch(postData(contentModal));
-    form.setFieldValue(name, contentModal);
-    setOpen(!open);
+    form.setFieldValue(name, undefined);
     setContentModal();
   };
 
   const handleChange = (value, option) => {
-    form.setFieldValue(name, value);
+    if (value !== undefined) {
+      form.setFieldValue(name, getKeyWithLabel(option));
+    }
+
     setContentModal(undefined);
     if (value) {
       dispatch(
@@ -52,10 +52,7 @@ export const FormItemSelectOneAdd = ({
 
   const handleSearch = (value) => {
     if (value !== '' && value !== undefined) {
-      setShowAddItem(true);
       setContentModal(value);
-    } else {
-      setShowAddItem(false);
     }
   };
 
@@ -89,21 +86,17 @@ export const FormItemSelectOneAdd = ({
               <>
                 {menu}
                 <>
-                  {addItem && (
-                    <>
-                      {showAddItem && (
-                        <Space>
-                          <Button
-                            type="text"
-                            icon={<PlusOutlined />}
-                            style={{ width: '100%', alignItems: 'flex-start' }}
-                            onMouseDown={handleOpenModalAdd}
-                          >
-                            Add item
-                          </Button>
-                        </Space>
-                      )}
-                    </>
+                  {contentModal !== undefined && (
+                    <Space>
+                      <Button
+                        type="text"
+                        icon={<PlusOutlined />}
+                        style={{ width: '100%', alignItems: 'flex-start' }}
+                        onMouseDown={handleOpenModalAdd}
+                      >
+                        Add item
+                      </Button>
+                    </Space>
                   )}
                 </>
               </>

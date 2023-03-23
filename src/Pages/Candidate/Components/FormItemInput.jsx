@@ -2,10 +2,10 @@ import React from 'react';
 import { Form, InputNumber, Input } from 'antd';
 
 export const FormItemInput = ({
+  required,
   label,
   name,
   placeholder,
-  required,
   message,
   type,
 }) => {

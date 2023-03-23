@@ -3,7 +3,7 @@ import FormListAddress from '../../../components/Form/FormListAddress';
 import { Form, Button, Col } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
-export const FormItemAddress = ({ form, countries, listCountry }) => {
+export const FormItemAddress = ({ form, listCountry }) => {
   return (
     <Form.Item label="Address">
       <Form.List name="addresses" initialValue={[{}]}>

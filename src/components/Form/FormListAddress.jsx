@@ -44,7 +44,10 @@ const FormListAddress = ({
 }) => {
   const [listCity, seListCity] = useState([]);
   const [listDistrict, setListDistrict] = useState([]);
-  const [disabledInput, setDisabledInput] = useState(true);
+  const [disabledInput, setDisabledInput] = useState(
+    form.getFieldValue(['addresses', name, 'country']) ? false : true,
+  );
+  const [check, setCheck] = useState(true);
 
   const fetchDataCity = async (params) => {
     const result = await getLocations({
@@ -61,23 +64,32 @@ const FormListAddress = ({
   };
 
   const handleCountryChange = (value, option, name) => {
-    fetchDataCity({ type: 1, parent_id: value });
-    form.setFieldValue(['addresses', name, 'country'], getKeyWithLabel(option));
-    form.setFieldValue(['addresses', name, 'district'], undefined);
-    form.setFieldValue(['addresses', name, 'city'], undefined);
+    if (value !== undefined) {
+      fetchDataCity({ type: 1, parent_id: value });
+      form.setFieldValue(
+        ['addresses', name, 'country'],
+        getKeyWithLabel(option),
+      );
+      form.setFieldValue(['addresses', name, 'district'], undefined);
+      form.setFieldValue(['addresses', name, 'city'], undefined);
+    }
   };
 
   const handleCityChange = (value, option, name) => {
-    fetchDataListDistrict({ type: 2, parent_id: value });
-    form.setFieldValue(['addresses', name, 'city'], getKeyWithLabel(option));
-    form.setFieldValue(['addresses', name, 'district'], undefined);
+    if (value !== undefined) {
+      fetchDataListDistrict({ type: 2, parent_id: value });
+      form.setFieldValue(['addresses', name, 'city'], getKeyWithLabel(option));
+      form.setFieldValue(['addresses', name, 'district'], undefined);
+    }
   };
 
   const handleDistrictChange = (value, option, name) => {
-    form.setFieldValue(
-      ['addresses', name, 'district'],
-      getKeyWithLabel(option),
-    );
+    if (value !== undefined) {
+      form.setFieldValue(
+        ['addresses', name, 'district'],
+        getKeyWithLabel(option),
+      );
+    }
   };
 
   const handleRemove = () => {
@@ -85,7 +97,17 @@ const FormListAddress = ({
   };
 
   const handleClearCountry = (name) => {
+    setCheck(!check);
     form.setFieldValue(['addresses', name, 'address'], undefined);
+    form.setFieldValue(['addresses', name, 'city'], undefined);
+    form.setFieldValue(['addresses', name, 'district'], undefined);
+    setDisabledInput(true);
+  };
+
+  const handleClearCity = (name) => {
+    setCheck(!check);
+    form.setFieldValue(['addresses', name, 'city'], undefined);
+    form.setFieldValue(['addresses', name, 'district'], undefined);
     setDisabledInput(true);
   };
 
@@ -153,6 +175,7 @@ const FormListAddress = ({
                     form.getFieldValue(['addresses', name, 'country']),
                   )
                 }
+                onClear={() => handleClearCity(name)}
               >
                 {listCity !== undefined &&
                   listCity?.map((item, index) => (

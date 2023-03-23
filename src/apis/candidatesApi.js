@@ -1,5 +1,4 @@
 import axiosClient from './axiosClient';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 
 export const getCandidates = async (params) => {

@@ -6,12 +6,12 @@ import { Button, Select, Form, Row, Checkbox, Col } from 'antd';
 
 import { postSchool } from '../../store/schoolSlice';
 import { putDataSchool } from '../../store/schoolSlice';
-import { putDataMajor } from '../../store/majorSlice';
 import { postDetailCandidateHistoryCertificate } from '../../store/detailCandidateSlice';
 import { fetchDetailCandidateSliceNotLoading } from '../../store/detailCandidateSlice';
 import { putDetailCandidateHistory } from '../../store/detailCandidateSlice';
 import { deleteHistory } from '../../store/detailCandidateSlice';
 import { getSchoolTest } from '../../apis/filterApi';
+import { getKeyWithLabel } from '../../utils/const';
 
 const { Option } = Select;
 export const FormCertificate = ({
@@ -48,22 +48,11 @@ export const FormCertificate = ({
       Number(formatDate(initialValues?.start_time)?.year) || undefined,
     );
 
-    form.setFieldValue(
-      'organization',
-      initialValues?.organization?.label || undefined,
-    );
+    form.setFieldValue('organization', initialValues?.organization);
 
-    form.setFieldValue('title', initialValues?.title?.key || undefined);
+    form.setFieldValue('title', initialValues?.title || undefined);
 
     form.setFieldValue('achievement', initialValues?.achievement);
-
-    if (initialValues?.organization?.key !== undefined) {
-      dispatch(putDataSchool(initialValues?.organization));
-    }
-
-    if (initialValues?.title?.key !== undefined) {
-      dispatch(putDataMajor(initialValues?.title));
-    }
   }, [initialValues]);
 
   const yearsRange = [];
@@ -72,39 +61,21 @@ export const FormCertificate = ({
   }
 
   const resultFinal = (values) => {
-    let start_time = null;
-    let end_time = null;
-    let organization = null;
-
-    if (values.start_time !== undefined) {
-      start_time = `${values.start_time}-01-01`;
-    }
-    if (values.end_time !== undefined) {
-      end_time = `${values.end_time}-01-01`;
-    }
-    if (values.organization !== undefined) {
-      organization = itemSchool;
-    }
-
-    const itemDegree = degree.find((item) => item.key === values?.title);
-
-    const result = {
+    const final = {
+      ...values,
       status: checkDisable ? 1 : -1,
-      start_time: start_time,
-      // end_time: checkDisable ? null : end_time,
-      end_time: end_time,
-      organization: organization,
-      title: {
-        key: itemDegree?.key,
-        label: itemDegree?.label,
-      },
+      start_time: values?.start_time ? `${values.start_time}-01-01` : undefined,
+      end_time: values?.end_time ? `${values.end_time}-01-01` : undefined,
       type: 3,
       candidate_id: candidate_id,
     };
-    // const filteredResult = Object.fromEntries(
-    //   Object.entries(result).filter(([key, value]) => value !== null),
-    // );
-    return result;
+
+    for (const key in final) {
+      if (final[key] === undefined) {
+        delete final[key];
+      }
+    }
+    return final;
   };
 
   const onFinish = async (values) => {
@@ -308,10 +279,17 @@ export const FormCertificate = ({
               style={{ width: '100%', borderRadius: '0px' }}
               placeholder="Select degree"
               optionFilterProp="children"
+              onChange={(value, option) => {
+                form.setFieldValue('title', getKeyWithLabel(option));
+              }}
             >
               {degree?.map((option) => {
                 return (
-                  <Option key={option.key} value={option.key}>
+                  <Option
+                    key={option.key}
+                    value={option.key}
+                    label={option.label}
+                  >
                     {option.label}
                   </Option>
                 );

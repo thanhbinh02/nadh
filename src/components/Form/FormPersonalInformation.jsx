@@ -7,6 +7,7 @@ import { FormItemPhone } from '../../Pages/Candidate/Components/FormItemPhone';
 import { FormItemEmail } from '../../Pages/Candidate/Components/FormItemEmail';
 import { FormItemBirthday } from '../../Pages/Candidate/Components/FormItemBirthday';
 import { FormItemInput } from '../../Pages/Candidate/Components/FormItemInput';
+import { getKeyWithLabel } from '../../utils/const';
 
 import {
   priority_status,
@@ -14,6 +15,8 @@ import {
   MARITAL_STATUS,
   READY_TO_MOVE,
 } from '../../utils/const';
+
+const { Option } = Select;
 
 export const FormPersonalInformation = ({
   form,
@@ -118,13 +121,31 @@ export const FormPersonalInformation = ({
 
       <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
         <Col span={24}>
-          <FormItemOption
-            name="highest_education"
-            label="Highest Education"
-            options={degree}
-            placeholder="Select your highest education"
-            form={form}
-          />
+          <Form.Item name="highest_education" label="Highest Education">
+            <Select
+              style={{ width: '100%', borderRadius: '0px' }}
+              placeholder="Select your highest education"
+              optionFilterProp="children"
+              onChange={(value, option) => {
+                form.setFieldValue(
+                  'highest_education',
+                  getKeyWithLabel(option),
+                );
+              }}
+            >
+              {degree?.map((option) => {
+                return (
+                  <Option
+                    key={option.key}
+                    value={option.key}
+                    label={option.label}
+                  >
+                    {option.label}
+                  </Option>
+                );
+              })}
+            </Select>
+          </Form.Item>
         </Col>
       </Row>
       <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>

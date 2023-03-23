@@ -11,6 +11,9 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
   function (config) {
+    if (config.url.includes('nadh-mediafile')) {
+      config.baseURL = 'https://lubrytics.com:8443';
+    }
     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
     return config;
   },

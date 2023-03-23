@@ -133,7 +133,7 @@ export const TableAcademic = ({ candidate_id }) => {
             {isLoadingAcademic ? (
               <Spin tip="Loading...">
                 <Table
-                  scroll={{ x: '80vw' }}
+                  scroll={{ x: '60vw' }}
                   columns={columns}
                   pagination={{
                     pageSize: 5,
@@ -144,7 +144,7 @@ export const TableAcademic = ({ candidate_id }) => {
               </Spin>
             ) : (
               <Table
-                scroll={{ x: '80vw' }}
+                scroll={{ x: '60vw' }}
                 columns={columns}
                 pagination={{
                   pageSize: 5,
