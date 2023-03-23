@@ -1,12 +1,12 @@
-import React from 'react';
 import { BsPencil } from 'react-icons/bs';
 import { Table, Row, Col, Button, Modal, Spin } from 'antd';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+
+import { FormCertificate } from '../Form/FormCertificate';
 import { formatDate } from '../../utils/const';
 import { fetchSchool } from '../../store/schoolSlice';
 import { fetchDegreeCertificate } from '../../store/degreeSlice';
-import { FormCertificate } from '../Form/FormCertificate';
 
 export const TableCertificate = ({ candidate_id }) => {
   const dispatch = useDispatch();

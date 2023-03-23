@@ -1,10 +1,10 @@
-import React from 'react';
 import { Row, Col, Dropdown, Button, Modal } from 'antd';
+import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { HiUserCircle } from 'react-icons/hi';
 import { logoutAuth } from '../../store/authSlice';
-import { useDispatch } from 'react-redux';
-import { useState } from 'react';
 import { CustomButton } from '../../components/CustomButton/CustomButton';
 
 export const DropDownInfo = () => {

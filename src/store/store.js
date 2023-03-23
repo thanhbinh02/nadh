@@ -17,7 +17,7 @@ import jobFunctionsSkillsReducer from './jobFunctionsSkillsSlice';
 import createCandidateReducer from './createCandidateSlice';
 import businessLineReducer from './businessLineSlice';
 import detailCandidateReducer from './detailCandidateSlice';
-import detailCandidateLocalReducer from './detailCandidateLocalSlice';
+
 import schoolReducer from './schoolSlice';
 import clientsReducer from './clientsSlice';
 import tagsClientsReducer from './tagsClientsSlice';
@@ -46,7 +46,6 @@ export const store = configureStore({
     createCandidate: createCandidateReducer,
     businessLine: businessLineReducer,
     detailCandidate: detailCandidateReducer,
-    detailCandidateLocal: detailCandidateLocalReducer,
     school: schoolReducer,
     clients: clientsReducer,
     tagsClients: tagsClientsReducer,

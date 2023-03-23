@@ -1,25 +1,22 @@
 import { Table, Tag, Spin } from 'antd';
-import { AiOutlineSearch } from 'react-icons/ai';
+import { AiOutlineSearch, AiOutlineEye } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AiOutlineEye } from 'react-icons/ai';
 
 import { FilterDropDownText } from '../Filter/FilterDropDownText';
 import { FilterDropDownSelectOneItem } from '../Filter/FilterDropDownSelectOneItem';
 import FilterDropDownCountryCity from '../Filter/FilterDropDownCountryCity';
 import FilterDropDownIndustry from '../Filter/FilterDropDownIndustry';
-import { filterTagCandidates } from '../../utils/filterTagCandidates';
 import { FilterTimeRange } from '../Filter/FilterTimeRange';
 
-import { priority_status } from '../../utils/const';
-import { candidate_flow_status } from '../../utils/const';
+import { filterTagCandidates } from '../../utils/filterTagCandidates';
+import { priority_status, candidate_flow_status } from '../../utils/const';
 
-import { fetchSectors } from '../../store/categoriesSlice';
-import { fetchCategories } from '../../store/categoriesSlice';
+import { fetchSectors, fetchCategories } from '../../store/categoriesSlice';
 import { fetchCandidates } from '../../store/candidatesSlice';
-import TagFilter from '../TagFilter';
 import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
+import TagFilter from '../TagFilter';
 
 const checkIconGlow = (name, obj) => {
   if (obj) {

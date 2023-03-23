@@ -7,7 +7,6 @@ import { PrivateLayout } from './layouts/PrivateLayout';
 import CandidateAdd from './Pages/Candidate/CandidateAdd';
 import { ToastContainer } from 'react-toastify';
 import { CandidateDetail } from './Pages/Candidate/CandidateDetail';
-import { SelectAddItem } from './components/Select/SelectAddItem';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import 'react-toastify/dist/ReactToastify.css';
 import { Page404 } from './Pages/Page404';
@@ -26,11 +25,11 @@ function App() {
           <Route path="/candidates" element={<Candidates />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/candidate-add" element={<CandidateAdd />} />
-          <Route path="/test" element={<SelectAddItem />} />
           <Route
             path="/candidate-detail/:candidate_id"
             element={<CandidateDetail />}
           />
+
           <Route path="*" element={<Page404 />} />
         </Route>
       </Routes>

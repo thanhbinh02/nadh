@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BsPencil } from 'react-icons/bs';
-import { Table, Row, Col, Button, Modal, Spin } from 'antd';
-import { useState } from 'react';
-import { FormEducation } from '../Form/FormEducation';
 import { useSelector, useDispatch } from 'react-redux';
+import { Table, Row, Col, Button, Modal, Spin } from 'antd';
+
+import { FormEducation } from '../Form/FormEducation';
 import { formatDate } from '../../utils/const';
+
 import { fetchDegree } from '../../store/degreeSlice';
 import { fetchSchool } from '../../store/schoolSlice';
 import { fetchMajor } from '../../store/majorSlice';

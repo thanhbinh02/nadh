@@ -9,12 +9,11 @@ import TableCandidates from '../components/Table/TableCandidates';
 
 import { fetchCountries } from '../store/locationsSlice';
 import { fetchIndustries } from '../store/categoriesSlice';
-import { fetchCandidates } from '../store/candidatesSlice';
 import { fetchLanguages } from '../store/languagesSlice';
 import { fetchHighestDegree } from '../store/highestDegreeSlice';
 import { fetchListCustoms } from '../store/customColumnSlice';
 import { getTagsCandidates } from '../store/tagsCandidatesSlice';
-import { refreshCandidates } from '../store/candidatesSlice';
+import { refreshCandidates, fetchCandidates } from '../store/candidatesSlice';
 
 export const Candidates = () => {
   const dispatch = useDispatch();

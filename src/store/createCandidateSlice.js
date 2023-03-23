@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { postCandidate } from '../apis/candidatesApi';
-import { postCandidateTest } from '../apis/candidatesApi';
 
 export const postNewCandidate = createAsyncThunk(
   'createCandidate/postNewCandidate',
@@ -39,18 +38,6 @@ export const createCandidateSlice = createSlice({
     user: [],
   },
   reducers: {
-    putDataCandidateType: (state, { payload }) => {
-      const { value, label } = payload;
-      if (label in state.data) {
-        state.data[label] = value;
-      }
-    },
-    putDataCandidatePositions: (state, { payload }) => {
-      state.data.prefer_position.positions = payload;
-    },
-    putDataCandidateEmail: (state, { payload }) => {
-      state.data.emails = payload;
-    },
     removeUserNewCandidate: (state) => {
       state.user = [];
       state.postCandidateSuccess = false;
@@ -75,12 +62,7 @@ export const createCandidateSlice = createSlice({
   },
 });
 
-export const {
-  putDataCandidateType,
-  putDataCandidateEmail,
-  putDataCandidatePositions,
-  removeUserNewCandidate,
-} = createCandidateSlice.actions;
+export const { removeUserNewCandidate } = createCandidateSlice.actions;
 
 const { reducer } = createCandidateSlice;
 export default reducer;

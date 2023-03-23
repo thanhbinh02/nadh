@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { putDetailCandidate } from '../apis/candidatesApi';
-import { toast } from 'react-toastify';
 
 export const putBusinessLineSlice = createAsyncThunk(
   'businessLine/putBusinessLineSlice',

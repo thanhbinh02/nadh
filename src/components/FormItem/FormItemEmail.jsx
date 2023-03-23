@@ -1,5 +1,4 @@
-import React from 'react';
-import FormListEmail from '../../../components/Form/FormListEmail';
+import FormListEmail from '../Form/FormListEmail';
 import { Form, Button, Col } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 

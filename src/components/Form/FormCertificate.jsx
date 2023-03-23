@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { formatDate } from '../../utils/const';
-import { FormItemSelectOneAdd } from './FormItemSelectOneAdd';
+import { formatDate, getKeyWithLabel } from '../../utils/const';
 import { Button, Select, Form, Row, Checkbox, Col } from 'antd';
 
+import { FormItemSelectOneAdd } from '../FormItem/FormItemSelectOneAdd';
 import { postSchool } from '../../store/schoolSlice';
-import { putDataSchool } from '../../store/schoolSlice';
-import { postDetailCandidateHistoryCertificate } from '../../store/detailCandidateSlice';
-import { fetchDetailCandidateSliceNotLoading } from '../../store/detailCandidateSlice';
-import { putDetailCandidateHistory } from '../../store/detailCandidateSlice';
-import { deleteHistory } from '../../store/detailCandidateSlice';
+import {
+  postDetailCandidateHistoryCertificate,
+  fetchDetailCandidateSliceNotLoading,
+  putDetailCandidateHistory,
+  deleteHistory,
+} from '../../store/detailCandidateSlice';
+
 import { getSchoolTest } from '../../apis/filterApi';
-import { getKeyWithLabel } from '../../utils/const';
 
 const { Option } = Select;
 export const FormCertificate = ({
@@ -254,7 +255,6 @@ export const FormCertificate = ({
             postData={postSchool}
             form={form}
             options={school}
-            putData={putDataSchool}
             getData={getSchoolTest}
           />
         </Col>

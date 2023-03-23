@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Col } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { ButtonReset } from '../CustomButton/ButtonReset';

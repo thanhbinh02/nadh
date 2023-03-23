@@ -1,10 +1,12 @@
-import { Card } from 'antd';
-import { Select, Form, Row, Col } from 'antd';
-import { FormItemSelectMultiple } from '../../Pages/Candidate/Components/FormItemSelectMultiple';
+import { Form, Row, Col, Card } from 'antd';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { fetchSoftSkills } from '../../store/softSkillsSlice';
-import { putSoftSkillsCandidate } from '../../store/softSkillsSlice';
+import {
+  fetchSoftSkills,
+  putSoftSkillsCandidate,
+} from '../../store/softSkillsSlice';
+import { FormItemSelectMultiple } from '../FormItem/FormItemSelectMultiple';
 
 export const CardSkillsAndIndustry = ({ idCandidate, dataDefault }) => {
   const [form] = Form.useForm();

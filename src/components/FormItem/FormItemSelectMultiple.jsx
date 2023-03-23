@@ -1,10 +1,21 @@
-import React from 'react';
 import { Form, Select } from 'antd';
 import { useDispatch } from 'react-redux';
 
 const { Option } = Select;
-export const FormItemPosition = ({ options, name, label, actionDispatch }) => {
+export const FormItemSelectMultiple = ({
+  options,
+  name,
+  label,
+  actionDispatch,
+  id,
+  placeholder,
+  dataDefault,
+}) => {
   const dispatch = useDispatch();
+  let defaultValue;
+  if (id) {
+    defaultValue = dataDefault.map((item) => Number(item.key));
+  }
 
   const handleChange = (value) => {
     const selectedLabels = [];
@@ -22,7 +33,18 @@ export const FormItemPosition = ({ options, name, label, actionDispatch }) => {
       });
     }
 
-    dispatch(actionDispatch(result));
+    if (!id) {
+      dispatch(actionDispatch({ value: result, label: name }));
+    } else {
+      const newData = {
+        id: id,
+        params: {
+          [`${name}`]: result,
+        },
+      };
+
+      dispatch(actionDispatch(newData));
+    }
   };
 
   return (
@@ -33,10 +55,12 @@ export const FormItemPosition = ({ options, name, label, actionDispatch }) => {
         style={{ width: '100%', borderRadius: '0px' }}
         optionFilterProp="children"
         onChange={handleChange}
+        placeholder={placeholder}
+        defaultValue={defaultValue}
       >
         {options.map((option) => {
           return (
-            <Option key={option.key} value={option.key} label={option.label}>
+            <Option key={option.key} value={option.key} label={option.key}>
               {option.label}
             </Option>
           );

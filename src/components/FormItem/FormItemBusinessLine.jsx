@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Form, Select, Button, Row, Col } from 'antd';
-import { TableBusinessLine } from '../../../components/Table/TableBusinessLine';
-import { useSelector } from 'react-redux';
+import { TableBusinessLine } from '../Table/TableBusinessLine';
 import { toast } from 'react-toastify';
 
 const { Option } = Select;
 
-const FormItemBusinessLine = ({
+export const FormItemBusinessLine = ({
   data,
   optionTwo,
   optionThree,
@@ -239,4 +238,3 @@ const FormItemBusinessLine = ({
     </>
   );
 };
-export default FormItemBusinessLine;

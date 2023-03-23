@@ -1,4 +1,3 @@
-import React from 'react';
 import { useParams } from 'react-router';
 import { Breadcrumb, Row, Col, Button, Spin, Form, Card, Input } from 'antd';
 import { toast } from 'react-toastify';
@@ -7,13 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { CardOverview } from '../../components/Card/CardOverview';
-import FormSkillAndIndustry from './Components/FormSkillAndIndustry';
-
 import { CardRemunerationAndRewards } from '../../components/Card/CardRemunerationAndRewards';
 import { FormPersonalInformation } from '../../components/Form/FormPersonalInformation';
 import { TableAcademic } from '../../components/Table/TableAcademic';
 import { TableCertificate } from '../../components/Table/TableCertificate';
 import { TableWorkingHistory } from '../../components/Table/TableWorkingHistory';
+import { CardAttachments } from '../../components/Card/CardAttachments';
+import FormSkillAndIndustry from '../../components/Form/FormSkillAndIndustry';
 
 import {
   candidate_flow_status,
@@ -27,10 +26,8 @@ import { fetchPhoneNumber } from '../../store/phoneNumberSlice';
 import { fetchPosition } from '../../store/positionSlice';
 import { fetchCountries } from '../../store/locationsSlice';
 import { fetchDetailCandidateSliceNotLoading } from '../../store/detailCandidateSlice';
-
-import { putNewDetailCandidate } from '../../store/detailCandidateSlice';
 import { fetchFiles } from '../../store/fileSlice';
-import { CardAttachments } from '../../components/Card/CardAttachments';
+import { putNewDetailCandidate } from '../../store/detailCandidateSlice';
 
 const { TextArea } = Input;
 export const CandidateDetail = () => {
@@ -242,12 +239,15 @@ export const CandidateDetail = () => {
       params: test,
     };
 
-    dispatch(putNewDetailCandidate(newData));
-
-    setTimeout(() => {
-      setOpen(false);
-      dispatch(fetchDetailCandidateSliceNotLoading(detailCandidate.id));
-    }, 1000);
+    dispatch(putNewDetailCandidate(newData))
+      .unwrap()
+      .then(() => {
+        dispatch(fetchDetailCandidateSliceNotLoading(detailCandidate.id));
+        setOpen(false);
+      })
+      .catch(() => {
+        setOpen(false);
+      });
   };
 
   const handleCancel = () => {
@@ -294,12 +294,6 @@ export const CandidateDetail = () => {
                   >{`${candidate_id} - ${detailCandidate?.full_name?.toUpperCase()} - ${primaryStatus?.label?.toUpperCase()} - ${flowStatus?.label?.toUpperCase()} `}</span>
                 </Breadcrumb.Item>
               </Breadcrumb>
-            </Col>
-            <Col span={8}>
-              <Button style={{ marginRight: '8px' }} type="primary">
-                Download File PDF
-              </Button>
-              <Button type="primary">View PDF</Button>
             </Col>
           </Row>
           <Row
@@ -354,21 +348,6 @@ export const CandidateDetail = () => {
                       />
                     </Form.Item>
                   </Card>
-                  {open && (
-                    <Form.Item>
-                      <div className="sticky-row">
-                        <Button
-                          style={{ marginRight: '12px' }}
-                          onClick={handleCancel}
-                        >
-                          Cancel
-                        </Button>
-                        <Button type="primary" htmlType="submit">
-                          Save
-                        </Button>
-                      </div>
-                    </Form.Item>
-                  )}
 
                   <Card
                     title="Skills And Industry"
@@ -408,10 +387,25 @@ export const CandidateDetail = () => {
                   />
 
                   <CardAttachments files={files} obj_uid={detailCandidate.id} />
+
+                  {open && (
+                    <Form.Item>
+                      <div className="sticky-row">
+                        <Button
+                          style={{ marginRight: '12px' }}
+                          onClick={handleCancel}
+                        >
+                          Cancel
+                        </Button>
+                        <Button type="primary" htmlType="submit">
+                          Save
+                        </Button>
+                      </div>
+                    </Form.Item>
+                  )}
                 </Form>
               </Form.Provider>
             </Col>
-            <Col>Thanh Binh</Col>
           </Row>
         </>
       )}

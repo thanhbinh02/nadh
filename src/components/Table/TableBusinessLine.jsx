@@ -1,4 +1,3 @@
-import React from 'react';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { Table, Row, Col, Checkbox, Spin } from 'antd';
 

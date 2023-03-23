@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
 
 const axiosClient = axios.create({

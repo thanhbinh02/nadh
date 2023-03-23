@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getFile, deleteFile } from '../apis/fileApi';
+import { getFile, deleteFile, postFile } from '../apis/fileApi';
 import { toast } from 'react-toastify';
-import { postFile } from '../apis/fileApi';
 
 export const fetchFiles = createAsyncThunk(
   'file/fetchFiles',

@@ -1,6 +1,5 @@
-import React from 'react';
 import { Row, Col, Form, Select } from 'antd';
-import { DATES, MONTHS } from '../../../utils/const';
+import { DATES, MONTHS } from '../../utils/const';
 
 const { Option } = Select;
 export const FormItemBirthday = ({ form }) => {

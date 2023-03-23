@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SearchOutlined } from '@ant-design/icons';
 
 import { fetchCities } from '../../store/locationsSlice';
-import { fetchCandidates } from '../../store/candidatesSlice';
+import {
+  fetchCandidates,
+  refreshCandidates,
+} from '../../store/candidatesSlice';
 import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
-import { refreshCandidates } from '../../store/candidatesSlice';
 
 const { Option } = Select;
 

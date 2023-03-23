@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Menu, Checkbox, Dropdown } from 'antd';
 
 import { AiOutlineDown } from 'react-icons/ai';

@@ -1,13 +1,17 @@
 import { Row, Col, Form, Select } from 'antd';
 
-import { FormItemOption } from '../../Pages/Candidate/Components/FormItemOption';
-import { FormItemRadio } from '../../Pages/Candidate/Components/FormItemRadio';
-import { FormItemAddress } from '../../Pages/Candidate/Components/FormItemAddress';
-import { FormItemPhone } from '../../Pages/Candidate/Components/FormItemPhone';
-import { FormItemEmail } from '../../Pages/Candidate/Components/FormItemEmail';
-import { FormItemBirthday } from '../../Pages/Candidate/Components/FormItemBirthday';
-import { FormItemInput } from '../../Pages/Candidate/Components/FormItemInput';
+import { FormItemSelectMultipleAdd } from '../FormItem/FormItemSelectMultipleAdd';
+import { FormItemAddress } from '../FormItem/FormItemAddress';
+import { FormItemBirthday } from '../FormItem/FormItemBirthday';
+import { FormItemEmail } from '../FormItem/FormItemEmail';
+import { FormItemRadio } from '../FormItem/FormItemRadio';
+import { FormItemInput } from '../FormItem/FormItemInput';
+import { FormItemOption } from '../FormItem/FormItemOption';
+import { FormItemPhone } from '../FormItem/FormItemPhone';
+
 import { getKeyWithLabel } from '../../utils/const';
+import { getNationalityTest } from '../../apis/filterApi';
+import { postNationality } from '../../store/nationalitySlice';
 
 import {
   priority_status,
@@ -96,6 +100,7 @@ export const FormPersonalInformation = ({
             name="source"
             placeholder="Please input source"
             type="text"
+            getData={getNationalityTest}
           />
         </Col>
       </Row>
@@ -115,6 +120,18 @@ export const FormPersonalInformation = ({
             form={form}
             countries={countries}
             listCountry={listCountry}
+          />
+        </Col>
+      </Row>
+      <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
+        <Col span={24}>
+          <FormItemSelectMultipleAdd
+            name="nationality"
+            label="Nationality"
+            placeholder="Select your nationality"
+            form={form}
+            getData={getNationalityTest}
+            postData={postNationality}
           />
         </Col>
       </Row>

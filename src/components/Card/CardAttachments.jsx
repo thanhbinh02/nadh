@@ -1,12 +1,9 @@
-import React from 'react';
 import { Card, Upload } from 'antd';
-import { useDispatch } from 'react-redux';
-import { removeFile } from '../../store/fileSlice';
-import { useSelector } from 'react-redux';
-import { postFileRedux } from '../../store/fileSlice';
-import { fetchFiles } from '../../store/fileSlice';
-import axiosClient from '../../apis/axiosClient';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeFile, fetchFiles, postFileRedux } from '../../store/fileSlice';
+
 import { AiOutlinePlus } from 'react-icons/ai';
+import axiosClient from '../../apis/axiosClient';
 
 export const CardAttachments = ({ files, obj_uid }) => {
   const dispatch = useDispatch();
@@ -36,8 +33,6 @@ export const CardAttachments = ({ files, obj_uid }) => {
     }
 
     if (info.file.status === 'uploading') {
-      console.log('file', files);
-
       let newFile = new FormData();
       newFile.append('file', info.file.originFileObj);
       newFile.append('obj_table', 'candidates');
@@ -53,9 +48,7 @@ export const CardAttachments = ({ files, obj_uid }) => {
             }),
           );
         })
-        .catch(() => {
-          console.log('loi ne');
-        });
+        .catch(() => {});
     }
   };
 

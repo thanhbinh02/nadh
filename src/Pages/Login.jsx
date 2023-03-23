@@ -1,4 +1,3 @@
-import React from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Row, Card, Modal, Col } from 'antd';
 import '../App.css';

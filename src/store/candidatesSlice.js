@@ -32,11 +32,6 @@ export const putNewDetailCandidate = createAsyncThunk(
   async ({ id, params }) => await putDetailCandidate(id, params),
 );
 
-export const putIndustryDetailCandidate = createAsyncThunk(
-  'candidates/putIndustryDetailCandidate',
-  async ({ id, params }) => await putDetailCandidate(id, params),
-);
-
 export const candidatesSlice = createSlice({
   name: 'candidates',
   initialState: {
@@ -87,18 +82,6 @@ export const candidatesSlice = createSlice({
     [putNewDetailCandidate.rejected]: (state) => {
       state.loading = false;
       state.isSuccess = false;
-    },
-    [putIndustryDetailCandidate.pending]: (state) => {
-      state.loading = true;
-      state.isSuccess = false;
-    },
-    [putIndustryDetailCandidate.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.isSuccess = true;
-      toast.success('Successfully updated', {
-        autoClose: 1000,
-        position: 'top-right',
-      });
     },
   },
 });

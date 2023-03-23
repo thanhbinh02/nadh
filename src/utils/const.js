@@ -548,9 +548,6 @@ export const changeMoney = (value, keyFrom, keyTo) => {
       }
     }
   }
-
-  console.log('final', final);
-
   if (final === 'NaN') {
     return 0;
   } else {

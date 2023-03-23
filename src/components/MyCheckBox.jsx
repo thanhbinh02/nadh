@@ -1,8 +1,8 @@
-import React from 'react';
 import { useState } from 'react';
-import Checkbox from 'antd/es/checkbox/Checkbox';
-import { addItemColumn } from '../store/customColumnSlice';
 import { useDispatch } from 'react-redux';
+import { Checkbox } from 'antd';
+
+import { addItemColumn } from '../store/customColumnSlice';
 import { refreshCandidates } from '../store/candidatesSlice';
 import { getTagsCandidates } from '../store/tagsCandidatesSlice';
 
@@ -17,7 +17,6 @@ export const MyCheckBox = ({ item, check }) => {
     const propsToDelete = [paramFrom, paramTo];
     propsToDelete.forEach((prop) => delete filterSaveLocalStorage[prop]);
     const newObj = { ...filterSaveLocalStorage, page: 1 };
-    console.log(newObj);
     window.localStorage.setItem('filterCDD', JSON.stringify(newObj));
     dispatch(refreshCandidates(newObj));
     dispatch(getTagsCandidates(newObj));

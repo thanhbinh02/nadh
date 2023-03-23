@@ -22,12 +22,7 @@ export const companySlice = createSlice({
       key: undefined,
     },
   },
-  reducers: {
-    putDataCompany: (state, { payload }) => {
-      state.item.label = payload.label;
-      state.item.key = payload.key;
-    },
-  },
+  reducers: {},
   extraReducers: {
     [postCompany.fulfilled]: (state, { payload }) => {
       state.loading = false;
@@ -50,6 +45,5 @@ export const companySlice = createSlice({
   },
 });
 
-export const { putDataCompany } = companySlice.actions;
 const { reducer } = companySlice;
 export default reducer;

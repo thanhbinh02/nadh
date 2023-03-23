@@ -1,10 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getDetailCandidate } from '../apis/candidatesApi';
-import { putDetailCandidate } from '../apis/candidatesApi';
+import {
+  getDetailCandidate,
+  putDetailCandidate,
+  putCandidateHistories,
+  postCandidateHistories,
+  deleteCandidateHistories,
+} from '../apis/candidatesApi';
 import { toast } from 'react-toastify';
-import { putCandidateHistories } from '../apis/candidatesApi';
-import { postCandidateHistories } from '../apis/candidatesApi';
-import { deleteCandidateHistories } from '../apis/candidatesApi';
 
 export const fetchDetailCandidateSlice = createAsyncThunk(
   'detailCandidate/fetchDetailCandidateSlice',

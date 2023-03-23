@@ -6,17 +6,12 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 
 import { fetchDegree } from '../../store/degreeSlice';
 import { fetchPhoneNumber } from '../../store/phoneNumberSlice';
-
-import { postNewCandidate } from '../../store/createCandidateSlice';
-import { CustomButton } from '../CustomButton/CustomButton';
-import { FormPersonalInformation } from './FormPersonalInformation';
 import { fetchPosition } from '../../store/positionSlice';
 
-import {
-  putDataCandidateType,
-  putDataCandidatePositions,
-  putDataCandidateEmail,
-} from '../../store/createCandidateSlice';
+import { CustomButton } from '../CustomButton/CustomButton';
+import { FormPersonalInformation } from './FormPersonalInformation';
+
+import { postNewCandidate } from '../../store/createCandidateSlice';
 
 const FormPersonalInformationAdd = ({ setCurrentStep }) => {
   const [form] = Form.useForm();
@@ -95,9 +90,6 @@ const FormPersonalInformationAdd = ({ setCurrentStep }) => {
           keyNationality={keyNationality}
           keyPosition={keyPosition}
           degree={degree}
-          putCandidateType={putDataCandidateType}
-          putCandidatePositions={putDataCandidatePositions}
-          putCandidateEmail={putDataCandidateEmail}
         />
 
         <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>

@@ -1,5 +1,4 @@
-import React from 'react';
-import FormListAddress from '../../../components/Form/FormListAddress';
+import FormListAddress from '../Form/FormListAddress';
 import { Form, Button, Col } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 

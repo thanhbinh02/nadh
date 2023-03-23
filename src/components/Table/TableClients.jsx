@@ -1,9 +1,8 @@
 import { Table, Tag, Spin } from 'antd';
-import { AiOutlineSearch } from 'react-icons/ai';
+import { AiOutlineSearch, AiOutlineEye } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AiOutlineEye } from 'react-icons/ai';
 
 import { FilterDropDownText } from '../Filter/FilterDropDownText';
 import { filterTagCandidates } from '../../utils/filterTagCandidates';

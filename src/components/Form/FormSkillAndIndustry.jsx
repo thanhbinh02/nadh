@@ -1,19 +1,23 @@
-import { Form, Row, Col } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { fetchSoftSkills } from '../../../store/softSkillsSlice';
-import { fetchJobFunctionsSkills } from '../../../store/jobFunctionsSkillsSlice';
-import FormSelectGroup from '../../../components/Form/FormSelectGroup';
-import { fetchLanguages } from '../../../store/languagesSlice';
-import { FormItemSelectMultiple } from './FormItemSelectMultiple';
-import { putNewDetailCandidate } from '../../../store/candidatesSlice';
-import { FormItemSelectLanguages } from './FormItemSelectLanguages';
+import { Form, Row, Col } from 'antd';
 
-import FormItemBusinessLine from './FormItemBusinessLine';
-import { fetchIndustries } from '../../../store/categoriesSlice';
-import { fetchSectors } from '../../../store/categoriesSlice';
-import { fetchCategories } from '../../../store/categoriesSlice';
-import { putBusinessLineSlice } from '../../../store/businessLineSlice';
+import { fetchSoftSkills } from '../../store/softSkillsSlice';
+import { fetchJobFunctionsSkills } from '../../store/jobFunctionsSkillsSlice';
+import {
+  fetchIndustries,
+  fetchSectors,
+  fetchCategories,
+} from '../../store/categoriesSlice';
+import { fetchLanguages } from '../../store/languagesSlice';
+
+import { putBusinessLineSlice } from '../../store/businessLineSlice';
+import { putNewDetailCandidate } from '../../store/candidatesSlice';
+
+import { FormIemSelectGroup } from '../FormItem/FormIemSelectGroup';
+import { FormItemBusinessLine } from '../FormItem/FormItemBusinessLine';
+import { FormItemSelectLanguages } from '../FormItem/FormItemSelectLanguages';
+import { FormItemSelectMultiple } from '../FormItem/FormItemSelectMultiple';
 
 const FormSkillAndIndustry = ({ detailCandidate }) => {
   const [form] = Form.useForm();
@@ -57,7 +61,7 @@ const FormSkillAndIndustry = ({ detailCandidate }) => {
           />
         </Col>
         <Col span={12}>
-          <FormSelectGroup
+          <FormIemSelectGroup
             data={jobFunctionsSkills}
             label="Job functions skills"
             name="skills"

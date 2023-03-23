@@ -1,9 +1,9 @@
-import { Card } from 'antd';
-import { Form, Row, Col, InputNumber, Select } from 'antd';
-import { FormItemBenefits } from '../Form/FormItemBenefits';
-import { BENEFITS } from '../../utils/const';
 import { useState } from 'react';
-import { changeMoney } from '../../utils/const';
+import { Form, Row, Col, InputNumber, Select, Card } from 'antd';
+
+import { BENEFITS, changeMoney } from '../../utils/const';
+import { FormItemBenefits } from '../FormItem/FormItemBenefits';
+import { InputNumberFormat } from '../Input/InputNumberFormat';
 
 const { Option } = Select;
 export const CardRemunerationAndRewards = ({ remuneration, form }) => {
@@ -37,7 +37,7 @@ export const CardRemunerationAndRewards = ({ remuneration, form }) => {
     form.setFieldValue('current_salary', resultCurrentSalary);
     form.setFieldValue('salary_to', expectSalaryTo);
     form.setFieldValue('salary_from', expectSalaryFrom);
-    setValueSelect(option);
+    setValueSelect({ ...option, name: option.label });
   };
 
   const handleChangeSalaryFrom = () => {
@@ -66,39 +66,14 @@ export const CardRemunerationAndRewards = ({ remuneration, form }) => {
               name="current_salary"
               label={`Based salary (${valueSelect.name})`}
             >
-              <InputNumber
-                min={0}
-                style={{ width: '100%' }}
-                formatter={(value) => {
-                  const str = value.toString();
-                  const decimalIndex = str.indexOf('.');
-                  const decimalPart =
-                    decimalIndex >= 0 ? str.slice(decimalIndex) : '';
-                  const integerPart =
-                    decimalIndex >= 0 ? str.slice(0, decimalIndex) : str;
-                  const formattedIntegerPart = integerPart
-                    .split('')
-                    .reverse()
-                    .map((char, index) => {
-                      if (index > 0 && index % 3 === 0) {
-                        return `${char},`;
-                      }
-                      return char;
-                    })
-                    .reverse()
-                    .join('');
-                  return `${formattedIntegerPart}${decimalPart}`;
-                }}
-                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                precision={2}
-              ></InputNumber>
+              <InputNumberFormat />
             </Form.Item>
           </Col>
           <Col span={12} style={{ textAlign: 'right' }}>
             <Form.Item name="currency">
               <Select
                 style={{ width: '76px', borderRadius: '0px' }}
-                defaultValue={valueSelect.id}
+                defaultValue={remuneration.currency.id}
                 onChange={handleChangeSelect}
               >
                 {options.map((option) => {
@@ -219,39 +194,13 @@ export const CardRemunerationAndRewards = ({ remuneration, form }) => {
                 }),
               ]}
             >
-              <InputNumber
-                onChange={handleChangeSalaryFrom}
-                min={0}
-                style={{ width: '95%' }}
-                formatter={(value) => {
-                  const str = value.toString();
-                  const decimalIndex = str.indexOf('.');
-                  const decimalPart =
-                    decimalIndex >= 0 ? str.slice(decimalIndex) : '';
-                  const integerPart =
-                    decimalIndex >= 0 ? str.slice(0, decimalIndex) : str;
-                  const formattedIntegerPart = integerPart
-                    .split('')
-                    .reverse()
-                    .map((char, index) => {
-                      if (index > 0 && index % 3 === 0) {
-                        return `${char},`;
-                      }
-                      return char;
-                    })
-                    .reverse()
-                    .join('');
-                  return `${formattedIntegerPart}${decimalPart}`;
-                }}
-                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                precision={2}
-              ></InputNumber>
+              <InputNumberFormat />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item
               name="salary_to"
-              label={`To ${valueSelect.name}`}
+              label={`From ${valueSelect.name}`}
               rules={[
                 () => ({
                   validator(_, value) {
@@ -267,33 +216,7 @@ export const CardRemunerationAndRewards = ({ remuneration, form }) => {
                 }),
               ]}
             >
-              <InputNumber
-                onChange={handleChangeSalaryTo}
-                min={0}
-                style={{ width: '95%' }}
-                formatter={(value) => {
-                  const str = value.toString();
-                  const decimalIndex = str.indexOf('.');
-                  const decimalPart =
-                    decimalIndex >= 0 ? str.slice(decimalIndex) : '';
-                  const integerPart =
-                    decimalIndex >= 0 ? str.slice(0, decimalIndex) : str;
-                  const formattedIntegerPart = integerPart
-                    .split('')
-                    .reverse()
-                    .map((char, index) => {
-                      if (index > 0 && index % 3 === 0) {
-                        return `${char},`;
-                      }
-                      return char;
-                    })
-                    .reverse()
-                    .join('');
-                  return `${formattedIntegerPart}${decimalPart}`;
-                }}
-                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                precision={2}
-              ></InputNumber>
+              <InputNumberFormat />
             </Form.Item>
           </Col>
         </Row>

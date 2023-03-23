@@ -1,4 +1,3 @@
-import React from 'react';
 import { Form, Radio } from 'antd';
 
 export const FormItemRadio = ({ label, name, options }) => {

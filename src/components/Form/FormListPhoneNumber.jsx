@@ -1,4 +1,3 @@
-import React from 'react';
 import { MinusCircleOutlined } from '@ant-design/icons';
 import { Form, Select, Row, Col, Input } from 'antd';
 

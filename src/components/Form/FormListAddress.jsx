@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { MinusCircleOutlined } from '@ant-design/icons';
 import { Form, Select, Row, Col, Input } from 'antd';
+
 import { getLocations } from '../../apis/filterApi';
 import { getKeyWithLabel } from '../../utils/const';
 

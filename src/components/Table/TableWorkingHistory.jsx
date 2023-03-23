@@ -1,9 +1,9 @@
-import React from 'react';
-import { Table, Row, Col, Button, Modal, Spin } from 'antd';
 import { useState } from 'react';
-import { FormWorkingHistory } from '../Form/FormWorkingHistory';
 import { useSelector } from 'react-redux';
+import { Table, Row, Col, Button, Modal, Spin } from 'antd';
 import { BsPencil } from 'react-icons/bs';
+
+import { FormWorkingHistory } from '../Form/FormWorkingHistory';
 
 export const TableWorkingHistory = ({ candidate_id }) => {
   const [modalOpen, setModalOpen] = useState(false);

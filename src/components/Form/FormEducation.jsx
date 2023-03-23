@@ -1,20 +1,20 @@
 import { Button, Select, Form, Row, Checkbox, Col } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { FormItemSelectOneAdd } from './FormItemSelectOneAdd';
-import { postSchool } from '../../store/schoolSlice';
-import { putDataSchool } from '../../store/schoolSlice';
 
-import { postMajor } from '../../store/majorSlice';
-import { putDataMajor } from '../../store/majorSlice';
-import { postDetailCandidateHistoryAcademic } from '../../store/detailCandidateSlice';
-import { fetchDetailCandidateSliceNotLoading } from '../../store/detailCandidateSlice';
-import { formatDate } from '../../utils/const';
-import { putDetailCandidateHistory } from '../../store/detailCandidateSlice';
-import { deleteHistory } from '../../store/detailCandidateSlice';
-import { getSchoolTest } from '../../apis/filterApi';
-import { getMajorTest } from '../../apis/filterApi';
-import { getKeyWithLabel } from '../../utils/const';
+import { FormItemSelectOneAdd } from '../FormItem/FormItemSelectOneAdd';
+import { postSchool } from '../../store/schoolSlice';
+import { postMajor, putDataMajor } from '../../store/majorSlice';
+
+import {
+  postDetailCandidateHistoryAcademic,
+  deleteHistory,
+  putDetailCandidateHistory,
+  fetchDetailCandidateSliceNotLoading,
+} from '../../store/detailCandidateSlice';
+
+import { getSchoolTest, getMajorTest } from '../../apis/filterApi';
+import { getKeyWithLabel, formatDate } from '../../utils/const';
 
 const { Option } = Select;
 export const FormEducation = ({
@@ -255,7 +255,6 @@ export const FormEducation = ({
             addItem
             postData={postSchool}
             form={form}
-            putData={putDataSchool}
             getData={getSchoolTest}
           />
         </Col>
@@ -269,7 +268,6 @@ export const FormEducation = ({
             placeholder="Select or add major"
             postData={postMajor}
             form={form}
-            getData={getMajorTest}
             putData={putDataMajor}
           />
         </Col>

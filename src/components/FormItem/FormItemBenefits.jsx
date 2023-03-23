@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Col, Radio, Row, Input } from 'antd';
-import { useState } from 'react';
 
 export const FormItemBenefits = ({ item, form }) => {
   const [value, setValue] = useState(form.getFieldValue(item.name_radio));

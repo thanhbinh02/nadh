@@ -1,7 +1,6 @@
-import React from 'react';
 import { Form, Button, Col } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import FormListPhoneNumber from '../../../components/Form/FormListPhoneNumber';
+import FormListPhoneNumber from '../Form/FormListPhoneNumber';
 
 export const FormItemPhone = ({ form, phoneNumber }) => {
   return (

@@ -1,18 +1,16 @@
-import React from 'react';
-import { Form, Select } from 'antd/';
+import { Select, Form } from 'antd';
+
 const { Option } = Select;
 
-export const FormSelectItem = ({ options, name, label, placeholder, mode }) => {
+export const FormItemOption = ({ options, name, label, placeholder, form }) => {
   return (
     <Form.Item name={name} label={label}>
       <Select
-        mode={mode}
-        allowClear
         style={{ width: '100%', borderRadius: '0px' }}
-        optionFilterProp="children"
         placeholder={placeholder}
+        optionFilterProp="children"
       >
-        {options.map((option) => {
+        {options?.map((option) => {
           return (
             <Option key={option.key} value={option.key} label={option.label}>
               {option.label}

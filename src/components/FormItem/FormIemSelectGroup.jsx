@@ -2,14 +2,11 @@ import { Select, Form } from 'antd';
 
 const { Option, OptGroup } = Select;
 
-function handleChange(value) {}
-
-function FormSelectGroup({ data, name, label, placeholder }) {
+export const FormIemSelectGroup = ({ data, name, label, placeholder }) => {
   return (
     <Form.Item name={name} label={label}>
       <Select
         style={{ width: '100%', borderRadius: '0px' }}
-        onChange={handleChange}
         mode="multiple"
         placeholder={placeholder}
       >
@@ -25,6 +22,4 @@ function FormSelectGroup({ data, name, label, placeholder }) {
       </Select>
     </Form.Item>
   );
-}
-
-export default FormSelectGroup;
+};

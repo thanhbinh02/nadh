@@ -1,16 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { FormItemSelectOneAdd } from './FormItemSelectOneAdd';
+import { FormItemSelectOneAdd } from '../FormItem/FormItemSelectOneAdd';
 import { Button, Select, Form, Row, Checkbox, Col } from 'antd';
 import { MONTHS } from '../../utils/const';
 import { getCompany } from '../../apis/filterApi';
 import { postCompany } from '../../store/companySlice';
-import { putDataCompany } from '../../store/companySlice';
-import { useSelector } from 'react-redux';
-
 import { getPositionTest } from '../../apis/filterApi';
 import { postPosition } from '../../store/positionSlice';
-import { putDataPosition } from '../../store/positionSlice';
 import { postDetailCandidateHistoryWorkingHistory } from '../../store/detailCandidateSlice';
 import { fetchDetailCandidateSliceNotLoading } from '../../store/detailCandidateSlice';
 import { putDetailCandidateHistory } from '../../store/detailCandidateSlice';
@@ -21,16 +17,12 @@ export const FormWorkingHistory = ({
   setModalOpen,
   candidate_id,
   initialValues,
-  setInitialValue,
 }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [checkDisable, setCheckDisable] = useState(false);
   const [monthTo, setMonthTo] = useState();
   const [yearTo, setYearTo] = useState();
-
-  const itemCompany = useSelector((state) => state.company.item);
-  const itemPosition = useSelector((state) => state.position.item);
 
   const yearsRange = [];
   for (var i = 1960; i <= 2023; i++) {
@@ -356,10 +348,8 @@ export const FormWorkingHistory = ({
             name="organization"
             label="Company"
             placeholder="Select or add company"
-            addItem
             postData={postCompany}
             form={form}
-            putData={putDataCompany}
             getData={getCompany}
             required
             message="Please select company"
@@ -373,10 +363,8 @@ export const FormWorkingHistory = ({
             name="title"
             label="Position"
             placeholder="Select or add position"
-            addItem
             postData={postPosition}
             form={form}
-            putData={putDataPosition}
             getData={getPositionTest}
             required
             message="Please select position"

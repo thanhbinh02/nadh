@@ -18,3 +18,21 @@ export const postFile = async (file) => {
     },
   });
 };
+
+export const viewPDFFile = async (token) => {
+  const url =
+    'https://lubrytics.com:8443/nadh-api-crm/api/export/candidates/CDD-000737/CV';
+  return await axiosClient.get(
+    url,
+    {
+      download: true,
+      token: token,
+    },
+    {
+      headers: {
+        'content-type': 'application/pdf',
+        'content-disposition': 'attachment',
+      },
+    },
+  );
+};
