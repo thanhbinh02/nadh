@@ -189,3 +189,20 @@ span.ant-table-column-title {
 .ck-content .text-huge {
   font-size: 1.8em;
 }
+
+:where(
+    .css-dev-only-do-not-override-1km3mtt
+  ).ant-upload-wrapper.ant-upload-picture-card-wrapper
+  .ant-upload.ant-upload-select {
+  width: 140px !important;
+  height: 180px !important;
+}
+
+:where(
+    .css-dev-only-do-not-override-1km3mtt
+  ).ant-upload-wrapper.ant-upload-picture-card-wrapper
+  .ant-upload-list.ant-upload-list-picture-card
+  .ant-upload-list-item-container {
+  width: 140px !important;
+  height: 180px !important;
+}

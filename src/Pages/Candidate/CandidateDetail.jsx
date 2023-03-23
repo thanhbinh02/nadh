@@ -319,7 +319,7 @@ export const CandidateDetail = () => {
                   initialValues={initialValues}
                   onValuesChange={handleOnValuesChange}
                 >
-                  {/* <CardOverview />
+                  <CardOverview />
 
                   <Card
                     title="Personal Information"
@@ -405,7 +405,7 @@ export const CandidateDetail = () => {
                   <CardRemunerationAndRewards
                     remuneration={detailCandidate.remuneration}
                     form={form}
-                  /> */}
+                  />
 
                   <CardAttachments files={files} obj_uid={detailCandidate.id} />
                 </Form>
