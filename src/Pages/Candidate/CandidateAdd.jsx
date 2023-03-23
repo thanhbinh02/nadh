@@ -8,13 +8,12 @@ import { fetchPhoneNumber } from '../../store/phoneNumberSlice';
 import { fetchDegree } from '../../store/degreeSlice';
 import { toast } from 'react-toastify';
 import { FormPersonalInformation } from '../../components/Form/FormPersonalInformation';
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { CustomButton } from '../../components/CustomButton/CustomButton';
+import { postNewCandidate } from '../../store/createCandidateSlice';
 
 const CandidateAdd = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [form] = Form.useForm();
-  const [open, setOpen] = useState();
+
   const dispatch = useDispatch();
   window.localStorage.removeItem('filterCDD');
   const postCandidateSuccess = useSelector(
@@ -34,6 +33,14 @@ const CandidateAdd = () => {
     dispatch(fetchCountries({ type: 4 }));
   }, []);
 
+  useEffect(() => {
+    if (postCandidateSuccess) {
+      setTimeout(() => {
+        setCurrentStep(1);
+      }, 1200);
+    }
+  }, [postCandidateSuccess]);
+
   const yearsRange = [];
   for (var i = 1960; i <= 2023; i++) {
     yearsRange.push({ key: i });
@@ -48,10 +55,49 @@ const CandidateAdd = () => {
 
   const onFinish = (value) => {
     console.log('onFinish', value);
-  };
+    const {
+      emails,
+      date_birthday,
+      month_birthday,
+      year_birthday,
+      addresses,
+      phones,
+      ...rest
+    } = value;
 
-  const handleAgree = () => {
-    setOpen(false);
+    const newAddresses = addresses.filter((item) => item.country !== undefined);
+    const newEmail = emails?.map((item) => item.email);
+    const newPhone = phones?.map((item) => {
+      if (!item.phone_code) {
+        return {
+          ...item,
+          current: -1,
+          phone_code: { key: 1280 },
+        };
+      } else {
+        return {
+          ...item,
+          current: -1,
+          phone_code: { key: item.phone_code },
+        };
+      }
+    });
+    const final = {
+      ...rest,
+      addresses: newAddresses,
+      emails: newEmail,
+      phones: newPhone,
+    };
+
+    const valueDispatch = {};
+
+    for (let prop in final) {
+      if (final[prop] !== undefined) {
+        valueDispatch[prop] = final[prop];
+      }
+    }
+
+    dispatch(postNewCandidate(valueDispatch));
   };
 
   return (
@@ -112,47 +158,11 @@ const CandidateAdd = () => {
                   span={24}
                   style={{ textAlign: 'right', marginTop: '10px' }}
                 >
-                  {/* <Button type="primary" htmlType="submit">
-                    Create candidate
-                  </Button> */}
-                  <Button onClick={() => setOpen(true)}>
+                  <Button type="primary" htmlType="submit">
                     Create candidate
                   </Button>
                 </Col>
               </Row>
-              <Modal
-                centered
-                open={open}
-                closable={false}
-                footer={null}
-                className="modal-add-new-candidate"
-              >
-                <Row style={{ textAlign: 'center', margin: '20px' }}>
-                  <Col span={24}>
-                    <InfoCircleOutlined
-                      style={{ fontSize: '80px', color: '#facea8' }}
-                    />
-                  </Col>
-                  <Col span={24}>
-                    <h2
-                      style={{
-                        fontSize: '28px',
-                        marginTop: '20px',
-                      }}
-                    >
-                      Are you sure you want to create new candidate?
-                    </h2>
-                  </Col>
-                  <Col span={24}>
-                    <CustomButton agree content={'Yes'} onClick={handleAgree} />
-                    <CustomButton
-                      reject
-                      onClick={() => setOpen(false)}
-                      content={'No'}
-                    />
-                  </Col>
-                </Row>
-              </Modal>
             </Form>
           </Card>
         )}

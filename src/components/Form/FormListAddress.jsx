@@ -48,7 +48,6 @@ const FormListAddress = ({
   const [disabledInput, setDisabledInput] = useState(
     form.getFieldValue(['addresses', name, 'country']) ? false : true,
   );
-  const [check, setCheck] = useState(true);
 
   const fetchDataCity = async (params) => {
     const result = await getLocations({
@@ -65,6 +64,7 @@ const FormListAddress = ({
   };
 
   const handleCountryChange = (value, option, name) => {
+    setDisabledInput(false);
     if (value !== undefined) {
       fetchDataCity({ type: 1, parent_id: value });
       form.setFieldValue(
@@ -98,7 +98,8 @@ const FormListAddress = ({
   };
 
   const handleClearCountry = (name) => {
-    setCheck(!check);
+    setDisabledInput(true);
+
     form.setFieldValue(['addresses', name, 'address'], undefined);
     form.setFieldValue(['addresses', name, 'city'], undefined);
     form.setFieldValue(['addresses', name, 'district'], undefined);
@@ -106,7 +107,6 @@ const FormListAddress = ({
   };
 
   const handleClearCity = (name) => {
-    setCheck(!check);
     form.setFieldValue(['addresses', name, 'city'], undefined);
     form.setFieldValue(['addresses', name, 'district'], undefined);
     setDisabledInput(true);

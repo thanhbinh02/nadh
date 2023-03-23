@@ -100,7 +100,6 @@ export const FormPersonalInformation = ({
             name="source"
             placeholder="Please input source"
             type="text"
-            getData={getNationalityTest}
           />
         </Col>
       </Row>
@@ -123,6 +122,7 @@ export const FormPersonalInformation = ({
           />
         </Col>
       </Row>
+
       <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
         <Col span={24}>
           <FormItemSelectMultipleAdd

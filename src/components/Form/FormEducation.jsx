@@ -23,6 +23,7 @@ export const FormEducation = ({
   initialValues,
   setInitialValues,
   degree,
+  major,
 }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -252,7 +253,6 @@ export const FormEducation = ({
             name="organization"
             label="School"
             placeholder="Select or add school"
-            addItem
             postData={postSchool}
             form={form}
             getData={getSchoolTest}
@@ -268,7 +268,7 @@ export const FormEducation = ({
             placeholder="Select or add major"
             postData={postMajor}
             form={form}
-            putData={putDataMajor}
+            getData={getMajorTest}
           />
         </Col>
       </Row>

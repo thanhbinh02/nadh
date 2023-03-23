@@ -1,6 +1,6 @@
 import { Form, Select, Space, Button } from 'antd';
 import { useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { useQuery } from 'react-query';
 
@@ -18,6 +18,8 @@ export const FormItemSelectMultipleAdd = ({
 }) => {
   const dispatch = useDispatch();
   const [contentModal, setContentModal] = useState();
+
+  const [newValues, setNewValues] = useState(form.getFieldValue(name));
   const { data } = useQuery([name, contentModal], () => getData(contentModal));
 
   const handleOpenModalAdd = () => {
@@ -26,11 +28,19 @@ export const FormItemSelectMultipleAdd = ({
   };
 
   const handleChange = (value, option) => {
-    const newValue = option.map((item) => {
-      const { label, key } = item;
-      return { labe: label, key: Number(key) };
-    });
-    form.setFieldValue(name, newValue);
+    const lengthOption = option?.length;
+
+    const changeValue = {
+      label: option[lengthOption - 1].label,
+      key: Number(option[lengthOption - 1].key),
+    };
+
+    let final = newValues;
+    final.push(changeValue);
+
+    setNewValues(final);
+    form.setFieldValue(name, newValues);
+    setContentModal();
   };
 
   const handleSearch = (value) => {
@@ -41,6 +51,14 @@ export const FormItemSelectMultipleAdd = ({
 
   const handleFocus = () => {
     setContentModal();
+  };
+
+  const handleRemoveItem = (value) => {
+    console.log('Values remove', value);
+  };
+
+  const handleBlur = () => {
+    form.setFieldValue(name, newValues);
   };
 
   return (
@@ -70,6 +88,8 @@ export const FormItemSelectMultipleAdd = ({
           placeholder={placeholder}
           onSearch={handleSearch}
           onFocus={handleFocus}
+          onDeselect={handleRemoveItem}
+          onBlur={handleBlur}
           dropdownRender={(menu) => {
             return (
               <>

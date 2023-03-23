@@ -182,23 +182,6 @@ export const CandidateDetail = () => {
       }
     }
 
-    const result1 = {
-      ...result,
-      phones: result?.phones?.map(({ phone_code, ...rest }) => ({
-        ...rest,
-        phone_code: { key: phone_code },
-      })),
-    };
-
-    delete result1.date_birthday;
-    delete result1.month_birthday;
-    delete result1.year_birthday;
-
-    const result2 = {
-      ...result1,
-      emails: result1?.emails?.map((item) => item.email),
-    };
-
     const {
       addresses,
       benefit,
@@ -209,14 +192,30 @@ export const CandidateDetail = () => {
       notice_days,
       salary_from,
       salary_to,
+      phones,
+      date_birthday,
+      month_birthday,
+      year_birthday,
+      emails,
       ...rest
-    } = result2;
+    } = result;
+
+    const newPhone = phones?.map(({ phone_code, ...rest }) => ({
+      ...rest,
+      phone_code: { key: phone_code },
+      current: -1,
+    }));
+
+    const newEmail = emails?.map((item) => item.email);
 
     const newAddresses = addresses.filter((item) => item.country !== undefined);
 
     const final = {
       ...rest,
+      phones: newPhone,
+      emails: newEmail,
       addresses: newAddresses,
+      notice_days,
       remuneration: {
         benefit: benefit,
         currency: currency,
@@ -224,6 +223,7 @@ export const CandidateDetail = () => {
         expectations: expectations,
         future_prospects: future_prospects,
         salary: { from: salary_from, to: salary_to },
+        notice_days: notice_days,
       },
     };
 
@@ -238,6 +238,8 @@ export const CandidateDetail = () => {
       id: detailCandidate.id,
       params: test,
     };
+
+    console.log('newData', newData);
 
     dispatch(putNewDetailCandidate(newData))
       .unwrap()
@@ -256,6 +258,7 @@ export const CandidateDetail = () => {
   };
 
   const handleOnValuesChange = () => {
+    console.log('change ko');
     setOpen(true);
   };
 

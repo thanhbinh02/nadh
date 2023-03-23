@@ -174,8 +174,6 @@ export const TableAcademic = ({ candidate_id }) => {
               degree={degree}
               school={school}
               major={major}
-              itemSchool={itemSchool}
-              itemMajor={itemMajor}
             />
           </Modal>
         </Row>

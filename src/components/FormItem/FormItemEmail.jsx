@@ -5,7 +5,7 @@ import { PlusOutlined } from '@ant-design/icons';
 export const FormItemEmail = ({ form }) => {
   return (
     <Form.Item label="Email" required>
-      <Form.List name="emails">
+      <Form.List name="emails" initialValue={[{}]}>
         {(fields, { add, remove }) => {
           return (
             <>

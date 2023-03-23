@@ -152,7 +152,7 @@ export const FormWorkingHistory = ({
       form.setFieldValue('month_to', monthTo);
       form.setFieldValue('year_to', yearTo);
     }
-    // form.validateFields(['year_to']);
+    form.validateFields(['year_to']);
   };
 
   const handleChangeMonthTo = (value) => {
@@ -310,7 +310,7 @@ export const FormWorkingHistory = ({
                           form.getFieldValue('status') === false
                         )
                           return Promise.reject(
-                            new Error('Start select end year'),
+                            new Error('Please select end year'),
                           );
 
                         return Promise.resolve();
