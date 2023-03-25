@@ -11,7 +11,7 @@ import {
 } from '../../store/categoriesSlice';
 import { fetchLanguages } from '../../store/languagesSlice';
 
-import { putBusinessLineSlice } from '../../store/businessLineSlice';
+import { putBusinessLineCandidateSlice } from '../../store/businessLineSlice';
 import { putNewDetailCandidate } from '../../store/candidatesSlice';
 
 import { FormIemSelectGroup } from '../FormItem/FormIemSelectGroup';
@@ -98,7 +98,7 @@ const FormSkillAndIndustry = ({ detailCandidate }) => {
             businessLine={businessLine}
             form={form}
             id={idCandidate}
-            actionDispatch={putBusinessLineSlice}
+            actionDispatch={putBusinessLineCandidateSlice}
           />
         </Col>
       </Row>

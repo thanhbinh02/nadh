@@ -19,6 +19,7 @@ export const FormItemBusinessLine = ({
   businessLine,
   id,
   actionDispatch,
+  type,
 }) => {
   const dispatch = useDispatch();
 
@@ -142,7 +143,13 @@ export const FormItemBusinessLine = ({
 
   return (
     <>
-      <Form.Item label="Industry" style={{ marginBottom: '24px' }}>
+      <div style={{ marginBottom: '10px', marginLeft: '10px' }}>
+        {type === 'client' && 'Industry'}
+      </div>
+      <Form.Item
+        label={type !== 'client' && 'Industry'}
+        style={{ marginBottom: '24px' }}
+      >
         <Row gutter={(12, 12)}>
           <Col span={8}>
             <Form.Item name="country">

@@ -1,9 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { putDetailCandidate } from '../apis/candidatesApi';
+import { putDetailClient } from '../apis/clientsApi';
 
-export const putBusinessLineSlice = createAsyncThunk(
-  'businessLine/putBusinessLineSlice',
+export const putBusinessLineCandidateSlice = createAsyncThunk(
+  'businessLine/putBusinessLineCandidateSlice',
   async ({ id, params }) => await putDetailCandidate(id, params),
+);
+
+export const putBusinessLineClientSlice = createAsyncThunk(
+  'businessLine/putBusinessLineCandidateSlice',
+  async ({ id, params }) => await putDetailClient(id, params),
 );
 
 export const businessLineSlice = createSlice({
@@ -15,11 +21,11 @@ export const businessLineSlice = createSlice({
   },
   reducers: {},
   extraReducers: {
-    [putBusinessLineSlice.pending]: (state) => {
+    [putBusinessLineCandidateSlice.pending]: (state) => {
       state.loading = true;
       state.isSuccess = false;
     },
-    [putBusinessLineSlice.fulfilled]: (state, { payload }) => {
+    [putBusinessLineCandidateSlice.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.isSuccess = true;
       state.data = payload.business_line;

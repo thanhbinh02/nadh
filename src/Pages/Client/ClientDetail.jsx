@@ -1,5 +1,5 @@
 import { useParams } from 'react-router';
-import { Breadcrumb, Spin, Row, Col, Form, Button } from 'antd';
+import { Breadcrumb, Spin, Row, Col, Form, Button, Card } from 'antd';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDetailClientSlice } from '../../store/detailClientSlice';
@@ -9,6 +9,12 @@ import { fetchCountries } from '../../store/locationsSlice';
 import { fetchClients } from '../../store/clientsSlice';
 import { fetchUsers } from '../../store/usersSlice';
 import { fetchPhoneNumber } from '../../store/phoneNumberSlice';
+import { FormItemBusinessLine } from '../../components/FormItem/FormItemBusinessLine';
+import { fetchIndustries } from '../../store/categoriesSlice';
+import { fetchSectors } from '../../store/categoriesSlice';
+import { fetchCategories } from '../../store/categoriesSlice';
+import { putBusinessLineClientSlice } from '../../store/businessLineSlice';
+import { TableActivityLogs } from '../../components/Table/TableActivityLogs';
 
 export const ClientDetail = () => {
   const { client_id } = useParams();
@@ -16,6 +22,9 @@ export const ClientDetail = () => {
   const [form] = Form.useForm();
 
   const detailClient = useSelector((state) => state.detailClient.data);
+  const industries = useSelector((state) => state.categories.industries);
+  const sectors = useSelector((state) => state.categories.sectors);
+  const categories = useSelector((state) => state.categories.categories);
 
   useEffect(() => {
     dispatch(fetchDetailClientSlice(client_id));
@@ -23,6 +32,7 @@ export const ClientDetail = () => {
     dispatch(fetchClients());
     dispatch(fetchUsers());
     dispatch(fetchPhoneNumber());
+    dispatch(fetchIndustries({ type: 1 }));
   }, []);
 
   const handleFinish = (values) => {
@@ -98,6 +108,48 @@ export const ClientDetail = () => {
               }}
             >
               <CardInfoClient detailClient={detailClient} form={form} />
+
+              <Row>
+                <Col span={16}>
+                  <Card
+                    title="Industry"
+                    bordered={false}
+                    style={{
+                      width: '100%',
+                      marginTop: '40px',
+                    }}
+                  >
+                    <FormItemBusinessLine
+                      data={industries}
+                      optionTwo={sectors}
+                      optionThree={categories}
+                      typeTwo={2}
+                      fetchDataItemTwo={fetchSectors}
+                      fetchDataItemThree={fetchCategories}
+                      typeThree={3}
+                      businessLine={detailClient?.business_line}
+                      form={form}
+                      id={detailClient?.id}
+                      actionDispatch={putBusinessLineClientSlice}
+                      type="client"
+                    />
+                  </Card>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={24}>
+                  <Card
+                    title="Activity Logs"
+                    bordered={false}
+                    style={{
+                      width: '100%',
+                      marginTop: '40px',
+                    }}
+                  >
+                    <TableActivityLogs data={detailClient?.logs} />
+                  </Card>
+                </Col>
+              </Row>
               <Button type="primary" htmlType="submit">
                 Create Job
               </Button>

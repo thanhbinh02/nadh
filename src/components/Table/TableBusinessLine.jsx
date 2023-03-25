@@ -204,6 +204,7 @@ export const TableBusinessLine = ({
             {loading ? (
               <Spin tip="Loading...">
                 <Table
+                  scroll={{ x: '70%' }}
                   columns={columns}
                   dataSource={dataTable}
                   pagination={{
@@ -216,6 +217,7 @@ export const TableBusinessLine = ({
               </Spin>
             ) : (
               <Table
+                scroll={{ x: '70%' }}
                 columns={columns}
                 dataSource={dataTable}
                 pagination={{
