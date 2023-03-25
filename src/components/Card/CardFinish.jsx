@@ -4,20 +4,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Card, Button, Result } from 'antd';
 import { removeUserNewCandidate } from '../../store/createCandidateSlice';
 
-export const CardFinish = ({ setCurrentStep }) => {
+export const CardFinish = ({ setCurrentStep, viewDetail, createNew }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.createCandidate.user);
-
   const handleViewDetail = () => {
-    navigate(`/candidate-detail/${user.candidate_id}`);
+    navigate(viewDetail);
     dispatch(removeUserNewCandidate());
   };
 
   const handleCreateNew = () => {
     dispatch(removeUserNewCandidate());
-    navigate('/candidate-add');
+    navigate(createNew);
     setCurrentStep(0);
   };
   return (

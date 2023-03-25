@@ -23,6 +23,7 @@ const CandidateAdd = () => {
   const phoneNumber = useSelector((state) => state.phoneNumber.data);
   const countries = useSelector((state) => state.locations.countries);
   const listCountry = useSelector((state) => state.locations.countries);
+  const newCandidate = useSelector((state) => state.createCandidate.user);
 
   useEffect(() => {
     if (postCandidateSuccess) {
@@ -167,7 +168,11 @@ const CandidateAdd = () => {
           </Card>
         )}
         {Number(currentStep) === 1 && (
-          <CardFinish setCurrentStep={setCurrentStep} />
+          <CardFinish
+            setCurrentStep={setCurrentStep}
+            viewDetail={`/candidate-detail/${newCandidate.candidate_id}`}
+            createNew="/candidate-add"
+          />
         )}
       </Row>
     </div>

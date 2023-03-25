@@ -17,7 +17,6 @@ import jobFunctionsSkillsReducer from './jobFunctionsSkillsSlice';
 import createCandidateReducer from './createCandidateSlice';
 import businessLineReducer from './businessLineSlice';
 import detailCandidateReducer from './detailCandidateSlice';
-
 import schoolReducer from './schoolSlice';
 import clientsReducer from './clientsSlice';
 import tagsClientsReducer from './tagsClientsSlice';
@@ -25,6 +24,8 @@ import usersReducer from './usersSlice';
 import majorReducer from './majorSlice';
 import companyReducer from './companySlice';
 import fileReducer from './fileSlice';
+import createClientReducer from './createClientSlice';
+import detailClientReducer from './detailClientSlice';
 
 export const store = configureStore({
   reducer: {
@@ -53,5 +54,7 @@ export const store = configureStore({
     major: majorReducer,
     company: companyReducer,
     file: fileReducer,
+    createClient: createClientReducer,
+    detailClient: detailClientReducer,
   },
 });

@@ -105,15 +105,3 @@ const FormListPhoneNumber = ({
 };
 
 export default FormListPhoneNumber;
-
-const abc = [
-  'nguyenchicong2@gmail.com',
-  'nguyenchicong1@gmail.com',
-  'nguyenchicong0@gmail.com',
-];
-
-const result = [
-  { email: 'nguyenchicong2@gmail.com' },
-  { email: 'nguyenchicong1@gmail.com' },
-  { email: 'nguyenchicong0@gmail.com' },
-];

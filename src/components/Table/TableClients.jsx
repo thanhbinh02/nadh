@@ -65,7 +65,7 @@ const TableClients = ({
         />
       ),
       render: (text) => {
-        return <Link>{text}</Link>;
+        return <Link to={`/client-detail/${text}`}>{text}</Link>;
       },
     },
     {
@@ -86,7 +86,7 @@ const TableClients = ({
         />
       ),
       render: (text, record) => {
-        return <Link>{text}</Link>;
+        return <Link to={`/client-detail/${record.client_id}`}>{text}</Link>;
       },
     },
     {

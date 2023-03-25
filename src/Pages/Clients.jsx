@@ -88,7 +88,7 @@ export const Clients = () => {
               </Button>
             </Col>
             <Col span={12}>
-              <Link to="/candidate-add">
+              <Link to="/client-add">
                 <Button
                   type="primary"
                   color="red"
@@ -99,7 +99,7 @@ export const Clients = () => {
                   }}
                 >
                   <PlusOutlined />
-                  Create Candidate
+                  Create client
                 </Button>
               </Link>
             </Col>

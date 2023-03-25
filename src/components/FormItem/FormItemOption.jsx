@@ -2,11 +2,31 @@ import { Select, Form } from 'antd';
 
 const { Option } = Select;
 
-export const FormItemOption = ({ options, name, label, placeholder, form }) => {
+export const FormItemOption = ({
+  options,
+  name,
+  label,
+  placeholder,
+  required,
+  message,
+}) => {
   return (
-    <Form.Item name={name} label={label}>
+    <Form.Item
+      name={name}
+      label={label}
+      required={required}
+      rules={
+        message && [
+          {
+            required: true,
+            message: message,
+          },
+        ]
+      }
+    >
       <Select
-        style={{ width: '100%', borderRadius: '0px' }}
+        showSearch
+        style={{ width: '100%' }}
         placeholder={placeholder}
         optionFilterProp="children"
       >

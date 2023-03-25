@@ -9,7 +9,6 @@ export const postNewCandidate = createAsyncThunk(
 export const createCandidateSlice = createSlice({
   name: 'createCandidate',
   initialState: {
-    isSuccess: 123,
     postCandidateSuccess: false,
     postCandidateLoading: false,
     loading: false,

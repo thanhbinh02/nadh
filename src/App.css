@@ -206,3 +206,7 @@ span.ant-table-column-title {
   width: 140px !important;
   height: 180px !important;
 }
+
+label.ant-form-item-no-colon {
+  font-weight: 500;
+}

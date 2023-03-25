@@ -1,16 +1,19 @@
 import './App.css';
 import Login from './Pages/Login';
 import { Routes, Route } from 'react-router-dom';
-import { DefaultLayout } from './layouts/DefaultLayout';
-import { Candidates } from './Pages/Candidates';
-import { PrivateLayout } from './layouts/PrivateLayout';
-import CandidateAdd from './Pages/Candidate/CandidateAdd';
-import { ToastContainer } from 'react-toastify';
-import { CandidateDetail } from './Pages/Candidate/CandidateDetail';
 import { QueryClientProvider, QueryClient } from 'react-query';
-import 'react-toastify/dist/ReactToastify.css';
-import { Page404 } from './Pages/Page404';
+import { DefaultLayout } from './layouts/DefaultLayout';
+import { PrivateLayout } from './layouts/PrivateLayout';
+import { Candidates } from './Pages/Candidates';
+import CandidateAdd from './Pages/Candidate/CandidateAdd';
+import { CandidateDetail } from './Pages/Candidate/CandidateDetail';
 import { Clients } from './Pages/Clients';
+import { ClientAdd } from './Pages/Client/ClientAdd';
+import { ClientDetail } from './Pages/Client/ClientDetail';
+
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import { Page404 } from './Pages/Page404';
 
 const queryClient = new QueryClient();
 
@@ -23,12 +26,15 @@ function App() {
         </Route>
         <Route element={<PrivateLayout />}>
           <Route path="/candidates" element={<Candidates />} />
-          <Route path="/clients" element={<Clients />} />
           <Route path="/candidate-add" element={<CandidateAdd />} />
           <Route
             path="/candidate-detail/:candidate_id"
             element={<CandidateDetail />}
           />
+
+          <Route path="/clients" element={<Clients />} />
+          <Route path="/client-add" element={<ClientAdd />} />
+          <Route path="/client-detail/:client_id" element={<ClientDetail />} />
 
           <Route path="*" element={<Page404 />} />
         </Route>

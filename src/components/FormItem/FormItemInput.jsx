@@ -57,8 +57,35 @@ export const FormItemInput = ({
 
   if (type === 'text') {
     return (
-      <Form.Item label={label} name={name}>
+      <Form.Item
+        label={label}
+        name={name}
+        rules={
+          message && [
+            {
+              required: true,
+              message: message,
+            },
+          ]
+        }
+      >
         <Input placeholder={placeholder} />
+      </Form.Item>
+    );
+  }
+
+  if (type === 'email') {
+    return (
+      <Form.Item
+        name={name}
+        rules={[
+          {
+            type: 'email',
+            message: 'The input is not valid E-mail!',
+          },
+        ]}
+      >
+        <Input placeholder="ex: email@gmail.com"></Input>
       </Form.Item>
     );
   }
