@@ -84,3 +84,40 @@ export const putDetailClient = async (id, params) => {
       // }
     });
 };
+
+export const getContactPersonsClient = async (id) => {
+  const url = `/api/contact_persons/${id}`;
+  return await axiosClient.get(url);
+};
+
+export const postNewContactPersons = async (params) => {
+  const url = `api/contact_persons`;
+  return await axiosClient.post(url, params);
+};
+
+export const putContactPersons = async (id, params) => {
+  const url = `api/contact_persons/${id}`;
+  return await axiosClient
+    .put(url, params)
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+      const checkPermission = error.response.data.find(
+        (item) =>
+          item.message === 'No permission' && item.code === 'Permission',
+      );
+
+      if (checkPermission) {
+        toast.error('You do not have permission edit!', {
+          autoClose: 1000,
+          position: 'top-right',
+        });
+      }
+    });
+};
+
+export const deleteContactPersons = async (id) => {
+  const url = `api/contact_persons/${id}/remove`;
+  await axiosClient.put(url);
+};

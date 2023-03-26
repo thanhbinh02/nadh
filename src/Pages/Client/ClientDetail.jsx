@@ -15,6 +15,7 @@ import { fetchSectors } from '../../store/categoriesSlice';
 import { fetchCategories } from '../../store/categoriesSlice';
 import { putBusinessLineClientSlice } from '../../store/businessLineSlice';
 import { TableActivityLogs } from '../../components/Table/TableActivityLogs';
+import { TableContactPerson } from '../../components/Table/TableContactPerson';
 
 export const ClientDetail = () => {
   const { client_id } = useParams();
@@ -25,6 +26,8 @@ export const ClientDetail = () => {
   const industries = useSelector((state) => state.categories.industries);
   const sectors = useSelector((state) => state.categories.sectors);
   const categories = useSelector((state) => state.categories.categories);
+
+  console.log();
 
   useEffect(() => {
     dispatch(fetchDetailClientSlice(client_id));
@@ -136,6 +139,21 @@ export const ClientDetail = () => {
                   </Card>
                 </Col>
               </Row>
+
+              <Row>
+                <Col span={24}>
+                  <Card
+                    bordered={false}
+                    style={{
+                      width: '100%',
+                      marginTop: '40px',
+                    }}
+                  >
+                    <TableContactPerson client_id={detailClient?.id} />
+                  </Card>
+                </Col>
+              </Row>
+
               <Row>
                 <Col span={24}>
                   <Card

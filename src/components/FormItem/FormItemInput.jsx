@@ -7,6 +7,7 @@ export const FormItemInput = ({
   placeholder,
   message,
   type,
+  disabled,
 }) => {
   if (type === 'number') {
     return (
@@ -58,6 +59,7 @@ export const FormItemInput = ({
   if (type === 'text') {
     return (
       <Form.Item
+        required={required}
         label={label}
         name={name}
         rules={
@@ -69,7 +71,7 @@ export const FormItemInput = ({
           ]
         }
       >
-        <Input placeholder={placeholder} />
+        <Input placeholder={placeholder} disabled={disabled} />
       </Form.Item>
     );
   }
@@ -77,7 +79,9 @@ export const FormItemInput = ({
   if (type === 'email') {
     return (
       <Form.Item
+        label={label}
         name={name}
+        required={required}
         rules={[
           {
             type: 'email',
@@ -86,6 +90,24 @@ export const FormItemInput = ({
         ]}
       >
         <Input placeholder="ex: email@gmail.com"></Input>
+      </Form.Item>
+    );
+  }
+
+  if (type === 'numberText') {
+    return (
+      <Form.Item
+        label={label}
+        name={name}
+        required={required}
+        rules={[
+          {
+            pattern: new RegExp(/^[0-9]+$/),
+            message: 'Please input number',
+          },
+        ]}
+      >
+        <Input placeholder={placeholder} />
       </Form.Item>
     );
   }

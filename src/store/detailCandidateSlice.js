@@ -58,7 +58,6 @@ export const detailCandidateSlice = createSlice({
     isLoadingCertificate: false,
     isLoadingWorkingHistory: false,
     data: [],
-
     history: [],
   },
   reducers: {
