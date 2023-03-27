@@ -1,24 +1,43 @@
 import { Button, Col } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { ButtonReset } from '../CustomButton/ButtonReset';
+import { useDispatch } from 'react-redux';
 
 export const FilterResetSearch = ({
   param,
   onClick,
+  keyPage,
+  fetchData,
+  getTags,
+  changeDataDispatch,
   disabled,
-  paramFrom,
-  paramTo,
-  form,
 }) => {
+  const dispatch = useDispatch();
+
+  const handleReset = () => {
+    const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
+    if (param === 'client_jobs') {
+      delete dataSaveLocal['client_jobs_from'];
+      delete dataSaveLocal['client_jobs_to'];
+    } else if (param === 'updated_on') {
+      delete dataSaveLocal['updated_on_from'];
+      delete dataSaveLocal['updated_on_to'];
+    } else {
+      delete dataSaveLocal[param];
+    }
+    dispatch(fetchData(changeDataDispatch(dataSaveLocal)));
+    dispatch(getTags(dataSaveLocal));
+  };
+
   return (
     <>
       <Col span={12}>
-        <ButtonReset
-          param={param}
-          paramFrom={paramFrom}
-          paramTo={paramTo}
-          form={form}
-        />
+        <Button
+          size="small"
+          style={{ width: '100%', borderRadius: '0px' }}
+          onClick={handleReset}
+        >
+          Reset
+        </Button>
       </Col>
       <Col span={12}>
         <Button

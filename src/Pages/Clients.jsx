@@ -13,6 +13,8 @@ import { getTagsClients } from '../store/tagsClientsSlice';
 import { refreshClients } from '../store/clientsSlice';
 import TableClients from '../components/Table/TableClients';
 import { fetchUsers } from '../store/usersSlice';
+import { CUSTOM_COLUMNS_CLIENTS } from '../utils/const';
+import { fetchIndustries } from '../store/categoriesSlice';
 
 export const Clients = () => {
   const dispatch = useDispatch();
@@ -26,6 +28,9 @@ export const Clients = () => {
   );
   const filterClient = JSON.parse(window.localStorage.getItem('filterClient'));
   const listTagFilter = useSelector((state) => state.tagsClients.data);
+  const industries = useSelector((state) => state.categories.industries);
+  const sectors = useSelector((state) => state.categories.sectors);
+  const categories = useSelector((state) => state.categories.categories);
 
   const users = useSelector((state) => state.users.data).map(
     ({ id, full_name }) => ({
@@ -35,6 +40,7 @@ export const Clients = () => {
   );
 
   useEffect(() => {
+    dispatch(fetchIndustries({ type: 1 }));
     dispatch(fetchCountries({ type: 4 }));
     dispatch(fetchClients(filterClient));
     dispatch(fetchListCustoms('clients'));
@@ -65,7 +71,7 @@ export const Clients = () => {
             fontWeight: '600',
           }}
         >
-          Candidates List {loadingClients ? '' : <>({totalItem})</>}
+          Clients List {loadingClients ? '' : <>({totalItem})</>}
         </Col>
         <Col style={{ marginRight: '73px' }}>
           <Row>
@@ -75,7 +81,12 @@ export const Clients = () => {
                 ghost
                 style={{ display: 'flex', alignItems: 'center' }}
                 onClick={() => {
-                  dispatch(refreshClients());
+                  dispatch(
+                    fetchClients({
+                      page: 1,
+                      perPage: 10,
+                    }),
+                  );
                   dispatch(
                     getTagsClients({
                       page: 1,
@@ -114,10 +125,14 @@ export const Clients = () => {
           marginTop: '10px',
         }}
       >
-        <CustomColumns namePage="clients" listCustom={listCustomClients} />
+        <CustomColumns
+          namePage="clients"
+          listCustom={listCustomClients}
+          customColumns={CUSTOM_COLUMNS_CLIENTS}
+        />
       </Row>
       <TableClients
-        totalItem={totalItem ? totalItem : null}
+        totalItem={totalItem ? totalItem : null} // done
         data={clients ? clients : null}
         city={countries ? countries : null}
         listCustomCandidates={listCustomClients ? listCustomClients : null}
@@ -125,6 +140,10 @@ export const Clients = () => {
         loadingClients={loadingClients}
         isSuccessCustomColumn={isSuccessCustomColumn}
         users={users}
+        filterClient={filterClient}
+        sectors={sectors}
+        categories={categories}
+        industries={industries ? industries : null}
       />
     </div>
   );

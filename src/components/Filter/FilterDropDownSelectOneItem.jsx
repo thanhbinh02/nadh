@@ -1,16 +1,8 @@
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { Card, Row, Col, Select, Form } from 'antd';
-
-import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 import { FilterResetSearch } from './FilterResetSearch';
-
-const convertStringToArray = (string) => {
-  let arr = string?.split(',').map(function (item) {
-    return parseInt(item, 10);
-  });
-  return arr;
-};
+import { getKeyWithLabelArray, getKeyWithLabel } from '../../utils/const';
 
 export const FilterDropDownSelectOneItem = ({
   placeholder,
@@ -20,33 +12,81 @@ export const FilterDropDownSelectOneItem = ({
   fetchData,
   keyPage,
   filterValue,
+  getTags,
+  changeDataDispatch,
 }) => {
   const { Option } = Select;
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if (mode) {
-      form.setFieldValue(`${param}`, convertStringToArray(filterValue));
+    if (mode === 'multiple' && filterValue?.length !== 0) {
+      if (param !== 'cpa') {
+        form.setFieldValue(
+          `${param}`,
+          filterValue?.map((item) => item.key),
+        );
+      } else {
+        form.setFieldValue(
+          `${param}`,
+          filterValue?.map((item) => Number(item.key)),
+        );
+      }
     } else {
-      form.setFieldValue(`${param}`, filterValue);
+      form.setFieldValue(`${param}`, filterValue?.key);
     }
   }, [filterValue]);
 
   const handleSearch = () => {
-    const data = { name: param, data: form.getFieldValue(`${param}`) };
-    if (mode !== 'multiple' || data.data === undefined) {
-      const result = { [data.name]: data.data };
-      const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
-      const newData = { ...dataSaveLocal, ...result, page: 1 };
-      dispatch(fetchData(newData));
-      dispatch(getTagsCandidates(newData));
+    const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
+    console.log('dataSaveLocal', dataSaveLocal);
+    if (mode === 'multiple') {
+      if (form.getFieldValue(`${param}`)?.length !== 0) {
+        const newDataLocal = {
+          ...dataSaveLocal,
+          [`${param}`]: form.getFieldValue(`${param}`),
+          page: 1,
+        };
+
+        dispatch(getTags(newDataLocal));
+        dispatch(fetchData(changeDataDispatch(newDataLocal)));
+      } else {
+        delete dataSaveLocal[param];
+        dispatch(fetchData(changeDataDispatch(dataSaveLocal)));
+        dispatch(getTags(dataSaveLocal));
+      }
     } else {
-      const result = { [data.name]: data.data.join(',') };
-      const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
-      const newData = { ...dataSaveLocal, ...result, page: 1 };
-      dispatch(fetchData(newData));
-      dispatch(getTagsCandidates(newData));
+      if (form.getFieldValue(`${param}`) !== undefined) {
+        const newDataLocal = {
+          ...dataSaveLocal,
+          [`${param}`]: form.getFieldValue(`${param}`),
+          page: 1,
+        };
+        dispatch(getTags(newDataLocal));
+        dispatch(fetchData(changeDataDispatch(newDataLocal)));
+      } else {
+        delete dataSaveLocal[param];
+        dispatch(fetchData(changeDataDispatch(dataSaveLocal)));
+        dispatch(getTags(dataSaveLocal));
+      }
+    }
+  };
+
+  const handleChange = (values, options) => {
+    if (values !== undefined) {
+      if (mode === 'multiple') {
+        form.setFieldValue(`${param}`, getKeyWithLabelArray(options));
+      } else {
+        form.setFieldValue(`${param}`, getKeyWithLabel(options));
+      }
+    }
+  };
+
+  const handleClear = () => {
+    if (mode === 'multiple') {
+      form.setFieldValue(`${param}`, []);
+    } else {
+      form.setFieldValue(`${param}`, undefined);
     }
   };
 
@@ -59,7 +99,14 @@ export const FilterDropDownSelectOneItem = ({
     >
       <Form form={form}>
         <Row gutter={[8, 8]}>
-          <FilterResetSearch onClick={handleSearch} param={param} form={form} />
+          <FilterResetSearch
+            param={param}
+            onClick={handleSearch}
+            keyPage={keyPage}
+            fetchData={fetchData}
+            getTags={getTags}
+            changeDataDispatch={changeDataDispatch}
+          />
           <Col span={24}>
             <Form.Item name={param}>
               <Select
@@ -68,6 +115,8 @@ export const FilterDropDownSelectOneItem = ({
                 style={{ width: '100%', borderRadius: '0px' }}
                 placeholder={placeholder}
                 optionFilterProp="children"
+                onChange={(values, options) => handleChange(values, options)}
+                onClear={handleClear}
               >
                 {options.map((option) => {
                   return (

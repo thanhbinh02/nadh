@@ -137,11 +137,7 @@ export const ClientDetail = () => {
                       type="client"
                     />
                   </Card>
-                </Col>
-              </Row>
 
-              <Row>
-                <Col span={24}>
                   <Card
                     bordered={false}
                     style={{
@@ -152,6 +148,10 @@ export const ClientDetail = () => {
                     <TableContactPerson client_id={detailClient?.id} />
                   </Card>
                 </Col>
+              </Row>
+
+              <Row>
+                <Col span={24}></Col>
               </Row>
 
               <Row>

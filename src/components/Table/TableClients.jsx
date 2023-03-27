@@ -1,67 +1,67 @@
 import { Table, Tag, Spin } from 'antd';
-import { AiOutlineSearch, AiOutlineEye } from 'react-icons/ai';
+import { AiOutlineEye } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { FilterDropDownText } from '../Filter/FilterDropDownText';
-import { filterTagCandidates } from '../../utils/filterTagCandidates';
-import { fetchCandidates } from '../../store/candidatesSlice';
 import TagFilter from '../TagFilter';
-import FilterDropDownCountryCity from '../Filter/FilterDropDownCountryCity';
-import { FilterDropDownSelectOneItem } from '../Filter/FilterDropDownSelectOneItem';
 import {
   ACCOUNT_STATUS,
   CPA,
   TYPE_CLIENT,
   STATUS_CLIENT,
+  CUSTOM_COLUMNS_CLIENTS,
+  changeLocalClientToParams,
 } from '../../utils/const';
-import { FilterTimeRange } from '../Filter/FilterTimeRange';
+import { filterTagClients } from '../../utils/filterTagClients';
 
-const checkIconGlow = (name, obj) => {
-  if (obj) {
-    if (name in obj) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-};
+import { FilterDropDownText } from '../Filter/FilterDropDownText';
+import { FilterDropDownSelectOneItem } from '../Filter/FilterDropDownSelectOneItem';
+import { FilterTimeRange } from '../Filter/FilterTimeRange';
+import FilterDropDownIndustry from '../Filter/FilterDropDownIndustry';
+import FilterDropDownCountryCityClient from '../Filter/FilterDropDownCountryCityClient';
+import { FilterDatePicker } from '../Filter/FilterDatePicker';
+import { fetchClients } from '../../store/clientsSlice';
+import { fetchSectors } from '../../store/categoriesSlice';
+import { fetchCategories } from '../../store/categoriesSlice';
+import { getTagsClients } from '../../store/tagsClientsSlice';
+import { IconFIlter } from '../IconFIlter';
 
 const TableClients = ({
   data,
-  city,
-  filerCandidates,
-  loadingCandidate,
+  industries,
+  sectors,
+  categories,
+  filterClient,
+  loadingClients,
   users,
+  listTagFilter,
 }) => {
   const dispatch = useDispatch();
   const listCustomCandidates = useSelector((state) => state.customColumn.data);
-  const [pageTable, setPageTable] = useState(filerCandidates?.page);
+  const [pageTable, setPageTable] = useState(filterClient?.page);
   const totalItem = useSelector((state) => state.clients.count);
   const [totalMain, setTotalMain] = useState(totalItem);
 
   useEffect(() => {
-    setPageTable(filerCandidates?.page);
+    setPageTable(filterClient?.page);
     setTotalMain(totalItem);
-  }, [filerCandidates?.page, totalItem]);
+  }, [filterClient?.page, totalItem]);
 
   const columns = [
     {
       title: 'ID',
       dataIndex: 'client_id',
-      filterIcon: (
-        <AiOutlineSearch
-          style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-        />
-      ),
+      filterIcon: <IconFIlter name="client_id" listFilter={filterClient} />,
       filterDropdown: (
         <FilterDropDownText
           placeholder="Search client_id"
           param="client_id"
-          fetchData={fetchCandidates}
+          fetchData={fetchClients}
           keyPage="filterClient"
-          filterValue={filerCandidates?.client_id || undefined}
+          filterValue={filterClient?.client_id || undefined}
+          getTags={getTagsClients}
+          changeDataDispatch={changeLocalClientToParams}
         />
       ),
       render: (text) => {
@@ -71,18 +71,17 @@ const TableClients = ({
     {
       title: 'Trade Name',
       dataIndex: 'name',
-      filterIcon: (
-        <AiOutlineSearch
-          style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-        />
-      ),
+      filterIcon: <IconFIlter name="name" listFilter={filterClient} />,
       filterDropdown: (
         <FilterDropDownText
           placeholder="Search Trade Name"
           param="name"
-          fetchData={fetchCandidates}
+          fetchData={fetchClients}
           keyPage="filterClient"
-          filterValue={filerCandidates?.name || undefined}
+          filterValue={filterClient?.name || undefined}
+          getTags={getTagsClients}
+          changeDataDispatch={changeLocalClientToParams}
+          listTags={CUSTOM_COLUMNS_CLIENTS}
         />
       ),
       render: (text, record) => {
@@ -92,17 +91,15 @@ const TableClients = ({
     {
       title: 'City',
       dataIndex: 'location',
-      filterIcon: (
-        <AiOutlineSearch
-          style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-        />
-      ),
+      filterIcon: <IconFIlter name="location" listFilter={filterClient} />,
       filterDropdown: (
-        <FilterDropDownCountryCity
-          data={city}
+        <FilterDropDownCountryCityClient
+          fetchData={fetchClients}
           keyPage="filterClient"
-          country={filerCandidates?.country || undefined}
-          city={filerCandidates?.city || undefined}
+          country={filterClient?.location?.country || undefined}
+          city={filterClient?.location?.city || undefined}
+          getTags={getTagsClients}
+          changeDataDispatch={changeLocalClientToParams}
         />
       ),
       render: (text) => {
@@ -123,9 +120,7 @@ const TableClients = ({
       title: 'Lead Consultant',
       dataIndex: 'lead_consultants',
       filterIcon: (
-        <AiOutlineSearch
-          style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-        />
+        <IconFIlter name="lead_consultants" listFilter={filterClient} />
       ),
       filterDropdown: (
         <FilterDropDownSelectOneItem
@@ -133,9 +128,11 @@ const TableClients = ({
           options={users}
           mode="multiple"
           param="lead_consultants"
-          fetchData={fetchCandidates}
+          fetchData={fetchClients}
           keyPage="filterClient"
-          filterValue={filerCandidates?.lead_consultants || undefined}
+          filterValue={filterClient?.lead_consultants || undefined}
+          getTags={getTagsClients}
+          changeDataDispatch={changeLocalClientToParams}
         />
       ),
       render: (text) => {
@@ -154,18 +151,18 @@ const TableClients = ({
       title: 'Activity',
       dataIndex: 'account_status',
       filterIcon: (
-        <AiOutlineSearch
-          style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-        />
+        <IconFIlter name="account_status" listFilter={filterClient} />
       ),
       filterDropdown: (
         <FilterDropDownSelectOneItem
           placeholder="Search account_status"
           options={ACCOUNT_STATUS}
           param="account_status"
-          fetchData={fetchCandidates}
+          fetchData={fetchClients}
           keyPage="filterClient"
-          filterValue={filerCandidates?.account_status || undefined}
+          filterValue={filterClient?.account_status || undefined}
+          getTags={getTagsClients}
+          changeDataDispatch={changeLocalClientToParams}
         />
       ),
       render: (text) => {
@@ -176,18 +173,16 @@ const TableClients = ({
     {
       title: 'Tax Code',
       dataIndex: 'tax_code',
-      filterIcon: (
-        <AiOutlineSearch
-          style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-        />
-      ),
+      filterIcon: <IconFIlter name="tax_code" listFilter={filterClient} />,
       filterDropdown: (
         <FilterDropDownText
           placeholder="Search tax_code"
           param="tax_code"
-          fetchData={fetchCandidates}
+          fetchData={fetchClients}
           keyPage="filterClient"
-          filterValue={filerCandidates?.tax_code || undefined}
+          filterValue={filterClient?.tax_code || undefined}
+          getTags={getTagsClients}
+          changeDataDispatch={changeLocalClientToParams}
         />
       ),
       render: (text) => {
@@ -197,19 +192,18 @@ const TableClients = ({
     {
       title: 'CPA',
       dataIndex: 'cpa',
-      filterIcon: (
-        <AiOutlineSearch
-          style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-        />
-      ),
+      filterIcon: <IconFIlter name="cpa" listFilter={filterClient} />,
       filterDropdown: (
         <FilterDropDownSelectOneItem
           placeholder="Search cpa"
           options={CPA}
+          mode="multiple"
           param="cpa"
-          fetchData={fetchCandidates}
+          fetchData={fetchClients}
           keyPage="filterClient"
-          filterValue={filerCandidates?.cpa || undefined}
+          filterValue={filterClient?.cpa || undefined}
+          getTags={getTagsClients}
+          changeDataDispatch={changeLocalClientToParams}
         />
       ),
       render: (text) => {
@@ -218,21 +212,64 @@ const TableClients = ({
       },
     },
     {
+      title: 'Industry',
+      dataIndex: 'industry',
+      filterIcon: <IconFIlter name="industry" listFilter={filterClient} />,
+      filterDropdown: (
+        <FilterDropDownIndustry
+          data={industries}
+          optionTwo={sectors}
+          optionThree={categories}
+          typeTwo={2}
+          fetchDataItemTwo={fetchSectors}
+          fetchDataItemThree={fetchCategories}
+          typeThree={3}
+          keyPage="filterClient"
+          fetchData={fetchClients}
+          filterValueOptionOne={filterClient?.industry?.industry || undefined}
+          filterValueOptionTwo={filterClient?.industry?.sector || undefined}
+          filterValueOptionThree={filterClient?.industry?.category || undefined}
+          getTags={getTagsClients}
+          changeDataDispatch={changeLocalClientToParams}
+        />
+      ),
+      render: (text) => {
+        return text?.map((item, index) => {
+          if (item?.category?.name) {
+            return <p key={index}>* {item?.category?.name}</p>;
+          }
+          if (item?.sector?.name) {
+            return <p key={index}>* {item?.sector?.name}</p>;
+          }
+          if (item?.industry?.name) {
+            return <p key={index}>* {item?.industry?.name}</p>;
+          }
+        });
+      },
+    },
+    {
       title: 'Job(s)',
       dataIndex: 'client_jobs',
       filterIcon: (
-        <AiOutlineSearch
-          style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-        />
+        <>
+          {filterClient?.client_jobs_to ? (
+            <IconFIlter name={'client_jobs_to'} listFilter={filterClient} />
+          ) : (
+            <IconFIlter name={'client_jobs_from'} listFilter={filterClient} />
+          )}
+        </>
       ),
       filterDropdown: (
         <FilterTimeRange
-          fetchData={fetchCandidates}
+          fetchData={fetchClients}
           paramFrom="client_jobs_from"
           paramTo="client_jobs_to"
           keyPage="filterClient"
-          filterValueFrom={filerCandidates?.client_jobs_from || undefined}
-          filterValueTo={filerCandidates?.client_jobs_to || undefined}
+          filterValueFrom={filterClient?.client_jobs_from || undefined}
+          filterValueTo={filterClient?.client_jobs_to || undefined}
+          changeDataDispatch={changeLocalClientToParams}
+          getTags={getTagsClients}
+          param="client_jobs"
         />
       ),
       render: (text) => {
@@ -242,20 +279,18 @@ const TableClients = ({
     {
       title: 'Type',
       dataIndex: 'type',
-      filterIcon: (
-        <AiOutlineSearch
-          style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-        />
-      ),
+      filterIcon: <IconFIlter name="type" listFilter={filterClient} />,
       filterDropdown: (
         <FilterDropDownSelectOneItem
           placeholder="Search users"
           options={TYPE_CLIENT}
           mode="multiple"
           param="type"
-          fetchData={fetchCandidates}
+          fetchData={fetchClients}
           keyPage="filterClient"
-          filterValue={filerCandidates?.type || undefined}
+          filterValue={filterClient?.type || undefined}
+          getTags={getTagsClients}
+          changeDataDispatch={changeLocalClientToParams}
         />
       ),
       render: (text) => {
@@ -267,20 +302,18 @@ const TableClients = ({
     {
       title: 'Status',
       dataIndex: 'status',
-      filterIcon: (
-        <AiOutlineSearch
-          style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-        />
-      ),
+      filterIcon: <IconFIlter name="status" listFilter={filterClient} />,
       filterDropdown: (
         <FilterDropDownSelectOneItem
           placeholder="Search priority_status"
           options={STATUS_CLIENT}
           mode="multiple"
-          param="type"
-          fetchData={fetchCandidates}
+          param="status"
+          fetchData={fetchClients}
           keyPage="filterClient"
-          filterValue={filerCandidates?.type || undefined}
+          filterValue={filterClient?.status || undefined}
+          getTags={getTagsClients}
+          changeDataDispatch={changeLocalClientToParams}
         />
       ),
       render: (text) => {
@@ -292,17 +325,17 @@ const TableClients = ({
       title: "Contact Person's Name",
       dataIndex: 'contact_person_name',
       filterIcon: (
-        <AiOutlineSearch
-          style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-        />
+        <IconFIlter name="contact_person_name" listFilter={filterClient} />
       ),
       filterDropdown: (
         <FilterDropDownText
           placeholder="Search contact_person_name"
           param="contact_person_name"
-          fetchData={fetchCandidates}
+          fetchData={fetchClients}
           keyPage="filterClient"
-          filterValue={filerCandidates?.contact_person_name || undefined}
+          filterValue={filterClient?.contact_person_name || undefined}
+          getTags={getTagsClients}
+          changeDataDispatch={changeLocalClientToParams}
         />
       ),
       render: (text) => {
@@ -317,17 +350,17 @@ const TableClients = ({
       title: "Contact Person's Title",
       dataIndex: 'contact_person_title',
       filterIcon: (
-        <AiOutlineSearch
-          style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-        />
+        <IconFIlter name="contact_person_title" listFilter={filterClient} />
       ),
       filterDropdown: (
         <FilterDropDownText
           placeholder="Search contact_person_title"
           param="contact_person_title"
-          fetchData={fetchCandidates}
+          fetchData={fetchClients}
           keyPage="filterClient"
-          filterValue={filerCandidates?.contact_person_title || undefined}
+          filterValue={filterClient?.contact_person_title || undefined}
+          getTags={getTagsClients}
+          changeDataDispatch={changeLocalClientToParams}
         />
       ),
       render: (text) => {
@@ -342,19 +375,19 @@ const TableClients = ({
       title: 'Updated by',
       dataIndex: 'update_last_by',
       filterIcon: (
-        <AiOutlineSearch
-          style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-        />
+        <IconFIlter name="update_last_by" listFilter={filterClient} />
       ),
       filterDropdown: (
         <FilterDropDownSelectOneItem
           placeholder="Search users"
           options={users}
           mode="multiple"
-          param="lead_consultants"
-          fetchData={fetchCandidates}
+          param="update_last_by"
+          fetchData={fetchClients}
           keyPage="filterClient"
-          filterValue={filerCandidates?.lead_consultants || undefined}
+          filterValue={filterClient?.update_last_by || undefined}
+          getTags={getTagsClients}
+          changeDataDispatch={changeLocalClientToParams}
         />
       ),
       render: (text) => {
@@ -377,18 +410,25 @@ const TableClients = ({
       title: 'Updated on',
       dataIndex: 'updated_on',
       filterIcon: (
-        <AiOutlineSearch
-          style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-        />
+        <>
+          {filterClient?.client_jobs_to ? (
+            <IconFIlter name={'updated_on_to'} listFilter={filterClient} />
+          ) : (
+            <IconFIlter name={'updated_on_from'} listFilter={filterClient} />
+          )}
+        </>
       ),
       filterDropdown: (
-        <FilterTimeRange
-          fetchData={fetchCandidates}
+        <FilterDatePicker
+          fetchData={fetchClients}
           paramFrom="updated_on_from"
           paramTo="updated_on_to"
           keyPage="filterClient"
-          filterValueFrom={filerCandidates?.updated_on_from || undefined}
-          filterValueTo={filerCandidates?.updated_on_to || undefined}
+          filterValueFrom={filterClient?.updated_on_from || undefined}
+          filterValueTo={filterClient?.updated_on_to || undefined}
+          getTags={getTagsClients}
+          changeDataDispatch={changeLocalClientToParams}
+          param="updated_on"
         />
       ),
       render: (text) => {
@@ -409,13 +449,13 @@ const TableClients = ({
     },
   ];
 
-  // const newColumns = [];
+  const newColumns = [];
 
-  // for (let i = 0; i < columns.length; i++) {
-  //   if (listCustomCandidates.includes(columns[i].dataIndex)) {
-  //     newColumns.push(columns[i]);
-  //   }
-  // }
+  for (let i = 0; i < columns.length; i++) {
+    if (listCustomCandidates.includes(columns[i].dataIndex)) {
+      newColumns.push(columns[i]);
+    }
+  }
 
   const newData = data?.map((item) => ({
     key: item?.id,
@@ -426,6 +466,7 @@ const TableClients = ({
     account_status: item.account_development?.status,
     tax_code: item?.tax_code,
     cpa: item?.cpa,
+    industry: item?.business_line,
     client_jobs: item?.jobs_count,
     type: item?.type,
     status: item?.status,
@@ -442,18 +483,25 @@ const TableClients = ({
         marginRight: '54px',
       }}
     >
-      {/* <TagFilter tags={filterTagCandidates(listTagFilter, languages)} /> */}
-      {loadingCandidate ? (
+      <TagFilter
+        tags={filterTagClients(listTagFilter)}
+        keyPage="filterClient"
+        listTags={CUSTOM_COLUMNS_CLIENTS}
+        getTags={getTagsClients}
+        changeDataDispatch={changeLocalClientToParams}
+        fetchData={fetchClients}
+      />
+      {loadingClients ? (
         <Spin tip="Loading...">
           <Table
-            columns={columns}
+            columns={newColumns}
             scroll={{ x: '110vw' }}
             dataSource={newData}
           />
         </Spin>
       ) : (
         <Table
-          columns={columns}
+          columns={newColumns}
           dataSource={newData}
           scroll={{ x: '110vw' }}
           pagination={{
@@ -463,9 +511,9 @@ const TableClients = ({
             showQuickJumper: true,
             onChange: (page) => {
               setPageTable(page);
-              let newParam = filerCandidates;
+              let newParam = filterClient;
               newParam.page = page;
-              dispatch(fetchCandidates(newParam));
+              dispatch(fetchClients(newParam));
             },
             current: pageTable,
           }}

@@ -10,6 +10,7 @@ export const FilterDropDownText = ({
   keyPage,
   filterValue,
   getTags,
+  changeDataDispatch,
 }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -18,7 +19,8 @@ export const FilterDropDownText = ({
     const result = { [data.name]: data.data };
     const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
     const newData = { ...dataSaveLocal, ...result, page: 1 };
-    dispatch(fetchData(newData));
+
+    dispatch(fetchData(changeDataDispatch(newData)));
     dispatch(getTags(newData));
   };
 
@@ -35,7 +37,14 @@ export const FilterDropDownText = ({
     >
       <Form autoComplete="off" form={form}>
         <Row gutter={[8, 8]}>
-          <FilterResetSearch onClick={handleSearch} param={param} form={form} />
+          <FilterResetSearch
+            param={param}
+            onClick={handleSearch}
+            keyPage={keyPage}
+            fetchData={fetchData}
+            getTags={getTags}
+            changeDataDispatch={changeDataDispatch}
+          />
           <Col span={24}>
             <Form.Item name={param}>
               <Input

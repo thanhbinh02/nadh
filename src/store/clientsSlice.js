@@ -45,8 +45,9 @@ export const clientsSlice = createSlice({
     loading: false,
     data: [],
     count: 0,
+    local: {},
   },
-  reducers: {},
+
   extraReducers: {
     [fetchClients.pending]: (state) => {
       state.loading = true;

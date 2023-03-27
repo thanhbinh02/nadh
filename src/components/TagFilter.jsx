@@ -4,65 +4,32 @@ import { useDispatch } from 'react-redux';
 import { fetchCandidates } from '../store/candidatesSlice';
 import { getTagsCandidates } from '../store/tagsCandidatesSlice';
 
-function getObjectByTitle(obj, title) {
-  if (typeof obj !== 'object' || obj === null) {
-    return obj;
-  }
-
-  for (let prop in obj) {
-    if (prop === title) {
-      const { [prop]: omit, ...rest } = obj;
-      return rest;
-    }
-
-    if (typeof obj[prop] === 'object') {
-      obj[prop] = getObjectByTitle(obj[prop], title);
-    }
-  }
-
-  return obj;
-}
-
-const TagFilter = ({ tags }) => {
+const TagFilter = ({
+  tags,
+  keyPage,
+  listTags,
+  fetchData,
+  changeDataDispatch,
+  getTags,
+}) => {
   const dispatch = useDispatch();
 
   const handleClose = (tag) => {
-    const dataSaveLocal = JSON.parse(localStorage.getItem('filterCDD'));
+    const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
     const getTag = tag.split(':')[0];
-    const getTitleTag = TAG_CANDIDATES.find(
-      (item) => item.tag === getTag,
-    ).title;
+    const getItem = listTags.find((item) => item.label === getTag);
 
-    const dataOne = getObjectByTitle(dataSaveLocal, getTitleTag);
-    if (getTitleTag === 'countryCity') {
-      const dataTwo = getObjectByTitle(dataOne, 'city');
-      const dataThree = getObjectByTitle(dataTwo, 'country');
-      dispatch(fetchCandidates(dataThree));
-      dispatch(getTagsCandidates(dataThree));
-    } else if (getTitleTag === 'industries') {
-      const dataTwo = getObjectByTitle(dataOne, 'industry_id');
-      const dataThree = getObjectByTitle(dataTwo, 'industry_type');
-      dispatch(fetchCandidates(dataThree));
-      dispatch(getTagsCandidates(dataThree));
-    } else if (getTitleTag === 'yob') {
-      const dataTwo = getObjectByTitle(dataOne, 'yob_from');
-      const dataThree = getObjectByTitle(dataTwo, 'yob_to');
-      dispatch(fetchCandidates(dataThree));
-      dispatch(getTagsCandidates(dataThree));
-    } else if (getTitleTag === 'industry_years') {
-      const dataTwo = getObjectByTitle(dataOne, 'industry_years_from');
-      const dataThree = getObjectByTitle(dataTwo, 'industry_years_to');
-      dispatch(fetchCandidates(dataThree));
-      dispatch(getTagsCandidates(dataThree));
-    } else if (getTitleTag === 'management_years') {
-      const dataTwo = getObjectByTitle(dataOne, 'management_years_from');
-      const dataThree = getObjectByTitle(dataTwo, 'management_years_to');
-      dispatch(fetchCandidates(dataThree));
-      dispatch(getTagsCandidates(dataThree));
+    if (getItem.label === 'Job(s)') {
+      delete dataSaveLocal['client_jobs_from'];
+      delete dataSaveLocal['client_jobs_to'];
+    } else if (getItem.label === 'Updated on') {
+      delete dataSaveLocal['updated_on_from'];
+      delete dataSaveLocal['updated_on_to'];
     } else {
-      dispatch(fetchCandidates(dataOne));
-      dispatch(getTagsCandidates(dataOne));
+      delete dataSaveLocal[getItem.title];
     }
+    dispatch(fetchData(changeDataDispatch(dataSaveLocal)));
+    dispatch(getTags(dataSaveLocal));
   };
 
   const forMap = (tag) => {

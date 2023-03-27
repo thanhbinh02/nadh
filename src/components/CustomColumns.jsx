@@ -2,18 +2,17 @@ import { useState } from 'react';
 import { Button, Menu, Checkbox, Dropdown } from 'antd';
 
 import { AiOutlineDown } from 'react-icons/ai';
-import { CUSTOM_COLUMNS_CANDIDATES } from '../utils/const';
 import { MyCheckBox } from './MyCheckBox';
 import { useDispatch } from 'react-redux';
 import { putListCustomColumns } from '../store/customColumnSlice';
 
-export const CustomColumns = ({ namePage, listCustom }) => {
+export const CustomColumns = ({ namePage, listCustom, customColumns }) => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
-  let newListCustomColumn = CUSTOM_COLUMNS_CANDIDATES;
+  let newListCustomColumn = customColumns;
 
-  for (let i = 0; i < newListCustomColumn.length; i++) {
+  for (let i = 0; i < newListCustomColumn?.length; i++) {
     if (listCustom.includes(newListCustomColumn[i].title)) {
       newListCustomColumn[i].check = true;
     } else {
@@ -23,8 +22,8 @@ export const CustomColumns = ({ namePage, listCustom }) => {
 
   const myMenu = (
     <Menu
-      items={newListCustomColumn.map((item) => ({
-        key: item.title,
+      items={newListCustomColumn?.map((item) => ({
+        key: item?.title,
         label: (
           <p>
             {item.disabled ? (

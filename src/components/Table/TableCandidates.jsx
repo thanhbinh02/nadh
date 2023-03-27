@@ -17,6 +17,7 @@ import { fetchSectors, fetchCategories } from '../../store/categoriesSlice';
 import { fetchCandidates } from '../../store/candidatesSlice';
 import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 import TagFilter from '../TagFilter';
+import { refreshCandidates } from '../../store/candidatesSlice';
 
 const checkIconGlow = (name, obj) => {
   if (obj) {
@@ -140,6 +141,8 @@ const TableCandidates = ({
           fetchData={fetchCandidates}
           keyPage="filterCDD"
           filterValue={filerCandidates?.priority_status || undefined}
+          getTags={getTagsCandidates}
+          type="candidates"
         />
       ),
       render: (text) => {
@@ -191,6 +194,8 @@ const TableCandidates = ({
           fetchData={fetchCandidates}
           keyPage="filterCDD"
           filterValue={filerCandidates?.language || undefined}
+          getTags={getTagsCandidates}
+          type="candidates"
         />
       ),
       render: (_, record) => {
@@ -242,6 +247,8 @@ const TableCandidates = ({
           keyPage="filterCDD"
           country={filerCandidates?.country || undefined}
           city={filerCandidates?.city || undefined}
+          fetchData={fetchCandidates}
+          refreshData={refreshCandidates}
         />
       ),
       render: (text) => {
@@ -372,6 +379,8 @@ const TableCandidates = ({
           fetchData={fetchCandidates}
           keyPage="filterCDD"
           filterValue={filerCandidates?.flow_status || undefined}
+          getTags={getTagsCandidates}
+          type="candidates"
         />
       ),
       render: (text) => {

@@ -4,10 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SearchOutlined } from '@ant-design/icons';
 
 import { fetchCities } from '../../store/locationsSlice';
-import {
-  fetchCandidates,
-  refreshCandidates,
-} from '../../store/candidatesSlice';
 import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 
 const { Option } = Select;
@@ -22,7 +18,15 @@ const checkOneName = (name, obj) => {
   }
 };
 
-const FilterDropDownCountryCity = ({ data, country, city, keyPage }) => {
+const FilterDropDownCountryCity = ({
+  data,
+  country,
+  city,
+  keyPage,
+  fetchData,
+  refreshData,
+  getTags,
+}) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [listCity, setListCity] = useState(false);
@@ -61,7 +65,7 @@ const FilterDropDownCountryCity = ({ data, country, city, keyPage }) => {
       propsToDelete.forEach((prop) => delete result[prop]);
       const newObj = { ...result };
       window.localStorage.setItem(keyPage, JSON.stringify(newObj));
-      dispatch(refreshCandidates(newObj));
+      dispatch(refreshData(newObj));
       dispatch(getTagsCandidates(newObj));
     } else {
       form.setFieldValue('country', undefined);
@@ -104,8 +108,12 @@ const FilterDropDownCountryCity = ({ data, country, city, keyPage }) => {
           page: 1,
         };
 
-        dispatch(fetchCandidates(newData));
+        dispatch(fetchData(newData));
         dispatch(getTagsCandidates(newData));
+
+        if (getTags) {
+          console.log('newData', newData);
+        }
       } else {
         const result = {
           country: countryResult,
@@ -124,8 +132,11 @@ const FilterDropDownCountryCity = ({ data, country, city, keyPage }) => {
           },
           page: 1,
         };
-        dispatch(fetchCandidates(newData));
+        dispatch(fetchData(newData));
         dispatch(getTagsCandidates(newData));
+        if (getTags) {
+          console.log('newData', newData);
+        }
       }
     } else {
       const result = {
@@ -146,7 +157,7 @@ const FilterDropDownCountryCity = ({ data, country, city, keyPage }) => {
         page: 1,
       };
 
-      dispatch(fetchCandidates(newData));
+      dispatch(fetchData(newData));
       dispatch(getTagsCandidates(newData));
     }
   };

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Card, Row, Col, InputNumber, Form } from 'antd';
 import { useDispatch } from 'react-redux';
-import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 import { FilterResetSearch } from './FilterResetSearch';
 
 function filterArray(abc, title) {
@@ -18,6 +17,13 @@ const isPositiveInteger = (value) => {
   return /^[1-9]\d*$/.test(value);
 };
 
+const checkValue = (value) => {
+  if (value === undefined || value === '' || value === null) {
+    return true;
+  }
+  return false;
+};
+
 export const FilterTimeRange = ({
   paramFrom,
   paramTo,
@@ -25,6 +31,9 @@ export const FilterTimeRange = ({
   keyPage,
   filterValueFrom,
   filterValueTo,
+  changeDataDispatch,
+  getTags,
+  param,
 }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -39,68 +48,60 @@ export const FilterTimeRange = ({
   useEffect(() => {
     setValueFrom(filterValueFrom);
     setValueTo(filterValueTo);
-    form.setFieldValue(`${paramFrom}`, filterValueFrom);
-    form.setFieldValue(`${paramTo}`, filterValueTo);
+    form.setFieldValue(`${paramFrom}`, filterValueFrom || undefined);
+    form.setFieldValue(`${paramTo}`, filterValueTo || undefined);
   }, [filterValueFrom, filterValueTo]);
 
   const handleSearch = () => {
     if (
-      valueFrom !== undefined &&
-      valueFrom !== '' &&
-      (valueTo === undefined || valueTo === '')
+      !checkValue(form.getFieldValue(paramFrom)) &&
+      checkValue(form.getFieldValue(paramTo))
     ) {
-      const data = { name: paramFrom, data: valueFrom };
-      const result = { [data.name]: data.data };
+      const result = { [`${paramFrom}`]: form.getFieldValue(paramFrom) };
       const dataSaveLocal = filterArray(
         JSON.parse(localStorage.getItem(keyPage)),
         paramTo,
       );
       const newData = { ...dataSaveLocal, ...result, page: 1 };
-      dispatch(getTagsCandidates(newData));
-      dispatch(fetchData(newData));
+      dispatch(getTags(newData));
+      dispatch(fetchData(changeDataDispatch(newData)));
     }
 
     if (
-      valueTo !== undefined &&
-      valueTo !== '' &&
-      (valueFrom === undefined || valueFrom === '')
+      checkValue(form.getFieldValue(paramFrom)) &&
+      !checkValue(form.getFieldValue(paramTo))
     ) {
-      const data = { name: paramTo, data: valueTo };
-      const result = { [data.name]: data.data };
+      const result = { [`${paramTo}`]: form.getFieldValue(paramTo) };
       const dataSaveLocal = filterArray(
         JSON.parse(localStorage.getItem(keyPage)),
         paramFrom,
       );
       const newData = { ...dataSaveLocal, ...result, page: 1 };
-      dispatch(getTagsCandidates(newData));
-      dispatch(fetchData(newData));
+      dispatch(getTags(newData));
+      dispatch(fetchData(changeDataDispatch(newData)));
     }
 
     if (
-      valueTo !== undefined &&
-      valueTo !== '' &&
-      valueFrom !== undefined &&
-      valueFrom !== ''
+      !checkValue(form.getFieldValue(paramFrom)) &&
+      !checkValue(form.getFieldValue(paramTo))
     ) {
-      const dataFrom = { name: paramFrom, data: valueFrom };
-      const resultFrom = { [dataFrom.name]: dataFrom.data };
-      const dataTo = { name: paramTo, data: valueTo };
-      const resultTo = { [dataTo.name]: dataTo.data };
+      const resultFrom = { [`${paramFrom}`]: form.getFieldValue(paramFrom) };
+      const resultTo = { [`${paramTo}`]: form.getFieldValue(paramTo) };
       const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
       const newData = { ...dataSaveLocal, ...resultTo, ...resultFrom, page: 1 };
-      dispatch(getTagsCandidates(newData));
-      dispatch(fetchData(newData));
+      dispatch(getTags(newData));
+      dispatch(fetchData(changeDataDispatch(newData)));
     }
 
     if (
-      (valueTo === undefined || valueTo === '') &&
-      (valueFrom === undefined || valueFrom === '')
+      checkValue(form.getFieldValue(paramTo)) &&
+      checkValue(form.getFieldValue(paramFrom))
     ) {
       const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
       const removeDataFrom = filterArray(dataSaveLocal, paramFrom);
       const removeDataTo = filterArray(removeDataFrom, paramTo);
-      dispatch(getTagsCandidates(removeDataTo));
-      dispatch(fetchData(removeDataTo));
+      dispatch(getTags(removeDataTo));
+      dispatch(fetchData(changeDataDispatch(removeDataTo)));
     }
   };
 
@@ -264,10 +265,12 @@ export const FilterTimeRange = ({
             <Row gutter={[8, 8]}>
               <FilterResetSearch
                 disabled={checkSearch}
+                param={param}
                 onClick={handleSearch}
-                paramFrom={paramFrom}
-                paramTo={paramTo}
-                form={form}
+                keyPage={keyPage}
+                fetchData={fetchData}
+                getTags={getTags}
+                changeDataDispatch={changeDataDispatch}
               />
             </Row>
           </Col>

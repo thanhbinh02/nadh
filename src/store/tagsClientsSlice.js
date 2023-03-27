@@ -10,6 +10,7 @@ export const tagsClientsSlice = createSlice({
   reducers: {
     getTagsClients: (state, { payload }) => {
       state.data = payload;
+      window.localStorage.setItem('filterClient', JSON.stringify(payload));
     },
   },
 });

@@ -14,6 +14,7 @@ import { fetchHighestDegree } from '../store/highestDegreeSlice';
 import { fetchListCustoms } from '../store/customColumnSlice';
 import { getTagsCandidates } from '../store/tagsCandidatesSlice';
 import { refreshCandidates, fetchCandidates } from '../store/candidatesSlice';
+import { CUSTOM_COLUMNS_CANDIDATES } from '../utils/const';
 
 export const Candidates = () => {
   const dispatch = useDispatch();
@@ -119,6 +120,7 @@ export const Candidates = () => {
         <CustomColumns
           namePage="candidates"
           listCustom={listCustomCandidates}
+          customColumns={CUSTOM_COLUMNS_CANDIDATES}
         />
       </Row>
       <TableCandidates
