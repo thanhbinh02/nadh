@@ -9,6 +9,7 @@ export const FormItemOption = ({
   placeholder,
   required,
   message,
+  allowClear,
 }) => {
   return (
     <Form.Item
@@ -25,6 +26,7 @@ export const FormItemOption = ({
       }
     >
       <Select
+        allowClear={allowClear}
         showSearch
         style={{ width: '100%' }}
         placeholder={placeholder}

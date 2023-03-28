@@ -6,44 +6,12 @@ export const FormItemSelectMultiple = ({
   options,
   name,
   label,
-  actionDispatch,
-  id,
   placeholder,
-  dataDefault,
+  form,
 }) => {
-  const dispatch = useDispatch();
-  let defaultValue;
-  if (id) {
-    defaultValue = dataDefault.map((item) => Number(item.key));
-  }
-
-  const handleChange = (value) => {
-    const selectedLabels = [];
-    options.forEach((option) => {
-      if (value.includes(option.key)) {
-        selectedLabels.push(option.label);
-      }
-    });
-    const result = [];
-
-    for (let i = 0; i < value.length; i++) {
-      result.push({
-        key: value[i],
-        label: selectedLabels[i],
-      });
-    }
-
-    if (!id) {
-      dispatch(actionDispatch({ value: result, label: name }));
-    } else {
-      const newData = {
-        id: id,
-        params: {
-          [`${name}`]: result,
-        },
-      };
-
-      dispatch(actionDispatch(newData));
+  const handleChange = (value, option) => {
+    if (value !== undefined) {
+      form.setFieldValue(name, option);
     }
   };
 
@@ -56,11 +24,10 @@ export const FormItemSelectMultiple = ({
         optionFilterProp="children"
         onChange={handleChange}
         placeholder={placeholder}
-        defaultValue={defaultValue}
       >
         {options.map((option) => {
           return (
-            <Option key={option.key} value={option.key} label={option.key}>
+            <Option key={option.key} value={option.key} label={option.label}>
               {option.label}
             </Option>
           );

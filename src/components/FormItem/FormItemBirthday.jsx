@@ -2,7 +2,7 @@ import { Row, Col, Form, Select } from 'antd';
 import { DATES, MONTHS } from '../../utils/const';
 
 const { Option } = Select;
-export const FormItemBirthday = ({ form }) => {
+export const FormItemBirthday = ({ form, label }) => {
   const yearsRange = [];
   for (var i = 1960; i <= 2023; i++) {
     yearsRange.push({ key: i });
@@ -39,9 +39,9 @@ export const FormItemBirthday = ({ form }) => {
   };
 
   return (
-    <Form.Item label="Birthday" name="dob">
-      <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
-        <Col span={4}>
+    <Form.Item label={label} name="dob">
+      <Row gutter={(12, 12)} style={{ marginBottom: '12px', width: '100%' }}>
+        <Col span={8}>
           <Form.Item
             name="date_birthday"
             rules={[
@@ -77,7 +77,7 @@ export const FormItemBirthday = ({ form }) => {
             </Select>
           </Form.Item>
         </Col>
-        <Col span={4}>
+        <Col span={8}>
           <Form.Item
             name="month_birthday"
             rules={[
@@ -114,7 +114,7 @@ export const FormItemBirthday = ({ form }) => {
             </Select>
           </Form.Item>
         </Col>
-        <Col span={4}>
+        <Col span={8}>
           <Form.Item
             name="year_birthday"
             rules={[

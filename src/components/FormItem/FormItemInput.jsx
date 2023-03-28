@@ -11,7 +11,19 @@ export const FormItemInput = ({
 }) => {
   if (type === 'number') {
     return (
-      <Form.Item label={label} name={name}>
+      <Form.Item
+        label={label}
+        name={name}
+        required={required}
+        rules={
+          message && [
+            {
+              required: true,
+              message: message,
+            },
+          ]
+        }
+      >
         <InputNumber min="0" placeholder="0" style={{ width: '100%' }} />
       </Form.Item>
     );

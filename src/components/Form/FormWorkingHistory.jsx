@@ -203,7 +203,6 @@ export const FormWorkingHistory = ({
           </Col>
         )}
       </Row>
-
       <Row gutter={(12, 12)} style={{ marginBottom: '20px' }}>
         <Col span={12}>
           <Form.Item name="status" valuePropName="checked">
@@ -211,7 +210,6 @@ export const FormWorkingHistory = ({
           </Form.Item>
         </Col>
       </Row>
-
       <Row gutter={(12, 12)} style={{ marginBottom: '20px' }}>
         <Col span={12}>
           <Form.Item label="Start year" required>
@@ -341,7 +339,7 @@ export const FormWorkingHistory = ({
           </Form.Item>
         </Col>
       </Row>
-
+      s
       <Row gutter={(12, 12)} style={{ marginBottom: '20px' }}>
         <Col span={24}>
           <FormItemSelectOneAdd
@@ -356,7 +354,6 @@ export const FormWorkingHistory = ({
           />
         </Col>
       </Row>
-
       <Row gutter={(12, 12)} style={{ marginBottom: '20px' }}>
         <Col span={24}>
           <FormItemSelectOneAdd
@@ -371,7 +368,6 @@ export const FormWorkingHistory = ({
           />
         </Col>
       </Row>
-
       <Row>
         <Col
           span={24}

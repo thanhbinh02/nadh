@@ -28,6 +28,9 @@ import createClientReducer from './createClientSlice';
 import detailClientReducer from './detailClientSlice';
 import jobsReducer from './jobsSlice';
 import tagsJobsReducer from './tagsJobsSlice';
+import createJobReducer from './createJobSlice';
+import departmentReducer from './departmentSlice';
+import detailJobReducer from './detailJobSlice';
 
 export const store = configureStore({
   reducer: {
@@ -60,5 +63,8 @@ export const store = configureStore({
     detailClient: detailClientReducer,
     jobs: jobsReducer,
     tagsJobs: tagsJobsReducer,
+    createJob: createJobReducer,
+    department: departmentReducer,
+    detailJob: detailJobReducer,
   },
 });

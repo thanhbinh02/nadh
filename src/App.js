@@ -12,6 +12,8 @@ import { ClientAdd } from './Pages/Client/ClientAdd';
 import { ClientDetail } from './Pages/Client/ClientDetail';
 
 import { Jobs } from './Pages/Jobs';
+import { JobAdd } from './Pages/Job/JobAdd';
+import { JobDetail } from './Pages/Job/JobDetail';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
@@ -39,6 +41,8 @@ function App() {
           <Route path="/client-detail/:client_id" element={<ClientDetail />} />
 
           <Route path="/jobs" element={<Jobs />} />
+          <Route path="/job-add" element={<JobAdd />} />
+          <Route path="/job-detail/:job_id" element={<JobDetail />} />
 
           <Route path="*" element={<Page404 />} />
         </Route>

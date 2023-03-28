@@ -166,9 +166,6 @@ export const ClientDetail = () => {
                   </Card>
                 </Col>
               </Row>
-              <Button type="primary" htmlType="submit">
-                Create Job
-              </Button>
             </Form>
           </Col>
         </Row>

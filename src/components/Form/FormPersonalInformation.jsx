@@ -72,7 +72,12 @@ export const FormPersonalInformation = ({
           />
         </Col>
       </Row>
-      <FormItemBirthday form={form} />
+      <Row gutter={(12, 12)}>
+        <Col span={12}>
+          <FormItemBirthday form={form} label="Birthday" />
+        </Col>
+      </Row>
+
       <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
         <Col span={12}>
           <FormItemRadio label="Gender" name="gender" options={GENDERS} />

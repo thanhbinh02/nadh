@@ -4,16 +4,11 @@ import { useState } from 'react';
 import { getKeyWithLabel } from '../../utils/const';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import { fetchSectors } from '../../store/categoriesSlice';
+import { fetchCategories } from '../../store/categoriesSlice';
 
 const { Option } = Select;
-export const FormIndustry = ({
-  form,
-  industries,
-  sectors,
-  categories,
-  fetchSectors,
-  fetchCategories,
-}) => {
+export const FormIndustry = ({ form, industries, sectors, categories }) => {
   const dispatch = useDispatch();
   const [check, setCheck] = useState(true);
   const [openSave, setOpenSave] = useState(false);

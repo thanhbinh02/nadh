@@ -35,11 +35,8 @@ const changeValueDispatch = (value) => {
   const {
     address,
     business_line,
-    city,
     code,
-    country,
     cpa,
-    district,
     email,
     fax,
     lead_consultants,
@@ -372,8 +369,6 @@ export const ClientAdd = () => {
                       industries={industries}
                       sectors={sectors}
                       categories={categories}
-                      fetchSectors={fetchSectors}
-                      fetchCategories={fetchCategories}
                     />
                   </Form.Item>
                 </Col>

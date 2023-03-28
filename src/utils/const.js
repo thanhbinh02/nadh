@@ -585,6 +585,15 @@ export const MONEY = [
   { name: 'EUR', id: 4, color: 'purple' },
 ];
 
+export const TYPE_JOB = [
+  { key: 1, label: 'Full-Time' },
+  { key: 2, label: 'Contract' },
+  { key: 3, label: 'Part-time' },
+  { key: 4, label: 'Internship' },
+  { key: 5, label: 'Temporary' },
+  { key: 6, label: 'Other' },
+];
+
 export const changeMoney = (value, keyFrom, keyTo) => {
   let final;
   if (keyFrom !== keyTo) {
