@@ -14,18 +14,6 @@ export const fetchClients = createAsyncThunk(
     }),
 );
 
-export const refreshClients = createAsyncThunk(
-  'clients/refreshClients',
-  async (params) =>
-    await getClients({
-      params: {
-        page: 1,
-        perPage: 10,
-        ...params,
-      },
-    }),
-);
-
 export const getParentCompany = createAsyncThunk(
   'clients/refreshClients',
   async (params) =>
@@ -45,7 +33,6 @@ export const clientsSlice = createSlice({
     loading: false,
     data: [],
     count: 0,
-    local: {},
   },
 
   extraReducers: {
@@ -63,20 +50,7 @@ export const clientsSlice = createSlice({
       state.loading = false;
       state.isSuccess = false;
     },
-    [refreshClients.pending]: (state) => {
-      state.loading = true;
-      state.isSuccess = false;
-    },
-    [refreshClients.fulfilled]: (state, { payload }) => {
-      state.data = payload.data;
-      state.count = payload.count;
-      state.loading = false;
-      state.isSuccess = true;
-    },
-    [refreshClients.rejected]: (state) => {
-      state.loading = false;
-      state.isSuccess = false;
-    },
+
     [getParentCompany.pending]: (state) => {
       state.loading = true;
       state.isSuccess = false;

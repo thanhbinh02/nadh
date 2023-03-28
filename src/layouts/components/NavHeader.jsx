@@ -14,9 +14,9 @@ export const NavHeader = () => {
         <Menu.Item key={1} icon={<FaUsers />}>
           <Link to="/clients"> Clients</Link>
         </Menu.Item>
-        {/* <Menu.Item key={2} icon={<BsCardChecklist />}>
-          <Link to="/"> Jobs</Link>
-        </Menu.Item> */}
+        <Menu.Item key={2} icon={<BsCardChecklist />}>
+          <Link to="/jobs"> Jobs</Link>
+        </Menu.Item>
       </Menu>
     </div>
   );

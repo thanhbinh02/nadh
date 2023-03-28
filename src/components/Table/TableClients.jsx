@@ -142,7 +142,7 @@ const TableClients = ({
             color="purple"
             style={{ textTransform: 'capitalize' }}
           >
-            {text[0].full_name}
+            {text[0]?.full_name}
           </Tag>
         );
       },

@@ -128,6 +128,25 @@ export const CUSTOM_COLUMNS_CLIENTS = [
   { title: 'action', label: 'Action', disabled: true, check: true },
 ];
 
+export const CUSTOM_COLUMNS_JOBS = [
+  { title: 'job_id', label: 'ID', disabled: true, check: true },
+  { title: 'title_text', label: 'Title', check: true },
+  { title: 'quantity', label: 'Quantity', check: true },
+  { title: 'target_date', label: 'Open Date', check: true },
+  { title: 'end_date', label: 'Expire Date', check: true },
+  { title: 'status', label: 'Status', check: true },
+  { title: 'client', label: 'Client', check: true },
+  { title: 'search_consultants', label: 'Search Consultant', check: true },
+  { title: 'candidate_flows_status', label: 'Activity', check: true },
+  { title: 'experience_level', label: 'Experience level', check: true },
+  { title: 'mapping_by', label: 'Mapping by', check: true },
+  { title: 'location', label: 'City', check: true },
+  { title: 'industry', label: 'Industry', check: true },
+  { title: 'industry_years', label: 'Year of services', check: true },
+  { title: 'salary', label: 'Salary Range', check: true },
+  { title: 'action', label: 'Action', disabled: true, check: true },
+];
+
 export const TAG_CANDIDATES = [
   {
     title: 'candidate_id',
@@ -497,6 +516,75 @@ export const BENEFITS = [
   },
 ];
 
+export const STATUS_JOB = [
+  {
+    key: 1,
+    label: 'Opening',
+    color: 'blue',
+  },
+  {
+    key: 2,
+    label: 'Done',
+    color: 'green',
+  },
+  {
+    key: 3,
+    label: 'Processing',
+    color: 'geekblue',
+  },
+  {
+    key: 4,
+    label: 'Pending',
+    color: 'red',
+  },
+  {
+    key: 5,
+    label: 'Replacement',
+    color: 'pink',
+  },
+  {
+    key: -1,
+    label: 'Closed',
+    color: 'black',
+  },
+  {
+    key: -2,
+    label: 'Cancel',
+    color: 'yellow',
+  },
+  {
+    key: -3,
+    label: 'Lost',
+    color: 'orange',
+  },
+  {
+    key: -4,
+    label: 'Expired',
+    color: 'magenta',
+  },
+  {
+    key: 6,
+    label: 'Reopening',
+    color: 'cyan',
+  },
+];
+
+export const EXPERIENCE_LEVEL = [
+  { key: 1, label: 'Internship Level' },
+  { key: 2, label: 'Entry Level' },
+  { key: 3, label: 'Associate Level' },
+  { key: 4, label: 'Mid-senior Level' },
+  { key: 5, label: 'Director' },
+  { key: 6, label: 'Executive' },
+];
+
+export const MONEY = [
+  { name: 'USD', id: 1, color: 'cyan' },
+  { name: 'VND', id: 2, color: 'magenta' },
+  { name: 'JPY', id: 3, color: 'blue' },
+  { name: 'EUR', id: 4, color: 'purple' },
+];
+
 export const changeMoney = (value, keyFrom, keyTo) => {
   let final;
   if (keyFrom !== keyTo) {
@@ -578,7 +666,6 @@ export const changeTime = (inputDateString) => {
 };
 
 export const getKeyWithLabelArray = (array) => {
-  console.log('array', array);
   const result = array?.map(({ key, label, value }) => ({ key: value, label }));
   return result;
 };
@@ -626,6 +713,64 @@ export const changeLocalClientToParams = (local) => {
       result[key] = newValue[key];
     }
   }
+
+  return result;
+};
+
+export const changeLocalJobToParams = (local) => {
+  const findIndustryId = (industry) => {
+    if (industry?.category) {
+      return Number(industry?.category?.key);
+    }
+    if (industry?.sector) {
+      return Number(industry?.sector?.key);
+    }
+    if (industry?.industry) {
+      return Number(industry?.industry?.key);
+    }
+  };
+
+  const newValue = {
+    page: local?.page,
+    perPage: local?.perPage,
+    job_id: local?.job_id,
+    title_text: local?.title_text,
+    quantity_from: local?.quantity_from,
+    quantity_to: local?.quantity_to,
+    target_day_from: local?.target_day_from,
+    target_day_to: local?.target_day_to,
+    end_day_from: local?.end_day_from,
+    end_day_to: local?.end_day_to,
+    status: local?.status?.map((item) => item.key).join(',') || undefined,
+    client: local?.client?.map((item) => item.key).join(',') || undefined,
+    search_consultants:
+      local?.search_consultants?.map((item) => item.key).join(',') || undefined,
+    candidate_flows_status:
+      local?.candidate_flows_status?.map((item) => item.key).join(',') ||
+      undefined,
+    experience_level:
+      local?.experience_level?.map((item) => item.key).join(',') || undefined,
+    mapping_by:
+      local?.mapping_by?.map((item) => item.key).join(',') || undefined,
+    country: local?.location?.country?.key || undefined,
+    city: local?.location?.city?.key || undefined,
+    industry_id: local?.industry ? findIndustryId(local?.industry) : undefined,
+    industry_year_from: local?.industry_year_from || undefined,
+    industry_year_to: local?.industry_year_to || undefined,
+    currency: local?.currency?.id || undefined,
+    salary_from: local?.salary_from || undefined,
+    salary_to: local?.salary_to || undefined,
+  };
+
+  const result = {};
+
+  for (const key in newValue) {
+    if (newValue[key] !== undefined) {
+      result[key] = newValue[key];
+    }
+  }
+
+  console.log('result', result);
 
   return result;
 };

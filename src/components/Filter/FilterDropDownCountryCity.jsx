@@ -134,9 +134,6 @@ const FilterDropDownCountryCity = ({
         };
         dispatch(fetchData(newData));
         dispatch(getTagsCandidates(newData));
-        if (getTags) {
-          console.log('newData', newData);
-        }
       }
     } else {
       const result = {

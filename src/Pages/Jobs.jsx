@@ -5,25 +5,29 @@ import { Link } from 'react-router-dom';
 import { Row, Col, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { CustomColumns } from '../components/CustomColumns';
-import { fetchClients } from '../store/clientsSlice';
 
 import { fetchCountries } from '../store/locationsSlice';
 import { fetchListCustoms } from '../store/customColumnSlice';
-import { getTagsClients } from '../store/tagsClientsSlice';
-import TableClients from '../components/Table/TableClients';
-import { fetchUsers } from '../store/usersSlice';
-import { CUSTOM_COLUMNS_CLIENTS } from '../utils/const';
+
 import { fetchIndustries } from '../store/categoriesSlice';
+import { CUSTOM_COLUMNS_JOBS } from '../utils/const';
+import { fetchJobs } from '../store/jobsSlice';
+import { getTagsJobs } from '../store/tagsJobsSlice';
+import { fetchUsers } from '../store/usersSlice';
+import TableJobs from '../components/Table/TableJobs';
+import { changeLocalJobToParams } from '../utils/const';
 
-export const Clients = () => {
+export const Jobs = () => {
   const dispatch = useDispatch();
-  const totalItem = useSelector((state) => state.clients.count);
-  const clients = useSelector((state) => state.clients.data);
-  const loadingClients = useSelector((state) => state.clients.loading);
-  const listCustomClients = useSelector((state) => state.customColumn.data);
+  const totalItem = useSelector((state) => state.jobs.count);
+  const jobs = useSelector((state) => state.jobs.data);
 
-  const filterClient = JSON.parse(window.localStorage.getItem('filterClient'));
-  const listTagFilter = useSelector((state) => state.tagsClients.data);
+  const loadingJobs = useSelector((state) => state.jobs.loading);
+  const listCustomJobs = useSelector((state) => state.customColumn.data);
+
+  const filterJobs = JSON.parse(window.localStorage.getItem('filterJobs'));
+  const listTagFilter = useSelector((state) => state.tagsJobs.data);
+
   const industries = useSelector((state) => state.categories.industries);
   const sectors = useSelector((state) => state.categories.sectors);
   const categories = useSelector((state) => state.categories.categories);
@@ -38,13 +42,15 @@ export const Clients = () => {
   useEffect(() => {
     dispatch(fetchIndustries({ type: 1 }));
     dispatch(fetchCountries({ type: 4 }));
-    dispatch(fetchClients(filterClient));
-    dispatch(fetchListCustoms('clients'));
-    dispatch(getTagsClients(filterClient));
+    dispatch(fetchJobs(changeLocalJobToParams(filterJobs)));
+    dispatch(fetchListCustoms('jobs'));
+
+    dispatch(getTagsJobs(filterJobs));
     dispatch(fetchUsers());
-    if (!filterClient) {
+
+    if (!filterJobs) {
       window.localStorage.setItem(
-        'filterClient',
+        'filterJobs',
         JSON.stringify({ page: 1, perPage: 10 }),
       );
     }
@@ -67,7 +73,7 @@ export const Clients = () => {
             fontWeight: '600',
           }}
         >
-          Clients List {loadingClients ? '' : <>({totalItem})</>}
+          Jobs List {loadingJobs ? '' : <>({totalItem})</>}
         </Col>
         <Col style={{ marginRight: '73px' }}>
           <Row>
@@ -78,13 +84,13 @@ export const Clients = () => {
                 style={{ display: 'flex', alignItems: 'center' }}
                 onClick={() => {
                   dispatch(
-                    fetchClients({
+                    fetchJobs({
                       page: 1,
                       perPage: 10,
                     }),
                   );
                   dispatch(
-                    getTagsClients({
+                    getTagsJobs({
                       page: 1,
                       perPage: 10,
                     }),
@@ -95,7 +101,7 @@ export const Clients = () => {
               </Button>
             </Col>
             <Col span={12}>
-              <Link to="/client-add">
+              <Link to="/job-add">
                 <Button
                   type="primary"
                   color="red"
@@ -106,7 +112,7 @@ export const Clients = () => {
                   }}
                 >
                   <PlusOutlined />
-                  Create client
+                  Create job
                 </Button>
               </Link>
             </Col>
@@ -122,18 +128,18 @@ export const Clients = () => {
         }}
       >
         <CustomColumns
-          namePage="clients"
-          listCustom={listCustomClients}
-          customColumns={CUSTOM_COLUMNS_CLIENTS}
+          namePage="jobs"
+          listCustom={listCustomJobs}
+          customColumns={CUSTOM_COLUMNS_JOBS}
         />
       </Row>
-      <TableClients
-        data={clients ? clients : null}
+      <TableJobs
+        data={jobs ? jobs : null}
         industries={industries ? industries : null}
         sectors={sectors}
         categories={categories}
-        filterClient={filterClient}
-        loadingClients={loadingClients}
+        filterJobs={filterJobs}
+        loadingJobs={loadingJobs}
         users={users}
         listTagFilter={listTagFilter}
       />

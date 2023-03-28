@@ -28,7 +28,6 @@ const FilterDropDownIndustry = ({
   const [check, setCheck] = useState(false);
 
   useEffect(() => {
-    console.log('zodayko');
     if (filterValueOptionOne !== undefined) {
       dispatch(
         fetchDataItemTwo({ type: typeTwo, parent_id: filterValueOptionOne }),

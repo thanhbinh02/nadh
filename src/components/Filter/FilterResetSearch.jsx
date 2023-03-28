@@ -21,6 +21,18 @@ export const FilterResetSearch = ({
     } else if (param === 'updated_on') {
       delete dataSaveLocal['updated_on_from'];
       delete dataSaveLocal['updated_on_to'];
+    } else if (param === 'quantity') {
+      delete dataSaveLocal['quantity_from'];
+      delete dataSaveLocal['quantity_to'];
+    } else if (param === 'target_date') {
+      delete dataSaveLocal['target_day_from'];
+      delete dataSaveLocal['target_day_to'];
+    } else if (param === 'end_date') {
+      delete dataSaveLocal['end_day_from'];
+      delete dataSaveLocal['end_day_to'];
+    } else if (param === 'salary') {
+      delete dataSaveLocal['salary_from'];
+      delete dataSaveLocal['salary_to'];
     } else {
       delete dataSaveLocal[param];
     }

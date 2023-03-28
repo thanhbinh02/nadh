@@ -26,6 +26,8 @@ import companyReducer from './companySlice';
 import fileReducer from './fileSlice';
 import createClientReducer from './createClientSlice';
 import detailClientReducer from './detailClientSlice';
+import jobsReducer from './jobsSlice';
+import tagsJobsReducer from './tagsJobsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -56,5 +58,7 @@ export const store = configureStore({
     file: fileReducer,
     createClient: createClientReducer,
     detailClient: detailClientReducer,
+    jobs: jobsReducer,
+    tagsJobs: tagsJobsReducer,
   },
 });

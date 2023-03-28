@@ -25,6 +25,21 @@ const TagFilter = ({
     } else if (getItem.label === 'Updated on') {
       delete dataSaveLocal['updated_on_from'];
       delete dataSaveLocal['updated_on_to'];
+    } else if (getItem.label === 'Quantity') {
+      delete dataSaveLocal['quantity_from'];
+      delete dataSaveLocal['quantity_to'];
+    } else if (getItem.label === 'Open Date') {
+      delete dataSaveLocal['target_day_from'];
+      delete dataSaveLocal['target_day_to'];
+    } else if (getItem.label === 'Expire Date') {
+      delete dataSaveLocal['end_day_from'];
+      delete dataSaveLocal['end_day_to'];
+    } else if (getItem.label === 'Year of services') {
+      delete dataSaveLocal['industry_year_from'];
+      delete dataSaveLocal['industry_year_to'];
+    } else if (getItem.label === 'Salary Range') {
+      delete dataSaveLocal['salary_from'];
+      delete dataSaveLocal['salary_to'];
     } else {
       delete dataSaveLocal[getItem.title];
     }

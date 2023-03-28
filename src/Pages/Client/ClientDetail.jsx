@@ -27,8 +27,6 @@ export const ClientDetail = () => {
   const sectors = useSelector((state) => state.categories.sectors);
   const categories = useSelector((state) => state.categories.categories);
 
-  console.log();
-
   useEffect(() => {
     dispatch(fetchDetailClientSlice(client_id));
     dispatch(fetchCountries({ type: 4 }));
