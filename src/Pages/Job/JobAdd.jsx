@@ -278,7 +278,7 @@ export const JobAdd = () => {
                   <FormItemBirthday label="Opening Date" form={form} />
                 </Col>
                 <Col span={12}>
-                  <FormCountryCity form={form} />
+                  <FormCountryCity form={form} label="Location" />
                 </Col>
               </Row>
               <Row gutter={(12, 12)} style={{ marginBottom: '20px' }}>

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getKeyWithLabel } from '../../utils/const';
 const { Option } = Select;
 
-export const FormCountryCity = ({ form }) => {
+export const FormCountryCity = ({ form, label }) => {
   const dispatch = useDispatch();
   const [check, setCheck] = useState(false);
   const handleClearCountry = () => {
@@ -35,7 +35,7 @@ export const FormCountryCity = ({ form }) => {
   };
 
   return (
-    <Form.Item label="Location">
+    <Form.Item label={label}>
       <Row gutter={(12, 12)}>
         <Col span={12}>
           <Form.Item name="country" style={{ marginBottom: '8px' }}>

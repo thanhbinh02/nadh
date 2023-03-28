@@ -1,5 +1,6 @@
 import { Row, Button, Col } from 'antd';
 import { useDispatch } from 'react-redux';
+import moment from 'moment';
 
 export const FormItemUploadInfo = ({
   name,
@@ -196,12 +197,57 @@ export const FormItemUploadInfo = ({
       return;
     }
 
+    if (name === 'extend_date') {
+      const formattedToDate = moment(data).format('YYYY-MM-DD');
+
+      const newData = {
+        id: id,
+        params: {
+          extend_date: formattedToDate,
+        },
+      };
+
+      dispatch(putDetail(newData));
+      return;
+    }
+
+    if (name === 'location') {
+      const country = form.getFieldValue('country');
+      const city = form.getFieldValue('city');
+      if (city !== undefined) {
+        const newData = {
+          id: id,
+          params: {
+            location: {
+              country: country,
+              city: city,
+            },
+          },
+        };
+        dispatch(putDetail(newData));
+        return;
+      } else {
+        const newData = {
+          id: id,
+          params: {
+            location: {
+              country: country,
+            },
+          },
+        };
+        dispatch(putDetail(newData));
+        return;
+      }
+    }
+
     const newData = {
       id: id,
       params: {
         [`${name}`]: data,
       },
     };
+
+    console.log('newData', newData);
 
     dispatch(putDetail(newData));
   };

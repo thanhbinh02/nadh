@@ -210,3 +210,16 @@ span.ant-table-column-title {
 label.ant-form-item-no-colon {
   font-weight: 500;
 }
+
+.style-ckeditor.show .ck.ck-editor__top.ck-reset_all {
+  display: block;
+}
+
+.style-ckeditor.hidden .ck.ck-editor__top.ck-reset_all {
+  display: none;
+}
+
+.text-label-ckeditor {
+  font-weight: 500;
+  margin-bottom: 10px;
+}

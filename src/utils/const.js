@@ -783,3 +783,15 @@ export const changeLocalJobToParams = (local) => {
 
   return result;
 };
+
+export const changeDate = (value) => {
+  if (value) {
+    let dateObj = new Date(value);
+    let day = dateObj.getDate();
+    let month = dateObj.getMonth() + 1;
+    let year = dateObj.getFullYear();
+    let formattedDate =
+      ('0' + day).slice(-2) + '/' + ('0' + month).slice(-2) + '/' + year;
+    return formattedDate;
+  }
+};

@@ -37,3 +37,62 @@ export const getDetailJob = async (id) => {
   const url = `/api/jobs/${id}`;
   return await axiosClient.get(url);
 };
+
+export const putDetailJob = async (id, params) => {
+  const url = `/api/jobs/${id}`;
+  return await axiosClient
+    .put(url, params)
+    .then(function (response) {
+      toast.success('Update Success!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+      return response;
+    })
+    .catch(function (error) {
+      console.log('error', error);
+
+      const checkPermission = error.response.data.find(
+        (item) =>
+          item.message === 'Cannot update job' && item.code === 'Permission',
+      );
+
+      const checkPermission1 = error.response.data.find(
+        (item) => item.type === 'job update' && item.code === 'Permission',
+      );
+
+      if (checkPermission || checkPermission1) {
+        toast.error('You do not have permission edit!', {
+          autoClose: 1000,
+          position: 'top-right',
+        });
+      }
+    });
+};
+
+export const putDetailJobExtend = async (id, params) => {
+  const url = `/api/jobs/${id}/extend`;
+  return await axiosClient
+    .put(url, params)
+    .then(function (response) {
+      toast.success('Update Success!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+      return response;
+    })
+    .catch(function (error) {
+      console.log('error ne', error);
+
+      const checkPermission = error.response.data.find(
+        (item) => item.type === 'job extend' && item.code === 'Permission',
+      );
+
+      if (checkPermission) {
+        toast.error('You do not have permission edit!', {
+          autoClose: 1000,
+          position: 'top-right',
+        });
+      }
+    });
+};
