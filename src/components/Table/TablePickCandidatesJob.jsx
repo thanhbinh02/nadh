@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Table, Row, Col, Button, Modal, Spin, Drawer } from 'antd';
+import { Table, Row, Col, Button, Modal, Spin } from 'antd';
 import { AiOutlineEye } from 'react-icons/ai';
 import { candidate_flow_status } from '../../utils/const';
 import { DrawerCandidateDetail } from '../DrawerCandidateDetail';
+import { EXPERIENCE_LEVEL } from '../../utils/const';
+import { FormItemPickCandidates } from '../FormItem/FormItemPickCandidates';
+import { getPickCandidates } from '../../apis/candidatesApi';
+import { getNationalityTest } from '../../apis/filterApi';
 
 function getStatusLabels(array, status) {
   if (status.length !== 0) {
@@ -17,11 +21,22 @@ function getStatusLabels(array, status) {
   }
 }
 
-export const TablePickCandidatesJob = () => {
+const findItemClient = (key, array) => {
+  if (key) {
+    const result = array.find((item) => item.key === key);
+    return result;
+  }
+  return;
+};
+export const TablePickCandidatesJob = ({ detailJob, form }) => {
+  const [modalOpen, setModalOpen] = useState(false);
   const [openDraw, setOpenDraw] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [valueDrawer, setValueDrawer] = useState([]);
-
+  const experienceLevelJob = findItemClient(
+    detailJob?.experience_level,
+    EXPERIENCE_LEVEL,
+  );
   const candidate_flows = useSelector(
     (state) => state.detailJob.candidate_flows,
   );
@@ -120,7 +135,13 @@ export const TablePickCandidatesJob = () => {
         <Row style={{ fontSize: '18px', fontWeight: '500' }}>
           Candidates List
         </Row>
-        <Button type="primary" ghost onClick={() => {}}>
+        <Button
+          type="primary"
+          ghost
+          onClick={() => {
+            setModalOpen(true);
+          }}
+        >
           Pick Candidates
         </Button>
       </Col>
@@ -158,6 +179,75 @@ export const TablePickCandidatesJob = () => {
         openDraw={openDraw}
         setOpenDraw={setOpenDraw}
       />
+
+      <Modal
+        centered
+        open={modalOpen}
+        closable={false}
+        footer={null}
+        className="modal-add-education"
+        title="Pick Candidate"
+      >
+        <Row style={{ marginBottom: '10px' }}>
+          <Col span={8} style={{ fontWeight: 600 }}>
+            Job Title
+          </Col>
+          <Col span={16}>{detailJob?.title?.label}</Col>
+        </Row>
+        <Row style={{ marginBottom: '10px' }}>
+          <Col span={8} style={{ fontWeight: 600 }}>
+            Department
+          </Col>
+          <Col span={16}>{detailJob?.department?.label}</Col>
+        </Row>
+        <Row style={{ marginBottom: '10px' }}>
+          <Col span={8} style={{ fontWeight: 600 }}>
+            Industry
+          </Col>
+          <Col span={16}>
+            <>
+              {detailJob?.business_line?.map((item, index) => {
+                return (
+                  <div key={index}>
+                    <span>{item?.industry?.label}</span>
+                    {item?.sector && <span>/ {item?.sector?.label}</span>}
+                    {item?.category && <span>/ {item?.category?.label}</span>}
+                  </div>
+                );
+              })}
+            </>
+          </Col>
+        </Row>
+        <Row style={{ marginBottom: '10px' }}>
+          <Col span={8} style={{ fontWeight: 600 }}>
+            Experience Level
+          </Col>
+          <Col span={16}>{experienceLevelJob?.label}</Col>
+        </Row>
+
+        <Row>
+          <Col span={24}>
+            <FormItemPickCandidates
+              form={form}
+              name="pick-candidate"
+              getData={getPickCandidates}
+              defaultValue={candidate_flows}
+            />
+          </Col>
+        </Row>
+
+        <Row>
+          <Col span={24} style={{ textAlign: 'right' }}>
+            <Button
+              style={{ marginRight: '10px' }}
+              onClick={() => setModalOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button type="primary">Pick</Button>
+          </Col>
+        </Row>
+      </Modal>
     </Row>
   );
 };

@@ -96,3 +96,8 @@ export const putDetailJobExtend = async (id, params) => {
       }
     });
 };
+
+export const postComment = async (params) => {
+  const url = '/api/comments';
+  return await axiosClient.post(url, params);
+};

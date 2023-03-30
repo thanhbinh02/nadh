@@ -239,8 +239,6 @@ export const CandidateDetail = () => {
       params: test,
     };
 
-    console.log('newData', newData);
-
     dispatch(putNewDetailCandidate(newData))
       .unwrap()
       .then(() => {
@@ -389,7 +387,11 @@ export const CandidateDetail = () => {
                     form={form}
                   />
 
-                  <CardAttachments files={files} obj_uid={detailCandidate.id} />
+                  <CardAttachments
+                    files={files}
+                    obj_uid={detailCandidate.id}
+                    nameObj="candidates"
+                  />
 
                   {open && (
                     <Form.Item>

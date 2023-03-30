@@ -33,6 +33,11 @@ export const putContactPersonsSlice = createAsyncThunk(
   async ({ id, params }) => await putContactPersons(id, params),
 );
 
+export const putNewFileClient = createAsyncThunk(
+  'detailClient/putNewFileClient',
+  async ({ id, params }) => await putDetailClient(id, params),
+);
+
 export const detailClientSlice = createSlice({
   name: 'detailClient',
   initialState: {
@@ -42,6 +47,7 @@ export const detailClientSlice = createSlice({
     isPutSuccess: false,
     contactPerson: [],
     isLoadingContactPerson: false,
+    isPutFileSuccess: false,
   },
   reducers: {
     deleteContact: (state, { payload }) => {

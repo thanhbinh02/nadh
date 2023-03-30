@@ -16,6 +16,7 @@ import { fetchCategories } from '../../store/categoriesSlice';
 import { putBusinessLineClientSlice } from '../../store/businessLineSlice';
 import { TableActivityLogs } from '../../components/Table/TableActivityLogs';
 import { TableContactPerson } from '../../components/Table/TableContactPerson';
+import { toast } from 'react-toastify';
 
 export const ClientDetail = () => {
   const { client_id } = useParams();
@@ -79,6 +80,7 @@ export const ClientDetail = () => {
                   district: detailClient?.address?.district,
                   address: detailClient?.address?.address,
                 },
+
                 email: detailClient?.email,
                 status: detailClient?.status,
                 code: detailClient?.code,

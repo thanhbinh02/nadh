@@ -223,3 +223,51 @@ label.ant-form-item-no-colon {
   font-weight: 500;
   margin-bottom: 10px;
 }
+
+.placeholder__pick-job {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-left: 14px;
+  max-width: 100%;
+  margin-top: 6px;
+  color: #bfbfbf;
+}
+/* 
+:where(.css-dev-only-do-not-override-1km3mtt).select__pick-job
+  .ant-select-selection-overflow {
+  position: relative;
+  display: flex;
+  flex: auto;
+  flex-wrap: wrap;
+  max-width: 100%;
+  display: none;
+  color: red;
+} */
+
+.select__pick-job:where(
+    .css-dev-only-do-not-override-1km3mtt
+  ).ant-select-multiple
+  .ant-select-selection-overflow-item {
+  display: none;
+}
+
+.select__pick-job
+  .ant-select-selection-overflow-item.ant-select-selection-overflow-item-suffix {
+  display: inline-flex;
+  margin-left: 10px;
+}
+
+.upload_client .ant-upload {
+  min-width: 300px;
+  max-width: 100% !important;
+  height: 200px !important;
+}
+
+.comment_client .ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
+  border-radius: none !important;
+}
+
+.comment_client .ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
+  border-color: white;
+}

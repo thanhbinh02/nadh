@@ -112,3 +112,14 @@ export const deleteCandidateHistories = async (id) => {
   const url = `/api/candidate_histories/${id}`;
   await axiosClient.delete(url);
 };
+
+export const getPickCandidates = async (value) => {
+  const url = '/api/candidates';
+  return await axiosClient.get(url, {
+    params: {
+      advance_search: value,
+      page: 1,
+      perPage: 20,
+    },
+  });
+};

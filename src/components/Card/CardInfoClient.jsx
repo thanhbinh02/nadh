@@ -1,4 +1,4 @@
-import { Row, Card, Col, Form, Tag, Button } from 'antd';
+import { Row, Card, Col, Form, Tag, Upload } from 'antd';
 import { STATUS_CLIENT, TYPE_CLIENT, CPA, changeTime } from '../../utils/const';
 import { FormItemUploadInfo } from '../FormItem/FormItemUploadInfo';
 import { useEffect, useState } from 'react';
@@ -9,6 +9,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FormItemPhoneTax } from '../FormItem/FormItemPhoneTax';
 import { putNewDetailClient } from '../../store/detailClientSlice';
 import { fetchDetailClientSliceNotLoading } from '../../store/detailClientSlice';
+import { AiOutlinePlus } from 'react-icons/ai';
+import { toast } from 'react-toastify';
+import { postFileRedux, fetchFiles } from '../../store/fileSlice';
 
 const findItemClient = (key, array) => {
   if (key) {
@@ -31,6 +34,7 @@ export const CardInfoClient = ({ detailClient, form }) => {
   const statusClient = findItemClient(detailClient?.status, STATUS_CLIENT);
   const typeClient = findItemClient(detailClient?.type, TYPE_CLIENT);
   const cpaClient = findItemClient(detailClient?.cpa, CPA);
+  const newFileRedux = useSelector((state) => state.file.newFile);
   const clients = useSelector((state) => state.clients.data).map(
     ({ id, name }) => ({
       key: id,
@@ -45,12 +49,31 @@ export const CardInfoClient = ({ detailClient, form }) => {
     }),
   );
 
+  const user_id = useSelector((state) => state.auth.user_sent);
+
   const phoneNumber = useSelector((state) => state.phoneNumber.data);
   const isPutSuccess = useSelector((state) => state.detailClient.isPutSuccess);
+  const isPostFileSuccess = useSelector(
+    (state) => state.file.isPostFileSuccess,
+  );
 
   useEffect(() => {
     dispatch(fetchDetailClientSliceNotLoading(detailClient.id));
   }, [isPutSuccess]);
+
+  useEffect(() => {
+    if (isPostFileSuccess) {
+      const newData = {
+        id: detailClient?.id,
+        params: {
+          mediafiles: {
+            logo: newFileRedux?.id,
+          },
+        },
+      };
+      dispatch(putNewDetailClient(newData));
+    }
+  }, [isPostFileSuccess]);
 
   const [items, setItems] = useState([
     { name: 'name', open: false },
@@ -77,6 +100,16 @@ export const CardInfoClient = ({ detailClient, form }) => {
           : { ...item, open: false },
       );
       setItems(updatedItems);
+    }
+  };
+
+  const handleChange = async (info) => {
+    if (info.file.status === 'uploading') {
+      let newFile = new FormData();
+      newFile.append('file', info.file.originFileObj);
+      newFile.append('type', 'avatar');
+      newFile.append('uploadedByUserId', JSON.parse(user_id)?.user_id || 12);
+      dispatch(postFileRedux(newFile));
     }
   };
 
@@ -250,7 +283,35 @@ export const CardInfoClient = ({ detailClient, form }) => {
             </p>
           </Form.Item>
         </Col>
-        <Col span={10}>Upload</Col>
+        <Col span={10}>
+          <div className="upload_client">
+            <Upload
+              action="https://lubrytics.com:8443/nadh-mediafile/file"
+              listType="picture-card"
+              accept="image/png, image/jpeg"
+              showUploadList={false}
+              onChange={handleChange}
+            >
+              {detailClient.mediafiles.logo ? (
+                <img
+                  alt=""
+                  src={`https://lubrytics.com:8443/nadh-mediafile/file/${detailClient.mediafiles?.logo}`}
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    height: '200px',
+                    objectFit: 'cover',
+                  }}
+                />
+              ) : (
+                <div>
+                  <AiOutlinePlus />
+                  <p> Upload</p>
+                </div>
+              )}
+            </Upload>
+          </div>
+        </Col>
       </Row>
       <Row style={{ marginTop: '24px' }}>
         <Col span={24}>

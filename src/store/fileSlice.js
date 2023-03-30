@@ -24,9 +24,10 @@ export const fileSlice = createSlice({
   initialState: {
     isSuccess: false,
     loading: false,
-    file: {},
+    newFile: {},
     files: [],
     getFiles: false,
+    isPostFileSuccess: false,
   },
   reducers: {
     removeFile: (state, { payload }) => {
@@ -53,17 +54,15 @@ export const fileSlice = createSlice({
       state.loading = false;
     },
 
-    [postFileRedux.fulfilled]: () => {
-      toast.success('Add success!', {
-        autoClose: 1000,
-        position: 'top-right',
-      });
+    [postFileRedux.pending]: (state, { payload }) => {
+      state.isPostFileSuccess = false;
     },
-    [postFileRedux.rejected]: () => {
-      toast.error('Add error!', {
-        autoClose: 1000,
-        position: 'top-right',
-      });
+    [postFileRedux.fulfilled]: (state, { payload }) => {
+      state.isPostFileSuccess = true;
+      state.newFile = payload;
+    },
+    [postFileRedux.rejected]: (state) => {
+      state.isPostFileSuccess = false;
     },
   },
 });

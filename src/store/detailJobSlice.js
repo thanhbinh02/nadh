@@ -3,6 +3,7 @@ import { getDetailJob } from '../apis/jobsApi';
 import { toast } from 'react-toastify';
 import { putDetailJob } from '../apis/jobsApi';
 import { putDetailJobExtend } from '../apis/jobsApi';
+import { postComment } from '../apis/jobsApi';
 
 export const fetchDetailJob = createAsyncThunk(
   'detailJob/fetchDetailJob',
@@ -22,6 +23,11 @@ export const putNewDetailJob = createAsyncThunk(
 export const putNewDetailJobExtend = createAsyncThunk(
   'detailJob/putNewDetailJobExtend',
   async ({ id, params }) => await putDetailJobExtend(id, params),
+);
+
+export const postCommentJob = createAsyncThunk(
+  'detailJob/postCommentJob',
+  async (params) => await postComment(params),
 );
 
 export const detailJobSlice = createSlice({
@@ -75,6 +81,13 @@ export const detailJobSlice = createSlice({
     [fetchDetailJobNotLoading.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.data = payload;
+    },
+
+    [postCommentJob.pending]: (state) => {
+      state.isPutSuccess = false;
+    },
+    [postCommentJob.fulfilled]: (state, { payload }) => {
+      state.isPutSuccess = true;
     },
   },
 });

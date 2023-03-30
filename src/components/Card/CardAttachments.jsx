@@ -5,7 +5,7 @@ import { removeFile, fetchFiles, postFileRedux } from '../../store/fileSlice';
 import { AiOutlinePlus } from 'react-icons/ai';
 import axiosClient from '../../apis/axiosClient';
 
-export const CardAttachments = ({ files, obj_uid }) => {
+export const CardAttachments = ({ files, obj_uid, nameObj }) => {
   const dispatch = useDispatch();
   const user_id = useSelector((state) => state.auth.user_sent);
 
@@ -35,16 +35,16 @@ export const CardAttachments = ({ files, obj_uid }) => {
     if (info.file.status === 'uploading') {
       let newFile = new FormData();
       newFile.append('file', info.file.originFileObj);
-      newFile.append('obj_table', 'candidates');
+      newFile.append('obj_table', nameObj);
       newFile.append('obj_uid', obj_uid);
-      newFile.append('uploadedByUserId', JSON.parse(user_id).id || 12);
+      newFile.append('uploadedByUserId', 12);
       dispatch(postFileRedux(newFile))
         .unwrap()
         .then(() => {
           dispatch(
             fetchFiles({
               obj_id: obj_uid,
-              obj_table: 'candidates',
+              obj_table: nameObj,
             }),
           );
         })
@@ -68,6 +68,7 @@ export const CardAttachments = ({ files, obj_uid }) => {
       bordered={false}
       style={{
         width: '100%',
+        marginTop: '30px',
       }}
     >
       <Upload
