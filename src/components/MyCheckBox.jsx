@@ -1,45 +1,57 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Checkbox } from 'antd';
-
 import { addItemColumn } from '../store/customColumnSlice';
-import { refreshCandidates } from '../store/candidatesSlice';
-import { getTagsCandidates } from '../store/tagsCandidatesSlice';
 
-export const MyCheckBox = ({ item, check }) => {
+export const MyCheckBox = ({
+  item,
+  check,
+  fetchData,
+  changeDataDispatch,
+  keyPage,
+  getTags,
+}) => {
   const dispatch = useDispatch();
   const [myCheck, setMyCheck] = useState(check);
 
-  const handleDispatchCustomColumnRange = (paramFrom, paramTo) => {
-    const filterSaveLocalStorage = JSON.parse(
-      localStorage.getItem('filterCDD'),
-    );
-    const propsToDelete = [paramFrom, paramTo];
-    propsToDelete.forEach((prop) => delete filterSaveLocalStorage[prop]);
-    const newObj = { ...filterSaveLocalStorage, page: 1 };
-    window.localStorage.setItem('filterCDD', JSON.stringify(newObj));
-    dispatch(refreshCandidates(newObj));
-    dispatch(getTagsCandidates(newObj));
-  };
+  const handleCustom = (title) => {
+    const dataSaveLocal = JSON.parse(localStorage.getItem(keyPage));
 
-  const handleDispatchCustomColumnType = (param) => {
-    const filterSaveLocalStorage = JSON.parse(
-      localStorage.getItem('filterCDD'),
-    );
-    delete filterSaveLocalStorage[param];
-    const newObj = { ...filterSaveLocalStorage, page: 1 };
-    window.localStorage.setItem('filterCDD', JSON.stringify(newObj));
-    dispatch(refreshCandidates(newObj));
-    dispatch(getTagsCandidates(newObj));
-  };
-
-  const handleDispatchCustomCheckFalse = () => {
-    const filterSaveLocalStorage = JSON.parse(
-      localStorage.getItem('filterCDD'),
-    );
-    const newObj = { ...filterSaveLocalStorage, page: 1 };
-    dispatch(refreshCandidates(newObj));
-    dispatch(getTagsCandidates(newObj));
+    if (title === 'client_jobs') {
+      delete dataSaveLocal['client_jobs_from'];
+      delete dataSaveLocal['client_jobs_to'];
+    } else if (title === 'updated_on') {
+      delete dataSaveLocal['updated_on_from'];
+      delete dataSaveLocal['updated_on_to'];
+    } else if (title === 'quantity') {
+      delete dataSaveLocal['quantity_from'];
+      delete dataSaveLocal['quantity_to'];
+    } else if (title === 'target_date') {
+      delete dataSaveLocal['target_day_from'];
+      delete dataSaveLocal['target_day_to'];
+    } else if (title === 'end_date') {
+      delete dataSaveLocal['end_day_from'];
+      delete dataSaveLocal['end_day_to'];
+    } else if (title === 'industry_year') {
+      delete dataSaveLocal['industry_year_from'];
+      delete dataSaveLocal['industry_year_to'];
+    } else if (title === 'industry_years') {
+      delete dataSaveLocal['industry_years_from'];
+      delete dataSaveLocal['industry_years_to'];
+    } else if (title === 'salary') {
+      delete dataSaveLocal['salary_from'];
+      delete dataSaveLocal['salary_to'];
+    } else if (title === 'yob') {
+      delete dataSaveLocal['yob_from'];
+      delete dataSaveLocal['yob_to'];
+    } else if (title === 'management_years') {
+      delete dataSaveLocal['management_years_from'];
+      delete dataSaveLocal['management_years_to'];
+    } else {
+      delete dataSaveLocal[title];
+    }
+    dispatch(fetchData(changeDataDispatch({ ...dataSaveLocal, page: 1 })));
+    dispatch(getTags({ ...dataSaveLocal, page: 1 }));
   };
 
   return (
@@ -48,119 +60,14 @@ export const MyCheckBox = ({ item, check }) => {
       onClick={(e) => e.stopPropagation()}
       onChange={(e) => {
         setMyCheck(!myCheck);
-        const filterSaveLocalStorage = JSON.parse(
-          localStorage.getItem('filterCDD'),
-        );
 
-        if (item.title === 'priority_status' && myCheck === true) {
-          handleDispatchCustomColumnType('priority_status');
-        }
-
-        if (item.title === 'priority_status' && myCheck === false) {
-          handleDispatchCustomCheckFalse();
-        }
-
-        if (item.title === 'language' && myCheck === true) {
-          handleDispatchCustomColumnType('language');
-        }
-
-        if (item.title === 'language' && myCheck === false) {
-          handleDispatchCustomCheckFalse();
-        }
-
-        if (item.title === 'location' && myCheck === true) {
-          if (filterSaveLocalStorage?.location?.countryCity) {
-            const {
-              location: { countryCity, ...restCountry },
-              ...rest
-            } = filterSaveLocalStorage;
-            const result = { ...rest, location: { ...restCountry } };
-
-            const propsToDelete = ['country', 'city'];
-            propsToDelete.forEach((prop) => delete result[prop]);
-            const newObj = { ...result, page: 1 };
-            window.localStorage.setItem('filterCDD', JSON.stringify(newObj));
-            dispatch(refreshCandidates(newObj));
-            dispatch(getTagsCandidates(newObj));
-          }
-        }
-
-        if (item.title === 'location' && myCheck === false) {
-          handleDispatchCustomCheckFalse();
-        }
-
-        if (item.title === 'industry' && myCheck === true) {
-          if (filterSaveLocalStorage?.location?.industries) {
-            const {
-              location: { industries, ...restCountry },
-              ...rest
-            } = filterSaveLocalStorage;
-            const result = { ...rest, location: { ...restCountry } };
-            const propsToDelete = ['industry_id', 'industry_type'];
-            propsToDelete.forEach((prop) => delete result[prop]);
-            const newObj = { ...result, page: 1 };
-            window.localStorage.setItem('filterCDD', JSON.stringify(newObj));
-            dispatch(refreshCandidates(newObj));
-            dispatch(getTagsCandidates(newObj));
-          }
-        }
-
-        if (item.title === 'industry' && myCheck === false) {
-          handleDispatchCustomCheckFalse();
-        }
-
-        if (item.title === 'yob' && myCheck === true) {
-          handleDispatchCustomColumnRange('yob_from', 'yob_to');
-        }
-
-        if (item.title === 'yob' && myCheck === false) {
-          handleDispatchCustomCheckFalse();
-        }
-
-        if (item.title === 'current_company' && myCheck === true) {
-          handleDispatchCustomColumnType('current_company_text');
-        }
-
-        if (item.title === 'current_company' && myCheck === false) {
-          handleDispatchCustomCheckFalse();
-        }
-
-        if (item.title === 'current_position' && myCheck === true) {
-          handleDispatchCustomColumnType('current_position_text');
-        }
-
-        if (item.title === 'current_position' && myCheck === false) {
-          handleDispatchCustomCheckFalse();
-        }
-
-        if (item.title === 'flow_status' && myCheck === true) {
-          handleDispatchCustomColumnType('flow_status');
-        }
-
-        if (item.title === 'flow_status' && myCheck === false) {
-          handleDispatchCustomCheckFalse();
-        }
-
-        if (item.title === 'industry_years' && myCheck === true) {
-          handleDispatchCustomColumnRange(
-            'industry_years_from',
-            'industry_years_to',
-          );
-        }
-
-        if (item.title === 'industry_years' && myCheck === false) {
-          handleDispatchCustomCheckFalse();
-        }
-
-        if (item.title === 'management_years' && myCheck === true) {
-          handleDispatchCustomColumnRange(
-            'management_years_from',
-            'management_years_to',
-          );
-        }
-
-        if (item.title === 'management_years' && myCheck === false) {
-          handleDispatchCustomCheckFalse();
+        if (myCheck === true) {
+          handleCustom(item.title);
+        } else {
+          let newParam = JSON.parse(localStorage.getItem(keyPage));
+          console.log('newParam', newParam);
+          dispatch(fetchData(changeDataDispatch({ ...newParam, page: 1 })));
+          dispatch(getTags({ ...newParam, page: 1 }));
         }
 
         dispatch(

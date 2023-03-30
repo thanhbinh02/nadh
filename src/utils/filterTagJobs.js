@@ -57,8 +57,8 @@ export const filterTagJobs = (filterPage) => {
     listTag.push(result);
   }
 
-  if (filterPage?.title_text) {
-    const result = `Title: ${filterPage.title_text}`;
+  if (filterPage?.title) {
+    const result = `Title: ${filterPage.title}`;
     listTag.push(result);
   }
 
@@ -147,7 +147,7 @@ export const filterTagJobs = (filterPage) => {
       labelRange(
         filterPage?.industry_year_from,
         filterPage?.industry_year_to,
-        'Year of services',
+        'Year of service',
       ),
     );
   }
@@ -162,4 +162,60 @@ export const filterTagJobs = (filterPage) => {
   }
 
   return listTag;
+};
+
+export const changeLocalJobToParams = (local) => {
+  const findIndustryId = (industry) => {
+    if (industry?.category) {
+      return Number(industry?.category?.key);
+    }
+    if (industry?.sector) {
+      return Number(industry?.sector?.key);
+    }
+    if (industry?.industry) {
+      return Number(industry?.industry?.key);
+    }
+  };
+
+  const newValue = {
+    page: local?.page,
+    perPage: local?.perPage,
+    job_id: local?.job_id,
+    title: local?.title,
+    quantity_from: local?.quantity_from,
+    quantity_to: local?.quantity_to,
+    target_day_from: local?.target_day_from,
+    target_day_to: local?.target_day_to,
+    end_day_from: local?.end_day_from,
+    end_day_to: local?.end_day_to,
+    status: local?.status?.map((item) => item.key).join(',') || undefined,
+    client: local?.client?.map((item) => item.key).join(',') || undefined,
+    search_consultants:
+      local?.search_consultants?.map((item) => item.key).join(',') || undefined,
+    candidate_flows_status:
+      local?.candidate_flows_status?.map((item) => item.key).join(',') ||
+      undefined,
+    experience_level:
+      local?.experience_level?.map((item) => item.key).join(',') || undefined,
+    mapping_by:
+      local?.mapping_by?.map((item) => item.key).join(',') || undefined,
+    country: local?.location?.country?.key || undefined,
+    city: local?.location?.city?.key || undefined,
+    industry_id: local?.industry ? findIndustryId(local?.industry) : undefined,
+    industry_year_from: local?.industry_year_from || undefined,
+    industry_year_to: local?.industry_year_to || undefined,
+    currency: local?.currency?.id || undefined,
+    salary_from: local?.salary_from || undefined,
+    salary_to: local?.salary_to || undefined,
+  };
+
+  const result = {};
+
+  for (const key in newValue) {
+    if (newValue[key] !== undefined) {
+      result[key] = newValue[key];
+    }
+  }
+
+  return result;
 };

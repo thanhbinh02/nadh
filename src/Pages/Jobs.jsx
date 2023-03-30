@@ -15,7 +15,8 @@ import { fetchJobs } from '../store/jobsSlice';
 import { getTagsJobs } from '../store/tagsJobsSlice';
 import { fetchUsers } from '../store/usersSlice';
 import TableJobs from '../components/Table/TableJobs';
-import { changeLocalJobToParams } from '../utils/const';
+
+import { changeLocalJobToParams } from '../utils/filterTagJobs';
 
 export const Jobs = () => {
   const dispatch = useDispatch();
@@ -44,7 +45,6 @@ export const Jobs = () => {
     dispatch(fetchCountries({ type: 4 }));
     dispatch(fetchJobs(changeLocalJobToParams(filterJobs)));
     dispatch(fetchListCustoms('jobs'));
-
     dispatch(getTagsJobs(filterJobs));
     dispatch(fetchUsers());
 
@@ -75,8 +75,8 @@ export const Jobs = () => {
         >
           Jobs List {loadingJobs ? '' : <>({totalItem})</>}
         </Col>
-        <Col style={{ marginRight: '73px' }}>
-          <Row>
+        <Col style={{ marginRight: '52px' }}>
+          <Row gutter={(12, 12)}>
             <Col span={12}>
               <Button
                 type="primary"
@@ -131,6 +131,10 @@ export const Jobs = () => {
           namePage="jobs"
           listCustom={listCustomJobs}
           customColumns={CUSTOM_COLUMNS_JOBS}
+          fetchData={fetchJobs}
+          changeDataDispatch={changeLocalJobToParams}
+          keyPage="filterJobs"
+          getTags={getTagsJobs}
         />
       </Row>
       <TableJobs

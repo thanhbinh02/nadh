@@ -1,38 +1,32 @@
 import { Table, Tag, Spin } from 'antd';
-import { AiOutlineSearch, AiOutlineEye } from 'react-icons/ai';
+import { AiOutlineEye } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { FilterDropDownText } from '../Filter/FilterDropDownText';
 import { FilterDropDownSelectOneItem } from '../Filter/FilterDropDownSelectOneItem';
-import FilterDropDownCountryCity from '../Filter/FilterDropDownCountryCity';
 import FilterDropDownIndustry from '../Filter/FilterDropDownIndustry';
 import { FilterTimeRange } from '../Filter/FilterTimeRange';
 
 import { filterTagCandidates } from '../../utils/filterTagCandidates';
-import { priority_status, candidate_flow_status } from '../../utils/const';
+import {
+  priority_status,
+  candidate_flow_status,
+  CUSTOM_COLUMNS_CANDIDATES,
+} from '../../utils/const';
 
 import { fetchSectors, fetchCategories } from '../../store/categoriesSlice';
 import { fetchCandidates } from '../../store/candidatesSlice';
 import { getTagsCandidates } from '../../store/tagsCandidatesSlice';
 import TagFilter from '../TagFilter';
-import { refreshCandidates } from '../../store/candidatesSlice';
-
-const checkIconGlow = (name, obj) => {
-  if (obj) {
-    if (name in obj) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-};
+import { changeLocalCandidateToParams } from '../../utils/filterTagCandidates';
+import { IconFIlter } from '../IconFIlter';
+import FilterDropDownCountryCityClient from '../Filter/FilterDropDownCountryCityClient';
 
 const TableCandidates = ({
   data,
   languages,
-  city,
   industries,
   sectors,
   categories,
@@ -56,18 +50,7 @@ const TableCandidates = ({
       title: 'ID',
       dataIndex: 'candidate_id',
       filterIcon: (
-        <>
-          {checkIconGlow('candidate_id', filerCandidates) ? (
-            <AiOutlineSearch
-              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-            />
-          ) : (
-            <AiOutlineSearch
-              name={'Search candidate_id'}
-              style={{ fontSize: '14px' }}
-            />
-          )}
-        </>
+        <IconFIlter name="candidate_id" listFilter={filerCandidates} />
       ),
       filterDropdown: (
         <FilterDropDownText
@@ -77,6 +60,7 @@ const TableCandidates = ({
           keyPage="filterCDD"
           filterValue={filerCandidates?.candidate_id || undefined}
           getTags={getTagsCandidates}
+          changeDataDispatch={changeLocalCandidateToParams}
         />
       ),
       render: (text) => {
@@ -86,20 +70,7 @@ const TableCandidates = ({
     {
       title: 'Name',
       dataIndex: 'full_name',
-      filterIcon: (
-        <>
-          {checkIconGlow('full_name', filerCandidates) ? (
-            <AiOutlineSearch
-              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-            />
-          ) : (
-            <AiOutlineSearch
-              name={'Search candidate_id'}
-              style={{ fontSize: '14px' }}
-            />
-          )}
-        </>
-      ),
+      filterIcon: <IconFIlter name="full_name" listFilter={filerCandidates} />,
       filterDropdown: (
         <FilterDropDownText
           placeholder="Search full_name"
@@ -108,6 +79,7 @@ const TableCandidates = ({
           keyPage="filterCDD"
           filterValue={filerCandidates?.full_name || undefined}
           getTags={getTagsCandidates}
+          changeDataDispatch={changeLocalCandidateToParams}
         />
       ),
       render: (text, record) => {
@@ -120,18 +92,7 @@ const TableCandidates = ({
       title: 'Primary Status',
       dataIndex: 'priority_status',
       filterIcon: (
-        <>
-          {checkIconGlow('priority_status', filerCandidates) ? (
-            <AiOutlineSearch
-              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-            />
-          ) : (
-            <AiOutlineSearch
-              name={'Search candidate_id'}
-              style={{ fontSize: '14px' }}
-            />
-          )}
-        </>
+        <IconFIlter name="priority_status" listFilter={filerCandidates} />
       ),
       filterDropdown: (
         <FilterDropDownSelectOneItem
@@ -143,6 +104,7 @@ const TableCandidates = ({
           filterValue={filerCandidates?.priority_status || undefined}
           getTags={getTagsCandidates}
           type="candidates"
+          changeDataDispatch={changeLocalCandidateToParams}
         />
       ),
       render: (text) => {
@@ -171,20 +133,7 @@ const TableCandidates = ({
     {
       title: 'Languages',
       dataIndex: 'language',
-      filterIcon: (
-        <>
-          {checkIconGlow('language', filerCandidates) ? (
-            <AiOutlineSearch
-              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-            />
-          ) : (
-            <AiOutlineSearch
-              name={'Search candidate_id'}
-              style={{ fontSize: '14px' }}
-            />
-          )}
-        </>
-      ),
+      filterIcon: <IconFIlter name="language" listFilter={filerCandidates} />,
       filterDropdown: (
         <FilterDropDownSelectOneItem
           placeholder="Search Languages"
@@ -195,7 +144,7 @@ const TableCandidates = ({
           keyPage="filterCDD"
           filterValue={filerCandidates?.language || undefined}
           getTags={getTagsCandidates}
-          type="candidates"
+          changeDataDispatch={changeLocalCandidateToParams}
         />
       ),
       render: (_, record) => {
@@ -208,18 +157,7 @@ const TableCandidates = ({
       title: 'Highest degree',
       dataIndex: 'highest_education',
       filterIcon: (
-        <>
-          {checkIconGlow('highest_education', filerCandidates) ? (
-            <AiOutlineSearch
-              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-            />
-          ) : (
-            <AiOutlineSearch
-              name={'Search candidate_id'}
-              style={{ fontSize: '14px' }}
-            />
-          )}
-        </>
+        <IconFIlter name="highest_education" listFilter={filerCandidates} />
       ),
       filterDropdown: <div>Filter</div>,
       render: (text) => <div>{text}</div>,
@@ -227,28 +165,15 @@ const TableCandidates = ({
     {
       title: 'City',
       dataIndex: 'location',
-      filterIcon: (
-        <>
-          {checkIconGlow('country', filerCandidates) ? (
-            <AiOutlineSearch
-              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-            />
-          ) : (
-            <AiOutlineSearch
-              name={'Search candidate_id'}
-              style={{ fontSize: '14px' }}
-            />
-          )}
-        </>
-      ),
+      filterIcon: <IconFIlter name="location" listFilter={filerCandidates} />,
       filterDropdown: (
-        <FilterDropDownCountryCity
-          data={city}
-          keyPage="filterCDD"
-          country={filerCandidates?.country || undefined}
-          city={filerCandidates?.city || undefined}
+        <FilterDropDownCountryCityClient
           fetchData={fetchCandidates}
-          refreshData={refreshCandidates}
+          keyPage="filterCDD"
+          country={filerCandidates?.location?.country || undefined}
+          city={filerCandidates?.location?.city || undefined}
+          getTags={getTagsCandidates}
+          changeDataDispatch={changeLocalCandidateToParams}
         />
       ),
       render: (text) => {
@@ -268,20 +193,7 @@ const TableCandidates = ({
     {
       title: 'Industry',
       dataIndex: 'industry',
-      filterIcon: (
-        <>
-          {checkIconGlow('industry_id', filerCandidates) ? (
-            <AiOutlineSearch
-              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-            />
-          ) : (
-            <AiOutlineSearch
-              name={'Search candidate_id'}
-              style={{ fontSize: '14px' }}
-            />
-          )}
-        </>
-      ),
+      filterIcon: <IconFIlter name="industry" listFilter={filerCandidates} />,
       filterDropdown: (
         <FilterDropDownIndustry
           data={industries}
@@ -294,14 +206,14 @@ const TableCandidates = ({
           keyPage="filterCDD"
           fetchData={fetchCandidates}
           filterValueOptionOne={
-            filerCandidates?.location?.industries?.industry?.key || undefined
+            filerCandidates?.industry?.industry || undefined
           }
-          filterValueOptionTwo={
-            filerCandidates?.location?.industries?.sector?.key || undefined
-          }
+          filterValueOptionTwo={filerCandidates?.industry?.sector || undefined}
           filterValueOptionThree={
-            filerCandidates?.location?.industries?.category?.key || undefined
+            filerCandidates?.industry?.category || undefined
           }
+          getTags={getTagsCandidates}
+          changeDataDispatch={changeLocalCandidateToParams}
         />
       ),
       render: (text) => {
@@ -323,16 +235,10 @@ const TableCandidates = ({
       dataIndex: 'yob',
       filterIcon: (
         <>
-          {checkIconGlow('yob_from', filerCandidates) ||
-          checkIconGlow('yob_to', filerCandidates) ? (
-            <AiOutlineSearch
-              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-            />
+          {filerCandidates?.quantity ? (
+            <IconFIlter name={'yob_to'} listFilter={filerCandidates} />
           ) : (
-            <AiOutlineSearch
-              name={'Search candidate_id'}
-              style={{ fontSize: '14px' }}
-            />
+            <IconFIlter name={'yob_from'} listFilter={filerCandidates} />
           )}
         </>
       ),
@@ -344,6 +250,9 @@ const TableCandidates = ({
           keyPage="filterCDD"
           filterValueFrom={filerCandidates?.yob_from || undefined}
           filterValueTo={filerCandidates?.yob_to || undefined}
+          getTags={getTagsCandidates}
+          changeDataDispatch={changeLocalCandidateToParams}
+          param="yob"
         />
       ),
       render: (text) => {
@@ -357,18 +266,7 @@ const TableCandidates = ({
       title: 'Activity',
       dataIndex: 'flow_status',
       filterIcon: (
-        <>
-          {checkIconGlow('flow_status', filerCandidates) ? (
-            <AiOutlineSearch
-              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-            />
-          ) : (
-            <AiOutlineSearch
-              name={'Search candidate_id'}
-              style={{ fontSize: '14px' }}
-            />
-          )}
-        </>
+        <IconFIlter name="flow_status" listFilter={filerCandidates} />
       ),
       filterDropdown: (
         <FilterDropDownSelectOneItem
@@ -380,7 +278,7 @@ const TableCandidates = ({
           keyPage="filterCDD"
           filterValue={filerCandidates?.flow_status || undefined}
           getTags={getTagsCandidates}
-          type="candidates"
+          changeDataDispatch={changeLocalCandidateToParams}
         />
       ),
       render: (text) => {
@@ -394,27 +292,17 @@ const TableCandidates = ({
       title: 'Recent companies',
       dataIndex: 'current_company',
       filterIcon: (
-        <>
-          {checkIconGlow('current_company_text', filerCandidates) ? (
-            <AiOutlineSearch
-              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-            />
-          ) : (
-            <AiOutlineSearch
-              name={'Search candidate_id'}
-              style={{ fontSize: '14px' }}
-            />
-          )}
-        </>
+        <IconFIlter name="current_company" listFilter={filerCandidates} />
       ),
       filterDropdown: (
         <FilterDropDownText
           placeholder="Search current_company"
-          param="current_company_text"
+          param="current_company"
           fetchData={fetchCandidates}
           keyPage="filterCDD"
-          filterValue={filerCandidates?.current_company_text || undefined}
+          filterValue={filerCandidates?.current_company || undefined}
           getTags={getTagsCandidates}
+          changeDataDispatch={changeLocalCandidateToParams}
         />
       ),
       render: (text) => {
@@ -427,27 +315,17 @@ const TableCandidates = ({
       title: 'Recent positions',
       dataIndex: 'current_position',
       filterIcon: (
-        <>
-          {checkIconGlow('current_position_text', filerCandidates) ? (
-            <AiOutlineSearch
-              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
-            />
-          ) : (
-            <AiOutlineSearch
-              name={'Search candidate_id'}
-              style={{ fontSize: '14px' }}
-            />
-          )}
-        </>
+        <IconFIlter name="current_position" listFilter={filerCandidates} />
       ),
       filterDropdown: (
         <FilterDropDownText
-          placeholder="Search current_position_text"
-          param="current_position_text"
+          placeholder="Search current_position"
+          param="current_position"
           fetchData={fetchCandidates}
           keyPage="filterCDD"
-          filterValue={filerCandidates?.current_position_text || undefined}
+          filterValue={filerCandidates?.current_position || undefined}
           getTags={getTagsCandidates}
+          changeDataDispatch={changeLocalCandidateToParams}
         />
       ),
       render: (text) => {
@@ -461,15 +339,15 @@ const TableCandidates = ({
       dataIndex: 'industry_years',
       filterIcon: (
         <>
-          {checkIconGlow('industry_years_to', filerCandidates) ||
-          checkIconGlow('industry_years_from', filerCandidates) ? (
-            <AiOutlineSearch
-              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
+          {filerCandidates?.industry_years_to ? (
+            <IconFIlter
+              name={'industry_years_to'}
+              listFilter={filerCandidates}
             />
           ) : (
-            <AiOutlineSearch
-              name={'Search candidate_id'}
-              style={{ fontSize: '14px' }}
+            <IconFIlter
+              name={'industry_years_from'}
+              listFilter={filerCandidates}
             />
           )}
         </>
@@ -482,23 +360,29 @@ const TableCandidates = ({
           keyPage="filterCDD"
           filterValueFrom={filerCandidates?.industry_years_from || undefined}
           filterValueTo={filerCandidates?.industry_years_to || undefined}
+          getTags={getTagsCandidates}
+          changeDataDispatch={changeLocalCandidateToParams}
+          param="industry_years"
         />
       ),
+      render: (text) => {
+        return <div>{text}</div>;
+      },
     },
     {
       title: 'Year of management',
       dataIndex: 'management_years',
       filterIcon: (
         <>
-          {checkIconGlow('management_years_from', filerCandidates) ||
-          checkIconGlow('management_years_to', filerCandidates) ? (
-            <AiOutlineSearch
-              style={{ color: 'rgb(24, 144, 255)', fontSize: '14px' }}
+          {filerCandidates?.industry_years_to ? (
+            <IconFIlter
+              name={'management_years_from'}
+              listFilter={filerCandidates}
             />
           ) : (
-            <AiOutlineSearch
-              name={'Search candidate_id'}
-              style={{ fontSize: '14px' }}
+            <IconFIlter
+              name={'management_years_from'}
+              listFilter={filerCandidates}
             />
           )}
         </>
@@ -510,7 +394,10 @@ const TableCandidates = ({
           paramTo="management_years_to"
           keyPage="filterCDD"
           filterValueFrom={filerCandidates?.management_years_from || undefined}
-          filterValueTo={filerCandidates?.management_years_from || undefined}
+          filterValueTo={filerCandidates?.management_years_to || undefined}
+          getTags={getTagsCandidates}
+          changeDataDispatch={changeLocalCandidateToParams}
+          param="management_years"
         />
       ),
     },
@@ -559,7 +446,14 @@ const TableCandidates = ({
         marginRight: '54px',
       }}
     >
-      <TagFilter tags={filterTagCandidates(listTagFilter, languages)} />
+      <TagFilter
+        tags={filterTagCandidates(listTagFilter)}
+        keyPage="filterCDD"
+        listTags={CUSTOM_COLUMNS_CANDIDATES}
+        getTags={getTagsCandidates}
+        changeDataDispatch={changeLocalCandidateToParams}
+        fetchData={fetchCandidates}
+      />
       {loadingCandidate ? (
         <Spin tip="Loading...">
           <Table
@@ -582,7 +476,8 @@ const TableCandidates = ({
               setPageTable(page);
               let newParam = filerCandidates;
               newParam.page = page;
-              dispatch(fetchCandidates(newParam));
+              dispatch(fetchCandidates(changeLocalCandidateToParams(newParam)));
+              dispatch(getTagsCandidates(newParam));
             },
             current: pageTable,
           }}

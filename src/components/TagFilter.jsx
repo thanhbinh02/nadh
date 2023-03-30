@@ -1,8 +1,5 @@
 import { Tag } from 'antd';
-import { TAG_CANDIDATES } from '../utils/const';
 import { useDispatch } from 'react-redux';
-import { fetchCandidates } from '../store/candidatesSlice';
-import { getTagsCandidates } from '../store/tagsCandidatesSlice';
 
 const TagFilter = ({
   tags,
@@ -34,12 +31,24 @@ const TagFilter = ({
     } else if (getItem.label === 'Expire Date') {
       delete dataSaveLocal['end_day_from'];
       delete dataSaveLocal['end_day_to'];
-    } else if (getItem.label === 'Year of services') {
+    } else if (getItem.label === 'Year of service') {
       delete dataSaveLocal['industry_year_from'];
       delete dataSaveLocal['industry_year_to'];
+    } else if (getItem.label === 'Year of services') {
+      delete dataSaveLocal['industry_years_from'];
+      delete dataSaveLocal['industry_years_to'];
     } else if (getItem.label === 'Salary Range') {
       delete dataSaveLocal['salary_from'];
       delete dataSaveLocal['salary_to'];
+    } else if (getItem.label === 'Salary Range') {
+      delete dataSaveLocal['salary_from'];
+      delete dataSaveLocal['salary_to'];
+    } else if (getItem.label === 'YOB') {
+      delete dataSaveLocal['yob_from'];
+      delete dataSaveLocal['yob_to'];
+    } else if (getItem.label === 'Year of management') {
+      delete dataSaveLocal['management_years_from'];
+      delete dataSaveLocal['management_years_to'];
     } else {
       delete dataSaveLocal[getItem.title];
     }

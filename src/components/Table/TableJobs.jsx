@@ -9,10 +9,11 @@ import {
   EXPERIENCE_LEVEL,
   STATUS_JOB,
   CUSTOM_COLUMNS_JOBS,
-  changeLocalJobToParams,
   candidate_flow_status,
   MONEY,
 } from '../../utils/const';
+
+import { changeLocalJobToParams } from '../../utils/filterTagJobs';
 
 import { FilterDropDownText } from '../Filter/FilterDropDownText';
 import { FilterDropDownSelectOneItem } from '../Filter/FilterDropDownSelectOneItem';
@@ -71,18 +72,17 @@ const TableJobs = ({
     },
     {
       title: 'Title',
-      dataIndex: 'title_text',
-      filterIcon: <IconFIlter name="title_text" listFilter={filterJobs} />,
+      dataIndex: 'title',
+      filterIcon: <IconFIlter name="title" listFilter={filterJobs} />,
       filterDropdown: (
         <FilterDropDownText
-          placeholder="Search title_text"
-          param="title_text"
+          placeholder="Search title"
+          param="title"
           fetchData={fetchJobs}
           keyPage="filterJobs"
-          filterValue={filterJobs?.title_text || undefined}
+          filterValue={filterJobs?.title || undefined}
           getTags={getTagsJobs}
           changeDataDispatch={changeLocalJobToParams}
-          listTags={CUSTOM_COLUMNS_JOBS}
         />
       ),
       render: (text, record) => {
@@ -401,7 +401,7 @@ const TableJobs = ({
       },
     },
     {
-      title: 'Year of services',
+      title: 'Year of service',
       dataIndex: 'industry_years',
       filterIcon: (
         <>
@@ -526,7 +526,7 @@ const TableJobs = ({
   const newData = data?.map((item) => ({
     key: item?.id,
     job_id: item?.job_id,
-    title_text: item?.title?.label,
+    title: item?.title?.label,
     quantity: item?.quantity,
     target_date: item?.target_date,
     end_date: item?.end_date,
@@ -579,7 +579,8 @@ const TableJobs = ({
               setPageTable(page);
               let newParam = filterJobs;
               newParam.page = page;
-              dispatch(fetchJobs(newParam));
+              dispatch(fetchJobs(changeLocalJobToParams(newParam)));
+              dispatch(getTagsJobs(newParam));
             },
             current: pageTable,
           }}

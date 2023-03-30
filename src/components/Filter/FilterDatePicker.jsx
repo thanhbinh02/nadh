@@ -19,11 +19,12 @@ export const FilterDatePicker = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log('zodayko');
     if (filterValueFrom) {
-      form.setFieldValue(`${paramFrom}`, moment(filterValueFrom));
+      form.setFieldValue(`${paramFrom}`, moment(filterValueFrom, 'YYYY-MM-DD'));
     }
     if (filterValueTo) {
-      form.setFieldValue(`${paramTo}`, moment(filterValueTo));
+      form.setFieldValue(`${paramTo}`, moment(filterValueTo, 'YYYY-MM-DD'));
     }
   }, [filterValueFrom, filterValueTo]);
 

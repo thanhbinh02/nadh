@@ -11,9 +11,10 @@ import {
   TYPE_CLIENT,
   STATUS_CLIENT,
   CUSTOM_COLUMNS_CLIENTS,
-  changeLocalClientToParams,
 } from '../../utils/const';
 import { filterTagClients } from '../../utils/filterTagClients';
+
+import { changeLocalClientToParams } from '../../utils/filterTagClients';
 
 import { FilterDropDownText } from '../Filter/FilterDropDownText';
 import { FilterDropDownSelectOneItem } from '../Filter/FilterDropDownSelectOneItem';
@@ -22,8 +23,7 @@ import FilterDropDownIndustry from '../Filter/FilterDropDownIndustry';
 import FilterDropDownCountryCityClient from '../Filter/FilterDropDownCountryCityClient';
 import { FilterDatePicker } from '../Filter/FilterDatePicker';
 import { fetchClients } from '../../store/clientsSlice';
-import { fetchSectors } from '../../store/categoriesSlice';
-import { fetchCategories } from '../../store/categoriesSlice';
+import { fetchSectors, fetchCategories } from '../../store/categoriesSlice';
 import { getTagsClients } from '../../store/tagsClientsSlice';
 import { IconFIlter } from '../IconFIlter';
 
@@ -513,7 +513,8 @@ const TableClients = ({
               setPageTable(page);
               let newParam = filterClient;
               newParam.page = page;
-              dispatch(fetchClients(newParam));
+              dispatch(fetchClients(changeLocalClientToParams(newParam)));
+              dispatch(getTagsClients(newParam));
             },
             current: pageTable,
           }}

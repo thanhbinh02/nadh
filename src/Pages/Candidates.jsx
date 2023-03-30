@@ -15,10 +15,11 @@ import { fetchListCustoms } from '../store/customColumnSlice';
 import { getTagsCandidates } from '../store/tagsCandidatesSlice';
 import { refreshCandidates, fetchCandidates } from '../store/candidatesSlice';
 import { CUSTOM_COLUMNS_CANDIDATES } from '../utils/const';
+import { changeLocalCandidateToParams } from '../utils/filterTagCandidates';
 
 export const Candidates = () => {
   const dispatch = useDispatch();
-  const countries = useSelector((state) => state.locations.countries);
+
   const industries = useSelector((state) => state.categories.industries);
   const sectors = useSelector((state) => state.categories.sectors);
   const categories = useSelector((state) => state.categories.categories);
@@ -28,9 +29,6 @@ export const Candidates = () => {
 
   const languages = useSelector((state) => state.languages.languages);
   const listCustomCandidates = useSelector((state) => state.customColumn.data);
-  const isSuccessCustomColumn = useSelector(
-    (state) => state.customColumn.isSuccess,
-  );
 
   const filerCandidates = JSON.parse(window.localStorage.getItem('filterCDD'));
   const listTagFilter = useSelector((state) => state.tagsCandidates.data);
@@ -121,23 +119,21 @@ export const Candidates = () => {
           namePage="candidates"
           listCustom={listCustomCandidates}
           customColumns={CUSTOM_COLUMNS_CANDIDATES}
+          fetchData={fetchCandidates}
+          changeDataDispatch={changeLocalCandidateToParams}
+          keyPage="filterCDD"
+          getTags={getTagsCandidates}
         />
       </Row>
       <TableCandidates
-        totalItem={totalItem ? totalItem : null}
         data={candidates ? candidates : null}
         languages={languages ? languages : null}
-        city={countries ? countries : null}
         sectors={sectors}
         categories={categories}
-        industries={industries ? industries : null}
-        listCustomCandidates={
-          listCustomCandidates ? listCustomCandidates : null
-        }
         listTagFilter={listTagFilter}
         filerCandidates={filerCandidates}
         loadingCandidate={loadingCandidate}
-        isSuccessCustomColumn={isSuccessCustomColumn}
+        industries={industries ? industries : null}
       />
     </div>
   );

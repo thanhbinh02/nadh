@@ -88,7 +88,7 @@ export const CUSTOM_COLUMNS_CANDIDATES = [
   { title: 'candidate_id', label: 'ID', disabled: true, check: true },
   { title: 'full_name', label: 'Name', disabled: true, check: true },
   { title: 'priority_status', label: 'Primary Status', check: true }, //
-  { title: 'language', label: 'Languages', check: true }, //
+  { title: 'language', label: 'Language', check: true }, //
   { title: 'highest_education', label: 'Highest degree', check: true },
   { title: 'location', label: 'City', check: true }, //
   { title: 'industry', label: 'Industry', check: true }, //
@@ -130,7 +130,7 @@ export const CUSTOM_COLUMNS_CLIENTS = [
 
 export const CUSTOM_COLUMNS_JOBS = [
   { title: 'job_id', label: 'ID', disabled: true, check: true },
-  { title: 'title_text', label: 'Title', check: true },
+  { title: 'title', label: 'Title', check: true },
   { title: 'quantity', label: 'Quantity', check: true },
   { title: 'target_date', label: 'Open Date', check: true },
   { title: 'end_date', label: 'Expire Date', check: true },
@@ -142,7 +142,7 @@ export const CUSTOM_COLUMNS_JOBS = [
   { title: 'mapping_by', label: 'Mapping by', check: true },
   { title: 'location', label: 'City', check: true },
   { title: 'industry', label: 'Industry', check: true },
-  { title: 'industry_years', label: 'Year of services', check: true },
+  { title: 'industry_years', label: 'Year of service', check: true },
   { title: 'salary', label: 'Salary Range', check: true },
   { title: 'action', label: 'Action', disabled: true, check: true },
 ];
@@ -676,111 +676,6 @@ export const changeTime = (inputDateString) => {
 
 export const getKeyWithLabelArray = (array) => {
   const result = array?.map(({ key, label, value }) => ({ key: value, label }));
-  return result;
-};
-
-export const changeLocalClientToParams = (local) => {
-  const findIndustryId = (industry) => {
-    if (industry?.category) {
-      return Number(industry?.category?.key);
-    }
-    if (industry?.sector) {
-      return Number(industry?.sector?.key);
-    }
-    if (industry?.industry) {
-      return Number(industry?.industry?.key);
-    }
-  };
-
-  const newValue = {
-    page: local?.page,
-    perPage: local?.perPage,
-    account_status: local?.account_status?.key || undefined,
-    client_id: local?.client_id || undefined,
-    client_jobs_from: local?.client_jobs_from || undefined,
-    client_jobs_to: local?.client_jobs_to || undefined,
-    contact_person_name: local?.contact_person_name || undefined,
-    contact_person_title: local?.contact_person_title || undefined,
-    cpa: local?.cpa?.map((item) => item.key).join(',') || undefined,
-    lead_consultants:
-      local?.lead_consultants?.map((item) => item.key).join(',') || undefined,
-    country: local?.location?.country?.key || undefined,
-    city: local?.location?.city?.key || undefined,
-    name: local?.name || undefined,
-    status: local?.status?.map((item) => item.key).join(',') || undefined,
-    tax_code: local?.tax_code || undefined,
-    type: local?.type?.map((item) => item.key).join(',') || undefined,
-    industry_id: local?.industry ? findIndustryId(local?.industry) : undefined,
-    updated_on_from: local?.updated_on_from || undefined,
-    updated_on_to: local?.updated_on_to || undefined,
-  };
-
-  const result = {};
-
-  for (const key in newValue) {
-    if (newValue[key] !== undefined) {
-      result[key] = newValue[key];
-    }
-  }
-
-  return result;
-};
-
-export const changeLocalJobToParams = (local) => {
-  const findIndustryId = (industry) => {
-    if (industry?.category) {
-      return Number(industry?.category?.key);
-    }
-    if (industry?.sector) {
-      return Number(industry?.sector?.key);
-    }
-    if (industry?.industry) {
-      return Number(industry?.industry?.key);
-    }
-  };
-
-  const newValue = {
-    page: local?.page,
-    perPage: local?.perPage,
-    job_id: local?.job_id,
-    title_text: local?.title_text,
-    quantity_from: local?.quantity_from,
-    quantity_to: local?.quantity_to,
-    target_day_from: local?.target_day_from,
-    target_day_to: local?.target_day_to,
-    end_day_from: local?.end_day_from,
-    end_day_to: local?.end_day_to,
-    status: local?.status?.map((item) => item.key).join(',') || undefined,
-    client: local?.client?.map((item) => item.key).join(',') || undefined,
-    search_consultants:
-      local?.search_consultants?.map((item) => item.key).join(',') || undefined,
-    candidate_flows_status:
-      local?.candidate_flows_status?.map((item) => item.key).join(',') ||
-      undefined,
-    experience_level:
-      local?.experience_level?.map((item) => item.key).join(',') || undefined,
-    mapping_by:
-      local?.mapping_by?.map((item) => item.key).join(',') || undefined,
-    country: local?.location?.country?.key || undefined,
-    city: local?.location?.city?.key || undefined,
-    industry_id: local?.industry ? findIndustryId(local?.industry) : undefined,
-    industry_year_from: local?.industry_year_from || undefined,
-    industry_year_to: local?.industry_year_to || undefined,
-    currency: local?.currency?.id || undefined,
-    salary_from: local?.salary_from || undefined,
-    salary_to: local?.salary_to || undefined,
-  };
-
-  const result = {};
-
-  for (const key in newValue) {
-    if (newValue[key] !== undefined) {
-      result[key] = newValue[key];
-    }
-  }
-
-  console.log('result', result);
-
   return result;
 };
 

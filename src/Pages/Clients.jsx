@@ -14,6 +14,7 @@ import TableClients from '../components/Table/TableClients';
 import { fetchUsers } from '../store/usersSlice';
 import { CUSTOM_COLUMNS_CLIENTS } from '../utils/const';
 import { fetchIndustries } from '../store/categoriesSlice';
+import { changeLocalClientToParams } from '../utils/filterTagClients';
 
 export const Clients = () => {
   const dispatch = useDispatch();
@@ -69,8 +70,8 @@ export const Clients = () => {
         >
           Clients List {loadingClients ? '' : <>({totalItem})</>}
         </Col>
-        <Col style={{ marginRight: '73px' }}>
-          <Row>
+        <Col style={{ marginRight: '58px' }}>
+          <Row gutter={(12, 12)}>
             <Col span={12}>
               <Button
                 type="primary"
@@ -125,6 +126,10 @@ export const Clients = () => {
           namePage="clients"
           listCustom={listCustomClients}
           customColumns={CUSTOM_COLUMNS_CLIENTS}
+          fetchData={fetchClients}
+          changeDataDispatch={changeLocalClientToParams}
+          keyPage="filterClient"
+          getTags={getTagsClients}
         />
       </Row>
       <TableClients

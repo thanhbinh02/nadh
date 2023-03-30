@@ -6,7 +6,15 @@ import { MyCheckBox } from './MyCheckBox';
 import { useDispatch } from 'react-redux';
 import { putListCustomColumns } from '../store/customColumnSlice';
 
-export const CustomColumns = ({ namePage, listCustom, customColumns }) => {
+export const CustomColumns = ({
+  namePage,
+  listCustom,
+  customColumns,
+  fetchData,
+  changeDataDispatch,
+  keyPage,
+  getTags,
+}) => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -36,7 +44,14 @@ export const CustomColumns = ({ namePage, listCustom, customColumns }) => {
                 <span onClick={(e) => e.stopPropagation()}>{item.label}</span>
               </Checkbox>
             ) : (
-              <MyCheckBox item={item} check={item.check} />
+              <MyCheckBox
+                item={item}
+                check={item.check}
+                fetchData={fetchData}
+                changeDataDispatch={changeDataDispatch}
+                keyPage={keyPage}
+                getTags={getTags}
+              />
             )}
           </p>
         ),

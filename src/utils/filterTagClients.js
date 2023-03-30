@@ -145,3 +145,50 @@ export const filterTagClients = (filterPage) => {
 
   return listTag;
 };
+
+export const changeLocalClientToParams = (local) => {
+  const findIndustryId = (industry) => {
+    if (industry?.category) {
+      return Number(industry?.category?.key);
+    }
+    if (industry?.sector) {
+      return Number(industry?.sector?.key);
+    }
+    if (industry?.industry) {
+      return Number(industry?.industry?.key);
+    }
+  };
+
+  const newValue = {
+    page: local?.page,
+    perPage: local?.perPage,
+    account_status: local?.account_status?.key || undefined,
+    client_id: local?.client_id || undefined,
+    client_jobs_from: local?.client_jobs_from || undefined,
+    client_jobs_to: local?.client_jobs_to || undefined,
+    contact_person_name: local?.contact_person_name || undefined,
+    contact_person_title: local?.contact_person_title || undefined,
+    cpa: local?.cpa?.map((item) => item.key).join(',') || undefined,
+    lead_consultants:
+      local?.lead_consultants?.map((item) => item.key).join(',') || undefined,
+    country: local?.location?.country?.key || undefined,
+    city: local?.location?.city?.key || undefined,
+    name: local?.name || undefined,
+    status: local?.status?.map((item) => item.key).join(',') || undefined,
+    tax_code: local?.tax_code || undefined,
+    type: local?.type?.map((item) => item.key).join(',') || undefined,
+    industry_id: local?.industry ? findIndustryId(local?.industry) : undefined,
+    updated_on_from: local?.updated_on_from || undefined,
+    updated_on_to: local?.updated_on_to || undefined,
+  };
+
+  const result = {};
+
+  for (const key in newValue) {
+    if (newValue[key] !== undefined) {
+      result[key] = newValue[key];
+    }
+  }
+
+  return result;
+};

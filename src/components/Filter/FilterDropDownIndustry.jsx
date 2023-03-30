@@ -161,7 +161,7 @@ const FilterDropDownIndustry = ({
                 }}
                 optionFilterProp="children"
               >
-                {data.map((item) => (
+                {data?.map((item) => (
                   <Option value={item.key} key={item.key} label={item.label}>
                     {item.label}
                   </Option>
