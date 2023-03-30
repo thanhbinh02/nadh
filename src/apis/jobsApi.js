@@ -101,3 +101,28 @@ export const postComment = async (params) => {
   const url = '/api/comments';
   return await axiosClient.post(url, params);
 };
+
+export const postCandidateFlows = async (params) => {
+  const url = '/api/candidate_flows';
+  return await axiosClient
+    .post(url, params)
+    .then(function (response) {
+      toast.success('Pick Success!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+      return response;
+    })
+    .catch(function (error) {
+      const checkPermission = error.response.data.find(
+        (item) => item.type === 'job extend' && item.code === 'Permission',
+      );
+
+      if (checkPermission) {
+        toast.error('You do not have permission edit!', {
+          autoClose: 1000,
+          position: 'top-right',
+        });
+      }
+    });
+};

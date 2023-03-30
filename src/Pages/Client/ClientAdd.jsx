@@ -160,7 +160,7 @@ export const ClientAdd = () => {
     const data = changeValueDispatch(value);
     console.log('value', value);
     console.log('Data', data);
-    // dispatch(postNewClient(data));
+    dispatch(postNewClient(data));
   };
 
   const onFinishFailed = () => {

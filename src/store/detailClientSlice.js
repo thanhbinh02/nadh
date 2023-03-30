@@ -86,6 +86,7 @@ export const detailClientSlice = createSlice({
       state.isPutSuccess = false;
     },
     [putNewDetailClient.fulfilled]: (state, { payload }) => {
+      console.log('pauyload', payload);
       if (payload === undefined) {
         state.data = payload;
         state.isPutSuccess = false;

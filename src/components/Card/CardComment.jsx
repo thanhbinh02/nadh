@@ -66,7 +66,6 @@ export const CardComment = ({ form, detailJob }) => {
       bordered={false}
       style={{
         width: '100%',
-
         marginTop: '40px',
       }}
     >

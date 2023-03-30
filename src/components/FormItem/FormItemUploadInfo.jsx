@@ -59,7 +59,20 @@ export const FormItemUploadInfo = ({
           address: newAddress,
         },
       };
-      dispatch(putDetail(newData));
+
+      if (newData.params.address === undefined) {
+        dispatch(
+          putDetail({
+            id: id,
+            params: {
+              address: {},
+            },
+          }),
+        );
+      } else {
+        dispatch(putDetail(newData));
+      }
+
       return;
     }
 
@@ -247,8 +260,7 @@ export const FormItemUploadInfo = ({
       },
     };
 
-    console.log('newData', newData);
-
+    console.log('mewData', newData);
     dispatch(putDetail(newData));
   };
 

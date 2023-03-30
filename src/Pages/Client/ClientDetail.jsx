@@ -1,5 +1,5 @@
 import { useParams } from 'react-router';
-import { Breadcrumb, Spin, Row, Col, Form, Button, Card } from 'antd';
+import { Breadcrumb, Spin, Row, Col, Form, Card } from 'antd';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDetailClientSlice } from '../../store/detailClientSlice';
@@ -16,7 +16,6 @@ import { fetchCategories } from '../../store/categoriesSlice';
 import { putBusinessLineClientSlice } from '../../store/businessLineSlice';
 import { TableActivityLogs } from '../../components/Table/TableActivityLogs';
 import { TableContactPerson } from '../../components/Table/TableContactPerson';
-import { toast } from 'react-toastify';
 
 export const ClientDetail = () => {
   const { client_id } = useParams();
@@ -43,7 +42,7 @@ export const ClientDetail = () => {
 
   return (
     <>
-      {detailClient.length === 0 ? (
+      {detailClient?.length === 0 ? (
         <div
           style={{
             display: 'flex',
@@ -65,7 +64,7 @@ export const ClientDetail = () => {
               <Link to="/clients">Clients List</Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              {client_id} | {detailClient.name}
+              {client_id} | {detailClient?.name}
             </Breadcrumb.Item>
           </Breadcrumb>
           <Col span={24}>
@@ -114,7 +113,7 @@ export const ClientDetail = () => {
 
               <Row>
                 <Col span={16}>
-                  <Card
+                  {/* <Card
                     title="Industry"
                     bordered={false}
                     style={{
@@ -136,7 +135,7 @@ export const ClientDetail = () => {
                       actionDispatch={putBusinessLineClientSlice}
                       type="client"
                     />
-                  </Card>
+                  </Card> */}
 
                   <Card
                     bordered={false}
@@ -145,13 +144,12 @@ export const ClientDetail = () => {
                       marginTop: '40px',
                     }}
                   >
-                    <TableContactPerson client_id={detailClient?.id} />
+                    <TableContactPerson
+                      client_id={detailClient?.id}
+                      detailClient={detailClient}
+                    />
                   </Card>
                 </Col>
-              </Row>
-
-              <Row>
-                <Col span={24}></Col>
               </Row>
 
               <Row>

@@ -17,6 +17,7 @@ export const FormContact = ({
   type,
   client_id,
 }) => {
+  console.log('client_id', client_id);
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
@@ -26,12 +27,10 @@ export const FormContact = ({
     }
   });
 
-  console.log('initialValues', initialValues);
-
   const onFinish = async (values) => {
     const dataFinal = {
       ...values,
-      client_id: client_id.client_id,
+      client_id: client_id,
       role: 1,
       jobs_count: values?.jobs_count ? values?.jobs_count : null,
       phone_codes: {
@@ -40,7 +39,6 @@ export const FormContact = ({
         extra: { code: 'VN', dial_code: '+84' },
       },
     };
-    console.log('dataFinal', dataFinal);
 
     let final = {};
     for (let prop in dataFinal) {
@@ -53,7 +51,7 @@ export const FormContact = ({
       dispatch(postNewContactPersonsSlice(final))
         .unwrap()
         .then(() => {
-          dispatch(fetchDetailClientSliceNotLoading(client_id.client_id));
+          dispatch(fetchDetailClientSliceNotLoading(client_id));
           setModalOpen(false);
         })
         .catch(() => {

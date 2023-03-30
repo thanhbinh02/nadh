@@ -181,12 +181,13 @@ export const TablePickCandidatesJob = ({ detailJob, form }) => {
       />
 
       <Modal
-        centered
         open={modalOpen}
         closable={false}
         footer={null}
         className="modal-add-education"
         title="Pick Candidate"
+        width={700}
+        destroyOnClose
       >
         <Row style={{ marginBottom: '10px' }}>
           <Col span={8} style={{ fontWeight: 600 }}>
@@ -232,19 +233,9 @@ export const TablePickCandidatesJob = ({ detailJob, form }) => {
               name="pick-candidate"
               getData={getPickCandidates}
               defaultValue={candidate_flows}
+              setModalOpen={setModalOpen}
+              job_id={detailJob?.id}
             />
-          </Col>
-        </Row>
-
-        <Row>
-          <Col span={24} style={{ textAlign: 'right' }}>
-            <Button
-              style={{ marginRight: '10px' }}
-              onClick={() => setModalOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button type="primary">Pick</Button>
           </Col>
         </Row>
       </Modal>

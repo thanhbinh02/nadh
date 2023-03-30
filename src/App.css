@@ -233,17 +233,6 @@ label.ant-form-item-no-colon {
   margin-top: 6px;
   color: #bfbfbf;
 }
-/* 
-:where(.css-dev-only-do-not-override-1km3mtt).select__pick-job
-  .ant-select-selection-overflow {
-  position: relative;
-  display: flex;
-  flex: auto;
-  flex-wrap: wrap;
-  max-width: 100%;
-  display: none;
-  color: red;
-} */
 
 .select__pick-job:where(
     .css-dev-only-do-not-override-1km3mtt
@@ -255,7 +244,6 @@ label.ant-form-item-no-colon {
 .select__pick-job
   .ant-select-selection-overflow-item.ant-select-selection-overflow-item-suffix {
   display: inline-flex;
-  margin-left: 10px;
 }
 
 .upload_client .ant-upload {
@@ -270,4 +258,38 @@ label.ant-form-item-no-colon {
 
 .comment_client .ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
   border-color: white;
+}
+
+/* thanh cuộn */
+
+.pick_candidates::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+}
+
+/* đường cuộn */
+
+.pick_candidates::-webkit-scrollbar-thumb {
+  background: #a9a9a9;
+  border-radius: 4px;
+}
+
+/* hover đường cuộn */
+
+.pick_candidates::-webkit-scrollbar-thumb:hover {
+  background: #757575;
+}
+
+/* track thanh cuộn */
+
+.pick_candidates::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+/* shadow cho thanh cuộn */
+
+.pick_candidates::-webkit-scrollbar-thumb:active {
+  background: #999999;
 }

@@ -1,13 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Table, Row, Col, Button, Modal, Spin } from 'antd';
 import { BsPencil } from 'react-icons/bs';
 import { FormContact } from '../Form/FormContact';
+import { MdNotInterested } from 'react-icons/md';
 
-export const TableContactPerson = (client_id) => {
+export const TableContactPerson = ({ client_id, detailClient }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [initialValues, setInitialValues] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isDisabled, setIsDisabled] = useState(
+    detailClient?.status === 12 ? true : false,
+  );
+
+  console.log('detailClient', detailClient?.status);
+  console.log('isDisabled', isDisabled);
+
+  useEffect(() => {
+    if (detailClient?.status === 12) {
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
+    }
+  }, [detailClient]);
 
   const contactPerson = useSelector(
     (state) => state.detailClient.contactPerson,
@@ -67,14 +82,22 @@ export const TableContactPerson = (client_id) => {
       dataIndex: 'action',
       render: (text, record) => {
         return (
-          <BsPencil
-            style={{ cursor: 'pointer' }}
-            onClick={() => {
-              setModalOpen(true);
-              setInitialValues(record);
-              // dispatch(fetchDetailContactPersonsClient(record.id));
-            }}
-          />
+          <>
+            {isDisabled ? (
+              <MdNotInterested
+                style={{ cursor: 'not-allowed', color: 'red' }}
+              />
+            ) : (
+              <BsPencil
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  setModalOpen(true);
+                  setInitialValues(record);
+                  // dispatch(fetchDetailContactPersonsClient(record.id));
+                }}
+              />
+            )}
+          </>
         );
       },
     },
@@ -94,6 +117,7 @@ export const TableContactPerson = (client_id) => {
           justifyContent: 'space-between',
           width: '100%',
           alignItems: 'center',
+          marginBottom: '12px',
         }}
       >
         <Row style={{ fontSize: '18px', fontWeight: '500' }}>
@@ -106,6 +130,8 @@ export const TableContactPerson = (client_id) => {
             setModalOpen(true);
             setInitialValues([]);
           }}
+          disabled={isDisabled}
+          // disabled={true}
         >
           New Contact
         </Button>
@@ -139,7 +165,6 @@ export const TableContactPerson = (client_id) => {
         )}
       </Col>
       <Modal
-        centered
         open={modalOpen}
         closable={false}
         footer={null}

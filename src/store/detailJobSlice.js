@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { putDetailJob } from '../apis/jobsApi';
 import { putDetailJobExtend } from '../apis/jobsApi';
 import { postComment } from '../apis/jobsApi';
+import { postCandidateFlows } from '../apis/jobsApi';
 
 export const fetchDetailJob = createAsyncThunk(
   'detailJob/fetchDetailJob',
@@ -28,6 +29,11 @@ export const putNewDetailJobExtend = createAsyncThunk(
 export const postCommentJob = createAsyncThunk(
   'detailJob/postCommentJob',
   async (params) => await postComment(params),
+);
+
+export const postCandidateFlowsJob = createAsyncThunk(
+  'detailJob/postCandidateFlowsJob',
+  async (params) => await postCandidateFlows(params),
 );
 
 export const detailJobSlice = createSlice({
@@ -81,12 +87,20 @@ export const detailJobSlice = createSlice({
     [fetchDetailJobNotLoading.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.data = payload;
+      state.candidate_flows = payload.candidate_flows;
     },
 
     [postCommentJob.pending]: (state) => {
       state.isPutSuccess = false;
     },
     [postCommentJob.fulfilled]: (state, { payload }) => {
+      state.isPutSuccess = true;
+    },
+
+    [postCandidateFlowsJob.pending]: (state) => {
+      state.isPutSuccess = false;
+    },
+    [postCandidateFlowsJob.fulfilled]: (state, { payload }) => {
       state.isPutSuccess = true;
     },
   },

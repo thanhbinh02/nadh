@@ -130,7 +130,7 @@ const Login = () => {
           </Card>
         </Row>
       </div>
-      <Modal centered open={openModal} closable={false} footer={null}>
+      <Modal open={openModal} closable={false} footer={null}>
         <Row style={{ textAlign: 'center', margin: '20px' }}>
           <Col span={24}>
             <CloseCircleOutlined

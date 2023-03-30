@@ -1,9 +1,11 @@
-import { Form, Select } from 'antd';
-import { useEffect } from 'react';
+import { Form, Select, Button } from 'antd';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { changeDate } from '../../utils/const';
 import { AiOutlineDelete } from 'react-icons/ai';
+import { postCandidateFlowsJob } from '../../store/detailJobSlice';
+import { useDispatch } from 'react-redux';
+import { fetchDetailJobNotLoading } from '../../store/detailJobSlice';
 
 const { Option } = Select;
 
@@ -43,27 +45,16 @@ export const FormItemPickCandidates = ({
   name,
   getData,
   defaultValue,
-  form,
+  setModalOpen,
+  job_id,
 }) => {
+  const dispatch = useDispatch();
   const [contentModal, setContentModal] = useState();
   const [checkSelect, setCheckSelect] = useState(true);
-  const [listCandidate, setListCandidate] = useState([]);
+
+  const [listPickCandidate, setListPickCandidate] = useState([]);
 
   const { data } = useQuery([name, contentModal], () => getData(contentModal));
-
-  useEffect(() => {
-    const currentValue = listCandidate?.map((item) => item?.id);
-    console.log('currentValue', currentValue);
-    form.setFieldValue(name, currentValue);
-  }, [listCandidate]);
-
-  const handleChange = (value, option) => {
-    console.log('value', value);
-    const lengthOption = option.length;
-    const currentOption = option[lengthOption - 1];
-    setListCandidate([...listCandidate, currentOption.optionValue]);
-    setContentModal();
-  };
 
   const handleSearch = (value) => {
     if (value !== '' && value !== undefined) {
@@ -80,28 +71,49 @@ export const FormItemPickCandidates = ({
   };
 
   const handleBlur = () => {
-    // setContentModal();
+    setContentModal();
   };
 
-  const handleRemoveCandidate = (id) => {
-    const newValue = listCandidate.filter((item) => item?.id !== id);
-    setListCandidate(newValue);
+  const handleSelect = (value) => {
+    setListPickCandidate((prevState) => [
+      ...prevState,
+      data?.data?.find((option) => option.id === value),
+    ]);
+  };
+
+  const handlePick = () => {
+    const candidate_array = listPickCandidate?.map((item) => item.id);
+
+    const newData = {
+      candidate_array: candidate_array,
+      job_id: job_id,
+    };
+    console.log('newData', newData);
+    dispatch(postCandidateFlowsJob(newData))
+      .unwrap()
+      .then(() => {
+        dispatch(fetchDetailJobNotLoading(job_id));
+        setModalOpen(false);
+      })
+      .catch(() => {
+        setModalOpen(false);
+      });
   };
 
   return (
-    <>
+    <div>
       <Form.Item name={name}>
         <Select
           mode="multiple"
           showSearch
           style={{ width: '100%', borderRadius: '0px' }}
           filterOption={false}
-          onChange={handleChange}
           onSearch={handleSearch}
           className="select__pick-job"
           onDropdownVisibleChange={onDropdownVisibleChange}
           onBlur={handleBlur}
-          defaultValue={defaultValue}
+          value={[]}
+          onSelect={handleSelect}
         >
           {data?.data?.map((option) => {
             const hasKeyOne = defaultValue?.find(
@@ -112,7 +124,10 @@ export const FormItemPickCandidates = ({
               <Option
                 key={option.id}
                 value={option.id}
-                disabled={hasKeyOne}
+                disabled={
+                  !!hasKeyOne ||
+                  !!listPickCandidate.find(({ id }) => id === option.id)
+                }
                 optionValue={option}
               >
                 {finalValue(option)}
@@ -120,11 +135,13 @@ export const FormItemPickCandidates = ({
             );
           })}
         </Select>
+
         {checkSelect && (
           <div className="placeholder__pick-job">Please select candidate</div>
         )}
       </Form.Item>
-      {listCandidate.length !== 0 && (
+
+      {listPickCandidate.length !== 0 && (
         <div>
           <div
             style={{
@@ -134,24 +151,39 @@ export const FormItemPickCandidates = ({
               marginTop: '12px',
             }}
           >
-            {listCandidate.length} Candidates Picked
+            {listPickCandidate.length} Candidates Picked
           </div>
-          <div>
-            {listCandidate?.map((item, index) => {
+
+          <div
+            className="pick_candidates"
+            style={{
+              maxHeight: '300px',
+              overflow: 'auto',
+            }}
+          >
+            {listPickCandidate?.map((item, index) => {
               return (
                 <div
-                  key={item?.id}
+                  key={index}
                   style={{
-                    padding: '10px 0px',
-                    borderBottom: '1px solid rgb(221, 221, 221);',
                     display: 'flex',
                     justifyContent: 'space-between',
+                    alignItems: 'center',
                   }}
                 >
                   <span> {finalValue(item)}</span>
                   <span
-                    style={{ color: 'red', cursor: 'pointer' }}
-                    onClick={() => handleRemoveCandidate(item?.id)}
+                    style={{
+                      color: 'red',
+                      cursor: 'pointer',
+                      paddingRight: '20px',
+                      fontSize: '20px',
+                    }}
+                    onClick={() =>
+                      setListPickCandidate((state) =>
+                        state.filter(({ id }) => id !== item.id),
+                      )
+                    }
                   >
                     <AiOutlineDelete />
                   </span>
@@ -161,6 +193,28 @@ export const FormItemPickCandidates = ({
           </div>
         </div>
       )}
-    </>
+
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          marginTop: '20px',
+        }}
+      >
+        <Button
+          style={{ marginRight: '10px' }}
+          onClick={() => setModalOpen(false)}
+        >
+          Cancel
+        </Button>
+        <Button
+          type="primary"
+          disabled={listPickCandidate.length === 0 ? true : false}
+          onClick={handlePick}
+        >
+          Pick
+        </Button>
+      </div>
+    </div>
   );
 };

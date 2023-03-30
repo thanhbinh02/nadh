@@ -159,7 +159,6 @@ export const TableAcademic = ({ candidate_id }) => {
             )}
           </Col>
           <Modal
-            centered
             open={modalOpen}
             closable={false}
             footer={null}
