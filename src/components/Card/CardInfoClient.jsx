@@ -61,7 +61,9 @@ export const CardInfoClient = ({ detailClient, form }) => {
   );
 
   useEffect(() => {
-    dispatch(fetchDetailClientSliceNotLoading(detailClient.id));
+    if (isPutSuccess) {
+      dispatch(fetchDetailClientSliceNotLoading(detailClient.id));
+    }
   }, [isPutSuccess]);
 
   useEffect(() => {
@@ -72,19 +74,21 @@ export const CardInfoClient = ({ detailClient, form }) => {
     }
   }, [detailClient]);
 
-  useEffect(() => {
-    if (isPostFileSuccess) {
-      const newData = {
-        id: detailClient?.id,
-        params: {
-          mediafiles: {
-            logo: newFileRedux?.id,
-          },
-        },
-      };
-      dispatch(putNewDetailClient(newData));
-    }
-  }, [isPostFileSuccess]);
+  // useEffect(() => {
+  //   if (!isPostFileSuccess) {
+  //     console.log('zodayha');
+  //     const newData = {
+  //       id: detailClient?.id,
+  //       params: {
+  //         mediafiles: {
+  //           logo: newFileRedux?.id,
+  //         },
+  //       },
+  //     };
+
+  //     dispatch(putNewDetailClient(newData));
+  //   }
+  // }, [isPostFileSuccess]);
 
   const [items, setItems] = useState([
     { name: 'name', open: false },
@@ -357,13 +361,13 @@ export const CardInfoClient = ({ detailClient, form }) => {
           <FormItemNotAllowed label="Tax Code" value={detailClient?.tax_code} />
         </Col>
         <Col span={10}>
-          <div className="upload_client">
+          {/* <div className="upload_client">
             <Upload
               action="https://lubrytics.com:8443/nadh-mediafile/file"
               listType="picture-card"
               accept="image/png, image/jpeg"
               showUploadList={false}
-              onChange={handleChange}
+              // onChange={handleChange}
               disabled={isDisabled}
             >
               {detailClient?.mediafiles?.logo ? (
@@ -384,6 +388,11 @@ export const CardInfoClient = ({ detailClient, form }) => {
                 </div>
               )}
             </Upload>
+          </div> */}
+          <div className="upload_client">
+            <div>
+              <p> Upload</p>
+            </div>
           </div>
         </Col>
       </Row>

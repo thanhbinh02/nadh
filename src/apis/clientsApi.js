@@ -113,3 +113,38 @@ export const deleteContactPersons = async (id) => {
   const url = `api/contact_persons/${id}/remove`;
   await axiosClient.put(url);
 };
+
+export const putImageDetailClient = async (id, params) => {
+  const url = `/api/clients/${id}`;
+  return await axiosClient
+    .put(url, params)
+    .then(function (response) {
+      toast.success('Update Success!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+      return response;
+    })
+    .catch(function (error) {
+      console.log('error', error);
+
+      // const checkEmails = error.response.data.find(
+      //   (item) => item.message === 'Duplicated' && item.field === 'emails',
+      // );
+      // const checkPhone = error.response.data.find(
+      //   (item) => item.message === 'Duplicated' && item.field === 'phones',
+      // );
+      // if (checkEmails) {
+      //   toast.error('Email already exists!', {
+      //     autoClose: 1000,
+      //     position: 'top-right',
+      //   });
+      // }
+      // if (checkPhone) {
+      //   toast.error('Phone already exists!', {
+      //     autoClose: 1000,
+      //     position: 'top-right',
+      //   });
+      // }
+    });
+};

@@ -13,9 +13,6 @@ export const TableContactPerson = ({ client_id, detailClient }) => {
     detailClient?.status === 12 ? true : false,
   );
 
-  console.log('detailClient', detailClient?.status);
-  console.log('isDisabled', isDisabled);
-
   useEffect(() => {
     if (detailClient?.status === 12) {
       setIsDisabled(true);

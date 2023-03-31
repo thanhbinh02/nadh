@@ -17,6 +17,7 @@ export const FormWorkingHistory = ({
   setModalOpen,
   candidate_id,
   initialValues,
+  setInitialValues,
 }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -65,6 +66,7 @@ export const FormWorkingHistory = ({
     } else {
       form.setFieldValue('status', false);
       setCheckDisable(false);
+      form.resetFields();
     }
   }, [initialValues]);
 
@@ -178,6 +180,7 @@ export const FormWorkingHistory = ({
       form={form}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
+      initialValues={[]}
     >
       <Row gutter={(12, 12)}>
         <Col
@@ -339,7 +342,7 @@ export const FormWorkingHistory = ({
           </Form.Item>
         </Col>
       </Row>
-      s
+
       <Row gutter={(12, 12)} style={{ marginBottom: '20px' }}>
         <Col span={24}>
           <FormItemSelectOneAdd
@@ -390,6 +393,7 @@ export const FormWorkingHistory = ({
                 form.setFieldValue('year_to', undefined);
                 form.setFieldValue('title', undefined);
                 form.setFieldValue('organization', undefined);
+                setInitialValues([]);
               }}
             >
               Cancel

@@ -30,6 +30,11 @@ export const postJob = async (params) => {
           position: 'top-right',
         });
       }
+
+      const checkPermission = error.response.data.find(
+        (item) =>
+          item.message === 'Duplicated' && item.field === 'Duplicate tax code',
+      );
     });
 };
 

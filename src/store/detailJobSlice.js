@@ -43,8 +43,6 @@ export const detailJobSlice = createSlice({
     loading: false,
     data: [],
     isPutSuccess: false,
-    contactPerson: [],
-    isLoadingContactPerson: false,
     candidate_flows: {},
   },
   reducers: {},

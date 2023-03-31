@@ -13,9 +13,11 @@ export const CardComment = ({ form, detailJob }) => {
   const dispatch = useDispatch();
   const [edit, setEdit] = useState(false);
   const isPutSuccess = useSelector((state) => state.detailJob.isPutSuccess);
-  console.log('isPutSuccess', isPutSuccess);
+
   useEffect(() => {
-    dispatch(fetchDetailJobNotLoading(detailJob.id));
+    if (isPutSuccess) {
+      dispatch(fetchDetailJobNotLoading(detailJob.id));
+    }
   }, [isPutSuccess]);
 
   const handleSave = () => {

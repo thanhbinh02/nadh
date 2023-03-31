@@ -64,7 +64,17 @@ export const FormItemBusinessLine = ({
     }
   }, [loading]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setDataTable(
+      businessLine?.map((item, index) => ({
+        key: index,
+        primary: item?.primary,
+        industry: item?.industry?.label,
+        sector: item?.sector?.label,
+        category: item?.category?.label,
+      })),
+    );
+  }, []);
 
   const handleItemOneChange = (value, option) => {
     if (option) {

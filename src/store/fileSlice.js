@@ -38,6 +38,9 @@ export const fileSlice = createSlice({
         position: 'top-right',
       });
     },
+    changePostFileSuccess: (state, { payload }) => {
+      state.isPostFileSuccess = false;
+    },
   },
   extraReducers: {
     [fetchFiles.pending]: (state) => {
@@ -56,10 +59,12 @@ export const fileSlice = createSlice({
 
     [postFileRedux.pending]: (state, { payload }) => {
       state.isPostFileSuccess = false;
+      state.loading = true;
     },
     [postFileRedux.fulfilled]: (state, { payload }) => {
       state.isPostFileSuccess = true;
       state.newFile = payload;
+      state.loading = false;
     },
     [postFileRedux.rejected]: (state) => {
       state.isPostFileSuccess = false;
@@ -67,7 +72,7 @@ export const fileSlice = createSlice({
   },
 });
 
-export const { removeFile } = fileSlice.actions;
+export const { removeFile, changePostFileSuccess } = fileSlice.actions;
 
 const { reducer } = fileSlice;
 export default reducer;

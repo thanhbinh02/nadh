@@ -71,6 +71,7 @@ export const detailClientSlice = createSlice({
       state.contactPerson = payload.pic;
       state.loading = false;
       state.isSuccess = true;
+      state.business_line = payload.business_line;
     },
     [fetchDetailClientSlice.rejected]: (state) => {
       state.loading = false;
@@ -86,7 +87,6 @@ export const detailClientSlice = createSlice({
       state.isPutSuccess = false;
     },
     [putNewDetailClient.fulfilled]: (state, { payload }) => {
-      console.log('pauyload', payload);
       if (payload === undefined) {
         state.data = payload;
         state.isPutSuccess = false;

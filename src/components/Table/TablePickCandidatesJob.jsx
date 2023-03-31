@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Table, Row, Col, Button, Modal, Spin } from 'antd';
 import { AiOutlineEye } from 'react-icons/ai';
@@ -40,6 +40,8 @@ export const TablePickCandidatesJob = ({ detailJob, form }) => {
   const candidate_flows = useSelector(
     (state) => state.detailJob.candidate_flows,
   );
+
+  const dataBusinessLine = useSelector((state) => state.businessLine.data);
 
   const isLoadingContactPerson = useSelector(
     (state) => state.detailClient.isLoadingContactPerson,
@@ -207,7 +209,7 @@ export const TablePickCandidatesJob = ({ detailJob, form }) => {
           </Col>
           <Col span={16}>
             <>
-              {detailJob?.business_line?.map((item, index) => {
+              {dataBusinessLine?.map((item, index) => {
                 return (
                   <div key={index}>
                     <span>{item?.industry?.label}</span>

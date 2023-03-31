@@ -387,11 +387,11 @@ export const CandidateDetail = () => {
                     form={form}
                   />
 
-                  <CardAttachments
+                  {/* <CardAttachments
                     files={files}
                     obj_uid={detailCandidate.id}
                     nameObj="candidates"
-                  />
+                  /> */}
 
                   {open && (
                     <Form.Item>

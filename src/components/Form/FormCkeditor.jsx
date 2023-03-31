@@ -78,9 +78,18 @@ export const FormCkeditor = ({ name, label, data, form, job_id }) => {
           </Form.Item>
           {edit && (
             <Row
-              style={{ marginTop: '10px', display: 'flex', textAlign: 'end' }}
+              style={{
+                marginTop: '10px',
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}
             >
-              <Button onClick={() => setEdit(false)}>Cancel</Button>
+              <Button
+                style={{ marginRight: '12px' }}
+                onClick={() => setEdit(false)}
+              >
+                Cancel
+              </Button>
               <Button type="primary" onClick={handleSave}>
                 Save
               </Button>
@@ -106,9 +115,18 @@ export const FormCkeditor = ({ name, label, data, form, job_id }) => {
                 />
               </Form.Item>
               <Row
-                style={{ marginTop: '10px', display: 'flex', textAlign: 'end' }}
+                style={{
+                  marginTop: '10px',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                }}
               >
-                <Button onClick={() => setEdit(false)}>Cancel</Button>
+                <Button
+                  style={{ marginRight: '12px' }}
+                  onClick={() => setEdit(false)}
+                >
+                  Cancel
+                </Button>
                 <Button type="primary" onClick={handleSave}>
                   Save
                 </Button>
