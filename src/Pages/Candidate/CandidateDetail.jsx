@@ -28,6 +28,7 @@ import { fetchCountries } from '../../store/locationsSlice';
 import { fetchDetailCandidateSliceNotLoading } from '../../store/detailCandidateSlice';
 import { fetchFiles } from '../../store/fileSlice';
 import { putNewDetailCandidate } from '../../store/detailCandidateSlice';
+import { CardInterviewLoop } from '../../components/Card/CardInterviewLoop';
 
 const { TextArea } = Input;
 export const CandidateDetail = () => {
@@ -410,6 +411,9 @@ export const CandidateDetail = () => {
                   )}
                 </Form>
               </Form.Provider>
+            </Col>
+            <Col span={8}>
+              <CardInterviewLoop />
             </Col>
           </Row>
         </>

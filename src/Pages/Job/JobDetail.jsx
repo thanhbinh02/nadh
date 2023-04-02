@@ -3,17 +3,19 @@ import { Breadcrumb, Spin, Row, Col, Form, Card } from 'antd';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { TableActivityLogs } from '../../components/Table/TableActivityLogs';
+
 import { fetchDetailJob } from '../../store/detailJobSlice';
 import { fetchCountries } from '../../store/locationsSlice';
 import { fetchClients } from '../../store/clientsSlice';
-import { TablePickCandidatesJob } from '../../components/Table/TablePickCandidatesJob';
-import { CardJobDescription } from '../../components/Card/CardJobDescription';
 import { fetchIndustries } from '../../store/categoriesSlice';
-import { FormItemBusinessLine } from '../../components/FormItem/FormItemBusinessLine';
 import { fetchSectors } from '../../store/categoriesSlice';
 import { fetchCategories } from '../../store/categoriesSlice';
 import { putBusinessLineJobsSlice } from '../../store/businessLineSlice';
+
+import { TableActivityLogs } from '../../components/Table/TableActivityLogs';
+import { TablePickCandidatesJob } from '../../components/Table/TablePickCandidatesJob';
+import { CardJobDescription } from '../../components/Card/CardJobDescription';
+import { FormItemBusinessLine } from '../../components/FormItem/FormItemBusinessLine';
 import { CardAttachments } from '../../components/Card/CardAttachments';
 import { CardComment } from '../../components/Card/CardComment';
 
@@ -76,26 +78,7 @@ export const JobDetail = () => {
                 </Breadcrumb.Item>
               </Breadcrumb>
               <Col span={24}>
-                <Form
-                  layout="horizontal"
-                  onFinish={handleFinish}
-                  form={form}
-                  initialValues={
-                    {
-                      // title: detailJob?.title,
-                      // department: detailJob?.department,
-                      // quantity: detailJob?.quantity,
-                      // type: detailJob?.type,
-                      // experience_level: detailJob?.experience_level,
-                      // status: detailJob?.status,
-                      // extend_date: moment(detailJob?.extend_date),
-                      // country: detailJob?.location?.country,
-                      // city: detailJob?.location?.city,
-                    }
-                  }
-                >
-                  {/* <CardInfoJob detailJob={detailJob} form={form} /> */}
-
+                <Form layout="horizontal" onFinish={handleFinish} form={form}>
                   <Card
                     title="Industry"
                     bordered={false}

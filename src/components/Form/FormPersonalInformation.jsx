@@ -130,14 +130,14 @@ export const FormPersonalInformation = ({
 
       <Row gutter={(12, 12)} style={{ marginBottom: '12px' }}>
         <Col span={24}>
-          <FormItemSelectMultipleAdd
+          {/* <FormItemSelectMultipleAdd
             name="nationality"
             label="Nationality"
             placeholder="Select your nationality"
             form={form}
             getData={getNationalityTest}
             postData={postNationality}
-          />
+          /> */}
         </Col>
       </Row>
 

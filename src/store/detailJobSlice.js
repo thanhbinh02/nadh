@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getDetailJob } from '../apis/jobsApi';
-import { toast } from 'react-toastify';
 import { putDetailJob } from '../apis/jobsApi';
 import { putDetailJobExtend } from '../apis/jobsApi';
 import { postComment } from '../apis/jobsApi';

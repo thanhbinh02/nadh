@@ -7,6 +7,7 @@ import {
   deleteCandidateHistories,
 } from '../apis/candidatesApi';
 import { toast } from 'react-toastify';
+import { postComment } from '../apis/jobsApi';
 
 export const fetchDetailCandidateSlice = createAsyncThunk(
   'detailCandidate/fetchDetailCandidateSlice',
@@ -48,6 +49,19 @@ export const putDetailCandidateHistory = createAsyncThunk(
   async ({ id, params }) => await putCandidateHistories(id, params),
 );
 
+export const postCommentInterview = createAsyncThunk(
+  'detailCandidate/postCommentInterview',
+  async (params) => await postComment(params),
+);
+
+const findFlow = (detailCandidate, dataFlow) => {
+  const flows = detailCandidate?.flows?.find(
+    (flow) => flow.job_id === dataFlow?.flowItem?.job_id,
+  );
+  const newFlow = flows?.flow?.find((item) => item.id === dataFlow?.item?.id);
+  return newFlow;
+};
+
 export const detailCandidateSlice = createSlice({
   name: 'detailCandidate',
   initialState: {
@@ -59,6 +73,9 @@ export const detailCandidateSlice = createSlice({
     isLoadingWorkingHistory: false,
     data: [],
     history: [],
+    flows: [],
+    dataFlow: {},
+    idFlow: undefined,
   },
   reducers: {
     deleteHistory: (state, { payload }) => {
@@ -68,6 +85,10 @@ export const detailCandidateSlice = createSlice({
         autoClose: 1000,
         position: 'top-right',
       });
+    },
+    viewFlowDetail: (state, { payload }) => {
+      state.dataFlow = payload;
+      state.idFlow = payload?.item?.id;
     },
   },
   extraReducers: {
@@ -80,6 +101,7 @@ export const detailCandidateSlice = createSlice({
       state.loading = false;
       state.isSuccess = true;
       state.history = payload.histories;
+      state.flows = payload.flows;
     },
     [fetchDetailCandidateSlice.rejected]: (state) => {
       state.loading = false;
@@ -100,6 +122,16 @@ export const detailCandidateSlice = createSlice({
       state.loading = false;
       state.data = payload;
       state.history = payload.histories;
+      state.flows = payload.flows;
+
+      if (state.idFlow !== undefined) {
+        state.dataFlow = {
+          flowItem: payload?.flows?.find(
+            (flow) => flow.job_id === state.dataFlow?.flowItem?.job_id,
+          ),
+          item: findFlow(state.data, state.dataFlow),
+        };
+      }
     },
 
     [postDetailCandidateHistoryAcademic.pending]: (state) => {
@@ -173,10 +205,21 @@ export const detailCandidateSlice = createSlice({
         position: 'top-right',
       });
     },
+
+    [postCommentInterview.pending]: (state) => {
+      state.isPutSuccess = false;
+      toast.success('Add comment success!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+    },
+    [postCommentInterview.fulfilled]: (state, { payload }) => {
+      state.isPutSuccess = true;
+    },
   },
 });
 
-export const { deleteHistory } = detailCandidateSlice.actions;
+export const { deleteHistory, viewFlowDetail } = detailCandidateSlice.actions;
 
 const { reducer } = detailCandidateSlice;
 export default reducer;

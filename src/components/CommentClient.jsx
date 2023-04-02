@@ -1,4 +1,4 @@
-import { Row, div, Avatar } from 'antd';
+import { Row, Col, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { changeTime } from '../utils/const';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -9,11 +9,8 @@ export const CommentClient = ({ comments }) => {
     <>
       {comments.map((comment) => {
         return (
-          <Row
-            key={comment?.id}
-            style={{ display: 'flex', marginBottom: '12px' }}
-          >
-            <div style={{ marginRight: '12px' }}>
+          <Row key={comment?.id} gutter={(8, 8)} className="div-item-comment">
+            <Col span={3}>
               {comment?.user?.mediafiles?.avatar ? (
                 <Avatar
                   size="large"
@@ -22,9 +19,9 @@ export const CommentClient = ({ comments }) => {
               ) : (
                 <Avatar size="large" icon={<UserOutlined />} />
               )}
-            </div>
-            <div>
-              <div style={{ marginLeft: '9px' }}>
+            </Col>
+            <Col span={19}>
+              <div style={{ marginLeft: '9.4px' }}>
                 <span
                   style={{ fontWeight: '500', textTransform: 'capitalize' }}
                 >
@@ -39,7 +36,7 @@ export const CommentClient = ({ comments }) => {
                   disabled={true}
                 />
               </div>
-            </div>
+            </Col>
           </Row>
         );
       })}
