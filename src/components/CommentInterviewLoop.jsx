@@ -30,7 +30,7 @@ export const CommentInterviewLoop = ({ dataFlow, form }) => {
       },
       source_uuid: dataFlow?.flowItem?.id,
     };
-    console.log('newData', newData);
+
     dispatch(postCommentInterview(newData));
     setEdit(false);
   };

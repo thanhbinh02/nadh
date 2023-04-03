@@ -131,3 +131,46 @@ export const postCandidateFlows = async (params) => {
       }
     });
 };
+
+export const putCandidateFlows = async (id, params) => {
+  const url = `/api/candidate_flows/${id}`;
+  return await axiosClient
+    .put(url, params)
+    .then(function (response) {
+      toast.success('Update success!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+      return response;
+    })
+    .catch(function (error) {
+      const checkPermission = error.response.data.find(
+        (item) =>
+          item.field === 'flow.interviewer' &&
+          item.message === 'length should smaller than 5',
+      );
+
+      if (checkPermission) {
+        toast.error('Length of interview should smaller than 5', {
+          autoClose: 1000,
+          position: 'top-right',
+        });
+      }
+    });
+};
+
+export const putCandidateFlowsStatus = async (id, params) => {
+  const url = `/api/candidate_flows/${id}/status`;
+  return await axiosClient
+    .put(url, params)
+    .then(function (response) {
+      toast.success('Update success!', {
+        autoClose: 1000,
+        position: 'top-right',
+      });
+      return response;
+    })
+    .catch(function (error) {
+      console.log('error', error);
+    });
+};

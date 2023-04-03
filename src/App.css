@@ -284,14 +284,20 @@ label.ant-form-item-no-colon {
   background: #999999;
 }
 
+.card__interview-loop {
+  max-height: 700px;
+  overflow: auto;
+}
+
 .card__interview-loop .ant-card-body {
   padding: 0 !important;
   min-height: 13px !important;
   background-color: #fff;
 }
 
-.card__interview-loop
-  :where(.css-dev-only-do-not-override-1km3mtt).ant-collapse {
+.card__interview-loop:where(
+    .css-dev-only-do-not-override-1km3mtt
+  ).ant-collapse {
   background-color: #fff;
   border-radius: 0px;
   border: 0;
@@ -300,27 +306,27 @@ label.ant-form-item-no-colon {
   overflow-y: auto;
 }
 
-.card__interview-loop ::-webkit-scrollbar {
+.card__interview-loop::-webkit-scrollbar {
   width: 8px;
   height: 8px;
   border-radius: 4px;
 }
 
-.card__interview-loop ::-webkit-scrollbar-thumb {
+.card__interview-loop::-webkit-scrollbar-thumb {
   background: #a9a9a9;
   border-radius: 4px;
 }
 
-.card__interview-loop ::-webkit-scrollbar-thumb:hover {
+.card__interview-loop::-webkit-scrollbar-thumb:hover {
   background: #757575;
 }
 
-.card__interview-loop ::-webkit-scrollbar-track {
+.card__interview-loop::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 4px;
 }
 
-.card__interview-loop ::-webkit-scrollbar-thumb:active {
+.card__interview-loop::-webkit-scrollbar-thumb:active {
   background: #999999;
 }
 

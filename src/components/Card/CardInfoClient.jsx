@@ -34,7 +34,6 @@ export const CardInfoClient = ({ detailClient, form }) => {
   const statusClient = findItemClient(detailClient?.status, STATUS_CLIENT);
   const typeClient = findItemClient(detailClient?.type, TYPE_CLIENT);
   const cpaClient = findItemClient(detailClient?.cpa, CPA);
-  const newFileRedux = useSelector((state) => state.file.newFile);
   const clients = useSelector((state) => state.clients.data).map(
     ({ id, name }) => ({
       key: id,
@@ -52,9 +51,6 @@ export const CardInfoClient = ({ detailClient, form }) => {
   const user_id = useSelector((state) => state.auth.user_sent);
   const phoneNumber = useSelector((state) => state.phoneNumber.data);
   const isPutSuccess = useSelector((state) => state.detailClient.isPutSuccess);
-  const isPostFileSuccess = useSelector(
-    (state) => state.file.isPostFileSuccess,
-  );
 
   const [isDisabled, setIsDisabled] = useState(
     detailClient?.status === 12 ? true : false,

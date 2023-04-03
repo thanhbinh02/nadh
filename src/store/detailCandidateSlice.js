@@ -8,6 +8,7 @@ import {
 } from '../apis/candidatesApi';
 import { toast } from 'react-toastify';
 import { postComment } from '../apis/jobsApi';
+import { putCandidateFlows, putCandidateFlowsStatus } from '../apis/jobsApi';
 
 export const fetchDetailCandidateSlice = createAsyncThunk(
   'detailCandidate/fetchDetailCandidateSlice',
@@ -52,6 +53,16 @@ export const putDetailCandidateHistory = createAsyncThunk(
 export const postCommentInterview = createAsyncThunk(
   'detailCandidate/postCommentInterview',
   async (params) => await postComment(params),
+);
+
+export const putNewCandidateFlows = createAsyncThunk(
+  'detailCandidate/putNewCandidateFlows',
+  async ({ id, params }) => await putCandidateFlows(id, params),
+);
+
+export const putNewCandidateFlowsStatus = createAsyncThunk(
+  'detailCandidate/putNewCandidateFlowsStatus',
+  async ({ id, params }) => await putCandidateFlowsStatus(id, params),
 );
 
 const findFlow = (detailCandidate, dataFlow) => {
@@ -107,6 +118,7 @@ export const detailCandidateSlice = createSlice({
       state.loading = false;
       state.isSuccess = false;
     },
+
     [putNewDetailCandidate.pending]: (state) => {
       state.isPutSuccess = false;
     },
@@ -117,6 +129,7 @@ export const detailCandidateSlice = createSlice({
         state.isPutSuccess = true;
       }
     },
+
     [fetchDetailCandidateSliceNotLoading.fulfilled]: (state, { payload }) => {
       state.isLoadingAcademic = false;
       state.loading = false;
@@ -215,6 +228,24 @@ export const detailCandidateSlice = createSlice({
     },
     [postCommentInterview.fulfilled]: (state, { payload }) => {
       state.isPutSuccess = true;
+    },
+
+    [putNewCandidateFlows.pending]: (state, { payload }) => {
+      state.isPutSuccess = false;
+    },
+    [putNewCandidateFlows.fulfilled]: (state, { payload }) => {
+      if (payload !== undefined) {
+        state.isPutSuccess = true;
+      }
+    },
+
+    [putNewCandidateFlowsStatus.pending]: (state, { payload }) => {
+      state.isPutSuccess = false;
+    },
+    [putNewCandidateFlowsStatus.fulfilled]: (state, { payload }) => {
+      if (payload !== undefined) {
+        state.isPutSuccess = true;
+      }
     },
   },
 });

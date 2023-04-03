@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { Modal, Button, Row, Col, DatePicker, Select, Form } from 'antd';
+import { Modal, Button, Row, Col, DatePicker, Select, Form, Spin } from 'antd';
 import {
   candidate_flow_status,
   changeTime,
@@ -9,12 +9,28 @@ import moment from 'moment';
 import { useEffect } from 'react';
 import { CommentInterviewLoop } from '../CommentInterviewLoop';
 import { fetchDetailCandidateSliceNotLoading } from '../../store/detailCandidateSlice';
+import { useState } from 'react';
+import { putNewCandidateFlows } from '../../store/detailCandidateSlice';
+import { putNewCandidateFlowsStatus } from '../../store/detailCandidateSlice';
 
 const findItemWithId = (array, id) => {
   return array.find((item) => item.id === id);
 };
 
 const { Option } = Select;
+
+const WrapperSaveCancel = ({ onCancel, onSave }) => {
+  return (
+    <Col span={24} style={{ textAlign: 'right', marginTop: '12px' }}>
+      <Button style={{ marginRight: '12px' }} size="small" onClick={onCancel}>
+        Cancel
+      </Button>
+      <Button type="primary" size="small" onClick={onSave}>
+        Save
+      </Button>
+    </Col>
+  );
+};
 
 export const ModalTimeLineInterViewLoop = ({
   openModalTimeLine,
@@ -31,8 +47,9 @@ export const ModalTimeLineInterViewLoop = ({
   const detailCandidate = useSelector((state) => state.detailCandidate.data);
 
   const initialValues = {
+    action: null,
     interviewer:
-      dataFlow?.item?.info?.interviewer?.map((item) => item.id) || [],
+      dataFlow?.item?.info?.interviewer?.map((item) => item.user_id) || [],
     time: dataFlow?.item?.info?.time
       ? moment(dataFlow?.item?.info?.time)
       : null,
@@ -40,13 +57,79 @@ export const ModalTimeLineInterViewLoop = ({
 
   useEffect(() => {
     form.setFieldsValue(initialValues);
+    const updatedItems = items.map((item) => ({ ...item, open: false }));
+    setItems(updatedItems);
   }, [dataFlow]);
 
   useEffect(() => {
-    dispatch(
-      fetchDetailCandidateSliceNotLoading(detailCandidate?.candidate_id),
-    );
+    if (isPutSuccess) {
+      dispatch(
+        fetchDetailCandidateSliceNotLoading(detailCandidate?.candidate_id),
+      );
+    }
   }, [isPutSuccess]);
+
+  const [items, setItems] = useState([
+    { name: 'action', open: false },
+    { name: 'time', open: false },
+    { name: 'interviewer', open: false },
+  ]);
+
+  const findNameChangeSave = (name, array) => {
+    if (name) {
+      const result = array.find((item) => item.name === name);
+      return result;
+    }
+    return;
+  };
+
+  const handleCancelClick = (itemName) => {
+    const updatedItems = items.map((item) =>
+      item.name === itemName ? { ...item, open: false } : item,
+    );
+    setItems(updatedItems);
+    form.setFieldsValue({
+      [itemName]: initialValues[itemName],
+    });
+  };
+
+  const handleItemClick = (itemName) => {
+    const updatedItems = items.map((item) =>
+      item.name === itemName ? { ...item, open: true } : item,
+    );
+    setItems(updatedItems);
+  };
+
+  const handleSave = (itemName, value) => {
+    const idCandidateFlow = dataFlow?.flowItem?.id;
+    const result = {
+      flow: {
+        id: dataFlow?.item?.id,
+        [itemName]: value,
+      },
+    };
+    dispatch(putNewCandidateFlows({ id: idCandidateFlow, params: result }))
+      .unwrap()
+      .then(() => {
+        setItems(
+          items.map((item) =>
+            item.name === itemName ? { ...item, open: false } : item,
+          ),
+        );
+      });
+  };
+
+  const handleAddNewStatus = () => {
+    const idCandidateFlow = dataFlow?.flowItem?.id;
+    const newData = {
+      id: idCandidateFlow,
+      params: {
+        status: form.getFieldValue('action'),
+      },
+    };
+    dispatch(putNewCandidateFlowsStatus(newData));
+    setOpenModalTimeLine(false);
+  };
 
   return (
     <Modal
@@ -101,24 +184,33 @@ export const ModalTimeLineInterViewLoop = ({
                   Action
                 </Col>
                 <Col span={16}>
-                  <Select
-                    optionFilterProp="label"
-                    placeholder="Please select flow status"
-                    style={{ width: '100%' }}
-                  >
-                    {candidate_flow_status.map((item) => (
-                      <Option
-                        key={item.id}
-                        value={item.id}
-                        disabled={
-                          item.id > 0 &&
-                          dataFlow?.item?.current_status >= item.id
-                        }
-                      >
-                        {item.label}
-                      </Option>
-                    ))}
-                  </Select>
+                  <Form.Item name="action">
+                    <Select
+                      optionFilterProp="label"
+                      placeholder="Please select flow status"
+                      style={{ width: '100%' }}
+                      onChange={() => handleItemClick('action')}
+                    >
+                      {candidate_flow_status.map((item) => (
+                        <Option
+                          key={item.id}
+                          value={item.id}
+                          disabled={
+                            item.id > 0 &&
+                            dataFlow?.item?.current_status >= item.id
+                          }
+                        >
+                          {item.label}
+                        </Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                  {findNameChangeSave('action', items).open && (
+                    <WrapperSaveCancel
+                      onCancel={() => handleCancelClick('action')}
+                      onSave={handleAddNewStatus}
+                    />
+                  )}
                 </Col>
               </Row>
             )}
@@ -132,8 +224,22 @@ export const ModalTimeLineInterViewLoop = ({
                     showTime
                     format="DD/MM/YYYY HH:mm:ss"
                     style={{ width: '100%' }}
+                    onChange={() => handleItemClick('time')}
                   />
                 </Form.Item>
+                {findNameChangeSave('time', items).open && (
+                  <WrapperSaveCancel
+                    onCancel={() => handleCancelClick('time')}
+                    onSave={() =>
+                      handleSave(
+                        'time',
+                        form
+                          .getFieldValue('time')
+                          ?.format('YYYY-MM-DD HH:mm:ss'),
+                      )
+                    }
+                  />
+                )}
               </Col>
             </Row>
             <Row gutter={(8, 8)} style={{ marginBottom: '14px' }}>
@@ -147,11 +253,12 @@ export const ModalTimeLineInterViewLoop = ({
                     placeholder="Please select flow status"
                     style={{ width: '100%' }}
                     mode="multiple"
+                    onChange={() => handleItemClick('interviewer')}
                   >
                     {users.map((item) => (
                       <Option
-                        key={item.id}
-                        value={item.id}
+                        key={item.user_id}
+                        value={item.user_id}
                         style={{ textTransform: 'capitalize' }}
                       >
                         {item.full_name}
@@ -159,6 +266,17 @@ export const ModalTimeLineInterViewLoop = ({
                     ))}
                   </Select>
                 </Form.Item>
+                {findNameChangeSave('interviewer', items).open && (
+                  <WrapperSaveCancel
+                    onCancel={() => handleCancelClick('interviewer')}
+                    onSave={() =>
+                      handleSave(
+                        'interviewer',
+                        form.getFieldValue('interviewer'),
+                      )
+                    }
+                  />
+                )}
               </Col>
             </Row>
           </Col>
