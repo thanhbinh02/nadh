@@ -40,6 +40,7 @@ export const ModalTimeLineInterViewLoop = ({
   const dispatch = useDispatch();
 
   const dataFlow = useSelector((state) => state.detailCandidate.dataFlow);
+
   const users = useSelector((state) => state.users.data);
   const isPutSuccess = useSelector(
     (state) => state.detailCandidate.isPutSuccess,

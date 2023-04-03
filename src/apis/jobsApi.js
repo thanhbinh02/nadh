@@ -174,3 +174,8 @@ export const putCandidateFlowsStatus = async (id, params) => {
       console.log('error', error);
     });
 };
+
+export const getCandidateAssessment = async (params) => {
+  const url = '/api/assessments/compare';
+  return await axiosClient.get(url, params);
+};

@@ -6,6 +6,8 @@ import { viewFlowDetail } from '../../store/detailCandidateSlice';
 import { useState, useEffect } from 'react';
 import { ModalTimeLineInterViewLoop } from '../Modal/ModalTimeLineInterViewLoop';
 import { fetchUsers } from '../../store/usersSlice';
+import { ModalCandidateAssessment } from '../Modal/ModalCandidateAssessment';
+import { getCandidateAssessmentSlice } from '../../store/detailCandidateSlice';
 
 const { Panel } = Collapse;
 
@@ -15,8 +17,11 @@ export const findItemWithId = (array, id) => {
 
 export const CardInterviewLoop = () => {
   const flows = useSelector((state) => state.detailCandidate.flows);
+  const detailCandidate = useSelector((state) => state.detailCandidate.data);
   const dispatch = useDispatch();
   const [openModalTimeLine, setOpenModalTimeLine] = useState(false);
+  const [openModalCandidateAssessment, setOpenModalCandidateAssessment] =
+    useState(false);
 
   const showModalTimeLineInterviewLoop = (flowItem, item) => {
     dispatch(viewFlowDetail({ flowItem, item }));
@@ -71,7 +76,20 @@ export const CardInterviewLoop = () => {
                           items: [
                             {
                               label: (
-                                <span role="presentation">
+                                <span
+                                  role="presentation"
+                                  onClick={() => {
+                                    dispatch(viewFlowDetail({ flowItem }));
+                                    const newData = {
+                                      candidate_id: detailCandidate?.id,
+                                      job_id: flowItem?.job_id,
+                                    };
+                                    dispatch(
+                                      getCandidateAssessmentSlice(newData),
+                                    );
+                                    setOpenModalCandidateAssessment(true);
+                                  }}
+                                >
                                   Candidate Assessment
                                 </span>
                               ),
@@ -125,6 +143,10 @@ export const CardInterviewLoop = () => {
       <ModalTimeLineInterViewLoop
         openModalTimeLine={openModalTimeLine}
         setOpenModalTimeLine={setOpenModalTimeLine}
+      />
+      <ModalCandidateAssessment
+        openModalCandidateAssessment={openModalCandidateAssessment}
+        setOpenModalCandidateAssessment={setOpenModalCandidateAssessment}
       />
     </>
   );

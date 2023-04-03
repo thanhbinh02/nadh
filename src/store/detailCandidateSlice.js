@@ -8,7 +8,11 @@ import {
 } from '../apis/candidatesApi';
 import { toast } from 'react-toastify';
 import { postComment } from '../apis/jobsApi';
-import { putCandidateFlows, putCandidateFlowsStatus } from '../apis/jobsApi';
+import {
+  putCandidateFlows,
+  putCandidateFlowsStatus,
+  getCandidateAssessment,
+} from '../apis/jobsApi';
 
 export const fetchDetailCandidateSlice = createAsyncThunk(
   'detailCandidate/fetchDetailCandidateSlice',
@@ -65,6 +69,14 @@ export const putNewCandidateFlowsStatus = createAsyncThunk(
   async ({ id, params }) => await putCandidateFlowsStatus(id, params),
 );
 
+export const getCandidateAssessmentSlice = createAsyncThunk(
+  'detailCandidate/ getCandidateAssessmentSlice',
+  async (params) =>
+    await getCandidateAssessment({
+      params,
+    }),
+);
+
 const findFlow = (detailCandidate, dataFlow) => {
   const flows = detailCandidate?.flows?.find(
     (flow) => flow.job_id === dataFlow?.flowItem?.job_id,
@@ -87,6 +99,7 @@ export const detailCandidateSlice = createSlice({
     flows: [],
     dataFlow: {},
     idFlow: undefined,
+    candidateAssessment: {},
   },
   reducers: {
     deleteHistory: (state, { payload }) => {
@@ -246,6 +259,10 @@ export const detailCandidateSlice = createSlice({
       if (payload !== undefined) {
         state.isPutSuccess = true;
       }
+    },
+
+    [getCandidateAssessmentSlice.fulfilled]: (state, { payload }) => {
+      state.candidateAssessment = payload;
     },
   },
 });
