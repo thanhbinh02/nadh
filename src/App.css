@@ -207,6 +207,10 @@ span.ant-table-column-title {
   height: 180px !important;
 }
 
+:where(.css-dev-only-do-not-override-1e3x2xa).ant-popover {
+  z-index: 1000 !important;
+}
+
 label.ant-form-item-no-colon {
   font-weight: 500;
 }
@@ -372,4 +376,36 @@ label.ant-form-item-no-colon {
   margin: 10px 24px 0;
   padding-bottom: 10px;
   word-break: break-all;
+}
+
+.card__note {
+  max-height: 600px;
+  overflow-y: auto;
+}
+.card__note::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+}
+
+.card__note::-webkit-scrollbar-thumb {
+  background: #a9a9a9;
+  border-radius: 4px;
+}
+
+.card__note::-webkit-scrollbar-thumb:hover {
+  background: #757575;
+}
+
+.card__note::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.card__note::-webkit-scrollbar-thumb:active {
+  background: #999999;
+}
+
+:where(.css-dev-only-do-not-override-1e3x2xa).ant-form-item {
+  margin-bottom: 0 !important;
 }

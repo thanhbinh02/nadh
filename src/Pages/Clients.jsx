@@ -15,7 +15,6 @@ import { fetchUsers } from '../store/usersSlice';
 import { CUSTOM_COLUMNS_CLIENTS } from '../utils/const';
 import { fetchIndustries } from '../store/categoriesSlice';
 import { changeLocalClientToParams } from '../utils/filterTagClients';
-import { changePostFileSuccess } from '../store/fileSlice';
 
 export const Clients = () => {
   const dispatch = useDispatch();

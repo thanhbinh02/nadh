@@ -50,7 +50,7 @@ export const JobDetail = () => {
 
   return (
     <>
-      {loadingDetailJob ? (
+      {detailJob?.job_id !== job_id ? (
         <div
           style={{
             display: 'flex',

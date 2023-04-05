@@ -12,6 +12,7 @@ import { fetchDetailCandidateSliceNotLoading } from '../../store/detailCandidate
 import { useState } from 'react';
 import { putNewCandidateFlows } from '../../store/detailCandidateSlice';
 import { putNewCandidateFlowsStatus } from '../../store/detailCandidateSlice';
+import dayjs from 'dayjs';
 
 const findItemWithId = (array, id) => {
   return array.find((item) => item.id === id);
@@ -47,12 +48,16 @@ export const ModalTimeLineInterViewLoop = ({
   );
   const detailCandidate = useSelector((state) => state.detailCandidate.data);
 
+  const isPutSuccessCandidate = useSelector(
+    (state) => state.detailCandidate.isPutSuccess,
+  );
+
   const initialValues = {
     action: null,
     interviewer:
       dataFlow?.item?.info?.interviewer?.map((item) => item.user_id) || [],
     time: dataFlow?.item?.info?.time
-      ? moment(dataFlow?.item?.info?.time)
+      ? dayjs(moment(dataFlow?.item?.info?.time))
       : null,
   };
 

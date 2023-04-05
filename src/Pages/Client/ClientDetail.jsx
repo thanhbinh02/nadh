@@ -12,7 +12,6 @@ import { fetchPhoneNumber } from '../../store/phoneNumberSlice';
 import { fetchIndustries } from '../../store/categoriesSlice';
 import { TableActivityLogs } from '../../components/Table/TableActivityLogs';
 import { TableContactPerson } from '../../components/Table/TableContactPerson';
-import { changePostFileSuccess } from '../../store/fileSlice';
 
 export const ClientDetail = () => {
   const { client_id } = useParams();
@@ -20,7 +19,6 @@ export const ClientDetail = () => {
   const [form] = Form.useForm();
 
   const detailClient = useSelector((state) => state.detailClient.data);
-  const loadingClient = useSelector((state) => state.detailClient.loading);
 
   useEffect(() => {
     dispatch(fetchDetailClientSlice(client_id));
@@ -41,7 +39,7 @@ export const ClientDetail = () => {
 
   return (
     <>
-      {loadingClient ? (
+      {detailClient?.client_id !== client_id ? (
         <div
           style={{
             display: 'flex',
@@ -114,30 +112,6 @@ export const ClientDetail = () => {
 
                   <Row>
                     <Col span={16}>
-                      {/* <Card
-                      title="Industry"
-                      bordered={false}
-                      style={{
-                        width: '100%',
-                        marginTop: '40px',
-                      }}
-                    >
-                      <FormItemBusinessLine
-                        data={industries}
-                        optionTwo={sectors}
-                        optionThree={categories}
-                        typeTwo={2}
-                        fetchDataItemTwo={fetchSectors}
-                        fetchDataItemThree={fetchCategories}
-                        typeThree={3}
-                        businessLine={detailClient?.business_line}
-                        form={form}
-                        id={detailClient?.id}
-                        actionDispatch={putBusinessLineClientSlice}
-                        type="client"
-                      />
-                    </Card> */}
-
                       <Card
                         bordered={false}
                         style={{

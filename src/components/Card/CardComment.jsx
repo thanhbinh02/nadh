@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postFile } from '../../apis/fileApi';
 import { fetchDetailJobNotLoading } from '../../store/detailJobSlice';
 import { postCommentJob } from '../../store/detailJobSlice';
+import { CommentNote } from '../CommentNote';
 
 export const CardComment = ({ form, detailJob }) => {
   const dispatch = useDispatch();
@@ -123,7 +124,7 @@ export const CardComment = ({ form, detailJob }) => {
             overflow: 'auto',
           }}
         >
-          <CommentClient comments={detailJob?.detail_comments} />
+          <CommentNote comments={detailJob?.detail_comments} />
         </div>
       </>
     </Card>

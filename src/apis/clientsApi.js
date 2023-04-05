@@ -47,10 +47,10 @@ export const putDetailClient = async (id, params) => {
   return await axiosClient
     .put(url, params)
     .then(function (response) {
-      toast.success('Update Success!', {
-        autoClose: 1000,
-        position: 'top-right',
-      });
+      // toast.success('Update Success!', {
+      //   autoClose: 1000,
+      //   position: 'top-right',
+      // });
       return response;
     })
     .catch(function (error) {

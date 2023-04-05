@@ -19,17 +19,17 @@ const CustomRow = ({ valueOne, valueTwo, valueThree, valueFour, notAllow }) => {
   );
 };
 
-const getValueIndustry = (value) => {
-  const result = value?.map((item) => {
+export const getValueIndustry = (value) => {
+  const result = value?.map((item, index) => {
     return (
-      <p>
+      <p key={index}>
         <>{item?.industry?.label}</>
         {item?.sector && <> / {item?.sector?.label}</>}
         {item?.category && <> / {item?.category?.label}</>}
       </p>
     );
   });
-  if (result.length > 0) {
+  if (result?.length > 0) {
     return result;
   } else {
     return '-';

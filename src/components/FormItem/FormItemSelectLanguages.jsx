@@ -109,6 +109,7 @@ export const FormItemSelectLanguages = ({
           onChange={handleChange}
           defaultValue={defaultValue}
           className="select_language"
+          value={[]}
         >
           {options.map((option) => {
             const hasKeyOne = listLanguages?.find(

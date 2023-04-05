@@ -90,7 +90,7 @@ export const DropDownInfo = () => {
           </Row>
         </Button>
       </Dropdown>
-      <Modal open={openModal} closable={false} footer={null}>
+      <Modal open={openModal} closable={false} footer={null} centered>
         <Row style={{ textAlign: 'center', margin: '20px' }}>
           <Col span={24}>
             <div

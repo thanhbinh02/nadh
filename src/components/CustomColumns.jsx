@@ -78,7 +78,7 @@ export const CustomColumns = ({
       <Button
         type="primary"
         ghost
-        style={{ display: 'flex', alignItems: 'center', marginRight: '54px' }}
+        style={{ display: 'flex', alignItems: 'center' }}
       >
         Custom Column
         <AiOutlineDown style={{ marginLeft: '10px' }} />

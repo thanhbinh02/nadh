@@ -14,6 +14,8 @@ import {
   getCandidateAssessment,
 } from '../apis/jobsApi';
 
+import { postCandidateFlows } from '../apis/jobsApi';
+
 export const fetchDetailCandidateSlice = createAsyncThunk(
   'detailCandidate/fetchDetailCandidateSlice',
   async (id) => await getDetailCandidate(id),
@@ -77,6 +79,11 @@ export const getCandidateAssessmentSlice = createAsyncThunk(
     }),
 );
 
+export const postCandidateFlowsCandidate = createAsyncThunk(
+  'detailCandidate/postCandidateFlowsCandidate',
+  async (params) => await postCandidateFlows(params),
+);
+
 const findFlow = (detailCandidate, dataFlow) => {
   const flows = detailCandidate?.flows?.find(
     (flow) => flow.job_id === dataFlow?.flowItem?.job_id,
@@ -119,6 +126,8 @@ export const detailCandidateSlice = createSlice({
     [fetchDetailCandidateSlice.pending]: (state) => {
       state.loading = true;
       state.isSuccess = false;
+      state.isPostFileSuccess = false;
+      state.data = [];
     },
     [fetchDetailCandidateSlice.fulfilled]: (state, { payload }) => {
       state.data = payload;
@@ -263,6 +272,13 @@ export const detailCandidateSlice = createSlice({
 
     [getCandidateAssessmentSlice.fulfilled]: (state, { payload }) => {
       state.candidateAssessment = payload;
+    },
+
+    [postCandidateFlowsCandidate.pending]: (state) => {
+      state.isPutSuccess = false;
+    },
+    [postCandidateFlowsCandidate.fulfilled]: (state, { payload }) => {
+      state.isPutSuccess = true;
     },
   },
 });

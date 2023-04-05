@@ -8,6 +8,9 @@ import { ModalTimeLineInterViewLoop } from '../Modal/ModalTimeLineInterViewLoop'
 import { fetchUsers } from '../../store/usersSlice';
 import { ModalCandidateAssessment } from '../Modal/ModalCandidateAssessment';
 import { getCandidateAssessmentSlice } from '../../store/detailCandidateSlice';
+import { ModalPickJob } from '../Modal/ModalPickJob';
+import { fetchJobs } from '../../store/jobsSlice';
+import { fetchDetailCandidateSliceNotLoading } from '../../store/detailCandidateSlice';
 
 const { Panel } = Collapse;
 
@@ -18,10 +21,13 @@ export const findItemWithId = (array, id) => {
 export const CardInterviewLoop = () => {
   const flows = useSelector((state) => state.detailCandidate.flows);
   const detailCandidate = useSelector((state) => state.detailCandidate.data);
+  const userId = JSON.parse(localStorage.getItem('user_sent')).id;
+
   const dispatch = useDispatch();
   const [openModalTimeLine, setOpenModalTimeLine] = useState(false);
   const [openModalCandidateAssessment, setOpenModalCandidateAssessment] =
     useState(false);
+  const [openModalPickJob, setOpenModalPickJob] = useState(false);
 
   const showModalTimeLineInterviewLoop = (flowItem, item) => {
     dispatch(viewFlowDetail({ flowItem, item }));
@@ -42,7 +48,22 @@ export const CardInterviewLoop = () => {
           }}
           title="Interview Loop"
           extra={
-            <Button type="primary" ghost icon={<PlusOutlined />}>
+            <Button
+              type="primary"
+              ghost
+              icon={<PlusOutlined />}
+              onClick={() => {
+                setOpenModalPickJob(true);
+                dispatch(
+                  fetchJobs({
+                    page: null,
+                    perPage: null,
+                    status: 1,
+                    related_to: userId,
+                  }),
+                );
+              }}
+            >
               Pick Job
             </Button>
           }
@@ -147,6 +168,10 @@ export const CardInterviewLoop = () => {
       <ModalCandidateAssessment
         openModalCandidateAssessment={openModalCandidateAssessment}
         setOpenModalCandidateAssessment={setOpenModalCandidateAssessment}
+      />
+      <ModalPickJob
+        openModalPickJob={openModalPickJob}
+        setOpenModalPickJob={setOpenModalPickJob}
       />
     </>
   );

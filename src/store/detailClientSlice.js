@@ -65,6 +65,8 @@ export const detailClientSlice = createSlice({
     [fetchDetailClientSlice.pending]: (state) => {
       state.loading = true;
       state.isSuccess = false;
+      state.isPutFileSuccess = false;
+      state.data = [];
     },
     [fetchDetailClientSlice.fulfilled]: (state, { payload }) => {
       state.data = payload;

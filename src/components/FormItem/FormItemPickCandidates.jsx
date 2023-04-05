@@ -88,7 +88,7 @@ export const FormItemPickCandidates = ({
       candidate_array: candidate_array,
       job_id: job_id,
     };
-    console.log('newData', newData);
+
     dispatch(postCandidateFlowsJob(newData))
       .unwrap()
       .then(() => {

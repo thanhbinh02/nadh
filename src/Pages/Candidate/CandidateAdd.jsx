@@ -66,7 +66,9 @@ const CandidateAdd = () => {
       ...rest
     } = value;
 
-    const newAddresses = addresses.filter((item) => item.country !== undefined);
+    const newAddresses = addresses?.filter(
+      (item) => item?.country !== undefined,
+    );
     const newEmail = emails?.map((item) => item.email);
     const newPhone = phones?.map((item) => {
       if (!item.phone_code) {

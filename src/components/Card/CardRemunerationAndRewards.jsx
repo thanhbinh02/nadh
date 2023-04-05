@@ -7,7 +7,7 @@ import { InputNumberFormat } from '../Input/InputNumberFormat';
 
 const { Option } = Select;
 export const CardRemunerationAndRewards = ({ remuneration, form }) => {
-  const [valueSelect, setValueSelect] = useState(remuneration.currency);
+  const [valueSelect, setValueSelect] = useState(remuneration?.currency);
 
   const options = [
     { name: 'USD', id: 1 },
@@ -55,7 +55,6 @@ export const CardRemunerationAndRewards = ({ remuneration, form }) => {
       bordered={false}
       style={{
         width: '100%',
-        marginBottom: '100px',
         marginTop: '30px',
       }}
     >
@@ -64,7 +63,7 @@ export const CardRemunerationAndRewards = ({ remuneration, form }) => {
           <Col span={12}>
             <Form.Item
               name="current_salary"
-              label={`Based salary (${valueSelect.name})`}
+              label={`Based salary (${valueSelect?.name})`}
             >
               <InputNumber
                 min={0}
@@ -98,7 +97,7 @@ export const CardRemunerationAndRewards = ({ remuneration, form }) => {
             <Form.Item name="currency">
               <Select
                 style={{ width: '76px', borderRadius: '0px' }}
-                defaultValue={remuneration.currency.id}
+                defaultValue={remuneration?.currency?.id}
                 onChange={handleChangeSelect}
               >
                 {options.map((option) => {
@@ -123,7 +122,7 @@ export const CardRemunerationAndRewards = ({ remuneration, form }) => {
             <FormItemBenefits
               item={item}
               key={item.key}
-              benefit={remuneration.benefit}
+              benefit={remuneration?.benefit}
               form={form}
             />
           ))}
@@ -203,7 +202,7 @@ export const CardRemunerationAndRewards = ({ remuneration, form }) => {
           <Col span={12}>
             <Form.Item
               name="salary_from"
-              label={`From ${valueSelect.name}`}
+              label={`From ${valueSelect?.name}`}
               rules={[
                 () => ({
                   validator(_, value) {
@@ -251,7 +250,7 @@ export const CardRemunerationAndRewards = ({ remuneration, form }) => {
           <Col span={12}>
             <Form.Item
               name="salary_to"
-              label={`From ${valueSelect.name}`}
+              label={`From ${valueSelect?.name}`}
               rules={[
                 () => ({
                   validator(_, value) {

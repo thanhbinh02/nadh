@@ -29,6 +29,7 @@ import { fetchDetailCandidateSliceNotLoading } from '../../store/detailCandidate
 import { fetchFiles } from '../../store/fileSlice';
 import { putNewDetailCandidate } from '../../store/detailCandidateSlice';
 import { CardInterviewLoop } from '../../components/Card/CardInterviewLoop';
+import { CommentClient } from '../../components/CommentClient';
 
 const { TextArea } = Input;
 export const CandidateDetail = () => {
@@ -39,6 +40,10 @@ export const CandidateDetail = () => {
     (state) => state.detailCandidate.isSuccess,
   );
 
+  const isPutSuccessCandidate = useSelector(
+    (state) => state.detailCandidate.isPutSuccess,
+  );
+
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
@@ -46,7 +51,6 @@ export const CandidateDetail = () => {
   const degree = useSelector((state) => state.degree.data);
   const phoneNumber = useSelector((state) => state.phoneNumber.data);
   const countries = useSelector((state) => state.locations.countries);
-  const files = useSelector((state) => state.file.files);
 
   const yearsRange = [];
   for (var i = 1960; i <= 2023; i++) {
@@ -156,6 +160,10 @@ export const CandidateDetail = () => {
       detailCandidate?.remuneration?.benefit?.overtime_hour,
   };
 
+  useEffect(() => {
+    dispatch(fetchDetailCandidateSlice(candidate_id));
+  }, [candidate_id]);
+
   const flowStatus = candidate_flow_status.find(
     (item) => item.id === detailCandidate?.flow_status,
   );
@@ -209,7 +217,9 @@ export const CandidateDetail = () => {
 
     const newEmail = emails?.map((item) => item.email);
 
-    const newAddresses = addresses.filter((item) => item.country !== undefined);
+    const newAddresses = addresses.filter(
+      (item) => item?.country !== undefined,
+    );
 
     const final = {
       ...rest,
@@ -257,13 +267,18 @@ export const CandidateDetail = () => {
   };
 
   const handleOnValuesChange = () => {
-    console.log('change ko');
     setOpen(true);
   };
 
+  useEffect(() => {
+    if (isPutSuccessCandidate) {
+      dispatch(fetchDetailCandidateSliceNotLoading(detailCandidate.id));
+    }
+  }, [isPutSuccessCandidate]);
+
   return (
     <>
-      {detailCandidate.length === 0 ? (
+      {detailCandidate?.candidate_id !== candidate_id ? (
         <div
           style={{
             display: 'flex',
@@ -298,23 +313,32 @@ export const CandidateDetail = () => {
               </Breadcrumb>
             </Col>
           </Row>
-          <Row
-            gutter={(12, 12)}
-            style={{
-              padding: '8px 30px',
-            }}
-          >
-            <Col span={16}>
-              <Form.Provider value={true}>
-                <Form
-                  form={form}
-                  layout="vertical"
-                  onFinishFailed={onFinishFailed}
-                  onFinish={handleDispatchSave}
-                  autoComplete="off"
-                  initialValues={initialValues}
-                  onValuesChange={handleOnValuesChange}
-                >
+          <Form.Provider value={true}>
+            <Form
+              form={form}
+              layout="vertical"
+              onFinishFailed={onFinishFailed}
+              onFinish={handleDispatchSave}
+              autoComplete="off"
+              initialValues={initialValues}
+              onValuesChange={handleOnValuesChange}
+            >
+              <Row
+                style={{
+                  padding: '8px 30px',
+                }}
+              >
+                <Col span={16}>
+                  <Card
+                    title="Note"
+                    bordered={false}
+                    style={{
+                      width: '100%',
+                    }}
+                  >
+                    <CommentClient comments={detailCandidate?.notes} />
+                  </Card>
+
                   <CardOverview />
 
                   <Card
@@ -387,35 +411,28 @@ export const CandidateDetail = () => {
                     remuneration={detailCandidate.remuneration}
                     form={form}
                   />
-
-                  {/* <CardAttachments
-                    files={files}
-                    obj_uid={detailCandidate.id}
-                    nameObj="candidates"
-                  /> */}
-
-                  {open && (
-                    <Form.Item>
-                      <div className="sticky-row">
-                        <Button
-                          style={{ marginRight: '12px' }}
-                          onClick={handleCancel}
-                        >
-                          Cancel
-                        </Button>
-                        <Button type="primary" htmlType="submit">
-                          Save
-                        </Button>
-                      </div>
-                    </Form.Item>
-                  )}
-                </Form>
-              </Form.Provider>
-            </Col>
-            <Col span={8}>
-              <CardInterviewLoop />
-            </Col>
-          </Row>
+                </Col>
+                <Col span={8}>
+                  <CardInterviewLoop />
+                </Col>
+                {open && (
+                  <Form.Item>
+                    <div className="sticky-row">
+                      <Button
+                        style={{ marginRight: '12px' }}
+                        onClick={handleCancel}
+                      >
+                        Cancel
+                      </Button>
+                      <Button type="primary" htmlType="submit">
+                        Save
+                      </Button>
+                    </div>
+                  </Form.Item>
+                )}
+              </Row>
+            </Form>
+          </Form.Provider>
         </>
       )}
     </>
